@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#f2f1e7"><meta name="description" content="AIと人で、まちの続きをつくる。"><title>それ、誰が決めた？</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<div class="shell" id="shell">
+ <header class="masthead">
+  <a class="brand" href="/" aria-label="それ、誰が決めた？ トップへ"><span class="brand-symbol" aria-hidden="true">✳</span>それ、誰が決めた？</a>
+  <div class="header-right"><span class="year-stamp" id="yearStamp">2036 <i>·</i> 春</span><button class="header-menu" id="switchButton" type="button" aria-label="画面を切り替える">↗</button></div>
+ </header>
+ <div class="play-surface" id="playSurface">
+  <div class="skyline">
+   <div class="city-topline" id="cityTopline"><span class="city-pulse"></span><span id="cityStatus">街の暮らしは続いている</span></div>
+   <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
+   <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div>
+  </div>
+  <section class="hud" aria-label="まちの様子">
+   <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
+   <div class="stat" data-stat="convenience"><span class="stat-label">便利さ</span><div class="stat-track"><i></i></div><strong>63</strong></div>
+   <div class="stat" data-stat="appeal"><span class="stat-label">街の魅力</span><div class="stat-track"><i></i></div><strong>67</strong></div>
+  </section>
+  <div class="join-landing" id="landing" hidden>
+   <div class="landing-inner"><div id="prologue" class="prologue" aria-live="polite"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text">……ここは、どこだろう。</p></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>人が決めるか、AIに任せるか。<br>その小さな選択が街を変えていく。</p>
+   <div class="landing-actions" aria-label="遊び方を選ぶ">
+       <button id="openSolo" class="mode-card" type="button"><span class="mode-card-index">01 / YOUR CITY</span><strong>ひとりで遊ぶ</strong><span class="mode-card-detail">自分の街で、決めてみる。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
+       <button id="openShared" class="mode-card" type="button"><span class="mode-card-index">02 / OUR CITY</span><strong>みんなで遊ぶ</strong><span class="mode-card-detail">ひとつの街を、みんなで動かす。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
+      </div></div></div>
+  </div>
+  <div class="side-panel" id="sidePanel">
+   <section class="join-panel" id="joinPanel" hidden>
+    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
+    <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
+   </section>
+   <section class="question-panel" id="questionPanel" hidden aria-live="polite">
+    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
+    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p></div></div></div><button id="dialogueSkip" class="dialogue-skip" type="button">選択肢を見る →</button><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
+     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="option-arrow">↗</span></button>
+    </div>
+    <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
+    <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
+   </section>
+   <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
+   <section class="result-panel" id="resultPanel" hidden>
+    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p>
+    <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
+    <p class="result-note" id="resultNote"></p>
+    <button class="primary-action" id="replayButton" type="button">もう一度、遊ぶ <span>→</span></button>
+   </section>
+  </div>
+  <aside class="display-frame" id="displayFrame" hidden>
+   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div></div>
+   <div class="display-qr"><div class="qr-box" id="qrBox"><img id="qrImg" alt="参加用QRコード" decoding="async"></div><b>QRから参加</b><small id="joinUrl">参加はこちら</small></div>
+  </aside>
+ </div>
+ <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
+</div>
+<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/app.js"></script>
+</body></html>

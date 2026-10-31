@@ -1,0 +1,11 @@
+// Reference only: the actual Sites build/runtime configuration must be selected
+// by the Sites workflow after inspecting the linked project. Do not deploy this.
+{
+  "name": "machi-no-tsuzuki",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "SET_BY_SITES", "database_id": "SET_BY_SITES" }
+  ]
+}
