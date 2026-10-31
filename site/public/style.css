@@ -133,3 +133,13 @@
 /* Keep both the next button and the skip link completely stationary across all four scenes. */
 .prologue-next{width:160px}
 @media(max-width:750px){.prologue-next{width:144px}}
+
+/* v12.4's text reveal & automatic cinematic progression, retaining the stable action dock. */
+.prologue-announcer{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.prologue-text[data-typing="true"]::after{
+  content:"";display:inline-block;vertical-align:-.05em;
+  width:.09em;height:.95em;margin-left:.12em;
+  background:#ffe0a8;animation:intro-caret-blink .65s steps(1,end) infinite;
+}
+@keyframes intro-caret-blink{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.prologue-text[data-typing="true"]::after{animation:none;display:none}}

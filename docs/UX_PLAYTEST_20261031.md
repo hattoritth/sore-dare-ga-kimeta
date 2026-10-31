@@ -29,3 +29,22 @@ iPad 1024×768: 541, 541, 554, 541px. iPhone 390×844: 560, 560, 585, 560px. Sma
 - Real iPhone/iPad hardware, accessibility with VoiceOver, actual Sites D1, multi-device Wi-Fi reliability, and QR camera reading were **not** retested.
 - Solo offline HTML exported separately for review; only solo runs without a server. Shared mode requires the local server or a future approved Sites deployment.
 - Do not deploy from this branch without reviewing and explicitly authorizing the Sites change. Keep existing Sites v5 unchanged.
+
+## Restoring v12.4 motion: typing and automatic story advance
+The original v12.4 file was examined directly. It used approximately 42 ms per Unicode character and automatically progressed narrative scenes at programmed durations (roughly 2.9 to 4.8 seconds; the name-entry step remained interactive). It also had cinematic scene camera focus.
+
+For the current four-scene entry, restored:
+- character-by-character dialogue at 42 ms per character, an accessible full-line announcement (no per-character screen-reader announcements), and a subtle typing caret;
+- automatic transitions after approximately 2.9 / 3.9 / 5.6 / 4.0 seconds (longer third scene allows reading); the final transition stops at the manual solo/group mode choice;
+- manual Next completes partial typing on first press, and advances on a subsequent press; Skip immediately shows the mode choice;
+- prefers-reduced-motion users receive complete lines immediately without blinking carets;
+- fixed-height text region and anchored Next/Skip layout are preserved.
+
+### Additional browser verification (headless Chrome)
+- 1440x900, 1024x768 landscape, 390x844, 375x667: all four scenes automatically advance without clicks; modeChoice becomes visible and no JavaScript exceptions occur.
+- Next y stayed identical across all four stages: desktop 668px; iPad 602px; iPhone 621px; small iPhone 491px. Skip stays fixed, no horizontal overflow.
+- At ~120 ms after entry, only two characters appeared and typing was true. At ~1020 ms the entire first line appeared and typing was false.
+- Manual next, skip, and prefers-reduced-motion branches verified.
+- Build, artifact validation, and npm test: 9/9 pass.
+
+Remaining nuance: v12.4's per-scene camera focus is not reintroduced; current ambient city camera animation remains. Do not describe this as a full restoration of all v12.4 animations.
