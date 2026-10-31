@@ -73,3 +73,63 @@
  .question-panel .decision-options[hidden]{display:none!important}.question-panel .decision{min-height:58px}.question-panel .dialogue-skip{align-self:flex-end}
 }
 @media(max-width:750px){.brand{font-size:clamp(18px,5vw,25px);letter-spacing:0}.header-right{gap:4px}.world-copy{font-size:13px!important}.world-break{display:block}.prologue-scene{margin-top:12px}.header-menu{width:44px;height:44px}}
+
+
+/* UX: fixed prologue action dock. Dialogue length never moves the Next button. */
+.prologue{
+  width:100%;
+  height:clamp(300px, calc(100dvh - 260px), 490px);
+  max-height:100%;
+  display:grid;
+  grid-template-rows:auto auto minmax(0,1fr) auto auto;
+  align-items:start;
+  gap:0;
+}
+.prologue-scene{
+  min-height:0;
+  height:100%;
+  margin-top:12px;
+  padding:4px 12px 8px 0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:#f4e7ce88 transparent;
+}
+.prologue-text{
+  font-size:clamp(25px,3.1vw,40px)!important;
+  line-height:1.45!important;
+  overflow-wrap:anywhere;
+  margin-top:14px;
+}
+.prologue-actions{
+  margin-top:8px;
+  flex-wrap:nowrap;
+  align-self:end;
+}
+.prologue-next,.prologue-skip{min-height:48px}
+.prologue-progress{margin-top:9px;align-self:start}
+@media(max-width:750px){
+  .prologue-scene{margin-top:10px}
+  .prologue-text{font-size:clamp(21px,5.6vw,29px)!important;line-height:1.42!important;margin-top:12px}
+  .prologue-actions{gap:10px}
+}
+@media(max-height:600px){
+  .prologue{height:clamp(250px,calc(100dvh - 220px),400px)}
+  .prologue-text{font-size:clamp(19px,4vw,27px)!important;line-height:1.35!important}
+}
+
+/* Entry polish: the city fills the stage and no background labels compete with the prologue. */
+.shell[data-view=home] .play-surface{grid-template-columns:minmax(0,1fr)}
+.shell[data-view=home] .skyline{grid-column:1/-1}
+.shell[data-view=home] .city-topline,
+.shell[data-view=home] .city-caption,
+.shell[data-view=home] .city-ticker{visibility:hidden}
+@media(max-width:750px){
+  .shell[data-view=home] .skyline{
+    height:calc(100dvh - 160px);
+    min-height:calc(100dvh - 160px);
+  }
+}
+/* Keep both the next button and the skip link completely stationary across all four scenes. */
+.prologue-next{width:160px}
+@media(max-width:750px){.prologue-next{width:144px}}

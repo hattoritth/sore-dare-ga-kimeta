@@ -49,14 +49,14 @@
   $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):voice.line;
   show('decisionOptions',dialogueOpen);show('dialogueSkip',!dialogueOpen);
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
-  $('countdown').textContent=clock((s.endsAt||0)-EngineNow());
+  $('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
   $('agentName').textContent=e.agent;$('agentRole').textContent=e.role;
   const c=faceColors[e.agent]||faceColors.ソラ;
   $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
   $('questionTitle').textContent=e.heading;$('questionHint').textContent=e.hint;
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   for(const b of document.querySelectorAll('[data-vote]')){
-   b.disabled=false;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
+   b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }
   $('voteFeedback').textContent=s.hasVoted?'あなたの判断を受け取りました。':view==='solo'?'自分の判断で、街の未来が変わる。':'あなたなら、どうする？';
   $('peopleCount').textContent=(s.onlineCount||0)+'人が参加中';$('votedCount').textContent=s.voteCount+'人が判断済み';
@@ -137,12 +137,12 @@
    render(x);
   }catch(err){failedRequests++;if(failedRequests===3){$('cityStatus').textContent='通信を確認してください';$('cityTicker').textContent='ネットワークの接続を確認してください。';}}
  }
- function startSolo(){soloGame=MachiEngine.createGame(Date.now(),{autostart:true});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};render(MachiEngine.publicState(soloGame,'solo'));}
+ function startSolo(){soloGame=MachiEngine.createGame(Date.now(),{autostart:true});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
   try{const x=await request('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nameInput').value})});everJoined=true;offset=x.state.serverNow-Date.now();render(x.state);}catch(err){$('cityTicker').textContent=err.message;}finally{$('joinForm').querySelector('button[type=submit]').disabled=false;}
  }
  async function choose(choice){
-  if(view==='solo'){if(!soloGame||soloGame.phase!=='active')return;MachiEngine.vote(soloGame,'solo',choice,Date.now());render(MachiEngine.publicState(soloGame,'solo'));return;}
+  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+2200;render(MachiEngine.publicState(soloGame,'solo'));return;}
   if(view==='group'){
    try{const x=await request('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice,round:state?.round})});render(x.state);}catch(err){$('voteFeedback').textContent=err.message;fetchState();}
   }
@@ -155,7 +155,7 @@
   $('qrImg').onerror=()=>{const box=$('qrBox');box.textContent='参加URLをご利用ください';box.style.fontSize='13px';box.style.padding='15px';};
  }
  function tick(){
-  if(view==='solo'&&soloGame){const changed=MachiEngine.advance(soloGame,Date.now());if(changed==='restart'){startSolo();return;}render(MachiEngine.publicState(soloGame,'solo'));}
+  if(view==='solo'&&soloGame){const changed=MachiEngine.advance(soloGame,Date.now());if(changed==='restart'){startSolo();return;}if(changed){if(soloGame.phase==='active')soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;else if(soloGame.phase==='reveal')soloGame.revealEndsAt=Number.MAX_SAFE_INTEGER;}render(MachiEngine.publicState(soloGame,'solo'));}
   else if(state?.phase==='active'){
     if(view==='group'&&everJoined){$('countdown').textContent=clock(state.endsAt-EngineNow());renderQuestion(state);}
     if(view==='display')renderDisplay(state);
