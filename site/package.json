@@ -1,0 +1,1 @@
+{"name":"machi-no-tsuzuki","version":"0.1.0","private":true,"type":"commonjs","description":"Interactive city decisions for classroom exhibition","scripts":{"start":"node server.mjs","test":"node --test tests/*.test.cjs"},"engines":{"node":">=20"}}

@@ -1,0 +1,15 @@
+# Local and generated artifacts
+.DS_Store
+node_modules/
+*.log
+.env
+.env.*
+!.env.example
+city-state.json
+*.sqlite
+*.sqlite3
+*.db
+site/dist/
+coverage/
+.temp/
+.tmp/
