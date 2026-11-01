@@ -21,6 +21,7 @@ setInterval(()=>{const a=Engine.advance(game);if(a==='restart'){game=Engine.crea
 const send=(res,status,data,headers={})=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...headers});res.end(JSON.stringify(data));};
 const readJson=async req=>new Promise((resolve,reject)=>{let str='';req.on('data',x=>{str+=x;if(str.length>4096){reject(Error('too large'));req.destroy();}});req.on('end',()=>{try{resolve(JSON.parse(str||'{}'));}catch{reject(Error('bad json'));}});req.on('error',reject);});
 const visitorKey=req=>{const c=req.headers.cookie||'';const m=/(?:^|;\s*)machi_guest=([a-f0-9-]{36})/.exec(c);return m?m[1]:null;};
+const sameOrigin=req=>{const origin=req.headers.origin;if(!origin)return true;try{const url=new URL(origin);return ['http:','https:'].includes(url.protocol)&&url.host===req.headers.host;}catch{return false;}};
 const noStore={'Cache-Control':'no-store'};
 const server=http.createServer(async(req,res)=>{
  try{
@@ -30,21 +31,43 @@ const server=http.createServer(async(req,res)=>{
    return send(res,200,Engine.publicState(game,k||''));
  }
  if(p==='/api/join'&&req.method==='POST'){
+   if(!sameOrigin(req))return send(res,403,{error:'invalid origin'});
    const body=await readJson(req);
-   let k=visitorKey(req);if(!k||!game.participants[k])k=crypto.randomUUID();
+   let k=visitorKey(req);if(!k||!game.participants[k]){if(Object.keys(game.participants).length>=150)return send(res,409,{error:'参加人数の上限に達しました。'});k=crypto.randomUUID();}
    if(!Engine.join(game,k,body.name))return send(res,409,{error:'この街は結末を迎えました。次の街で参加できます。'});
    changed=true;save();return send(res,200,{ok:true,state:Engine.publicState(game,k)},{'Set-Cookie':`machi_guest=${k}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400`});
  }
- if(p==='/api/vote'&&req.method==='POST'){
-   const body=await readJson(req);const k=visitorKey(req);
-   if(!Engine.vote(game,k,body.choice))return send(res,409,{error:'投票を受け付けられませんでした。'});
+ if(p==='/api/ready'&&req.method==='POST'){
+   if(!sameOrigin(req))return send(res,403,{error:'invalid origin'});
+   const body=await readJson(req),k=visitorKey(req);
+   if(!k||!Engine.ready(game,k,body.ready))return send(res,409,{error:'参加待機中に準備状態を変更してください。'});
    changed=true;save();return send(res,200,{ok:true,state:Engine.publicState(game,k)});
+ }
+ if(p==='/api/start'&&req.method==='POST'){
+   if(!sameOrigin(req))return send(res,403,{error:'invalid origin'});
+   const k=visitorKey(req);
+   if(!k||!game.participants[k]?.ready||!Engine.start(game))return send(res,409,{error:'接続中の参加者全員が「準備OK」にしてから開始してください。'});
+   changed=true;save();return send(res,200,{ok:true,state:Engine.publicState(game,k)});
+ }
+ if(p==='/api/vote'&&req.method==='POST'){
+   if(!sameOrigin(req))return send(res,403,{error:'invalid origin'});
+   const body=await readJson(req);const k=visitorKey(req),now=Date.now();
+   if(!Number.isInteger(body.round)||body.round!==game.round)return send(res,409,{error:'議題が変わりました。もう一度選んでください。'});
+   const player=k&&game.participants[k];
+   if(!player||game.phase!=='active'||!['human','ai'].includes(body.choice))return send(res,409,{error:'投票を受け付けられませんでした。'});
+   // Replaying the same decision is idempotent; rapid switching is not.
+   if(game.votes[k]!==body.choice){
+    if(player.lastVoteAt&&now-player.lastVoteAt<750)return send(res,409,{error:'少し待ってから選び直してください。'});
+    if(!Engine.vote(game,k,body.choice,now))return send(res,409,{error:'投票を受け付けられませんでした。'});
+    player.lastVoteAt=now;changed=true;save();
+   }
+   return send(res,200,{ok:true,state:Engine.publicState(game,k)});
  }
  if(p==='/api/qr.svg'&&req.method==='GET'){
    // QR is generated entirely locally; the destination never reaches an outside API.
    let target=url.searchParams.get('url')||'';
    const targetUrl=new URL(target);
-   if(!['http:','https:'].includes(targetUrl.protocol)||targetUrl.host!==req.headers.host||target.length>700||!targetUrl.pathname.endsWith('/') && !targetUrl.pathname.endsWith('/index.html'))return send(res,400,{error:'invalid url'});
+   if(!['http:','https:'].includes(targetUrl.protocol)||targetUrl.host!==req.headers.host||target.length>700||!['/','/index.html'].includes(targetUrl.pathname)||!['','?mode=group'].includes(targetUrl.search)||targetUrl.hash)return send(res,400,{error:'invalid url'});
    const qr=svgForUrl(target);
    res.writeHead(200,{'Content-Type':'image/svg+xml','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});return res.end(qr);
  }

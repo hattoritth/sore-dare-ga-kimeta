@@ -1502,7 +1502,7 @@ class F5Primitives {
    const m=this.model,entities=[],add=(p,draw)=>entities.push({depth:p.depth??p.i+p.j,draw});
    const walks=this.walkPaths;
    // A busier residential and learning district brings more pedestrians.
-   const people=42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
+   const people=m.crisisVisual==='departure'?10:42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
    for(let k=0;k<people;k++){
     const p=this.atPath(walks[(k*7+Math.floor(k/7))%walks.length],this.walkerPhases[k]??((this.time*.018+k*.129)%1));
     add(p,()=>this.person(p.x,p.y,k));
@@ -1574,8 +1574,8 @@ class F5Primitives {
    return entities;
   }
   render(dt=0){
-   if(!this.reduced&&!this.model.paused)this.time+=dt;
-   this.advanceActors(dt);
+   if(!this.reduced&&!this.model.paused&&this.model.crisisVisual!=='transit')this.time+=dt;
+   this.advanceActors(this.model.crisisVisual==='transit'?0:dt);
    if(this.reduced){this.zoom=this.zoomTarget;}else if(Math.abs(this.zoomTarget-this.zoom)>.001){this.zoom+= (this.zoomTarget-this.zoom)*Math.min(1,dt*8);}
    else this.zoom=this.zoomTarget;this.layout();const c=this.ctx,r=this.canvas.getBoundingClientRect();
    c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#e4e9dd';c.fillRect(0,0,r.width,r.height);
@@ -1585,12 +1585,22 @@ class F5Primitives {
    const m=this.model,c=this.ctx,spot=this.iso(25,10);
    // Operational trouble is derived from completed decisions, not random decoration.
    if(m.serviceState==='rain'){
-    for(let k=0;k<5;k++){const p=this.iso(22.5+k*1.1,9+(k%2)*1.5);this.ellipse(p.x,p.y+6,20,8,'rgba(62,147,174,.5)');}
-    this.round(spot.x-37,spot.y-49,74,25,5,'#fff4df');this.text('路面に水',spot.x,spot.y-36,15,'#7b5a31','center');
+    // Broad inundation follows the coastal roads; static water keeps reduced-motion readable.
+    for(const corners of [[[2,14],[31,14],[31,20],[2,20]],[[19,6],[32,6],[32,20],[19,20]]]){
+     this.poly(corners.map(p=>this.pt(p)),'rgba(46,136,173,.52)','#4b9ab5',2);
+    }
+    for(let k=0;k<18;k++){const p=this.iso(3+k*1.6,15+(k%3));this.line(p.x-20,p.y,p.x+20,p.y,'rgba(222,247,255,.72)',3);}
+    for(const cell of [[8,15],[22,10],[28,15]]){const p=this.iso(...cell);this.round(p.x-58,p.y-35,116,30,5,'#fff1df','#a14c3f');this.text('浸水・通行止め',p.x,p.y-19,14,'#8b352c','center','800');}
+    for(let k=0;k<34;k++){const x=450+(k*103)%1850,y=210+(k*79)%780;this.line(x,y,x-10,y+25,'rgba(72,118,151,.55)',2);}
    }
    if(m.serviceState==='demand'){
     for(const s of m.sites.filter(x=>x.current==='dc')){const p=this.iso(s.cell[0]+s.w*.5,s.cell[1]+s.d*.5);this.round(p.x-24,p.y-99,48,23,5,'#fff0d7');this.text('節電',p.x,p.y-87,14,'#825b2d','center');}
    }
+   if(m.crisisVisual==='transit')for(const cell of [[1,15],[16,8],[28,15]]){const p=this.iso(...cell);this.round(p.x-45,p.y-24,90,24,4,'#fff1dd','#a34d3a');this.text('交通停止',p.x,p.y-11,14,'#8b352c','center','800');this.line(p.x-34,p.y+5,p.x+34,p.y+5,'#b24c3c',6);}
+   if(m.crisisVisual==='economy')for(const cell of [[22,7],[28,7],[24,12]]){const p=this.iso(...cell);this.round(p.x-35,p.y-58,70,27,4,'#e2dfd7','#84796e');this.text('休業',p.x,p.y-44,15,'#65584c','center','800');}
+   if(m.crisisVisual==='departure'){const p=this.iso(13,12);this.round(p.x-70,p.y-40,140,29,5,'#f5eddf','#9b8061');this.text('人通りが途切れた',p.x,p.y-24,15,'#795c43','center','800');}
+   if(m.crisisVisual==='protest')for(let k=0;k<7;k++){const p=this.iso(13+k*.7,9);this.person(p.x,p.y,k,false);this.line(p.x+6,p.y-8,p.x+6,p.y-40,'#796147',2);this.round(p.x-20,p.y-54,54,22,3,'#fff6da','#936d49');this.text('説明を',p.x+6,p.y-42,12,'#794d32','center','800');}
+   if(m.finalWarning){const p=this.iso(m.warningVisual==='flood'?25:13,m.warningVisual==='flood'?12:9);this.ellipse(p.x,p.y+6,90,28,'rgba(211,156,58,.30)');this.round(p.x-75,p.y-70,150,30,5,'#fff3d6','#b1853c');this.text('残った課題を点検中',p.x,p.y-54,15,'#785321','center','800');}
    if(m.shadePrepared){const p=this.iso(8.3,12.2);for(let k=0;k<3;k++){const x=p.x+k*32;this.line(x,p.y-30,x,p.y+2,'#806d52',3);this.poly([[x-23,p.y-30],[x,p.y-43],[x+23,p.y-30]],'#d8cbb0');}}
 
   }

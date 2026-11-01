@@ -24,7 +24,7 @@ test('solo story is four consequential decisions, with four distinct agents',()=
  assert.equal(typeof end.shadow.trust,'number');
 });
 
-test('solo all-AI decisions have the same hidden-collapse consequence',()=>{
+test('solo AI delegation delivers high visible gains with warning-level future costs',()=>{
  const game=Engine.createGame(1000,{autostart:true,storyMode:'solo'});
  Engine.join(game,'player','プレイヤー',1000);
  for(let round=0;round<4;round++){
@@ -34,9 +34,26 @@ test('solo all-AI decisions have the same hidden-collapse consequence',()=>{
   if(game.phase==='reveal')break;
  }
  assert.equal(game.phase,'reveal');
- assert.equal(game.outcome,'collapse');
+ assert.equal(game.outcome,'survived');
  assert.equal(game.history.length,4);
+ assert.equal(game.history.at(-1).hidden.resilience,25);
+ assert.ok(game.history.some(event=>event.hidden.resilience<30),'later choices reveal a warning even though the city continues');
  assert(game.public.prosperity>Engine.INITIAL_PUBLIC.prosperity);
+ assert(game.shadow.resilience<Engine.INITIAL_SHADOW.resilience);
+});
+
+test('solo human intervention after a resilience warning reduces risk',()=>{
+ const game=Engine.createGame(1000,{autostart:true,storyMode:'solo'});Engine.join(game,'player','プレイヤー',1000);
+ for(const choice of ['ai','ai','ai','human']){
+  game.roundEndsAt+=100000;
+  assert.equal(Engine.vote(game,'player',choice,game.roundEndsAt-100),true);
+  Engine.advance(game,game.roundEndsAt);
+ }
+ assert.equal(game.outcome,'survived');
+ assert.equal(game.history[2].hidden.resilience,21);
+ assert.equal(game.history[3].intervened,true);
+ assert.equal(game.outcome,'survived');
+ assert.equal(game.shadow.resilience,43);
 });
 
 test('shared city remains seven rounds without solo story mode',()=>{

@@ -168,3 +168,111 @@
  .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0}
  .shell[data-view="solo"][data-stage="city"] .skyline{height:clamp(350px,calc(100dvh - 175px),640px);min-height:350px!important;max-height:640px}
 }
+
+/* Exhibition alerts: visible consequences without revealing hidden scores. */
+.risk-notice[hidden],.ending-incident[hidden]{display:none!important}
+.risk-notice{margin-top:10px;padding:9px 11px;border-inline-start:3px solid #a86e49;border-radius:0 7px 7px 0;background:#fff4e5;color:#694831}
+.risk-notice .risk-overline{display:block;font-size:10px;font-weight:850;letter-spacing:.075em;color:#8a5438}
+.risk-notice strong{display:block;margin-top:4px;font-size:13px;line-height:1.4}
+.risk-notice p{margin-top:3px;font-size:11px;line-height:1.5}
+.result-panel .ending-incident{border-inline-start:3px solid #b87c4a;background:#fff6e9;padding:10px 12px;border-radius:0 6px 6px 0;font-size:13px;color:#684734}
+.skyline[data-crisis="flood"] canvas{filter:saturate(.65) hue-rotate(7deg)}
+.skyline[data-crisis="transit"] canvas{filter:brightness(.73) saturate(.65)}
+.skyline[data-crisis="departure"] canvas,.skyline[data-crisis="protest"] canvas,.skyline[data-crisis="economy"] canvas{filter:saturate(.65) contrast(.94)}
+.skyline[data-crisis]:not([data-crisis=""]) .city-ticker{border-inline-start-color:#a4483c;background:#fff0e7}
+@media(min-width:751px){
+ .question-panel .conversation{align-items:center}
+ .risk-notice{max-width:470px}
+}
+@media(max-width:750px){
+ .risk-notice{padding:8px 10px;margin-top:7px}
+ .risk-notice strong{font-size:12px}
+ .risk-notice p{font-size:11px}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{overflow:visible}
+}
+
+.shell[data-standalone='true'] .landing-actions{grid-template-columns:minmax(0,1fr);max-width:440px}
+.decision-tradeoff{display:block;max-width:48em;padding-right:5px;color:#536b60;font-size:11px;font-weight:650;line-height:1.5}
+
+/* Small phones: keep both judgment buttons in view when an event appears. */
+.risk-notice .risk-action{font-weight:750}
+@media(max-width:750px) and (max-height:900px){
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:clamp(210px,31dvh,300px)}
+ .risk-notice #riskDetail{display:none}
+ .risk-notice{margin-top:5px;padding:6px 8px}
+ .risk-notice .risk-overline{font-size:9px}
+ .risk-notice strong{margin-top:2px}
+ .risk-notice p{margin-top:2px;line-height:1.4}
+}
+
+/* Decision provenance is optional detail, not another required step in the exhibit. */
+.decision-history{margin-top:12px;border-top:1px solid #d7e1d4;padding-top:11px;color:#315f52}
+.decision-history summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-size:13px;font-weight:850;list-style-position:inside}
+.decision-history ol{margin:9px 0 5px;padding-left:23px;max-height:180px;overflow:auto;overscroll-behavior:contain}
+.decision-history li{padding:7px 0;border-bottom:1px solid #e0e8de;font-size:12px;line-height:1.5}
+.decision-history li strong,.decision-history li span{display:block}
+.decision-history li span{color:#536b60;margin-top:4px}
+@media(max-width:750px){.decision-history{margin-top:7px}.decision-history summary{font-size:12px}}
+.decision-accountability{margin-top:10px;padding:10px 12px;border-inline-start:3px solid #668b73;background:#f0f5ec;border-radius:0 7px 7px 0}
+.decision-accountability p{margin-top:5px;font-size:12px;line-height:1.6;color:#435f50}
+@media(max-width:750px){.decision-tradeoff{font-size:10px;line-height:1.4}.decision-accountability{margin-top:7px;padding:8px 10px}.decision-accountability p{font-size:11px}}
+.lobby-panel h2{margin-top:13px;font-size:clamp(21px,2vw,28px);line-height:1.35}
+.lobby-panel>p{margin-top:11px;color:#536b60;font-size:14px;line-height:1.7}
+.lobby-panel .primary-action{margin-top:22px}
+.lobby-panel .lobby-note{margin-top:10px;font-size:12px}
+.lobby-note strong{font-size:16px;color:#285e48}
+@media(max-width:750px){.decision-tradeoff{font-size:12px;line-height:1.45}.decision{min-height:105px;padding-block:10px}.lobby-panel>p{font-size:13px}.lobby-panel .primary-action{margin-top:17px}}
+@media(max-width:370px){.decision-tradeoff{font-size:11px}.decision{min-height:112px}}
+
+/* A crisis should read as a visible city event as well as a metric and news item. */
+.skyline[data-crisis]:not([data-crisis=""]){border:3px solid #963b35;box-shadow:0 0 0 4px #963b3522,0 7px 20px #2a4a3712}
+.skyline[data-crisis]:not([data-crisis=""]) .city-topline{background:#8e332d;color:#fff8ed;border-color:#762822}
+.skyline[data-crisis]:not([data-crisis=""]) .city-pulse{background:#ffcabd;box-shadow:0 0 0 4px #ffcabd36}
+.skyline[data-crisis]:not([data-crisis=""]) .city-ticker{border-inline-start-color:#9b2929;background:#fff0e7;font-size:clamp(14px,1.4vw,18px);box-shadow:0 4px 18px #49201f35}
+.shell[data-view=display][data-crisis]:not([data-crisis=""]) .display-frame{background:linear-gradient(0deg,#682d2ee8,transparent 78%)}
+/* Stage 4: readable choices and explicit warning/ending states. */
+.choices-jump{display:none}
+.shell[data-ending=warning] .city-topline,.shell[data-ending=warning] .city-ticker{background:#fff0d2;color:#795120}
+.shell[data-ending=warning] .skyline{box-shadow:inset 0 0 0 3px #bd8c3e}
+.shell[data-ending=undecided] .city-topline{background:#eef0e8;color:#52645b}
+.shell[data-crisis=flood] .skyline{background:#afc7cc}
+.shell[data-crisis=flood] #townCanvas{filter:saturate(.72) brightness(.87)}
+.lobby-panel .primary-action:disabled{opacity:.48;cursor:wait}
+#startShared{margin-top:10px}
+#decisionOptions{scroll-margin-top:12px}
+@media(max-width:750px){
+ .decision-tradeoff{font-size:13px;line-height:1.5}
+ .question-panel .decision{min-height:120px;padding:10px}
+ .question-panel .decision strong{font-size:15px;line-height:1.4}
+ .question-panel .agent-portrait{width:60px;height:82px}
+ .risk-notice #riskDetail{display:block;font-size:13px;line-height:1.5}
+ .risk-notice .risk-action{font-size:12px;line-height:1.5}
+ .risk-notice strong{font-size:14px}
+ .shell[data-alert=true][data-view=solo] .skyline,.shell[data-alert=true][data-view=group] .skyline{height:clamp(140px,19dvh,180px)}
+ .shell[data-alert=true] .choices-jump{display:flex;align-items:center;justify-content:flex-end;min-height:44px;font-size:13px;color:#386a55;text-decoration:underline}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{padding:12px;overflow:visible}
+ .decision-accountability p,.lobby-panel .lobby-note{font-size:13px;line-height:1.6}
+ .ending-incident{font-size:14px;line-height:1.6}
+}
+@media(max-width:750px){
+ .shell[data-alert=true][data-view=solo] .skyline,.shell[data-alert=true][data-view=group] .skyline{height:clamp(120px,15dvh,150px)}
+}
+@media(min-width:751px) and (max-width:1000px) and (orientation:portrait){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 114px)}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:320px;min-height:0;flex:none}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;inset:auto;display:block;width:100%}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{margin:0;max-width:none}
+ .question-panel .agent-portrait{width:90px;height:130px;flex:none}
+ .question-panel .decision{min-height:115px}
+ .decision-tradeoff{font-size:13px;line-height:1.5}
+}
+@media(min-width:1001px){
+ .decision-tradeoff{font-size:14px;line-height:1.5}
+ .speech-bubble .question-detail,.agent-line,.risk-notice p{font-size:14px;line-height:1.6}
+}
+/* Keep the exhibition canvas from enlarging its own grid through intrinsic sizing. */
+.shell[data-view=display]{height:100dvh;min-height:0;overflow:hidden}
+.shell[data-view=display] .play-surface{min-height:0;height:auto;grid-template-rows:57px minmax(0,1fr)}
+.shell[data-view=display] .skyline{min-height:0}
+.shell[data-view=display] .skyline canvas{position:absolute;inset:0}
+.shell[data-view=display][data-crisis=flood]:not([data-crisis=""]) .display-frame{background:linear-gradient(0deg,rgba(14,55,77,.88),transparent 65%)}

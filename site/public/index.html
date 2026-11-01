@@ -30,20 +30,30 @@
     <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
    </section>
-   <section class="question-panel" id="questionPanel" hidden aria-live="polite">
+   <section class="lobby-panel" id="lobbyPanel" hidden>
+    <span class="overline">参加受付中</span><h2>みんなの準備ができたら。</h2>
+    <p>内容を読んで「準備OK」にしてください。接続中の全員が準備できたら開始できます。途中参加は次の議題からです。</p>
+    <button class="primary-action" id="readyShared" type="button" aria-pressed="false">準備OKにする</button>
+    <button class="primary-action" id="startShared" type="button">みんなで始める <span>→</span></button>
+    <p class="lobby-note">準備OK <strong id="lobbyReadyCount">0</strong> / 接続中 <strong id="lobbyPeople">0</strong> 人。開始後は同じ23秒です。接続が90秒途切れた人は準備人数から外れます。</p>
+   </section>
+   <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
+   <section class="question-panel" id="questionPanel" hidden>
     <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
-    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p></div></div></div><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
-     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="option-arrow">↗</span></button>
+    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
+     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="option-arrow">↗</span></button>
     </div>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
    </section>
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
-    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p>
+    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
     <p class="result-note" id="resultNote"></p>
+    <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
+    <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
     <button class="primary-action" id="replayButton" type="button">もう一度、遊ぶ <span>→</span></button>
    </section>
   </div>
