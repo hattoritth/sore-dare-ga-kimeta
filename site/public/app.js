@@ -2,7 +2,7 @@
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
- let scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,dialogueRound=null,dialogueAt=0,dialogueOpen=false;
+ let scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false;
  const prologueLines=[['あなたの心の声','……ここは、どこだろう。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -41,13 +41,12 @@
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
-  if(dialogueRound!==s.round){dialogueRound=s.round;dialogueAt=Date.now();dialogueOpen=!!s.hasVoted;}
-  if(s.hasVoted||Date.now()-dialogueAt>=3000||(view==='group'&&s.endsAt-EngineNow()<=12000))dialogueOpen=true;
   const voice=voices[e.agent]||voices.ソラ;
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
   $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';
   $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):voice.line;
-  show('decisionOptions',dialogueOpen);show('dialogueSkip',!dialogueOpen);
+  // Present both decisions with the conversation; no intermediate acknowledgement required.
+  show('decisionOptions',true);
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
   $('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
   $('agentName').textContent=e.agent;$('agentRole').textContent=e.role;
@@ -217,7 +216,7 @@
    show('landing',true);show('sidePanel',false);$('cityStatus').textContent='誰が、未来を決める？';renderPrologue();
   }else if(view==='solo')startSolo();
   else {setupQR();fetchState();setInterval(fetchState,1250);}
-  $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;$('dialogueSkip').onclick=()=>{dialogueOpen=true;if(state)renderQuestion(state);};
+  $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
