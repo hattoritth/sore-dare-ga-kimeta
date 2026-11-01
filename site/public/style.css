@@ -143,3 +143,28 @@
 }
 @keyframes intro-caret-blink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.prologue-text[data-typing="true"]::after{animation:none;display:none}}
+
+/* Living-city sequence: the map becomes the protagonist between decisions. */
+.city-beat[hidden]{display:none!important}
+.city-beat{position:absolute;z-index:6;left:6%;right:6%;bottom:7%;pointer-events:none;border:1px solid #f6e5cbbb;border-radius:16px;padding:clamp(15px,2vw,24px);color:#f7f6ee;background:linear-gradient(120deg,rgba(25,63,55,.95),rgba(27,75,70,.91));box-shadow:0 16px 46px #183b3580;animation:city-beat-arrive .5s ease-out both}
+.city-beat-kicker{display:block;color:#ebc992;font-size:12px;font-weight:850;letter-spacing:.08em}
+.city-beat h2{font-size:clamp(19px,2.8vw,31px);line-height:1.4;margin:9px 0}
+.city-beat-voice{font-size:clamp(13px,1.7vw,17px);line-height:1.5;margin:0 0 13px;font-weight:650}
+.city-beat-deltas{display:flex;flex-wrap:wrap;gap:7px}
+.city-beat-deltas span{padding:6px 10px;border-radius:24px;background:#ffffff1f;color:#f9e9c6;font-size:12px;font-weight:800}
+.shell[data-stage="city"][data-view="solo"] .play-surface{grid-template-columns:minmax(0,1fr)}
+.shell[data-stage="city"][data-view="solo"] .skyline{grid-column:1/-1}
+.shell[data-stage="city"][data-view="solo"] .side-panel{display:none!important}
+@keyframes city-beat-arrive{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:750px){.city-beat{left:4%;right:4%;bottom:4%;padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(prefers-reduced-motion:reduce){.city-beat{animation:none!important}}
+
+/* On result beats, keep the enlarged city and resident response within one viewport. */
+@media(min-width:751px){
+ .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0;height:calc(100dvh - 110px);grid-template-rows:57px minmax(0,1fr)}
+ .shell[data-view="solo"][data-stage="city"] .skyline{height:calc(100dvh - 199px);min-height:0;max-height:calc(100dvh - 199px)}
+}
+@media(max-width:750px){
+ .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0}
+ .shell[data-view="solo"][data-stage="city"] .skyline{height:clamp(350px,calc(100dvh - 175px),640px);min-height:350px!important;max-height:640px}
+}

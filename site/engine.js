@@ -12,12 +12,15 @@
  ];
  const INITIAL_PUBLIC={prosperity:61,convenience:63,appeal:67};
  const INITIAL_SHADOW={trust:82,fairness:78,resilience:77};
+ const SOLO_STORY=[0,4,2,3];
+ const episodeFor=game=>EPISODES[game.storyMode==='solo'?SOLO_STORY[game.round]:game.round];
+ const maxRounds=game=>game.storyMode==='solo'?SOLO_STORY.length:EPISODES.length;
  const MAX_ROUNDS=EPISODES.length,ROUND_MS=23000,REVEAL_MS=50000,MIN_HIDDEN=20;
  const clamp=x=>Math.min(100,Math.max(0,Math.round(x)));
  const copy=x=>JSON.parse(JSON.stringify(x));
  const tally=game=>Object.values(game.votes).reduce((a,v)=>(a[v]++,a),{human:0,ai:0});
  function createGame(now=Date.now(),opts={}){
-   return {phase:opts.autostart?'active':'waiting',createdAt:now,round:0,roundStartedAt:now,roundEndsAt:now+ROUND_MS,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
+   return {phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:now+ROUND_MS,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
  }
  function start(game,now=Date.now()){if(game.phase!=='waiting')return false;game.phase='active';game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;return true;}
  function join(game,id,name,now=Date.now()){
@@ -31,7 +34,7 @@
  }
  function resolve(game,now){
    const n=tally(game),total=n.human+n.ai,aiShare=total?n.ai/total:0.5;
-   const e=EPISODES[game.round];
+   const e=episodeFor(game);
    const chosen=aiShare>0.5?'ai':aiShare<0.5?'human':'mixed';
    // Rapid growth comes with invisible accumulated costs; human review trades speed for confidence.
    game.public.prosperity=clamp(game.public.prosperity+3+Math.round(6*aiShare));
@@ -47,7 +50,7 @@
    game.history.push({...game.lastEvent,visible:copy(game.public),hidden:copy(game.shadow)});
    game.votes={};game.round++;
    const lost=Object.entries(game.shadow).find(([,v])=>v<=MIN_HIDDEN);
-   if(lost||game.round>=MAX_ROUNDS){game.phase='reveal';game.outcome=lost?'collapse':'survived';game.revealEndsAt=now+REVEAL_MS;}
+   if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':'survived';game.revealEndsAt=now+REVEAL_MS;}
    else {game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;}
  }
  function advance(game,now=Date.now()){
@@ -58,7 +61,7 @@
  function publicState(game,token='',now=Date.now()){
    const n=tally(game);
    const online=Object.values(game.participants).filter(x=>now-x.lastSeen<90000).length;
-   const data={phase:game.phase,round:game.round,roundTotal:MAX_ROUNDS,endsAt:game.phase==='active'?game.roundEndsAt:game.revealEndsAt,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:copy(game.lastEvent),outcome:game.outcome,episode:game.phase==='active'?copy(EPISODES[game.round]):null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen})),serverNow:now};
+   const data={phase:game.phase,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.revealEndsAt,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:copy(game.lastEvent),outcome:game.outcome,episode:game.phase==='active'?copy(episodeFor(game)):null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen})),serverNow:now};
    if(game.phase==='reveal')data.shadow=copy(game.shadow);
    return data;
  }

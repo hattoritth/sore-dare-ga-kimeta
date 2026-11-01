@@ -2,7 +2,7 @@
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
- let scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false;
+ let scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0;
  const prologueLines=[['あなたの心の声','……ここは、どこだろう。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -14,6 +14,39 @@
  ミドリ:{hair:'#364e42',back:'#a5c5a3',suit:'#5d8466',shirt:'#f5edda',cut:'M44 90 Q42 17 91 18 Q139 18 136 99 L130 146 L50 146Z',bang:'M52 65 Q50 22 89 22 Q130 22 130 67 Q113 61 99 43 Q80 62 52 65Z',detail:'<path d="M129 52 q17 -16 14 -1 q-3 10 -14 8" fill="#abc47e"/>'}
  };
  function portrait(name){const a=portraits[name]||portraits.ソラ;return `<svg viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="portraitBg" x2="1" y2="1"><stop stop-color="#f4ead9"/><stop offset="1" stop-color="${a.back}"/></linearGradient></defs><rect width="180" height="220" rx="65" fill="url(#portraitBg)"/><circle cx="141" cy="36" r="18" fill="#fff7e5" opacity=".36"/><path d="${a.cut}" fill="${a.hair}"/><path d="M27 220 Q28 156 64 140 L90 152 L116 140 Q152 156 153 220Z" fill="${a.suit}"/><path d="M72 137 L72 151 Q90 170 108 151 L108 137" fill="#ddb298"/><path d="M61 66 Q61 34 90 34 Q119 34 119 66 L119 94 Q117 128 90 136 Q63 128 61 94Z" fill="#f2c9aa"/><path d="${a.bang}" fill="${a.hair}"/><path d="M63 75 Q57 72 58 84 Q59 92 63 92 M117 75 Q123 72 122 84 Q121 92 117 92" fill="#efc19f"/><ellipse cx="78" cy="84" rx="2.8" ry="4.5" fill="#304a46"/><ellipse cx="102" cy="84" rx="2.8" ry="4.5" fill="#304a46"/><path d="M74 74 Q78 71 82 73 M98 73 Q102 71 106 74" stroke="#765d53" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M88 84 q-2 9 2 9" stroke="#d69d84" fill="none" stroke-linecap="round"/><path class="mouth-neutral" d="M84 105 Q90 108 96 105" stroke="#ae6d68" stroke-width="2" fill="none" stroke-linecap="round"/><path class="mouth-warm" d="M82 104 Q90 114 98 104" stroke="#ae6d68" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M69 145 L90 165 L111 145 L105 180 L75 180Z" fill="${a.shirt}"/>${a.detail}<circle cx="90" cy="171" r="3" fill="#d1b77d"/></svg>`;}
+
+ const residentReactions=[
+  {human:'「話を聞いてくれたから、通いやすい診療所ができたね。」',ai:'「新しい診療所は立派。でも、遠くの地区からは通いにくいよ。」'},
+  {human:'「駅へ行く道がつながった。病院にも行きやすくなったよ。」',ai:'「駅前はにぎやか。でも遠い地区のバスは増えなかったね。」'},
+  {human:'「海沿いを歩くと、守られている感じがする。」',ai:'「海辺にお店が増えたけど、高潮の日は大丈夫かな。」'},
+  {human:'「少しずつでも、未来に残る電力を選んだんだね。」',ai:'「便利な施設が増えたね。夏の電力は足りるかな。」'}
+ ];
+ function showCityBeat(game){
+  const event=game.lastEvent;
+  if(!event)return;
+  const choice=event.chosen==='ai'?'ai':'human';
+  const reaction=residentReactions[Math.min(event.round-1,residentReactions.length-1)];
+  $('cityBeatHeading').textContent=event.result;
+  $('cityBeatVoice').textContent=reaction[choice];
+  const prev=game.history.length>1?game.history[game.history.length-2].visible:MachiEngine.INITIAL_PUBLIC;
+  const diffs=[['prosperity','繁栄'],['convenience','便利さ'],['appeal','街の魅力']];
+  const nodes=document.createDocumentFragment();
+  for(const [key,label] of diffs){
+   const chip=document.createElement('span'),delta=game.public[key]-prev[key];
+   chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);
+  }
+  $('cityBeatDeltas').replaceChildren(nodes);
+  storyBeatUntil=Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
+  shell.dataset.stage='city';
+  show('cityBeat',true);
+  scene.setZoom(1.25);scene.layout();
+ }
+ function clearCityBeat(){
+  if(!storyBeatUntil)return;
+  storyBeatUntil=0;
+  shell.dataset.stage='play';show('cityBeat',false);
+  scene.resetView();scene.layout();
+ }
  const hiddenNames={trust:'信頼',fairness:'公正',resilience:'持続性'};
  const clamp=x=>Math.min(100,Math.max(0,Number(x)||0));
  function initArt(){
@@ -44,7 +77,14 @@
   const voice=voices[e.agent]||voices.ソラ;
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
   $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';
-  $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):voice.line;
+  const linked=view==='solo'&&s.lastEvent&&s.round>=1;
+  const links={
+    1:{ai:'診療所はできたけど、遠くの人はまだ通いにくい。次は交通を考えよう。',human:'診療所の話し合いで、駅まで遠い人の声も聞けた。次は交通だね。'},
+    2:{ai:'駅前はにぎやか。でも移動の問題が残った。海辺の計画にも影響があるよ。',human:'交通がつながって、海辺に来る人も増えそう。次の整備を考えよう。'},
+    3:{ai:'海辺にお店が増えて、電力の負担が大きくなってきた。',human:'海辺を守る工事が進んだ。次は長く使う電力を考えたい。'}
+  };
+  const lead=linked?(links[s.round]?.[s.lastEvent.chosen]||voice.line):voice.line;
+  $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):lead;
   // Present both decisions with the conversation; no intermediate acknowledgement required.
   show('decisionOptions',true);
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
@@ -52,7 +92,7 @@
   $('agentName').textContent=e.agent;$('agentRole').textContent=e.role;
   const c=faceColors[e.agent]||faceColors.ソラ;
   $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
-  $('questionTitle').textContent=e.heading;$('questionHint').textContent=e.hint;
+  $('questionTitle').textContent=e.heading;$('questionHint').textContent=linked?'前の決定が、次の課題につながった。':e.hint;
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
@@ -119,7 +159,10 @@
    show('waitingPanel',everJoined&&s.phase==='waiting');
   }
   if(view==='solo'){
-   show('joinPanel',false);show('questionPanel',s.phase==='active');show('resultPanel',s.phase==='reveal');show('waitingPanel',false);
+   const beatActive=storyBeatUntil>Date.now();
+   show('joinPanel',false);show('questionPanel',!beatActive&&s.phase==='active');
+   show('resultPanel',!beatActive&&s.phase==='reveal');show('waitingPanel',false);
+   if(beatActive)return;
   }
   if(s.phase==='active')renderQuestion(s);
   if(s.phase==='reveal')renderResult(s);
@@ -136,12 +179,12 @@
    render(x);
   }catch(err){failedRequests++;if(failedRequests===3){$('cityStatus').textContent='通信を確認してください';$('cityTicker').textContent='ネットワークの接続を確認してください。';}}
  }
- function startSolo(){soloGame=MachiEngine.createGame(Date.now(),{autostart:true});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
+ function startSolo(){clearCityBeat();soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
   try{const x=await request('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nameInput').value})});everJoined=true;offset=x.state.serverNow-Date.now();render(x.state);}catch(err){$('cityTicker').textContent=err.message;}finally{$('joinForm').querySelector('button[type=submit]').disabled=false;}
  }
  async function choose(choice){
-  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+2200;render(MachiEngine.publicState(soloGame,'solo'));return;}
+  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));return;}
   if(view==='group'){
    try{const x=await request('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice,round:state?.round})});render(x.state);}catch(err){$('voteFeedback').textContent=err.message;fetchState();}
   }
@@ -154,7 +197,17 @@
   $('qrImg').onerror=()=>{const box=$('qrBox');box.textContent='参加URLをご利用ください';box.style.fontSize='13px';box.style.padding='15px';};
  }
  function tick(){
-  if(view==='solo'&&soloGame){const changed=MachiEngine.advance(soloGame,Date.now());if(changed==='restart'){startSolo();return;}if(changed){if(soloGame.phase==='active')soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;else if(soloGame.phase==='reveal')soloGame.revealEndsAt=Number.MAX_SAFE_INTEGER;}render(MachiEngine.publicState(soloGame,'solo'));}
+  if(view==='solo'&&soloGame){
+   if(storyBeatUntil&&Date.now()>=storyBeatUntil)clearCityBeat();
+   const changed=MachiEngine.advance(soloGame,Date.now());
+   if(changed==='restart'){startSolo();return;}
+   if(changed){
+    if(soloGame.phase==='active')soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;
+    else if(soloGame.phase==='reveal')soloGame.revealEndsAt=Number.MAX_SAFE_INTEGER;
+    showCityBeat(soloGame);
+   }
+   render(MachiEngine.publicState(soloGame,'solo'));
+  }
   else if(state?.phase==='active'){
     if(view==='group'&&everJoined){$('countdown').textContent=clock(state.endsAt-EngineNow());renderQuestion(state);}
     if(view==='display')renderDisplay(state);
