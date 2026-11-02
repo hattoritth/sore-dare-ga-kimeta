@@ -156,11 +156,27 @@
    if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
    return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
  }
+ // Generate a categorical three-metric forecast using exactly the real rules.
+ // Never send numeric hidden deltas or hidden metric keys during play.
+ const IMPACT_KEYS=['prosperity','convenience','appeal'];
+ const impactMark=delta=>delta===0?'±0':
+   (delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
+ function publicImpactPreview(game){
+   const preview={};
+   for(const choice of ['human','ai']){
+     const simulated=copy(game);
+     simulated.votes={forecast:choice}; // hypothetical unanimous choice
+     resolve(simulated,game.roundEndsAt);
+     preview[choice]=Object.fromEntries(IMPACT_KEYS.map(key=>
+       [key,impactMark(simulated.public[key]-game.public[key])]));
+   }
+   return preview;
+ }
  function publicState(game,token='',now=Date.now()){
    const n=tally(game);
    const online=Object.values(game.participants).filter(x=>now-x.lastSeen<90000).length;
    const safeLastEvent=game.lastEvent?{...game.lastEvent,crisisAverted:undefined,warningRecovered:undefined}:null;
-   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:safeLastEvent,outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:game.phase==='reveal'&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?publicEpisode(episodeFor(game)):null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
+   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:safeLastEvent,outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:game.phase==='reveal'&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?{...publicEpisode(episodeFor(game)),impactPreview:publicImpactPreview(game)}:null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
    const players=connected(game,now),player=game.participants[token];
    data.readyCount=players.filter(x=>x.ready).length;data.myReady=!!player?.ready;
    data.canStart=!!player&&canStart(game,now);

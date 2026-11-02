@@ -94,6 +94,20 @@
  function renderHud(s){if(!s)return;for(const [k,v] of Object.entries(s.public)){const el=document.querySelector(`[data-stat="${k}"]`);if(!el)continue;const n=String(Math.round(v)),value=el.querySelector('strong');el.querySelector('i').style.width=clamp(v)+'%';if(value.textContent!==n){value.textContent=n;value.classList.remove('stat-changed');void value.offsetWidth;value.classList.add('stat-changed');}}}
  function progressLabel(i){return ['第一','第二','第三','第四','第五','第六','第七'][i]||'次';}
  function clock(ms){const secs=Math.max(0,Math.ceil(ms/1000));return `${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;}
+ const impactNames={prosperity:'繁栄',convenience:'便利さ',appeal:'魅力'};
+ function renderImpact(id,preview){
+  const target=$(id);target.replaceChildren();
+  for(const [key,label] of Object.entries(impactNames)){
+   const mark=preview?.[key]||'±0';
+   if(mark==='±0')continue;
+   const chip=document.createElement('span');chip.className='impact-chip';
+   chip.dataset.direction=mark.startsWith('+')?'up':mark.startsWith('−')?'down':'neutral';
+   const name=document.createElement('span');name.textContent=label;
+   const sign=document.createElement('strong');sign.textContent=mark;
+   chip.setAttribute('aria-label',label+'：'+(mark==='±0'?'変化なし':mark.startsWith('+')?'上昇の目安 '+mark.length+'段階':'低下の目安 '+mark.length+'段階'));
+   chip.append(name,sign);target.append(chip);
+  }
+ }
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
@@ -121,6 +135,11 @@
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   $('humanTradeoff').textContent=`今：${e.humanNow}　その先：${e.humanLater}`;
   $('aiTradeoff').textContent=`今：${e.aiNow}　その先：${e.aiLater}`;
+  renderImpact('humanImpact',e.impactPreview?.human);
+  renderImpact('aiImpact',e.impactPreview?.ai);
+  $('impactNote').textContent=view==='group'
+   ?'表3指標の目安（全員が同じ案を選んだ場合）。実際は投票割合で変わります。裏の指標は非表示。'
+   :'この街の表3指標の変化目安。裏の指標には別の影響もあります。';
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }

@@ -334,6 +334,31 @@
 .loading-ellipsis{display:inline-block;animation:loading-breathe 1.4s ease-in-out infinite}
 @keyframes loading-breathe{50%{opacity:.5;transform:scale(.92)}}
 @media(prefers-reduced-motion:reduce){.city-loading-icon,.loading-ellipsis{animation:none}}
+
+
+/* Kairosoft-like qualitative preview; only three public metrics. */
+.impact-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:1px;max-width:100%}
+.impact-chip{display:inline-flex;align-items:baseline;justify-content:center;gap:4px;padding:3px 6px;border-radius:5px;border:1px solid #dce5da;background:#f0f4ed;color:#526959;font-size:11px;font-weight:800;white-space:nowrap;line-height:1.2}
+.impact-chip strong{font-size:12px;font-weight:950;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.impact-chip[data-direction=up]{background:#e3f1e5;border-color:#c4dfc8;color:#286e45}
+.impact-chip[data-direction=down]{background:#fae9df;border-color:#edcebe;color:#9a4d32}
+.impact-chip[data-direction=neutral]{color:#687b6c}
+.impact-note{font-size:10px;line-height:1.45;color:#526c5c;font-weight:700;grid-column:1/-1;margin:0;padding:0}
+.question-panel .decision{gap:5px}
+.question-panel .decision-tradeoff{line-height:1.35}
+@media(max-width:750px){
+ .impact-row{gap:3px}
+ .impact-chip{padding:2px 4px;font-size:10px;gap:3px}
+ .impact-chip strong{font-size:11px}
+ .impact-note{font-size:10px}
+ .question-panel .decision{padding:9px 7px;gap:5px}
+ .question-panel .decision strong{overflow-wrap:anywhere}
+ .question-panel .decision .option-arrow{display:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .impact-chip{font-size:10px;padding:2px 5px}
+ .question-panel .decision{min-height:70px}
+}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -391,8 +416,9 @@
    <section class="question-panel" id="questionPanel" hidden>
     <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
     <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
-     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
+     <p class="impact-note" id="impactNote">表の3指標の変化目安。裏の指標は表示されません。</p>
     </div>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
@@ -2695,11 +2721,27 @@ class F5Primitives {
    if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
    return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
  }
+ // Generate a categorical three-metric forecast using exactly the real rules.
+ // Never send numeric hidden deltas or hidden metric keys during play.
+ const IMPACT_KEYS=['prosperity','convenience','appeal'];
+ const impactMark=delta=>delta===0?'±0':
+   (delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
+ function publicImpactPreview(game){
+   const preview={};
+   for(const choice of ['human','ai']){
+     const simulated=copy(game);
+     simulated.votes={forecast:choice}; // hypothetical unanimous choice
+     resolve(simulated,game.roundEndsAt);
+     preview[choice]=Object.fromEntries(IMPACT_KEYS.map(key=>
+       [key,impactMark(simulated.public[key]-game.public[key])]));
+   }
+   return preview;
+ }
  function publicState(game,token='',now=Date.now()){
    const n=tally(game);
    const online=Object.values(game.participants).filter(x=>now-x.lastSeen<90000).length;
    const safeLastEvent=game.lastEvent?{...game.lastEvent,crisisAverted:undefined,warningRecovered:undefined}:null;
-   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:safeLastEvent,outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:game.phase==='reveal'&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?publicEpisode(episodeFor(game)):null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
+   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:safeLastEvent,outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:game.phase==='reveal'&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?{...publicEpisode(episodeFor(game)),impactPreview:publicImpactPreview(game)}:null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
    const players=connected(game,now),player=game.participants[token];
    data.readyCount=players.filter(x=>x.ready).length;data.myReady=!!player?.ready;
    data.canStart=!!player&&canStart(game,now);
@@ -2811,6 +2853,20 @@ class F5Primitives {
  function renderHud(s){if(!s)return;for(const [k,v] of Object.entries(s.public)){const el=document.querySelector(`[data-stat="${k}"]`);if(!el)continue;const n=String(Math.round(v)),value=el.querySelector('strong');el.querySelector('i').style.width=clamp(v)+'%';if(value.textContent!==n){value.textContent=n;value.classList.remove('stat-changed');void value.offsetWidth;value.classList.add('stat-changed');}}}
  function progressLabel(i){return ['第一','第二','第三','第四','第五','第六','第七'][i]||'次';}
  function clock(ms){const secs=Math.max(0,Math.ceil(ms/1000));return `${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;}
+ const impactNames={prosperity:'繁栄',convenience:'便利さ',appeal:'魅力'};
+ function renderImpact(id,preview){
+  const target=$(id);target.replaceChildren();
+  for(const [key,label] of Object.entries(impactNames)){
+   const mark=preview?.[key]||'±0';
+   if(mark==='±0')continue;
+   const chip=document.createElement('span');chip.className='impact-chip';
+   chip.dataset.direction=mark.startsWith('+')?'up':mark.startsWith('−')?'down':'neutral';
+   const name=document.createElement('span');name.textContent=label;
+   const sign=document.createElement('strong');sign.textContent=mark;
+   chip.setAttribute('aria-label',label+'：'+(mark==='±0'?'変化なし':mark.startsWith('+')?'上昇の目安 '+mark.length+'段階':'低下の目安 '+mark.length+'段階'));
+   chip.append(name,sign);target.append(chip);
+  }
+ }
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
@@ -2838,6 +2894,11 @@ class F5Primitives {
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   $('humanTradeoff').textContent=`今：${e.humanNow}　その先：${e.humanLater}`;
   $('aiTradeoff').textContent=`今：${e.aiNow}　その先：${e.aiLater}`;
+  renderImpact('humanImpact',e.impactPreview?.human);
+  renderImpact('aiImpact',e.impactPreview?.ai);
+  $('impactNote').textContent=view==='group'
+   ?'表3指標の目安（全員が同じ案を選んだ場合）。実際は投票割合で変わります。裏の指標は非表示。'
+   :'この街の表3指標の変化目安。裏の指標には別の影響もあります。';
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }
