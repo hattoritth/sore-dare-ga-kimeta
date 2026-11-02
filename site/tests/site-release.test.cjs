@@ -65,3 +65,23 @@ test('registered Stage 4 migration changes only an additive table, preserving or
  assert.equal(db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type='table' AND name='city_state_stage4'").get().n,1);
  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM city_state_stage4').get().n,0,'no irreversible creation of fresh game state in migration');
 });
+
+
+test('Stage 4 Worker initializes its missing D1 table without changing legacy state',async()=>{
+ const db=new DatabaseSync(':memory:');
+ db.exec(fs.readFileSync(path.join(__dirname,'../drizzle/0000_city.sql'),'utf8'));
+ const old={phase:'active',participants:{legacy:'preserved'},note:'existing live site'};
+ db.prepare('INSERT INTO city_state(id,version,json) VALUES(1,17,?)').run(JSON.stringify(old));
+ const before=db.prepare('SELECT * FROM city_state WHERE id=1').get();
+ const conn={prepare(sql){let args=[];return {bind(...values){args=values;return this},async first(){return db.prepare(sql).get(...args)||null},async run(){const r=db.prepare(sql).run(...args);return {meta:{changes:Number(r.changes)}}}}}};
+ const worker=(await import(pathToFileURL(path.join(__dirname,'../src/worker.mjs')).href)).default;
+ const env={DB:conn,ASSETS:{fetch:()=>new Response('ok')}};
+ for(let i=0;i<2;i++){
+  const res=await worker.fetch(new Request('https://sites.example/api/state'),env);
+  assert.equal(res.status,200,'game state API must work on database with old table only');
+  const state=await res.json();
+  assert.ok(['waiting','lobby'].includes(state.phase));
+ }
+ assert.deepEqual(db.prepare('SELECT * FROM city_state WHERE id=1').get(),before,'legacy state unchanged');
+ assert.equal(db.prepare('SELECT COUNT(*) AS n FROM city_state_stage4').get().n,1,'new game initialized once');
+});

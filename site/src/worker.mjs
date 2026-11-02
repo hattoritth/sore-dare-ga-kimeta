@@ -6,7 +6,12 @@ const headers={'cache-control':'no-store','x-content-type-options':'nosniff','re
 const json=(data,status=200,extra={})=>new Response(JSON.stringify(data),{status,headers:{...headers,'content-type':'application/json; charset=utf-8',...extra}});
 const clone=x=>JSON.parse(JSON.stringify(x));
 const paused=ms=>new Promise(r=>setTimeout(r,ms));
+const ensuredStage4=new WeakSet();
 async function load(DB){
+  if(!ensuredStage4.has(DB)){
+    await DB.prepare('CREATE TABLE IF NOT EXISTS city_state_stage4 (id integer PRIMARY KEY NOT NULL CHECK (id=1), version integer NOT NULL, json text NOT NULL)').run();
+    ensuredStage4.add(DB);
+  }
   const row=await DB.prepare('SELECT version, json FROM city_state_stage4 WHERE id=1').first();
   if(row)return {version:Number(row.version),game:JSON.parse(row.json)};
   const seed=Engine.createGame();
