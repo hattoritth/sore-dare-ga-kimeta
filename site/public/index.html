@@ -12,7 +12,7 @@
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
    <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="status" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div></div>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section></div>
   </div>
   <section class="hud" aria-label="まちの様子">
    <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
@@ -60,6 +60,21 @@
      <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
      <p class="impact-note" id="impactNote">表の3指標の変化目安。裏の指標は表示されません。</p>
     </div>
+    <section class="clinic-choice" id="clinicChoice" aria-labelledby="clinicChoiceTitle" hidden>
+     <span class="overline">診療所の計画</span><h2 id="clinicChoiceTitle">ひとつの診療所を、どこへ？</h2>
+     <p id="clinicChoiceContext">建設できるのは1か所です。駅前は総利用者が多く、仕事帰りにも便利。郊外は通院の負担が重い人に届きやすい一方、利用者数は少なくなります。</p>
+     <div id="humanClinicForm" class="clinic-form" hidden>
+      <fieldset><legend>場所を選ぶ</legend><label><input type="radio" name="clinicPlace" value="station">駅前</label><label><input type="radio" name="clinicPlace" value="suburb">郊外</label></fieldset>
+      <fieldset><legend>優先する理由を選ぶ</legend><label><input type="radio" name="clinicReason" value="total">総利用者数と仕事帰りの通いやすさ</label><label><input type="radio" name="clinicReason" value="access">通院が難しい人への届きやすさ</label></fieldset>
+      <button id="confirmHumanClinic" class="primary-action" type="button" disabled>この場所と理由で決める</button>
+     </div>
+     <div id="aiClinicForm" class="clinic-form" hidden>
+      <p>AIの提案：駅前。予測利用者数、交通の便、人口構成などを使った提案です。これらの項目は確認できますが、個々の通院事情が提案にどれだけ影響したかは、この場で説明しきれません。</p>
+      <details><summary>提案に使った項目を見る</summary><ul><li>予測利用者数</li><li>交通の便と移動のつながり</li><li>人口構成</li></ul><p>個別の事情をどの程度重く扱ったかまでは、この提案だけでは確かめられません。</p></details>
+      <button id="acceptAiClinic" class="primary-action" type="button">提案を確認して、駅前に決める</button>
+     </div>
+     <p class="clinic-record" id="clinicChoiceRecord" aria-live="polite" hidden></p>
+    </section>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
    </section>

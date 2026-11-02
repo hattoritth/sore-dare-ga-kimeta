@@ -152,11 +152,15 @@
 .city-beat-voice{font-size:clamp(13px,1.7vw,17px);line-height:1.5;margin:0 0 13px;font-weight:650}
 .city-beat-deltas{display:flex;flex-wrap:wrap;gap:7px}
 .city-beat-deltas span{padding:6px 10px;border-radius:24px;background:#ffffff1f;color:#f9e9c6;font-size:12px;font-weight:800}
+.clinic-choice{grid-column:1/-1;max-height:min(52dvh,520px);overflow:auto;margin-top:8px;padding:14px 16px;border-radius:12px;background:#fffdf2;color:#25443b;box-shadow:0 8px 24px #102e2940;pointer-events:auto}
+.clinic-choice .overline{color:#687c62;font-size:12px}.clinic-choice h2{font-size:clamp(18px,2vw,23px);margin:5px 0}.clinic-choice p,.clinic-followup p{font-size:14px;line-height:1.55;margin:7px 0}
+.clinic-form fieldset,.clinic-followup fieldset{border:0;padding:0;margin:10px 0;display:flex;flex-wrap:wrap;gap:7px 14px}.clinic-form legend,.clinic-followup legend{font-weight:800;margin-bottom:4px}.clinic-form label,.clinic-followup label{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:9px 11px;border-radius:8px;background:#eff3e7;font-size:13px;line-height:1.4;flex:1 1 220px}.clinic-form input,.clinic-followup input{width:18px;height:18px;flex:none;margin:2px 0 0;accent-color:#34755b}.clinic-choice button,.clinic-followup button{min-height:48px;padding:10px 16px}.clinic-choice details{margin:8px 0;font-size:13px}.clinic-choice summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}.clinic-choice ul{margin:3px 0;padding-left:22px}.clinic-choice button:disabled,.clinic-followup button:disabled{opacity:.55;cursor:not-allowed}.clinic-followup{margin-top:15px;padding-top:12px;border-top:1px solid #ffffff60;pointer-events:auto}.clinic-followup[hidden],.clinic-choice[hidden]{display:none!important}.clinic-followup strong{font-size:16px}.clinic-followup fieldset{display:grid;grid-template-columns:1fr;gap:5px}.clinic-followup label{background:#ffffff16;color:#fffdf2;flex:none}.clinic-followup label:focus-within,.clinic-form label:focus-within{outline:2px solid #e9c985;outline-offset:2px}
 .shell[data-stage="city"][data-view="solo"] .play-surface{grid-template-columns:minmax(0,1fr)}
 .shell[data-stage="city"][data-view="solo"] .skyline{grid-column:1/-1}
 .shell[data-stage="city"][data-view="solo"] .side-panel{display:none!important}
 @keyframes city-beat-arrive{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:750px){.city-beat{left:4%;right:4%;bottom:4%;padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(max-width:750px){.clinic-choice{max-height:min(57dvh,520px);padding:12px}.clinic-form fieldset{display:grid;grid-template-columns:1fr}.clinic-form label{font-size:14px}.clinic-followup label{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.city-beat{animation:none!important}}
 
 /* On result beats, keep the enlarged city and resident response within one viewport. */

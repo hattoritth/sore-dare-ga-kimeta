@@ -153,11 +153,15 @@
 .city-beat-voice{font-size:clamp(13px,1.7vw,17px);line-height:1.5;margin:0 0 13px;font-weight:650}
 .city-beat-deltas{display:flex;flex-wrap:wrap;gap:7px}
 .city-beat-deltas span{padding:6px 10px;border-radius:24px;background:#ffffff1f;color:#f9e9c6;font-size:12px;font-weight:800}
+.clinic-choice{grid-column:1/-1;max-height:min(52dvh,520px);overflow:auto;margin-top:8px;padding:14px 16px;border-radius:12px;background:#fffdf2;color:#25443b;box-shadow:0 8px 24px #102e2940;pointer-events:auto}
+.clinic-choice .overline{color:#687c62;font-size:12px}.clinic-choice h2{font-size:clamp(18px,2vw,23px);margin:5px 0}.clinic-choice p,.clinic-followup p{font-size:14px;line-height:1.55;margin:7px 0}
+.clinic-form fieldset,.clinic-followup fieldset{border:0;padding:0;margin:10px 0;display:flex;flex-wrap:wrap;gap:7px 14px}.clinic-form legend,.clinic-followup legend{font-weight:800;margin-bottom:4px}.clinic-form label,.clinic-followup label{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:9px 11px;border-radius:8px;background:#eff3e7;font-size:13px;line-height:1.4;flex:1 1 220px}.clinic-form input,.clinic-followup input{width:18px;height:18px;flex:none;margin:2px 0 0;accent-color:#34755b}.clinic-choice button,.clinic-followup button{min-height:48px;padding:10px 16px}.clinic-choice details{margin:8px 0;font-size:13px}.clinic-choice summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}.clinic-choice ul{margin:3px 0;padding-left:22px}.clinic-choice button:disabled,.clinic-followup button:disabled{opacity:.55;cursor:not-allowed}.clinic-followup{margin-top:15px;padding-top:12px;border-top:1px solid #ffffff60;pointer-events:auto}.clinic-followup[hidden],.clinic-choice[hidden]{display:none!important}.clinic-followup strong{font-size:16px}.clinic-followup fieldset{display:grid;grid-template-columns:1fr;gap:5px}.clinic-followup label{background:#ffffff16;color:#fffdf2;flex:none}.clinic-followup label:focus-within,.clinic-form label:focus-within{outline:2px solid #e9c985;outline-offset:2px}
 .shell[data-stage="city"][data-view="solo"] .play-surface{grid-template-columns:minmax(0,1fr)}
 .shell[data-stage="city"][data-view="solo"] .skyline{grid-column:1/-1}
 .shell[data-stage="city"][data-view="solo"] .side-panel{display:none!important}
 @keyframes city-beat-arrive{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:750px){.city-beat{left:4%;right:4%;bottom:4%;padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(max-width:750px){.clinic-choice{max-height:min(57dvh,520px);padding:12px}.clinic-form fieldset{display:grid;grid-template-columns:1fr}.clinic-form label{font-size:14px}.clinic-followup label{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.city-beat{animation:none!important}}
 
 /* On result beats, keep the enlarged city and resident response within one viewport. */
@@ -372,7 +376,7 @@
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
    <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="status" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div></div>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section></div>
   </div>
   <section class="hud" aria-label="まちの様子">
    <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
@@ -420,6 +424,21 @@
      <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
      <p class="impact-note" id="impactNote">表の3指標の変化目安。裏の指標は表示されません。</p>
     </div>
+    <section class="clinic-choice" id="clinicChoice" aria-labelledby="clinicChoiceTitle" hidden>
+     <span class="overline">診療所の計画</span><h2 id="clinicChoiceTitle">ひとつの診療所を、どこへ？</h2>
+     <p id="clinicChoiceContext">建設できるのは1か所です。駅前は総利用者が多く、仕事帰りにも便利。郊外は通院の負担が重い人に届きやすい一方、利用者数は少なくなります。</p>
+     <div id="humanClinicForm" class="clinic-form" hidden>
+      <fieldset><legend>場所を選ぶ</legend><label><input type="radio" name="clinicPlace" value="station">駅前</label><label><input type="radio" name="clinicPlace" value="suburb">郊外</label></fieldset>
+      <fieldset><legend>優先する理由を選ぶ</legend><label><input type="radio" name="clinicReason" value="total">総利用者数と仕事帰りの通いやすさ</label><label><input type="radio" name="clinicReason" value="access">通院が難しい人への届きやすさ</label></fieldset>
+      <button id="confirmHumanClinic" class="primary-action" type="button" disabled>この場所と理由で決める</button>
+     </div>
+     <div id="aiClinicForm" class="clinic-form" hidden>
+      <p>AIの提案：駅前。予測利用者数、交通の便、人口構成などを使った提案です。これらの項目は確認できますが、個々の通院事情が提案にどれだけ影響したかは、この場で説明しきれません。</p>
+      <details><summary>提案に使った項目を見る</summary><ul><li>予測利用者数</li><li>交通の便と移動のつながり</li><li>人口構成</li></ul><p>個別の事情をどの程度重く扱ったかまでは、この提案だけでは確かめられません。</p></details>
+      <button id="acceptAiClinic" class="primary-action" type="button">提案を確認して、駅前に決める</button>
+     </div>
+     <p class="clinic-record" id="clinicChoiceRecord" aria-live="polite" hidden></p>
+    </section>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
    </section>
@@ -2762,7 +2781,7 @@ class F5Primitives {
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null;
+ let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -2787,7 +2806,8 @@ class F5Primitives {
   const choice=event.chosen==='ai'?'ai':event.chosen==='mixed'?'mixed':'human';
   const reaction=residentReactions[Math.min(event.round-1,residentReactions.length-1)];
   $('cityBeatHeading').textContent=event.result;
-  $('cityBeatVoice').textContent=reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
+  const clinic=event.round===1&&view==='solo'&&clinicRecord;
+  $('cityBeatVoice').textContent=clinic?clinicResidentLine():reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
   const prev=game.history.length>1?game.history[game.history.length-2].visible:MachiEngine.INITIAL_PUBLIC;
   const diffs=[['prosperity','繁栄'],['convenience','便利さ'],['appeal','街の魅力']];
   const nodes=document.createDocumentFragment();
@@ -2796,16 +2816,47 @@ class F5Primitives {
    chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);
   }
   $('cityBeatDeltas').replaceChildren(nodes);
-  storyBeatUntil=Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
+  storyBeatUntil=clinic?Number.MAX_SAFE_INTEGER:Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
+  show('clinicFollowup',!!clinic);
+  if(clinic){
+   clinicFollowupPending=true;
+   $('clinicResidentQuestion').textContent=clinicQuestion();
+   $('clinicResponseCopy').textContent=clinicRecord.kind==='ai'
+    ?'AIは予測利用者数・交通・人口構成を参考に駅前を推奨しました。承認したのはあなたです。ただ、ヒカリの母の事情をどの程度重く扱ったかは、まだ確かめられていません。'
+    :'あなたは「'+clinicReasonLabel()+'」を優先して'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選びました。理由は伝えられますが、別の場所を必要とする人の事情も残ります。';
+   document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.checked=false);
+   $('confirmClinicResponse').disabled=true;
+   document.querySelector('[name="clinicResponse"]').focus();
+  }
   shell.dataset.stage='city';
   show('cityBeat',true);
   scene.setZoom(1.25);scene.layout();
  }
  function clearCityBeat(){
   if(!storyBeatUntil)return;
-  storyBeatUntil=0;
+  storyBeatUntil=0;clinicFollowupPending=false;
   shell.dataset.stage='play';show('cityBeat',false);
   scene.resetView();scene.layout();
+ }
+ function clinicQuestion(){
+  if(clinicRecord.kind==='ai')return 'ヒカリ「母の通院のような事情は、駅前という提案にどう反映されたの？」';
+  if(clinicRecord.place==='station')return 'ヒカリ「駅前は便利。でも、母のように通院が難しい人はどうなるの？」';
+  return 'ソラ「郊外に届く人はいる。一方で駅前の便利さを必要とする人には、どう説明する？」';
+ }
+ function clinicResidentLine(){
+  const place=clinicRecord.kind==='ai'?'駅前':clinicRecord.place==='station'?'駅前':'郊外';
+  return `${place}に診療所ができた。住民から、選ばれなかった場所の人への説明を求める声が上がっている。`;
+ }
+ function clinicReasonLabel(){
+  if(!clinicRecord)return '';
+  return clinicRecord.kind==='ai'?'予測利用者数・交通・人口構成を参考':clinicRecord.reason==='total'?'総利用者数と仕事帰りの通いやすさ':'通院が難しい人への届きやすさ';
+ }
+ function clinicRecordText(){
+  if(!clinicRecord)return '';
+  const place=clinicRecord.kind==='ai'?'AI提案・駅前':clinicRecord.place==='station'?'人が判断・駅前':'人が判断・郊外';
+  const reason=clinicReasonLabel();
+  const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response]||'対応未選択';
+  return `診療所：${place}。優先理由：${reason}。次の対応：${response}。これは物語上の記録で、街の指標や投票結果には加算されません。`;
  }
  const hiddenNames={trust:'信頼',fairness:'公正',resilience:'持続性'};
  const clamp=x=>Math.min(100,Math.max(0,Number(x)||0));
@@ -2879,19 +2930,26 @@ class F5Primitives {
     2:{ai:'駅前はにぎやか。でも移動の問題が残った。海辺の計画にも影響があるよ。',human:'交通がつながって、海辺に来る人も増えそう。次の整備を考えよう。',mixed:'交通の便利さと街全体のつながり、両方を見て海辺を考えよう。'},
     3:{ai:'海辺にお店が増えて、電力の負担が大きくなってきた。',human:'海辺を守る工事が進んだ。次は長く使う電力を考えたい。',mixed:'海辺のにぎわいと備えを見ながら、次は電力を考えよう。'}
   };
-  const lead=linked?(links[s.round]?.[s.lastEvent.chosen]||voice.line):voice.line;
+  const clinicNext=view==='solo'&&s.round===1&&clinicRecord?.response?{
+   review:'診療所の評価を調べ直すことにした。理由を確かめるには時間がかかる。次は街の移動も考えよう。',
+   support:'開設場所はそのままに、通院支援を始めた。ほかの地区の課題は残る。次は交通だね。',
+   revise:'診療所の場所を再検討することにした。開設には遅れが出る。次は交通の選択だ。'
+  }[clinicRecord.response]:null;
+  const lead=clinicNext||(linked?(links[s.round]?.[s.lastEvent.chosen]||voice.line):voice.line);
   $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):lead;
   // Present both decisions with the conversation; no intermediate acknowledgement required.
-  show('decisionOptions',true);
+  show('decisionOptions',!(view==='solo'&&s.round===0&&clinicPending!==null));
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
   $('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
   $('agentName').textContent=e.agent;$('agentRole').textContent=e.role;
   const c=faceColors[e.agent]||faceColors.ソラ;
   $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
-  $('questionTitle').textContent=e.heading;$('questionHint').textContent=linked?'前の決定が、次の課題につながった。':e.hint;
+  $('questionTitle').textContent=e.heading;$('questionHint').textContent=linked?'前の決定が、次の課題につながった。':(s.round===0?(view==='solo'?'ヒカリ「母の通院は、今の診療所まで片道1時間。近くにできれば助かる。」建設できるのは1か所。駅前は総利用者が多く仕事帰りにも便利。郊外は通院の負担が重い人に届く一方、利用者は少ない。':'診療所は1か所。駅前は利用者が多く仕事帰りに便利。郊外は通院の負担が重い人に届きやすい一方、利用者数は少なめです。'):e.hint);
   show('riskNotice',!!s.alert);
+  if(view==='solo'&&s.round===0&&!s.hasVoted&&clinicPending===null){show('clinicChoice',false);show('decisionOptions',true);}
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
+  if(s.round===0){$('humanText').textContent=view==='solo'?'場所と優先理由を自分で決める':'場所と優先理由を話し合う';$('aiText').textContent=view==='solo'?'AIの駅前提案を確認する':'利用予測や交通を参考にする';}
   $('humanTradeoff').textContent=`今：${e.humanNow}　その先：${e.humanLater}`;
   $('aiTradeoff').textContent=`今：${e.aiNow}　その先：${e.aiLater}`;
   renderImpact('humanImpact',e.impactPreview?.human);
@@ -2930,7 +2988,7 @@ class F5Primitives {
   const record=`人が選んだ ${choicesCount.human} / AIに委ねた ${choicesCount.ai} / 同数票 ${choicesCount.mixed} / 投票なし ${choicesCount.none}（全${rounds}議題）。`;
   $('decisionAccountability').textContent=view==='group'
    ? record+(s.ending?.kind==='undecided'?' 投票がなかったのか、意見が割れたのか。保留の理由を振り返り、次の判断につなげてください。':' AIに委ねる票も参加者が選んだものです。投票と街への影響を、みんなの判断記録として残します。')
-   : `${record} AIに何を任せるか決めたのも、あなたの選択です。結果と一緒に振り返ってください。`;
+   : `${record} AIに何を任せるか決めたのも、あなたの選択です。結果と一緒に振り返ってください。 判断を任せるとき、何を確認しておく必要があったでしょうか。`;
   const list=$('historyList');list.replaceChildren();
   const choices={human:'人が判断',ai:'AIに委任',mixed:'同数票・実施保留',none:'投票なし・判断保留'};
   for(const [i,event] of (s.history||[]).entries()){
@@ -2940,7 +2998,7 @@ class F5Primitives {
    const votes=view==='group'?'（人 '+event.human+' / AI '+event.ai+'）':'';
    const attempted=event.interventionAttempted??event.intervened;
    const intervention=attempted?(event.crisisAverted?.length?' · 終了に至る危機を回避':event.warningRecovered?.length?' · 警告水準から回復':' · 対策を試みた'):'';
-   detail.textContent=(choices[event.chosen]||'判断')+votes+intervention+'。'+event.result;
+   detail.textContent=(choices[event.chosen]||'判断')+votes+intervention+'。'+event.result+(view==='solo'&&i===0?' '+clinicRecordText():'');
    item.append(label,detail);list.append(item);
   }
   $('historySummary').textContent='各判断の記録を見る · '+(s.history?.length||0)+'件';
@@ -3049,7 +3107,7 @@ class F5Primitives {
   tutorialActive=false;show('tutorialPanel',false);
   if(restore&&state)render(state);
  }
- function startSolo(){clearCityBeat();soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
+ function startSolo(){clearCityBeat();clinicPending=null;clinicRecord=null;soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
   try{const x=await request('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nameInput').value})});everJoined=true;offset=x.state.serverNow-Date.now();render(x.state);}catch(err){$('cityTicker').textContent=err.message;}finally{$('joinForm').querySelector('button[type=submit]').disabled=false;}
  }
@@ -3066,10 +3124,20 @@ class F5Primitives {
   finally{$('readyShared').disabled=false;}
  }
  async function choose(choice){
-  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));return;}
+  if(view==='solo'){
+   if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
+   if(soloGame.round===0){clinicPending=choice;show('decisionOptions',false);show('clinicChoice',true);show('humanClinicForm',choice==='human');show('aiClinicForm',choice==='ai');show('clinicChoiceRecord',false);if(choice==='human'){document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.checked=false);$('confirmHumanClinic').disabled=true;}document.querySelector(choice==='human'?'[name="clinicPlace"]':'#acceptAiClinic').focus();return;}
+   submitSoloVote(choice);return;
+  }
   if(view==='group'){
    try{const x=await request('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice,round:state?.round})});render(x.state);}catch(err){$('voteFeedback').textContent=err.message;fetchState();}
   }
+ }
+ function submitSoloVote(choice){
+  if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
+  if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;
+  if(clinicRecord)show('clinicChoice',false);
+  soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));
  }
  function goto(href){
   // The self-contained HTML can navigate between home and solo without a server.
@@ -3174,6 +3242,22 @@ class F5Primitives {
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
+  const updateHumanClinic=()=>{$('confirmHumanClinic').disabled=!document.querySelector('[name="clinicPlace"]:checked')||!document.querySelector('[name="clinicReason"]:checked');};
+  document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.onchange=updateHumanClinic);
+  $('confirmHumanClinic').onclick=()=>{
+   if(clinicPending!=='human')return;
+   clinicRecord={kind:'human',place:document.querySelector('[name="clinicPlace"]:checked')?.value,reason:document.querySelector('[name="clinicReason"]:checked')?.value};
+   if(!clinicRecord.place||!clinicRecord.reason)return;
+   clinicPending=null;submitSoloVote('human');
+  };
+  $('acceptAiClinic').onclick=()=>{if(clinicPending!=='ai')return;clinicRecord={kind:'ai',place:'station',reason:'forecast'};clinicPending=null;submitSoloVote('ai');};
+  document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.onchange=()=>{$('confirmClinicResponse').disabled=!document.querySelector('[name="clinicResponse"]:checked');});
+  $('confirmClinicResponse').onclick=()=>{
+   if(!clinicRecord||!clinicFollowupPending)return;
+   clinicRecord.response=document.querySelector('[name="clinicResponse"]:checked')?.value;
+   if(!clinicRecord.response)return;
+   clinicFollowupPending=false;clearCityBeat();if(state)render(state);
+  };
   $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
   $('startShared').onclick=startShared;$('readyShared').onclick=readyShared;
   $('switchButton').onclick=()=>goto('/');
