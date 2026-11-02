@@ -329,6 +329,21 @@
 }
 @media(max-width:370px){.tutorial-choices{grid-template-columns:1fr}.tutorial-choice{min-height:57px}}
 
+/* Make the decision roles legible without changing the existing cast or story flow. */
+.role-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0 15px}
+.role-key p{min-width:0;margin:0;padding:10px;border-radius:9px;background:#eaf1e7;border:1px solid #cbd9c7}
+.role-key p:nth-child(2){background:#f7eee1;border-color:#dfcdb4}.role-key p:nth-child(3){background:#e9eef1;border-color:#c5d1d8}
+.role-key b,.role-key span{display:block}.role-key b{font-size:12px;line-height:1.35;color:#294f40}.role-key span{font-size:11px;line-height:1.4;margin-top:4px;color:#55685d}
+.role-key-compact{margin:8px 0}.role-key-compact p{padding:7px 8px}.role-key-compact b{font-size:11px}.role-key-compact span{font-size:10px}
+.resident-label{display:inline-block;padding:4px 8px;margin-bottom:5px;border-radius:20px;background:#f6ead5;color:#775638;font-size:11px;font-weight:850}
+.workload-note{margin:7px 0;padding:7px 10px;border-left:3px solid #d2b57b;background:#f5f1e7;color:#655c49;font-size:11px;line-height:1.45}
+.strategy-choice{grid-column:1/-1;margin-top:9px;padding:14px;border:1px solid #b8cdbd;border-radius:11px;background:#f1f6ee;color:#294d3d}
+.strategy-choice[hidden]{display:none!important}.strategy-choice h2{font-size:18px;margin:4px 0}.strategy-choice p{font-size:13px;line-height:1.5;margin:6px 0 10px}
+.strategy-choice button[data-strategy]{display:block;width:100%;min-height:48px;margin:7px 0;padding:10px 13px;text-align:left;border:1px solid #b8cdbd;border-radius:8px;background:#fff;color:#315943;font-weight:800}
+.strategy-choice button:focus-visible{outline:3px solid #548f73;outline-offset:2px}
+@media(max-width:750px){.role-key{gap:5px}.role-key p{padding:7px 6px}.role-key b{font-size:10px}.role-key span{font-size:9px}.resident-label{font-size:10px}.strategy-choice{padding:11px}}
+@media(max-width:360px){.role-key{grid-template-columns:1fr}.role-key p{display:flex;align-items:center;gap:8px}.role-key span{margin:0}}
+
 
 /* Avoid a black empty canvas while the first illustrated frame is prepared. */
 .city-loading[hidden]{display:none!important}

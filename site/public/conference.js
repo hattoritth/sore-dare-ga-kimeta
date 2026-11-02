@@ -5,7 +5,7 @@
   ['trust','市政への信頼','決め方を住民が信頼できるか','shadow'],['fairness','機会の公平さ','地区や人に機会が届いているか','shadow'],['resilience','街を維持する力','設備や暮らしを支え続ける力','shadow']
  ];
  const incidentPrompts={prosperity:'仕事や公共サービスを維持できなくなりました。どの判断が街の活気を支え、何が足りなかったのでしょうか。',convenience:'移動の仕組みが止まりました。便利さを高める判断と、支え続ける備えをどう説明しますか。',appeal:'街を離れる人が増えました。街の魅力を誰の視点で確かめてきたのでしょうか。',trust:'住民が決定の説明を求めています。誰が方針を選び、何を確かめてきたのでしょうか。',fairness:'地区の間に隔たりが生まれました。機会がどこへ届くか、どう確認してきたのでしょうか。',resilience:'豪雨で街が浸水しました。街を維持する備えを、どの判断で確かめてきたのでしょうか。'};
- function build(state,clinicRecord){
+ function build(state,clinicRecord,humanPlans=[]){
   const ending=state?.ending||{}, metric=ending.metric||state?.incident?.metric||ending.risks?.[0]?.metric;
   const actual=state?.incident;
   const prompt=incidentPrompts[metric]||'起きたことと、これまでの判断を説明してください。';
@@ -19,6 +19,9 @@
    else if(event.chosen==='mixed'||event.chosen==='none')text+=(event.chosen==='mixed'?'同数票':'投票なし')+'で保留され、施策は実施されていません。'+(event.result||'');
    else text+='判断の記録がありません。';
    if(allHistory.length-Math.min(2,allHistory.length)+index===0&&clinicRecord?.kind){text+=' 診療所については、'+(clinicRecord.kind==='human'?'人が'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選び、'+(clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ')+'を優先しました。':'AIの駅前案を確認して採用しました。');const response={review:'評価を調べ直す方針を選びました。',support:'通院の支援を先に進める方針を選びました。',revise:'計画を見直す方針を選びました。'}[clinicRecord.response];if(response)text+=' '+response;}
+   const planRound=Number(event.round)||allHistory.length-Math.min(2,allHistory.length)+index+1;
+   const plan=humanPlans.find(item=>item?.round===planRound);
+   if(plan&&event.chosen==='human')text+=' ブラウザ内の今回のプレイ記録では、'+(plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する')+'方針が選ばれました。これは検討方針の記録で、実際の行動や追加効果を示すものではありません。記録はこのタブ内だけにあり、再読み込みで失われます。';
    return text;
   });
   return {causeMetric:metric||null,question,answers:history.length?history:['判断履歴はありません。'],close:'任せる方針を選んだのは誰か。具体策を選び、結果を説明するのは誰か。',metrics:state?.phase&&state.phase!=='reveal'?[]:metrics.map(([key,label,meaning,group])=>({key,label,meaning,group,value:Number(state?.[group]?.[key]??0)}))};

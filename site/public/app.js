@@ -3,7 +3,7 @@
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='';
+ let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -172,8 +172,8 @@
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   if(s.round===0){$('humanText').textContent=view==='solo'?'場所と優先理由を自分で決める':'場所と優先理由を話し合う';$('aiText').textContent=view==='solo'?'AIの駅前提案を確認する':'利用予測や交通を参考にする';}
-  $('humanTradeoff').textContent=`今：${e.humanNow}　その先：${e.humanLater}`;
-  $('aiTradeoff').textContent=`今：${e.aiNow}　その先：${e.aiLater}`;
+  $('humanTradeoff').textContent=`人は方針を説明しやすい一方、調整に時間がかかる。今：${e.humanNow}　その先：${e.humanLater}`;
+  $('aiTradeoff').textContent=`AIは速く選定し、見える成果を伸ばしやすい。重み付けの詳細は追いにくい。今：${e.aiNow}　その先：${e.aiLater}`;
   renderImpact('humanImpact',e.impactPreview?.human);
   renderImpact('aiImpact',e.impactPreview?.ai);
   $('impactNote').textContent=view==='group'
@@ -191,7 +191,7 @@
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';}
+  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';}
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
@@ -331,7 +331,7 @@
   tutorialActive=false;show('tutorialPanel',false);
   if(restore&&state)render(state);
  }
- function startSolo(){clearCityBeat();clinicPending=null;clinicRecord=null;soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
+ function startSolo(){clearCityBeat();clinicPending=null;clinicRecord=null;soloHumanPlans=[];soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
   try{const x=await request('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nameInput').value})});everJoined=true;offset=x.state.serverNow-Date.now();render(x.state);}catch(err){$('cityTicker').textContent=err.message;}finally{$('joinForm').querySelector('button[type=submit]').disabled=false;}
  }
@@ -351,6 +351,8 @@
   if(view==='solo'){
    if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
    if(soloGame.round===0){clinicPending=choice;show('decisionOptions',false);show('clinicChoice',true);show('humanClinicForm',choice==='human');show('aiClinicForm',choice==='ai');show('clinicChoiceRecord',false);if(choice==='human'){document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.checked=false);$('confirmHumanClinic').disabled=true;}document.querySelector(choice==='human'?'[name="clinicPlace"]':'#acceptAiClinic').focus();return;}
+   if(choice==='human'&&soloGame.round>0){show('decisionOptions',false);show('strategyChoice',true);$('strategyChoice').querySelector('[data-strategy="voices"]').focus();return;}
+   if(choice==='ai')$('voteFeedback').textContent='支援AIは選定を速く進め、見える成果を伸ばす利点があります。使った項目は示されますが、個別の事情をどう重み付けしたかは十分に追えません。';
    submitSoloVote(choice);return;
   }
   if(view==='group'){
@@ -360,6 +362,7 @@
  function submitSoloVote(choice){
   if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
   if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;
+  show('strategyChoice',false);
   if(clinicRecord)show('clinicChoice',false);
   soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));
  }
@@ -469,6 +472,8 @@
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
+  for(const b of document.querySelectorAll('[data-strategy]'))b.onclick=()=>{if(view!=='solo'||!soloGame||soloGame.round<1||soloGame.round>3||soloGame.votes.solo)return;const plan=DecisionUX.record(soloGame.round+1,b.dataset.strategy);if(!plan)return;soloHumanPlans.push(plan);submitSoloVote('human');};
+  $('cancelStrategy').onclick=()=>{show('strategyChoice',false);show('decisionOptions',true);$('humanDecision').focus();};
   const updateHumanClinic=()=>{$('confirmHumanClinic').disabled=!document.querySelector('[name="clinicPlace"]:checked')||!document.querySelector('[name="clinicReason"]:checked');};
   document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.onchange=updateHumanClinic);
   $('confirmHumanClinic').onclick=()=>{
