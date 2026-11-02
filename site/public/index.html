@@ -81,7 +81,8 @@
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
-    <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
+    <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
+    <section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
     <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
@@ -89,11 +90,11 @@
    </section>
   </div>
   <aside class="display-frame" id="displayFrame" hidden>
-   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div></div>
+   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div><div id="displayMetrics" class="display-metrics" hidden></div></div>
    <div class="display-qr"><div class="qr-box" id="qrBox"><img id="qrImg" alt="参加用QRコード" decoding="async"></div><b>QRから参加</b><small id="joinUrl">参加はこちら</small></div>
   </aside>
  </div>
  <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
 </div>
-<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/app.js"></script>
+<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/app.js"></script>
 </body></html>

@@ -363,6 +363,11 @@
  .impact-chip{font-size:10px;padding:2px 5px}
  .question-panel .decision{min-height:70px}
 }
+.press-conference{margin-top:20px;padding:15px;border:1px solid #cbd9c8;border-radius:10px;background:#f7f8ef}.press-conference p{font-size:14px;line-height:1.75;color:#405d50;margin-top:10px}.press-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.press-actions button{min-height:44px}.press-actions .text-action{padding:10px 12px}.metric-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.metric-group{min-width:0;padding:14px;border:1px solid #d7dfd2;border-radius:10px}.metric-group .reveal-heading{display:block;min-height:2.5em}.metric-group [id$=Metrics]{margin-top:7px}.reveal-stat{grid-template-columns:minmax(90px,1fr) minmax(65px,2fr) 30px;gap:7px;font-size:12px}.reveal-stat small{grid-column:1/-1;color:#60776b;font-weight:500;margin-top:-3px}.metric-flag{grid-column:1/-1;color:#9b4d37;font-size:11px}.reveal-stat.low .stat-track i{background:#b77559}
+.display-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px;text-shadow:none}.display-metrics section{padding:9px 11px;border-radius:8px;background:#15382ec9;color:#fff;font-size:11px}.display-metrics section strong{display:block;margin-bottom:5px;color:#f5d9ad}.display-metrics section>div{display:grid;grid-template-columns:minmax(90px,1fr) minmax(45px,2fr) 24px;align-items:center;gap:6px;margin:4px 0}.display-metrics i{display:block;height:5px;border-radius:6px;background:#8fc7a4}.display-metrics b{text-align:right}
+@media(max-width:750px){.metric-comparison{grid-template-columns:1fr;gap:10px}.press-conference{padding:12px}.metric-group{padding:11px}.metric-group .reveal-heading{min-height:0}.result-panel{max-height:calc(100dvh - 110px);overflow:auto}.result-panel .primary-action{margin-top:12px}}
+
+@media(min-width:751px) and (max-width:1200px){.metric-comparison{grid-template-columns:1fr;gap:10px}.metric-group .reveal-heading{min-height:0}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -445,7 +450,8 @@
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
-    <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
+    <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
+    <section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
     <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
@@ -453,7 +459,7 @@
    </section>
   </div>
   <aside class="display-frame" id="displayFrame" hidden>
-   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div></div>
+   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div><div id="displayMetrics" class="display-metrics" hidden></div></div>
    <div class="display-qr"><div class="qr-box" id="qrBox"><img id="qrImg" alt="参加用QRコード" decoding="async"></div><b>QRから参加</b><small id="joinUrl">参加はこちら</small></div>
   </aside>
  </div>
@@ -2776,12 +2782,41 @@ class F5Primitives {
 })(typeof window!=='undefined'?window:globalThis);
 
 </script><script>
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.PressConference=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const metrics=[
+  ['prosperity','仕事・商業の活気','仕事や商業が続く力','public'],['convenience','移動・生活の便利さ','移動や日々の暮らしの便利さ','public'],['appeal','街で過ごす魅力','人が暮らし続けたいと思う魅力','public'],
+  ['trust','市政への信頼','決め方を住民が信頼できるか','shadow'],['fairness','機会の公平さ','地区や人に機会が届いているか','shadow'],['resilience','街を維持する力','設備や暮らしを支え続ける力','shadow']
+ ];
+ const incidentPrompts={prosperity:'仕事や公共サービスを維持できなくなりました。どの判断が街の活気を支え、何が足りなかったのでしょうか。',convenience:'移動の仕組みが止まりました。便利さを高める判断と、支え続ける備えをどう説明しますか。',appeal:'街を離れる人が増えました。街の魅力を誰の視点で確かめてきたのでしょうか。',trust:'住民が決定の説明を求めています。誰が方針を選び、何を確かめてきたのでしょうか。',fairness:'地区の間に隔たりが生まれました。機会がどこへ届くか、どう確認してきたのでしょうか。',resilience:'豪雨で街が浸水しました。街を維持する備えを、どの判断で確かめてきたのでしょうか。'};
+ function build(state,clinicRecord){
+  const ending=state?.ending||{}, metric=ending.metric||state?.incident?.metric||ending.risks?.[0]?.metric;
+  const actual=state?.incident;
+  const prompt=incidentPrompts[metric]||'起きたことと、これまでの判断を説明してください。';
+  const eventTitle=String(actual?.title||'');
+  const alreadyDescribed=eventTitle.length>=5&&prompt.split('。')[0].startsWith(eventTitle.slice(0,5));
+  let question=actual?(alreadyDescribed?prompt:(eventTitle?eventTitle+'。':'')+prompt):'';
+  if(!actual){const risk=ending.risks?.[0];question=ending.kind==='undecided'?'議題は保留されました。何が決まらず、どんな確認が必要だったのでしょうか。':risk?risk.title+'。大きな事故には至っていませんが、この課題をどう見ていますか。':'街は続いています。どんな成果を守り、これから何を確かめますか。';}
+  const allHistory=state?.history||[],history=allHistory.slice(-2).map((event,index)=>{let text='第'+(allHistory.length- Math.min(2,allHistory.length)+index+1)+'回「'+event.heading+'」は';
+   if(event.chosen==='human')text+='人の方針が選ばれました。'+event.result;
+   else if(event.chosen==='ai')text+='AIに委ねる方針が選ばれました。'+(event.result||'')+' 具体策の選定に使われた経緯は、この記録だけでは確認できません。';
+   else if(event.chosen==='mixed'||event.chosen==='none')text+=(event.chosen==='mixed'?'同数票':'投票なし')+'で保留され、施策は実施されていません。'+(event.result||'');
+   else text+='判断の記録がありません。';
+   if(allHistory.length-Math.min(2,allHistory.length)+index===0&&clinicRecord?.kind){text+=' 診療所については、'+(clinicRecord.kind==='human'?'人が'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選び、'+(clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ')+'を優先しました。':'AIの駅前案を確認して採用しました。');const response={review:'評価を調べ直す方針を選びました。',support:'通院の支援を先に進める方針を選びました。',revise:'計画を見直す方針を選びました。'}[clinicRecord.response];if(response)text+=' '+response;}
+   return text;
+  });
+  return {causeMetric:metric||null,question,answers:history.length?history:['判断履歴はありません。'],close:'任せる方針を選んだのは誰か。具体策を選び、結果を説明するのは誰か。',metrics:state?.phase&&state.phase!=='reveal'?[]:metrics.map(([key,label,meaning,group])=>({key,label,meaning,group,value:Number(state?.[group]?.[key]??0)}))};
+ }
+ return {build,metrics};
+});
+
+</script><script>
 /* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false;
+ let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='';
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -2969,18 +3004,20 @@ class F5Primitives {
  }
  function renderResult(s){
   if(!s?.shadow)return;
+  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';}
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
   $('endingIncident').textContent=s.incident?'最も低かった指標：「'+s.ending.metricLabel+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ');
   $('endingKicker').textContent=({collapse:'THE HIDDEN CITY',warning:'THE CITY NEEDS CARE',undecided:'WHO WILL DECIDE?',stable:'THE CITY CONTINUES'})[s.ending?.kind]||'THE CITY';
-  const root=$('shadowMetrics');root.replaceChildren();
-  for(const [key,label] of Object.entries(hiddenNames)){
-   const v=clamp(s.shadow[key]);let row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');
-   const title=document.createElement('span');title.textContent=label;
-   const track=document.createElement('div');track.className='stat-track';const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);
-   const value=document.createElement('strong');value.textContent=String(v);row.append(title,track,value);root.append(row);
-  }
+  for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),values=groupMetrics.map(x=>Number(x.value)),max=Math.max(...values),min=Math.min(...values),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v===max)notes.push('この群の最高');if(v===min)notes.push('この群の最低');if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
+  $('pressQuestion').textContent=pressData.question;
+  const pressLine=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;
+  const renderKey=pressDone?'done':String(pressIndex);
+  if(renderKey!==pressRenderKey){pressRenderKey=renderKey;cancelAnimationFrame(pressFrame);pressTyped=pressIndex<0;$('pressAnswer').textContent='';$('pressAnswer').hidden=pressIndex<0||pressDone;if(pressIndex>=0&&!pressDone)typePressLine(pressLine);}
+  $('pressNext').hidden=pressDone;$('pressNext').textContent=pressIndex<0?'会見を始める':!pressTyped?'続きを読む':pressIndex<pressData.answers.length-1?'次の質問へ':pressIndex===pressData.answers.length-1?'最後の問いへ':'会見を終えて結果を見る';
+  $('pressSkip').hidden=pressDone;$('pressReplay').hidden=!pressDone;
+  $('metricComparison').hidden=!pressDone;
   $('resultNote').textContent=view==='group'?'次の街の参加受付まで '+clock(s.endsAt-EngineNow())+'。保留した議題も、次の判断で考えてみてください。':'数字に現れなかった声も、次の判断で確かめてみてください。';
   const choicesCount={human:0,ai:0,mixed:0,none:0};
   for(const event of s.history||[])choicesCount[event.chosen]=(choicesCount[event.chosen]||0)+1;
@@ -3014,8 +3051,8 @@ class F5Primitives {
    $('displayHeading').textContent=s.episode.heading;
    $('displayStory').textContent=(s.alert?'【街の異変】'+s.alert.title+' · ':'')+`${s.episode.agent}からの相談 · ${progressLabel(s.round)}の決定 · あと${clock(s.endsAt-EngineNow())}`;
   }else if(s?.phase==='reveal'){
-   const result=resultDescription(s);$('displayHeading').textContent=result.heading;
-   $('displayStory').textContent=(s.incident?s.incident.title+' · ':'')+result.sub+'  信頼 '+s.shadow.trust+' / 公正 '+s.shadow.fairness+' / 持続性 '+s.shadow.resilience;
+  const result=resultDescription(s);$('displayHeading').textContent=result.heading;
+  $('displayStory').textContent=(s.incident?s.incident.title+' · ':'')+result.sub;const metrics=$('displayMetrics');metrics.replaceChildren();metrics.hidden=!(s.phase==='reveal'&&s.shadow);if(!metrics.hidden){for(const group of ['public','shadow']){const section=document.createElement('section'),head=document.createElement('strong');head.textContent=group==='public'?'プレイ中に見えていた成果（表3）':'プレイ中には数値が見えていなかった影響（裏3）';section.append(head);for(const item of window.PressConference.build(s).metrics.filter(x=>x.group===group)){const row=document.createElement('div'),label=document.createElement('span'),bar=document.createElement('i'),value=document.createElement('b');label.textContent=item.label;bar.style.width=clamp(item.value)+'%';value.textContent=String(item.value);row.append(label,bar,value);section.append(row);}metrics.append(section);}}
   }else if(s?.phase==='lobby'){
    $('displayHeading').textContent='参加する人がそろったら、始めよう。';
    $('displayStory').textContent='QRから直接参加 · 準備OK '+s.readyCount+' / 接続中 '+s.onlineCount+' 人。全員の準備後に開始。途中参加は次の議題から。';
@@ -3237,6 +3274,9 @@ class F5Primitives {
   }else if(view==='solo'){startTutorial();startSolo();}
   else {if(view==='group')startTutorial();setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
+  $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){cancelAnimationFrame(pressFrame);const line=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;$('pressAnswer').textContent=line;pressTyped=true;if(state)renderResult(state);return;}if(pressIndex<pressData.answers.length){pressIndex++;}else{pressDone=true;}if(state)renderResult(state);};
+  $('pressSkip').onclick=()=>{cancelAnimationFrame(pressFrame);pressDone=true;if(state)renderResult(state);};
+  $('pressReplay').onclick=()=>{pressIndex=-1;pressDone=false;pressRenderKey='done';if(state)renderResult(state);};
   $('tutorialHuman').onclick=()=>practice('human');$('tutorialAi').onclick=()=>practice('ai');
   $('tutorialContinue').onclick=()=>finishTutorial();$('tutorialSkip').onclick=()=>finishTutorial();
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
@@ -3264,6 +3304,7 @@ class F5Primitives {
   setInterval(tick,250);
  }
  init();
+ function typePressLine(line){const target=$('pressAnswer');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
 })();
 
 </script>
