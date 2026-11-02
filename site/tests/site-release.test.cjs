@@ -7,10 +7,10 @@ const {pathToFileURL}=require('node:url');
 
 test('Stage4 Sites migration is additive, idempotent and preserves prior city_state',async()=>{
  const db=new DatabaseSync(':memory:');
- db.exec(fs.readFileSync(path.join(__dirname,'../drizzle/0000_city.sql'),'utf8'));
+ db.exec(fs.readFileSync(path.join(__dirname,'../../docs/site-migration-history/0000_city.sql'),'utf8'));
  const old={phase:'legacy',version:'before-stage4',participants:{legacy:'untouched'}};
  db.prepare('INSERT INTO city_state(id,version,json) VALUES(1,0,?)').run(JSON.stringify(old));
- const migration=fs.readFileSync(path.join(__dirname,'../drizzle/0001_stage4_city.sql'),'utf8');
+ const migration=fs.readFileSync(path.join(__dirname,'../../docs/site-migration-history/0001_stage4_city.sql'),'utf8');
  db.exec(migration);db.exec(migration);
  assert.deepEqual(JSON.parse(db.prepare('SELECT json FROM city_state WHERE id=1').get().json),old);
  const conn={prepare(sql){let params=[];return {bind(...args){params=args;return this},async first(){return db.prepare(sql).get(...params)||null},async run(){const r=db.prepare(sql).run(...params);return {meta:{changes:Number(r.changes)}}}}}};
@@ -40,8 +40,8 @@ test('Sites config explicitly targets existing project and DB binding',()=>{
 
 
 test('Drizzle journal registers all migration SQL in stable chronological order',()=>{
- const migrationsDir=path.join(__dirname,'../drizzle');
- const journal=JSON.parse(fs.readFileSync(path.join(migrationsDir,'meta/_journal.json'),'utf8'));
+ const migrationsDir=path.join(__dirname,'../../docs/site-migration-history');
+ const journal=JSON.parse(fs.readFileSync(path.join(migrationsDir,'_journal.json'),'utf8'));
  assert.equal(journal.version,'7');
  assert.equal(journal.dialect,'sqlite');
  assert.deepEqual(journal.entries.map(x=>x.tag),['0000_city','0001_stage4_city']);
@@ -61,8 +61,8 @@ test('Drizzle journal registers all migration SQL in stable chronological order'
 });
 
 test('registered Stage 4 migration changes only an additive table, preserving original rows and schema',()=>{
- const base=fs.readFileSync(path.join(__dirname,'../drizzle/0000_city.sql'),'utf8');
- const add=fs.readFileSync(path.join(__dirname,'../drizzle/0001_stage4_city.sql'),'utf8');
+ const base=fs.readFileSync(path.join(__dirname,'../../docs/site-migration-history/0000_city.sql'),'utf8');
+ const add=fs.readFileSync(path.join(__dirname,'../../docs/site-migration-history/0001_stage4_city.sql'),'utf8');
  const db=new DatabaseSync(':memory:');
  db.exec(base);
  const originalRow={phase:'active',participants:{p:'private'},custom:'do not touch'};
@@ -80,7 +80,7 @@ test('registered Stage 4 migration changes only an additive table, preserving or
 
 test('Stage 4 Worker initializes its missing D1 table without changing legacy state',async()=>{
  const db=new DatabaseSync(':memory:');
- db.exec(fs.readFileSync(path.join(__dirname,'../drizzle/0000_city.sql'),'utf8'));
+ db.exec(fs.readFileSync(path.join(__dirname,'../../docs/site-migration-history/0000_city.sql'),'utf8'));
  const old={phase:'active',participants:{legacy:'preserved'},note:'existing live site'};
  db.prepare('INSERT INTO city_state(id,version,json) VALUES(1,17,?)').run(JSON.stringify(old));
  const before=db.prepare('SELECT * FROM city_state WHERE id=1').get();

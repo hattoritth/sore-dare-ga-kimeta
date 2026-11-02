@@ -8,8 +8,8 @@ const Engine=require('../engine.js');
 class MockD1 {
   constructor() {
     this.db = new DatabaseSync(':memory:');
-    this.db.exec(readFileSync(resolve(__dirname, '../drizzle/0000_city.sql'), 'utf8'));
-    this.db.exec(readFileSync(resolve(__dirname, '../drizzle/0001_stage4_city.sql'), 'utf8'));
+    this.db.exec(readFileSync(resolve(__dirname, '../../docs/site-migration-history/0000_city.sql'), 'utf8'));
+    this.db.exec(readFileSync(resolve(__dirname, '../../docs/site-migration-history/0001_stage4_city.sql'), 'utf8'));
   }
   prepare(sql) {
     let args = [];
