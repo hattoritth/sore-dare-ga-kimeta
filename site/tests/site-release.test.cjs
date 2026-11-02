@@ -21,6 +21,17 @@ test('Stage4 Sites migration is additive, idempotent and preserves prior city_st
  assert.deepEqual(JSON.parse(db.prepare('SELECT json FROM city_state WHERE id=1').get().json),old,'legacy record must remain unchanged');
  assert.equal(db.prepare('SELECT COUNT(*) AS c FROM city_state_stage4').get().c,1);
 });
+test('GitHub repository root hosting manifest matches the existing Site manifest',()=>{
+ const root=JSON.parse(fs.readFileSync(path.join(__dirname,'../../.openai/hosting.json'),'utf8'));
+ const site=JSON.parse(fs.readFileSync(path.join(__dirname,'../.openai/hosting.json'),'utf8'));
+ assert.deepEqual(root,site,'root manifest and site build manifest must be identical');
+ assert.deepEqual(root,{
+  project_id:'appgprj_6ae596548c00819189f3f54ce3275e02',
+  d1:'DB',
+  r2:null
+ });
+});
+
 test('Sites config explicitly targets existing project and DB binding',()=>{
  const cfg=JSON.parse(fs.readFileSync(path.join(__dirname,'../.openai/hosting.json')));
  assert.equal(cfg.project_id,'appgprj_6ae596548c00819189f3f54ce3275e02');
