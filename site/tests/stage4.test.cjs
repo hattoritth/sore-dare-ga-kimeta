@@ -46,12 +46,13 @@ test('late joiners wait for a full next round, and reconnect preserves their eli
  assert.equal(E.publicState(g,'late',g.roundStartedAt).canVote,true);
  assert.equal(E.vote(g,'late','human',g.roundStartedAt+1),true);assert.equal(g.roundEndsAt-g.roundStartedAt,E.ROUND_MS);
 });
-test('solo all-AI leaves explicit risk while all-human reaches a stable ending',()=>{
+test('solo all-AI and all-human both end in distinct, explainable collapses',()=>{
  for(const choice of ['ai','human']){
   const g=E.createGame(0,{autostart:true,storyMode:'solo'});E.join(g,'s','S',1);
   for(let i=0;i<4;i++){assert.equal(E.vote(g,'s',choice,g.roundStartedAt+1),true);E.advance(g,g.roundEndsAt);}
-  const s=E.publicState(g);assert.equal(s.ending.kind,choice==='ai'?'warning':'stable');
-  if(choice==='ai'){assert.equal(s.shadow.resilience,25);assert.match(s.ending.description,/持続性 25/);}
+  const s=E.publicState(g);assert.equal(s.ending.kind,'collapse');
+  assert.equal(s.ending.metric,choice==='ai'?'resilience':'prosperity');
+  if(choice==='ai'){assert.ok(s.shadow.resilience<10);assert.match(s.ending.description,/備え|豪雨/);}
  }
 });
 test('warning recovery is recorded separately from averting the ending threshold',()=>{

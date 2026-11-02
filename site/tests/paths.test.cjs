@@ -21,7 +21,8 @@ test('all 16 solo paths complete with choice-sensitive outcomes and recorded war
  assert.equal(results.length,16);
  assert.ok(results.every(x=>x.game.phase==='reveal'));
  assert.ok(new Set(results.map(x=>JSON.stringify({...x.game.public,...x.game.shadow}))).size>1);
- assert.ok(results.every(x=>x.game.outcome==='survived'),'solo choices can end with warning-level strain without forcing a crisis');
+ assert.equal(results.filter(x=>x.game.outcome==='collapse').length,2,'exactly the two solo extremes should collapse');
+ assert.equal(results.filter(x=>x.game.outcome==='survived').length,14,'all combinations except the extremes remain playable');
  assert.ok(results.some(x=>x.game.history.some(h=>h.intervened)));
  assert.ok(results.some(x=>x.game.history.some(h=>Object.values({...h.visible,...h.hidden}).some(v=>v<30))));
 });

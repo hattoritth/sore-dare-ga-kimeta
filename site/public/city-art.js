@@ -1599,6 +1599,15 @@ class F5Primitives {
    if(m.crisisVisual==='transit')for(const cell of [[1,15],[16,8],[28,15]]){const p=this.iso(...cell);this.round(p.x-45,p.y-24,90,24,4,'#fff1dd','#a34d3a');this.text('交通停止',p.x,p.y-11,14,'#8b352c','center','800');this.line(p.x-34,p.y+5,p.x+34,p.y+5,'#b24c3c',6);}
    if(m.crisisVisual==='economy')for(const cell of [[22,7],[28,7],[24,12]]){const p=this.iso(...cell);this.round(p.x-35,p.y-58,70,27,4,'#e2dfd7','#84796e');this.text('休業',p.x,p.y-44,15,'#65584c','center','800');}
    if(m.crisisVisual==='departure'){const p=this.iso(13,12);this.round(p.x-70,p.y-40,140,29,5,'#f5eddf','#9b8061');this.text('人通りが途切れた',p.x,p.y-24,15,'#795c43','center','800');}
+   if(m.crisisVisual==='divide'){
+    const west=this.iso(8,10),east=this.iso(23,10);
+    this.round(west.x-86,west.y-67,172,28,5,'#fff3d6','#ad7f4a');
+    this.text('施設が充実した地区',west.x,west.y-49,13,'#795b32','center','800');
+    this.round(east.x-85,east.y-66,170,28,5,'#e2e4e2','#7a8184');
+    this.text('取り残された地区',east.x,east.y-48,13,'#62676b','center','800');
+    const divider=this.iso(15.5,10);
+    this.line(divider.x-12,divider.y-70,divider.x+12,divider.y+55,'#bb7452',7);
+   }
    if(m.crisisVisual==='protest')for(let k=0;k<7;k++){const p=this.iso(13+k*.7,9);this.person(p.x,p.y,k,false);this.line(p.x+6,p.y-8,p.x+6,p.y-40,'#796147',2);this.round(p.x-20,p.y-54,54,22,3,'#fff6da','#936d49');this.text('説明を',p.x+6,p.y-42,12,'#794d32','center','800');}
    if(m.finalWarning){const p=this.iso(m.warningVisual==='flood'?25:13,m.warningVisual==='flood'?12:9);this.ellipse(p.x,p.y+6,90,28,'rgba(211,156,58,.30)');this.round(p.x-75,p.y-70,150,30,5,'#fff3d6','#b1853c');this.text('残った課題を点検中',p.x,p.y-54,15,'#785321','center','800');}
    if(m.shadePrepared){const p=this.iso(8.3,12.2);for(let k=0;k<3;k++){const x=p.x+k*32;this.line(x,p.y-30,x,p.y+2,'#806d52',3);this.poly([[x-23,p.y-30],[x,p.y-43],[x+23,p.y-30]],'#d8cbb0');}}

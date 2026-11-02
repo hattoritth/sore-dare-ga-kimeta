@@ -5,14 +5,14 @@ const Engine=require('../engine.js');
 test('solo story is four consequential decisions, with four distinct agents',()=>{
  const game=Engine.createGame(1000,{autostart:true,storyMode:'solo'});
  Engine.join(game,'player','プレイヤー',1000);
- const agents=[];
+ const agents=[];const choices=['human','ai','human','ai'];
  for(let round=0;round<4;round++){
    const state=Engine.publicState(game,'player',1000+round*100000);
    assert.equal(state.roundTotal,4);
    assert.equal(state.shadow,undefined);
    agents.push(state.episode.agent);
    game.roundEndsAt=2000+round*100000;
-   assert.equal(Engine.vote(game,'player','human',game.roundEndsAt-100),true);
+   assert.equal(Engine.vote(game,'player',choices[round],game.roundEndsAt-100),true);
    assert.equal(Engine.advance(game,game.roundEndsAt),true);
    assert.equal(game.history.length,round+1);
  }
@@ -24,7 +24,7 @@ test('solo story is four consequential decisions, with four distinct agents',()=
  assert.equal(typeof end.shadow.trust,'number');
 });
 
-test('solo AI delegation delivers high visible gains with warning-level future costs',()=>{
+test('solo AI-only delegation raises visible gains but ends in a resilience crisis',()=>{
  const game=Engine.createGame(1000,{autostart:true,storyMode:'solo'});
  Engine.join(game,'player','プレイヤー',1000);
  for(let round=0;round<4;round++){
@@ -34,10 +34,10 @@ test('solo AI delegation delivers high visible gains with warning-level future c
   if(game.phase==='reveal')break;
  }
  assert.equal(game.phase,'reveal');
- assert.equal(game.outcome,'survived');
+ assert.equal(game.outcome,'collapse');
  assert.equal(game.history.length,4);
- assert.equal(game.history.at(-1).hidden.resilience,25);
- assert.ok(game.history.some(event=>event.hidden.resilience<30),'later choices reveal a warning even though the city continues');
+ assert.ok(game.history.at(-1).hidden.resilience<10);
+ assert.equal(Engine.publicState(game,'player').ending.metric,'resilience');
  assert(game.public.prosperity>Engine.INITIAL_PUBLIC.prosperity);
  assert(game.shadow.resilience<Engine.INITIAL_SHADOW.resilience);
 });
@@ -50,10 +50,10 @@ test('solo human intervention after a resilience warning reduces risk',()=>{
   Engine.advance(game,game.roundEndsAt);
  }
  assert.equal(game.outcome,'survived');
- assert.equal(game.history[2].hidden.resilience,21);
+ assert.equal(game.history[2].hidden.resilience,11);
  assert.equal(game.history[3].intervened,true);
  assert.equal(game.outcome,'survived');
- assert.equal(game.shadow.resilience,43);
+ assert.equal(game.shadow.resilience,33);
 });
 
 test('shared city remains seven rounds without solo story mode',()=>{

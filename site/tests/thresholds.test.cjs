@@ -15,7 +15,7 @@ test('warning is strict <30 for every public and hidden metric, with no hidden n
   group[key]=29;
   const state=Engine.publicState(g,'visitor',0);
   assert.equal(typeof state.alert.title,'string',`${key} at 29`);
-  assert.ok(state.alert.action.includes('人が判断'));
+  assert.match(state.alert.action,/人|AI/);
   assert.equal(state.shadow,undefined);
   assert.equal(state.incident,null);
   for(const hidden of ['trust','fairness','resilience'])assert.ok(!JSON.stringify(state).includes('"'+hidden+'"'));
@@ -51,7 +51,7 @@ test('strict <10 ends the game for all six metrics and provides specific consequ
  assert.equal(Engine.END_THRESHOLD,10);
  for(const key of metrics){
   const g=game(),group=keyGroup(g,key);g.round=2;group[key]=0;
-  Engine.vote(g,'visitor',key==='prosperity'?'human':'ai',10);Engine.advance(g,g.roundEndsAt);
+  Engine.vote(g,'visitor',['prosperity','convenience'].includes(key)?'human':'ai',10);Engine.advance(g,g.roundEndsAt);
   const state=Engine.publicState(g,'visitor',g.roundEndsAt);
   assert.equal(state.phase,'reveal',`${key} should end`);
   assert.equal(state.outcome,'collapse');
