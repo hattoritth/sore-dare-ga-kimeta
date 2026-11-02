@@ -59,3 +59,39 @@ test('offline HTML is generated from the same assets and keeps a functional file
 test('Node and browser use exactly the same rules',()=>{
  assert.equal(fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8'),fs.readFileSync(path.join(dir,'engine.js'),'utf8'));
 });
+
+
+test('prologue keeps a visible typing activity indicator during the automatic pause',()=>{
+ const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+ const css=fs.readFileSync(path.join(dir,'style.css'),'utf8');
+ const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
+ assert.match(html,/id="prologueActivity"/);assert.match(html,/id="prologueActivityLabel"/);
+ assert.match(css,/@keyframes typing-dot/);
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(app,/次のメッセージを入力中/);
+ assert.match(app,/街への案内を準備中/);
+ assert.match(app,/prologueIndex\+\+;renderPrologue\(\)/);
+});
+
+test('practice decision is a separate first-time interaction, not a consequential round',()=>{
+ const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+ const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
+ const css=fs.readFileSync(path.join(dir,'style.css'),'utf8');
+ for(const id of ['tutorialPanel','tutorialHuman','tutorialAi','tutorialChoices','tutorialFeedback','tutorialContinue','tutorialSkip'])assert.match(html,new RegExp('id="'+id+'"'));
+ const practice=app.split(' function practice(choice){')[1]?.split(' function finishTutorial(')[0];
+ assert.ok(practice,'practice callback exists');
+ assert.doesNotMatch(practice,/MachiEngine\.(vote|advance)|\/api\/vote|\/api\/start/);
+ assert.match(app,/if\(tutorialActive&&\(view==='solo'\|\|view==='group'\)\)/);
+ assert.match(app,/startTutorial\(\);startSolo\(\)/);
+ assert.match(app,/if\(view==='group'\)startTutorial\(\)/);
+ assert.match(css,/\.tutorial-choice/);
+ assert.match(html,/街の点数や本編の判断回数は変わりません/);
+});
+
+test('initial city draw has a moving placeholder until canvas renders',()=>{
+ const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+ const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
+ assert.match(html,/id="cityLoading"/);
+ assert.match(app,/scene\.render\(dt\)/);
+ assert.match(app,/if\(pixel\[0\]\+pixel\[1\]\+pixel\[2\]>220\)show\('cityLoading',false\)/);
+});

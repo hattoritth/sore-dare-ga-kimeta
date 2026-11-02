@@ -10,6 +10,7 @@
   <div class="skyline">
    <div class="city-topline" id="cityTopline"><span class="city-pulse"></span><span id="cityStatus">街の暮らしは続いている</span></div>
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
+   <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
    <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="status" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div></div>
   </div>
@@ -19,13 +20,27 @@
    <div class="stat" data-stat="appeal"><span class="stat-label">街の魅力</span><div class="stat-track"><i></i></div><strong>67</strong></div>
   </section>
   <div class="join-landing" id="landing" hidden>
-   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>人が決めるか、AIに任せるか。<br>その小さな選択が街を変えていく。</p>
+   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>人が決めるか、AIに任せるか。<br>その小さな選択が街を変えていく。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
        <button id="openSolo" class="mode-card" type="button"><span class="mode-card-index">01 / YOUR CITY</span><strong>ひとりで遊ぶ</strong><span class="mode-card-detail">自分の街で、決めてみる。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
        <button id="openShared" class="mode-card" type="button"><span class="mode-card-index">02 / OUR CITY</span><strong>みんなで遊ぶ</strong><span class="mode-card-detail">ひとつの街を、みんなで動かす。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
+   <section class="tutorial-panel" id="tutorialPanel" hidden aria-label="はじめての練習">
+    <span class="overline">はじめての街づくり · 練習</span>
+    <div class="tutorial-speaker"><span class="tutorial-avatar" aria-hidden="true">✳</span><div><strong>ヒカリ</strong><small>街の案内役</small></div></div>
+    <h2 id="tutorialTitle">公園に、ベンチを増やすとしたら？</h2>
+    <p id="tutorialLine" aria-live="polite">ヒカリ「公園にベンチを増やすよ。どこに置くか、誰が決める？」</p>
+    <div id="tutorialChoices" class="tutorial-choices">
+     <button type="button" id="tutorialHuman" class="tutorial-choice"><span>01 · 人が判断する</span><strong>公園の利用者に聞く</strong></button>
+     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02 · AIに任せる</span><strong>AIに混雑データで決めてもらう</strong></button>
+    </div>
+    <div id="tutorialFeedback" class="tutorial-feedback" role="status" hidden></div>
+    <button type="button" id="tutorialContinue" class="primary-action" hidden>本編へ進む →</button>
+    <button type="button" id="tutorialSkip" class="tutorial-skip">練習をスキップする</button>
+    <p class="tutorial-note">これは練習。街の点数や本編の判断回数は変わりません。</p>
+   </section>
    <section class="join-panel" id="joinPanel" hidden>
     <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>

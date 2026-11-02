@@ -3,7 +3,7 @@
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0;
+ let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -56,14 +56,20 @@
   scene=new window.F5CityScene($('townCanvas'),artModel);
   scene.setArtMode('illustrated');scene.reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   scene.resetView();
-  let lastDraw=performance.now();
+  let lastDraw=performance.now(),firstPaintAt=lastDraw;
   function run(ts){
    // The city is costly to paint; avoid invisible rendering and cap frame work on tablets.
    const interval=scene.reduced?1000:window.innerWidth<750?65:42;
    if(document.hidden)lastDraw=ts;
    else if(ts-lastDraw>=interval){
     const dt=Math.min((ts-lastDraw)/1000,.12);lastDraw=ts;
-    try{scene.render(dt);}catch(err){console.error('city draw:',err);return;}
+    try{
+     scene.render(dt);
+     if(!$('cityLoading').hidden&&ts-firstPaintAt>300){
+      const canvas=$('townCanvas'),pixel=scene.ctx.getImageData(Math.floor(canvas.width/2),Math.floor(canvas.height/2),1,1).data;
+      if(pixel[0]+pixel[1]+pixel[2]>220)show('cityLoading',false);
+     }
+    }catch(err){console.error('city draw:',err);return;}
    }
    requestAnimationFrame(run);
   }
@@ -201,6 +207,11 @@
   renderDisplay(s);
   if(view==='home')return;
   if(view==='display'){show('displayFrame',true);return;}
+  if(tutorialActive&&(view==='solo'||view==='group')){
+   for(const id of ['joinPanel','lobbyPanel','questionPanel','lateJoinPanel','resultPanel','waitingPanel'])show(id,false);
+   show('tutorialPanel',true);return;
+  }
+  show('tutorialPanel',false);
   if(view==='group'){
    show('joinPanel',!everJoined&&s.phase!=='reveal');
    show('lobbyPanel',everJoined&&s.phase==='lobby');
@@ -230,10 +241,35 @@
   polling=true;
   try{
    const x=await request('/api/state');offset=x.serverNow-Date.now();failedRequests=0;
-   if(view==='group')everJoined=!!x.isParticipant;
+   if(view==='group'){everJoined=!!x.isParticipant;if(everJoined&&tutorialActive)finishTutorial(false);}
    if(!state||x.cityStartedAt!==state.cityStartedAt||x.round>=state.round||x.phase==='waiting')render(x);
   }catch(err){failedRequests++;if(failedRequests===3){$('cityStatus').textContent='通信を確認してください';$('cityTicker').textContent='ネットワークの接続を確認してください。';}}
   finally{polling=false;}
+ }
+ function startTutorial(){
+  tutorialActive=true;tutorialChoice=null;
+  $('tutorialTitle').textContent='公園に、ベンチを増やすとしたら？';
+  $('tutorialLine').textContent='ヒカリ「公園に新しいベンチを置くよ。まずは、どこに置くかの決め方を練習してみよう！」';
+  $('tutorialChoices').hidden=false;show('tutorialFeedback',false);show('tutorialContinue',false);
+  $('tutorialSkip').hidden=false;
+  if(view==='solo')$('tutorialContinue').textContent='本編の4つの判断へ →';
+  else $('tutorialContinue').textContent='参加受付へ進む →';
+  show('tutorialPanel',true);
+ }
+ function practice(choice){
+  if(!tutorialActive||tutorialChoice)return;
+  tutorialChoice=choice;
+  $('tutorialTitle').textContent='ひとつの判断にも、続きがある。';
+  $('tutorialLine').textContent='ヒカリ「ありがとう！便利さだけでなく、誰が困るかも考えてみてね。」';
+  $('tutorialFeedback').textContent=choice==='human'
+   ?'公園を使う人たちが、日陰で休みたいと教えてくれた。時間はかかったけれど、必要な場所が見えてきた。'
+   :'AIが混雑している場所をすぐに選んだ。でも、静かな場所で休みたい人のことは、まだ分からない。';
+  show('tutorialChoices',false);show('tutorialFeedback',true);show('tutorialContinue',true);
+  $('tutorialSkip').hidden=true;$('tutorialContinue').focus();
+ }
+ function finishTutorial(restore=true){
+  tutorialActive=false;show('tutorialPanel',false);
+  if(restore&&state)render(state);
  }
  function startSolo(){clearCityBeat();soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
@@ -296,6 +332,7 @@
  function showPrologueLine(){
   $('prologueText').textContent=prologueLines[prologueIndex][1];
   $('prologueText').dataset.typing='false';
+  $('prologueActivityLabel').textContent=prologueIndex===prologueLines.length-1?'街への案内を準備中…':'次のメッセージを入力中…';
   prologueFullyTyped=true;
  }
  function runPrologue(ts){
@@ -323,6 +360,7 @@
   $('prologueAnnounce').textContent=line[0]+'：'+line[1];
   $('prologueText').textContent='';
   $('prologueText').dataset.typing='true';
+  $('prologueActivityLabel').textContent=prologueIndex===0?'物語を入力中…':'案内人が入力中…';
   $('prologueProgress').textContent=String(prologueIndex+1).padStart(2,'0')+' / 04';
   $('prologueProgress').setAttribute('aria-label','全4場面のうち'+(prologueIndex+1)+'場面');
   $('prologueNext').innerHTML=prologueIndex===3?'街へ進む <span aria-hidden="true">→</span>':'次へ <span aria-hidden="true">→</span>';
@@ -350,9 +388,11 @@
   }
   if(view==='home'){
    show('landing',true);show('sidePanel',false);$('cityStatus').textContent='誰が、未来を決める？';renderPrologue();
-  }else if(view==='solo')startSolo();
-  else {setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
+  }else if(view==='solo'){startTutorial();startSolo();}
+  else {if(view==='group')startTutorial();setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
+  $('tutorialHuman').onclick=()=>practice('human');$('tutorialAi').onclick=()=>practice('ai');
+  $('tutorialContinue').onclick=()=>finishTutorial();$('tutorialSkip').onclick=()=>finishTutorial();
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
