@@ -191,6 +191,29 @@
    if(game.phase==='reveal'&&now>=game.revealEndsAt)return 'restart';
    return false;
  }
+ // TRUE is a reveal-only accolade for accountable, topic-appropriate roles plus
+ // follow-through. Keep this deterministic and derived from resolved history.
+ const TRUE_METRIC_FLOOR=40;
+ function trueRoleRoute(game){
+   if(game.phase!=='reveal'||game.outcome!=='survived'||criticalRisks(game,WARN_THRESHOLD).length||game.history.length!==maxRounds(game))return false;
+   const choices=game.history.map(x=>x.chosen);
+   if(game.storyMode==='solo'){
+     const clinic=game.soloDetails?.[0],event=game.history[0];
+     return choices.join(',')==='human,human,human,ai'&&clinic?.kind==='clinic'&&
+       ['station','suburb'].includes(clinic.place)&&clinic.reason==='access'&&
+       event?.clinicResponseApplied===true&&['review','support','revise'].includes(event.clinicResponse)&&
+       Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+   }
+   if(game.storyMode!==null)return false;
+   // Human responsibility: resident access, flood safety, park and future schooling.
+   // AI must execute the energy plan and at least one data-led office/transit task.
+   // Both are needed, rather than scoring merely by how many AI buttons were used.
+   if(choices[0]!=='human'||choices[2]!=='human'||choices[3]!=='ai'||choices[5]!=='human'||choices[6]!=='human')return false;
+   if(choices[1]!=='ai'&&choices[4]!=='ai')return false;
+   if(game.history.some((event,i)=>event.round!==i+1||event.noVotes||event.deferred||!['human','ai'].includes(event.chosen)||
+       game.built[EPISODES[i].site]!==EPISODES[i][event.chosen==='ai'?'aiBuild':'humanBuild']))return false;
+   return Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+ }
  function endingFor(game){
    if(game.phase!=='reveal')return null;
    const labels={prosperity:'繁栄',convenience:'便利さ',appeal:'街の魅力',trust:'信頼',fairness:'公正',resilience:'持続性'};
@@ -202,6 +225,11 @@
    if(game.history.length&&game.history.every(x=>x.noVotes))return {kind:'undecided',heading:'誰も決めなかった街。',description:'すべての議題が無投票でした。街は変わらず、必要な判断が残っています。次の街で、何を誰に任せるか考えてみませんか。',risks};
    if(game.history.length&&game.history.every(x=>x.deferred))return {kind:'undecided',heading:'決めきれなかった街。',description:'同数票や無投票で、すべての計画を保留しました。異なる意見をどう確かめ、次の判断につなげますか。',risks};
    if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
+   if(trueRoleRoute(game))return {kind:'true',heading:'街を託す先を、考え抜いた。',
+     description:game.storyMode==='solo'
+       ?'診療所の通いやすさ・緑・防災を人が確かめ、電力の需要分析にAIを活用した。診療所の対応まで責任を持って実行し、6つの指標も守った。'
+       :'住民の通院・防災・緑・学びを人が守り、電力と交通・仕事のデータ分析にはAIを活用した。案の実施だけでなく、街の6つの状態も守った。',
+     risks};
    return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
  }
  // Generate a categorical three-metric forecast using exactly the real rules.
@@ -253,7 +281,7 @@
    return data;
  }
  const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint,human:e.human,ai:e.ai,humanNow:e.humanNow,humanLater:e.humanLater,aiNow:e.aiNow,aiLater:e.aiLater});
- const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
+ const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,TRUE_METRIC_FLOOR,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;
  global.MachiEngine=API;
 })(typeof window!=='undefined'?window:globalThis);

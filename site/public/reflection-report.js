@@ -9,7 +9,8 @@
   if(values.some(value=>!Number.isFinite(value)))return null;
   const history=Array.isArray(state.history)?state.history:[];
   const ending=state.ending.heading||'街の記録';
-  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末：${ending}`];
+  const endingType={true:'TRUE END',stable:'NORMAL END',warning:'WARNING END',collapse:'BAD END',undecided:'判断保留'}[state.ending.kind]||'街の結末';
+  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末（${endingType}）：${ending}`];
   if(state.ending.description)lines.push(`街に残ったこと：${state.ending.description}`);
   if(state.incident?.title)lines.push(`実際に起きたこと：${state.incident.title}${state.incident.description?'。'+state.incident.description:''}`);
   else if(Array.isArray(state.ending.risks)&&state.ending.risks.length)lines.push('残っている課題：'+state.ending.risks.map(item=>item.title).filter(Boolean).join('、'));

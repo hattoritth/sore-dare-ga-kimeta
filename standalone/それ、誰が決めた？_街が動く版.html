@@ -2911,6 +2911,29 @@ class F5Primitives {
    if(game.phase==='reveal'&&now>=game.revealEndsAt)return 'restart';
    return false;
  }
+ // TRUE is a reveal-only accolade for accountable, topic-appropriate roles plus
+ // follow-through. Keep this deterministic and derived from resolved history.
+ const TRUE_METRIC_FLOOR=40;
+ function trueRoleRoute(game){
+   if(game.phase!=='reveal'||game.outcome!=='survived'||criticalRisks(game,WARN_THRESHOLD).length||game.history.length!==maxRounds(game))return false;
+   const choices=game.history.map(x=>x.chosen);
+   if(game.storyMode==='solo'){
+     const clinic=game.soloDetails?.[0],event=game.history[0];
+     return choices.join(',')==='human,human,human,ai'&&clinic?.kind==='clinic'&&
+       ['station','suburb'].includes(clinic.place)&&clinic.reason==='access'&&
+       event?.clinicResponseApplied===true&&['review','support','revise'].includes(event.clinicResponse)&&
+       Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+   }
+   if(game.storyMode!==null)return false;
+   // Human responsibility: resident access, flood safety, park and future schooling.
+   // AI must execute the energy plan and at least one data-led office/transit task.
+   // Both are needed, rather than scoring merely by how many AI buttons were used.
+   if(choices[0]!=='human'||choices[2]!=='human'||choices[3]!=='ai'||choices[5]!=='human'||choices[6]!=='human')return false;
+   if(choices[1]!=='ai'&&choices[4]!=='ai')return false;
+   if(game.history.some((event,i)=>event.round!==i+1||event.noVotes||event.deferred||!['human','ai'].includes(event.chosen)||
+       game.built[EPISODES[i].site]!==EPISODES[i][event.chosen==='ai'?'aiBuild':'humanBuild']))return false;
+   return Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+ }
  function endingFor(game){
    if(game.phase!=='reveal')return null;
    const labels={prosperity:'繁栄',convenience:'便利さ',appeal:'街の魅力',trust:'信頼',fairness:'公正',resilience:'持続性'};
@@ -2922,6 +2945,11 @@ class F5Primitives {
    if(game.history.length&&game.history.every(x=>x.noVotes))return {kind:'undecided',heading:'誰も決めなかった街。',description:'すべての議題が無投票でした。街は変わらず、必要な判断が残っています。次の街で、何を誰に任せるか考えてみませんか。',risks};
    if(game.history.length&&game.history.every(x=>x.deferred))return {kind:'undecided',heading:'決めきれなかった街。',description:'同数票や無投票で、すべての計画を保留しました。異なる意見をどう確かめ、次の判断につなげますか。',risks};
    if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
+   if(trueRoleRoute(game))return {kind:'true',heading:'街を託す先を、考え抜いた。',
+     description:game.storyMode==='solo'
+       ?'診療所の通いやすさ・緑・防災を人が確かめ、電力の需要分析にAIを活用した。診療所の対応まで責任を持って実行し、6つの指標も守った。'
+       :'住民の通院・防災・緑・学びを人が守り、電力と交通・仕事のデータ分析にはAIを活用した。案の実施だけでなく、街の6つの状態も守った。',
+     risks};
    return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
  }
  // Generate a categorical three-metric forecast using exactly the real rules.
@@ -2973,7 +3001,7 @@ class F5Primitives {
    return data;
  }
  const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint,human:e.human,ai:e.ai,humanNow:e.humanNow,humanLater:e.humanLater,aiNow:e.aiNow,aiLater:e.aiLater});
- const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
+ const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,TRUE_METRIC_FLOOR,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;
  global.MachiEngine=API;
 })(typeof window!=='undefined'?window:globalThis);
@@ -2993,7 +3021,7 @@ class F5Primitives {
   const eventTitle=String(actual?.title||'');
   const alreadyDescribed=eventTitle.length>=5&&prompt.split('。')[0].startsWith(eventTitle.slice(0,5));
   let question=actual?(alreadyDescribed?prompt:(eventTitle?eventTitle+'。':'')+prompt):'';
-  if(!actual){const risk=ending.risks?.[0];question=ending.kind==='undecided'?'議題は保留されました。何が決まらず、どんな確認が必要だったのでしょうか。':risk?risk.title+'。大きな事故には至っていませんが、この課題をどう見ていますか。':'街は続いています。どんな成果を守り、これから何を確かめますか。';}
+  if(!actual){const risk=ending.risks?.[0];question=ending.kind==='undecided'?'議題は保留されました。何が決まらず、どんな確認が必要だったのでしょうか。':risk?risk.title+'。大きな事故には至っていませんが、この課題をどう見ていますか。':ending.kind==='true'?'街を守る役割とAIに任せた運用をどう分け、その結果を誰が確かめたのでしょうか。':'街は続いています。どんな成果を守り、これから何を確かめますか。';}
   const allHistory=state?.history||[],history=allHistory.slice(-2).map((event,index)=>{let text='第'+(allHistory.length- Math.min(2,allHistory.length)+index+1)+'回「'+event.heading+'」は';
    if(event.chosen==='human')text+='人の方針が選ばれました。'+event.result;
    else if(event.chosen==='ai')text+='AIに委ねる方針が選ばれました。'+(event.result||'')+' 具体策の選定に使われた経緯は、この記録だけでは確認できません。';
@@ -3022,7 +3050,8 @@ class F5Primitives {
   if(values.some(value=>!Number.isFinite(value)))return null;
   const history=Array.isArray(state.history)?state.history:[];
   const ending=state.ending.heading||'街の記録';
-  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末：${ending}`];
+  const endingType={true:'TRUE END',stable:'NORMAL END',warning:'WARNING END',collapse:'BAD END',undecided:'判断保留'}[state.ending.kind]||'街の結末';
+  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末（${endingType}）：${ending}`];
   if(state.ending.description)lines.push(`街に残ったこと：${state.ending.description}`);
   if(state.incident?.title)lines.push(`実際に起きたこと：${state.incident.title}${state.incident.description?'。'+state.incident.description:''}`);
   else if(Array.isArray(state.ending.risks)&&state.ending.risks.length)lines.push('残っている課題：'+state.ending.risks.map(item=>item.title).filter(Boolean).join('、'));
@@ -3088,6 +3117,7 @@ class F5Primitives {
   stable:{label:'健やかに続く街',sky:'#b5d7d4',ground:'#95b887',detail:'<path d="M86 243h58v-54H86z" fill="#d5b684"/><path d="M77 189h76l-38-26z" fill="#a26e55"/><path d="M168 243h66v-74h-66z" fill="#d3bd92"/><path d="M159 169h84l-42-30z" fill="#8d725a"/><path d="M95 202h17v18H95zm39 0h-17v18h17zm47-16h18v18h-18zm37 0h-18v18h18z" fill="#f3e3ba"/><path d="M53 243q0-20 15-20t15 20m152 0q0-26 18-26t18 26" fill="#49805c"/><path d="M62 224v-24m165 17v-35" stroke="#715b45" stroke-width="5"/><path d="M267 243v-36m-13 12 13-13 14 13" stroke="#4d8060" stroke-width="5" fill="none"/><path d="M120 248h53" stroke="#e8dfbe" stroke-width="5"/>'},
   neutral:{label:'課題の残る街',sky:'#d5d8cf',ground:'#aeb49f',detail:'<path d="M102 243h79v-58h-79z" fill="#c8b38d"/><path d="M95 185h93l-46-29z" fill="#967a5d"/><path d="M200 243h50v-43h-50z" fill="#c2aa82"/><path d="M194 200h63l-32-21z" fill="#8e745c"/><path d="M117 204h14v16h-14zm34 0h14v16h-14z" fill="#ede0bb"/><path d="M66 243q0-18 14-18t14 18m180 0q0-18 14-18t14 18" fill="#788a67"/><path d="M54 247h256" stroke="#777a68" stroke-width="4"/><path d="M249 160l9 12 15-3-8 13 8 12-15-4-9 12-1-15-14-7 14-5z" fill="#d6a451"/>'}
  };
+ scenes.true={...scenes.stable,label:'TRUE END · 役割と備えを確かめた街'};
  const metricKeys=['prosperity','convenience','appeal','trust','fairness','resilience'];
  const labels=['にぎわい','便利さ','住み心地','市への信頼','公平さ','未来への備え'];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -3113,7 +3143,7 @@ class F5Primitives {
   return wrapText(value,maxChars,maxLines).map((line,i)=>`<text x="${x}" y="${y+i*lineHeight}" class="${className}">${esc(line)}</text>`).join('');
  }
  function valuesFor(data){return metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));}
- function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='stable'?'stable':'neutral');}
+ function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='true'?'true':data.kind==='stable'?'stable':'neutral');}
  function buildPreview(data={}){
   const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
   const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');
@@ -3343,7 +3373,7 @@ class F5Primitives {
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCardPreview').replaceChildren();const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:s.ending?.kind==='stable'?'stable':'neutral';$('endingCityPicture').innerHTML=window.EndingCard.sceneSvg(sceneKey);const art=$('endingCityPicture').querySelector('svg');if(art){art.setAttribute('aria-hidden','true');art.removeAttribute('aria-label');}}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCardPreview').replaceChildren();const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';$('endingCityPicture').innerHTML=window.EndingCard.sceneSvg(sceneKey);const art=$('endingCityPicture').querySelector('svg');if(art){art.setAttribute('aria-hidden','true');art.removeAttribute('aria-label');}}
   if(view==='group'&&endingFlowStage>=3)renderGroupAccountability(s);else{$('groupAccountabilityList').replaceChildren();$('groupAccountability').hidden=true;}
   if(endingFlowStage>=3&&(!pressData||pressData.cityStartedAt!==s.cityStartedAt)){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=true;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
   if(endingFlowStage<3)pressData=null;
@@ -3351,13 +3381,13 @@ class F5Primitives {
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
   $('endingIncident').textContent=s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ');
-  $('endingKicker').textContent=({collapse:'THE HIDDEN CITY',warning:'THE CITY NEEDS CARE',undecided:'WHO WILL DECIDE?',stable:'THE CITY CONTINUES'})[s.ending?.kind]||'THE CITY';
-  if(endingFlowStage>=3)for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),values=groupMetrics.map(x=>Number(x.value)),max=Math.max(...values),min=Math.min(...values),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v===max)notes.push('この群の最高');if(v===min)notes.push('この群の最低');if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
+  $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
+  if(endingFlowStage>=3)for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
   $('metricComparison').hidden=!pressDone;
   const card=$('endingCardTools');card.hidden=!pressDone;
   if(endingFlowStage>=4){
-   const scene=s.ending?.kind==='collapse'?s.ending.metric:s.ending?.kind==='stable'?'stable':'neutral';
-   const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,title:result.heading,description:result.sub,endingLabel:({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
+   const scene=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
+   const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,title:result.heading,description:result.sub,endingLabel:({collapse:'BAD END · '+(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'WARNING END · 警告の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL END · 健やかに続く街',true:'TRUE END · 役割と備えを確かめた街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
    $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);
    $('endingCardPrint').innerHTML=window.EndingCard.buildSvg(context);
    $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};

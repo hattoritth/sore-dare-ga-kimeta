@@ -10,6 +10,7 @@
   stable:{label:'健やかに続く街',sky:'#b5d7d4',ground:'#95b887',detail:'<path d="M86 243h58v-54H86z" fill="#d5b684"/><path d="M77 189h76l-38-26z" fill="#a26e55"/><path d="M168 243h66v-74h-66z" fill="#d3bd92"/><path d="M159 169h84l-42-30z" fill="#8d725a"/><path d="M95 202h17v18H95zm39 0h-17v18h17zm47-16h18v18h-18zm37 0h-18v18h18z" fill="#f3e3ba"/><path d="M53 243q0-20 15-20t15 20m152 0q0-26 18-26t18 26" fill="#49805c"/><path d="M62 224v-24m165 17v-35" stroke="#715b45" stroke-width="5"/><path d="M267 243v-36m-13 12 13-13 14 13" stroke="#4d8060" stroke-width="5" fill="none"/><path d="M120 248h53" stroke="#e8dfbe" stroke-width="5"/>'},
   neutral:{label:'課題の残る街',sky:'#d5d8cf',ground:'#aeb49f',detail:'<path d="M102 243h79v-58h-79z" fill="#c8b38d"/><path d="M95 185h93l-46-29z" fill="#967a5d"/><path d="M200 243h50v-43h-50z" fill="#c2aa82"/><path d="M194 200h63l-32-21z" fill="#8e745c"/><path d="M117 204h14v16h-14zm34 0h14v16h-14z" fill="#ede0bb"/><path d="M66 243q0-18 14-18t14 18m180 0q0-18 14-18t14 18" fill="#788a67"/><path d="M54 247h256" stroke="#777a68" stroke-width="4"/><path d="M249 160l9 12 15-3-8 13 8 12-15-4-9 12-1-15-14-7 14-5z" fill="#d6a451"/>'}
  };
+ scenes.true={...scenes.stable,label:'TRUE END · 役割と備えを確かめた街'};
  const metricKeys=['prosperity','convenience','appeal','trust','fairness','resilience'];
  const labels=['にぎわい','便利さ','住み心地','市への信頼','公平さ','未来への備え'];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -35,7 +36,7 @@
   return wrapText(value,maxChars,maxLines).map((line,i)=>`<text x="${x}" y="${y+i*lineHeight}" class="${className}">${esc(line)}</text>`).join('');
  }
  function valuesFor(data){return metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));}
- function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='stable'?'stable':'neutral');}
+ function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='true'?'true':data.kind==='stable'?'stable':'neutral');}
  function buildPreview(data={}){
   const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
   const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');

@@ -23,4 +23,10 @@ test('report uses actual ending context and never invents disasters or psycholog
  assert.match(report,/格差の課題/);assert.doesNotMatch(report,/豪雨|浸水|災害が発生|心理を推測/);
  assert.match(report,/個人の心理は推測していません/);
 });
+test('saved report names TRUE, NORMAL, WARNING and BAD ending classes',()=>{
+ for(const [kind,label] of [['true','TRUE END'],['stable','NORMAL END'],['warning','WARNING END'],['collapse','BAD END']]){
+  const report=build(state([{chosen:'human'}],{ending:{kind,heading:'街の結末',description:'説明',risks:[]}}));
+  assert.match(report,new RegExp(`結末（${label}）：街の結末`));
+ }
+});
 test('build is deterministic for identical input',()=>{const input=state([{heading:'議題',chosen:'none',result:'保留'}]);assert.equal(build(input,{mode:'group'}),build(input,{mode:'group'}));});
