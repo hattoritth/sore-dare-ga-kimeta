@@ -85,6 +85,7 @@
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
     <section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
+    <section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>誰に任せ、どの方針を選び、街に何が残ったかを保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
     <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
@@ -98,5 +99,5 @@
  </div>
  <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
 </div>
-<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/decision-ux.js"></script><script src="/app.js"></script>
+<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/reflection-report.js"></script><script src="/decision-ux.js"></script><script src="/app.js"></script>
 </body></html>

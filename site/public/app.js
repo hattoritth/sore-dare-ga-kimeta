@@ -191,7 +191,7 @@
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';}
+  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
@@ -205,6 +205,8 @@
   $('pressNext').hidden=pressDone;$('pressNext').textContent=pressIndex<0?'会見を始める':!pressTyped?'続きを読む':pressIndex<pressData.answers.length-1?'次の質問へ':pressIndex===pressData.answers.length-1?'最後の問いへ':'会見を終えて結果を見る';
   $('pressSkip').hidden=pressDone;$('pressReplay').hidden=!pressDone;
   $('metricComparison').hidden=!pressDone;
+  const takeaway=pressDone?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]}):null;
+  $('takeawayReport').hidden=!takeaway;
   $('resultNote').textContent=view==='group'?'次の街の参加受付まで '+clock(s.endsAt-EngineNow())+'。保留した議題も、次の判断で考えてみてください。':'数字に現れなかった声も、次の判断で確かめてみてください。';
   const choicesCount={human:0,ai:0,mixed:0,none:0};
   for(const event of s.history||[])choicesCount[event.chosen]=(choicesCount[event.chosen]||0)+1;
@@ -467,6 +469,8 @@
   $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){cancelAnimationFrame(pressFrame);const line=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;$('pressAnswer').textContent=line;pressTyped=true;if(state)renderResult(state);return;}if(pressIndex<pressData.answers.length){pressIndex++;}else{pressDone=true;}if(state)renderResult(state);};
   $('pressSkip').onclick=()=>{cancelAnimationFrame(pressFrame);pressDone=true;if(state)renderResult(state);};
   $('pressReplay').onclick=()=>{pressIndex=-1;pressDone=false;pressRenderKey='done';if(state)renderResult(state);};
+  $('saveReflection').onclick=()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
+  $('copyReflection').onclick=async()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
   $('tutorialHuman').onclick=()=>practice('human');$('tutorialAi').onclick=()=>practice('ai');
   $('tutorialContinue').onclick=()=>finishTutorial();$('tutorialSkip').onclick=()=>finishTutorial();
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');

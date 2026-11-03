@@ -216,6 +216,8 @@
 .decision-history li{padding:7px 0;border-bottom:1px solid #e0e8de;font-size:12px;line-height:1.5}
 .decision-history li strong,.decision-history li span{display:block}
 .decision-history li span{color:#536b60;margin-top:4px}
+.takeaway-report{margin-top:16px;padding-top:14px;border-top:1px solid #d7e1d4}.takeaway-report p{font-size:13px;line-height:1.7;color:#48655a;margin-top:7px}.takeaway-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.takeaway-actions button{min-height:44px}.takeaway-actions .text-action{padding:10px 12px}.takeaway-status{min-height:1.5em}
+.takeaway-report textarea{display:block;width:100%;min-height:150px;max-width:100%;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
 @media(max-width:750px){.decision-history{margin-top:7px}.decision-history summary{font-size:12px}}
 .decision-accountability{margin-top:10px;padding:10px 12px;border-inline-start:3px solid #668b73;background:#f0f5ec;border-radius:0 7px 7px 0}
 .decision-accountability p{margin-top:5px;font-size:12px;line-height:1.6;color:#435f50}
