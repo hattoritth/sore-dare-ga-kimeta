@@ -8,7 +8,7 @@ const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
 
 test('ending reveal follows picture, title, reason, metrics, then save with deliberate next and all-at-once controls',()=>{
  assert.match(app,/endingFlowLabels=\['変わった街','結末','理由','6つの指標','保存'\]/);
- assert.match(app,/sceneSvg\(sceneKey\)/);
+ assert.match(app,/endingSceneCache\.get\(s\.cityStartedAt/);
  assert.match(app,/endingFlowStage=Math\.min\(4,endingFlowStage\+1\)/);
  assert.match(app,/endingFlowStage=4/);
  assert.match(app,/metricComparison'\)\.hidden=endingFlowStage<3/);
@@ -35,7 +35,8 @@ test('decision highlight uses resolved site mapping, skips deferred outcomes, an
 test('reduced motion keeps a static marker and result metrics are cleared before the metrics step',()=>{
  assert.match(city,/t=this\.reduced\?1/);
  assert.match(city,/!this\.reduced&&elapsed>850/);
- assert.match(app,/if\(endingFlowStage<3\)\{\$\('publicMetrics'\)\.replaceChildren\(\);\$\('shadowMetrics'\)\.replaceChildren\(\);\}/);
+ assert.match(app,/if\(endingFlowStage<3\)\{if\(endingMetricsCity===s\.cityStartedAt\)/);
+ assert.match(app,/if\(endingRadarCity===s\.cityStartedAt\)\{endingRadarCity=null;radar\.replaceChildren\(\);\}/);
 });
 
 test('decision highlight remains readable at phone scale using CSS-pixel screen-space drawing',()=>{
@@ -53,9 +54,8 @@ test('AI facility highlights name the built building, not the human alternative'
 });
 test('a five-stage ending does not leak scene title via screen reader and keeps optional conference accessible',()=>{
  assert.match(html,/id="endingCityPicture"[^>]*role="img"[^>]*aria-label="判断によって変化した街の風景"/);
- assert.match(app,/art\.setAttribute\('aria-hidden','true'\)/);
- assert.match(app,/art\.removeAttribute\('aria-label'\)/);
+ assert.match(app,/setAttribute\('aria-label','判断後の街の風景'\)/);
  assert.match(html,/id="openEndingPress"/);assert.match(html,/id="closeEndingPress"/);
  assert.match(app,/pressOpen=true;pressDone=false/);
- assert.match(app,/if\(endingFlowStage>=4\)\{/);
+ assert.match(app,/if\(endingFlowStage>=4&&endingCardRenderCity!==s\.cityStartedAt\)\{/);
 });

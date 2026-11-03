@@ -374,6 +374,24 @@
  .shell,.play-surface,.side-panel,.result-panel{overflow:visible!important;position:static!important;display:block!important;max-height:none!important;height:auto!important;min-height:0!important;transform:none!important;box-shadow:none!important;background:white!important}
 }
 
+/* Ending reveal: the actual town image leads; metrics stay readable in the narrow result rail. */
+.ending-scene-visual,.ending-stage-scene{position:relative;overflow:hidden;border-radius:16px;background:#d5d8cf;aspect-ratio:16/10;min-height:150px;isolation:isolate}
+.ending-scene-visual img{display:block;width:100%;height:100%;object-fit:cover}
+.ending-scene-visual>span{position:absolute;inset:0;pointer-events:none;background:var(--ending-tone,transparent);mix-blend-mode:soft-light}
+.ending-scene-visual[data-theme=success]{--ending-tone:linear-gradient(135deg,#fff3b0aa,#d3edc455)}
+.ending-scene-visual[data-theme=caution]{--ending-tone:linear-gradient(135deg,#d89a4a55,#4b514a22)}
+.ending-scene-visual[data-theme=neutral]{--ending-tone:linear-gradient(135deg,#f2e8c744,#54665d22)}
+.ending-scene-visual[data-theme=prosperity],.ending-scene-visual[data-theme=convenience],.ending-scene-visual[data-theme=appeal],.ending-scene-visual[data-theme=trust],.ending-scene-visual[data-theme=fairness],.ending-scene-visual[data-theme=resilience]{--ending-tone:linear-gradient(135deg,#87634a44,#263e3940)}
+.ending-inline-radar{min-width:0;max-width:420px;margin:0 auto 12px}
+.ending-inline-radar svg{display:block;width:100%;height:auto;overflow:visible}
+.ending-preview-layout{min-width:0;overflow:hidden}
+.ending-preview-scene,.ending-preview-metrics{min-width:0;overflow:hidden}
+.ending-preview-scene .ending-scene-visual{width:100%;min-height:0}
+.ending-preview-radar{margin:0 auto 8px;max-width:320px;min-width:0}
+.ending-preview-radar svg{display:block;width:100%;height:auto}
+@media(max-width:750px){.ending-stage-scene{min-height:170px}.ending-inline-radar{max-width:min(100%,360px)}.ending-preview-layout{grid-template-columns:minmax(0,1fr)}.ending-preview-radar{max-width:300px}}
+@media(prefers-reduced-motion:reduce){#endingCityPicture:not([hidden]) .ending-scene-visual{animation:none!important;transition:none!important}}
+
 /* Keep the city canvas unobstructed; decisions and resident responses occupy their own column/row. */
 @media(min-width:751px){
  .play-surface{grid-template-rows:57px minmax(390px,1fr);grid-template-columns:minmax(0,1fr) minmax(300px,360px)}

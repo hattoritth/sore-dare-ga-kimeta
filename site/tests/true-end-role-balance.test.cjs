@@ -2,11 +2,11 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const E=require('../engine.js');
 
-function runSolo(mask,{reason='access',response='review'}={}){
+function runSolo(mask,{reason='access',response='review',strategies=[]}={}){
  const g=E.createGame(0,{autostart:true,storyMode:'solo'});E.join(g,'solo','市長',0);
  for(let round=0;round<4;round++){
   const choice=(mask>>round)&1?'ai':'human';
-  if(choice==='human')assert.equal(E.chooseSoloDetail(g,'solo',round===0?{kind:'clinic',place:'suburb',reason}:{kind:'strategy',strategy:'voices'}),true);
+  if(choice==='human')assert.equal(E.chooseSoloDetail(g,'solo',round===0?{kind:'clinic',place:'suburb',reason}:{kind:'strategy',strategy:strategies[round]||'voices'}),true);
   assert.equal(E.vote(g,'solo',choice,g.roundStartedAt+1),true);E.advance(g,g.roundEndsAt);
   if(round===0&&choice==='human'){
    assert.equal(E.clinicResponse(g,'solo',response,g.roundStartedAt+2)!==false,true);
@@ -37,6 +37,18 @@ test('solo TRUE is reachable only for the accountable H-H-H-A route with access 
  assert.notEqual(E.publicState(runSolo(0)).ending.kind,'true','all-human is not TRUE');
  assert.notEqual(E.publicState(runSolo(15)).ending.kind,'true','all-AI is not TRUE');
  assert.notEqual(E.publicState(runSolo(8,{reason:'total'})).ending.kind,'true','volume alone is not an accessibility rationale');
+});
+
+test('the requested clinic access, balanced park and waterfront strategies, then AI energy route remains TRUE',()=>{
+ const g=runSolo(0b1000,{reason:'access',response:'support',strategies:{1:'balance',2:'balance'}});
+ const state=E.publicState(g);
+ assert.equal(state.ending.kind,'true');
+ assert.equal(g.history.length,4);
+ assert.equal(g.history[0].chosen,'human');assert.equal(g.history[3].chosen,'ai');
+ assert.deepEqual(g.soloDetails[0],{kind:'clinic',place:'suburb',reason:'access'});
+ assert.equal(g.history[0].clinicResponse,'support');
+ assert.deepEqual(g.soloDetails[1],{kind:'strategy',strategy:'balance'});
+ assert.deepEqual(g.soloDetails[2],{kind:'strategy',strategy:'balance'});
 });
 
 test('all 128 group routes yield a narrow reachable TRUE set and exclude ties/no-votes',()=>{
