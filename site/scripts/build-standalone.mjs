@@ -7,7 +7,7 @@ const parent=path.resolve(site,'..');
 let html=await readFile(path.join(site,'public/index.html'),'utf8');
 const css=await readFile(path.join(site,'public/style.css'),'utf8');
 html=html.replace('<link rel="stylesheet" href="/style.css">',`<style>${css}</style>`);
-for(const name of ['city-art.js','engine.js','conference.js','reflection-report.js','decision-ux.js','app.js']){
+for(const name of ['city-art.js','engine.js','conference.js','reflection-report.js','decision-ux.js','group-accountability.js','app.js']){
  const body=await readFile(path.join(site,'public',name),'utf8');
  if(body.includes('</script>'))throw Error(`${name} cannot be safely inlined`);
  const tag=`<script src="/${name}"></script>`;

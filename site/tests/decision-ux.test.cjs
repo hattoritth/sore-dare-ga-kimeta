@@ -40,7 +40,7 @@ test('intro and practice distinguish the three roles while preserving cast and f
  for(const role of ['市長 · あなた','住民','まちづくり支援AI · 委任先'])assert.ok(html.includes(role));
  for(const name of ['ヒカリ','ソラ','ナギ','ミドリ'])assert.ok(app.includes(name));
  assert.match(html,/class="resident-label">影響を受ける人/);
- assert.match(app,/if\(soloGame\.round===0\)\{clinicPending=choice/);
+ assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
  assert.match(app,/AIは予測利用者数/);
 });
 

@@ -54,7 +54,7 @@
 .prologue-actions{margin-top:18px}
 
 /* Cinematic city stage */
-.shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{grid-template-columns:1fr}.shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{grid-column:1}.shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:absolute;z-index:5;left:clamp(20px,4vw,60px);right:clamp(20px,4vw,60px);bottom:25px;min-height:0;display:flex}.shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:1100px;margin:auto;min-height:0}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr);grid-template-rows:auto 1fr auto;column-gap:25px;padding:20px 24px;background:linear-gradient(125deg,rgba(255,253,242,.98),rgba(240,247,232,.97));border:1px solid #c8d8c5;box-shadow:0 15px 46px #183a3260;backdrop-filter:blur(8px)}.question-panel .question-head{grid-column:1/-1}.question-panel .conversation{grid-column:1;grid-row:2/4;flex-direction:row;gap:18px;align-items:flex-end;margin-top:10px}.question-panel .conversation-copy{align-self:center}.question-panel .agent-portrait{width:150px;height:180px;border:0;border-radius:60px 60px 12px 12px;background:none;overflow:hidden;animation:agent-enter .48s ease-out both}.agent-portrait svg{display:block;width:100%;height:100%;object-fit:cover}.agent-portrait .mouth-warm{display:none}.agent-portrait[data-mood=warm] .mouth-neutral{display:none}.agent-portrait[data-mood=warm] .mouth-warm{display:block}.question-panel .decision-options{grid-column:2;grid-row:2;align-self:end;margin:0;padding:0}.question-panel .vote-feedback,.question-panel .community-status{grid-column:2}.question-panel .community-status{margin-top:4px;padding-top:6px}.question-panel .decision{min-height:62px;padding-top:9px;padding-bottom:9px}.skyline::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(circle at 26% 25%,#fffce67a 0 2px,transparent 4px),radial-gradient(circle at 75% 18%,#fff8d985 0 3px,transparent 5px),radial-gradient(circle at 60% 45%,#ffffff60 0 2px,transparent 4px);animation:city-glow 9s ease-in-out infinite alternate}.shell[data-view=home] .skyline canvas{animation:city-camera 30s ease-in-out infinite alternate;transform-origin:50% 50%}.prologue-text{animation:story-enter .7s ease-out both}.stat-changed{animation:stat-rise .7s ease-out}.city-ticker{transition:opacity .3s,transform .3s}.conversation-copy{animation:story-enter .5s ease-out both}@keyframes city-camera{from{transform:scale(1)}to{transform:scale(1.065) translate(-.6%,.5%)}}@keyframes city-glow{from{opacity:.35;transform:translateY(0)}to{opacity:.85;transform:translateY(-12px)}}@keyframes agent-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes story-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes stat-rise{40%{color:#bd814e;transform:translateY(-3px)}}
+.shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:1100px;margin:auto;min-height:0}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr);grid-template-rows:auto 1fr auto;column-gap:25px;padding:20px 24px;background:linear-gradient(125deg,rgba(255,253,242,.98),rgba(240,247,232,.97));border:1px solid #c8d8c5;box-shadow:0 15px 46px #183a3260;backdrop-filter:blur(8px)}.question-panel .question-head{grid-column:1/-1}.question-panel .conversation{grid-column:1;grid-row:2/4;flex-direction:row;gap:18px;align-items:flex-end;margin-top:10px}.question-panel .conversation-copy{align-self:center}.question-panel .agent-portrait{width:150px;height:180px;border:0;border-radius:60px 60px 12px 12px;background:none;overflow:hidden;animation:agent-enter .48s ease-out both}.agent-portrait svg{display:block;width:100%;height:100%;object-fit:cover}.agent-portrait .mouth-warm{display:none}.agent-portrait[data-mood=warm] .mouth-neutral{display:none}.agent-portrait[data-mood=warm] .mouth-warm{display:block}.question-panel .decision-options{grid-column:2;grid-row:2;align-self:end;margin:0;padding:0}.question-panel .vote-feedback,.question-panel .community-status{grid-column:2}.question-panel .community-status{margin-top:4px;padding-top:6px}.question-panel .decision{min-height:62px;padding-top:9px;padding-bottom:9px}.skyline::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(circle at 26% 25%,#fffce67a 0 2px,transparent 4px),radial-gradient(circle at 75% 18%,#fff8d985 0 3px,transparent 5px),radial-gradient(circle at 60% 45%,#ffffff60 0 2px,transparent 4px);animation:city-glow 9s ease-in-out infinite alternate}.shell[data-view=home] .skyline canvas{animation:city-camera 30s ease-in-out infinite alternate;transform-origin:50% 50%}.prologue-text{animation:story-enter .7s ease-out both}.stat-changed{animation:stat-rise .7s ease-out}.city-ticker{transition:opacity .3s,transform .3s}.conversation-copy{animation:story-enter .5s ease-out both}@keyframes city-camera{from{transform:scale(1)}to{transform:scale(1.065) translate(-.6%,.5%)}}@keyframes city-glow{from{opacity:.35;transform:translateY(0)}to{opacity:.85;transform:translateY(-12px)}}@keyframes agent-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes story-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes stat-rise{40%{color:#bd814e;transform:translateY(-3px)}}
 @media(max-width:750px){.shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex}.shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;inset:auto;display:block}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:flex;gap:0;padding:15px;min-height:0}.question-panel .conversation{display:flex;flex-direction:row;gap:9px;align-items:flex-start;margin-top:9px}.question-panel .agent-portrait{width:76px;height:104px;flex:none;border-radius:30px 30px 8px 8px}.question-panel .conversation-copy{align-self:flex-start}.question-panel .decision-options{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.question-panel .decision-options[hidden]{display:none!important}.question-panel .decision{min-height:66px}.question-panel .vote-feedback{margin-top:7px}.shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:clamp(220px,37dvh,360px)}}
 @media(prefers-reduced-motion:reduce){.shell[data-view=home] .skyline canvas,.skyline::after,.agent-portrait,.conversation-copy,.prologue-text,.stat-changed{animation:none!important;transition:none!important}}
 
@@ -147,7 +147,7 @@
 
 /* Living-city sequence: the map becomes the protagonist between decisions. */
 .city-beat[hidden]{display:none!important}
-.city-beat{position:absolute;z-index:6;left:6%;right:6%;bottom:7%;pointer-events:none;border:1px solid #f6e5cbbb;border-radius:16px;padding:clamp(15px,2vw,24px);color:#f7f6ee;background:linear-gradient(120deg,rgba(25,63,55,.95),rgba(27,75,70,.91));box-shadow:0 16px 46px #183b3580;animation:city-beat-arrive .5s ease-out both}
+.city-beat{position:relative;z-index:auto;inset:auto;pointer-events:auto;border:1px solid #f6e5cbbb;border-radius:16px;padding:clamp(15px,2vw,24px);color:#f7f6ee;background:linear-gradient(120deg,rgba(25,63,55,.95),rgba(27,75,70,.91));box-shadow:0 16px 46px #183b3580;animation:city-beat-arrive .5s ease-out both}
 .city-beat-kicker{display:block;color:#ebc992;font-size:12px;font-weight:850;letter-spacing:.08em}
 .city-beat h2{font-size:clamp(19px,2.8vw,31px);line-height:1.4;margin:9px 0}
 .city-beat-voice{font-size:clamp(13px,1.7vw,17px);line-height:1.5;margin:0 0 13px;font-weight:650}
@@ -156,23 +156,11 @@
 .clinic-choice{grid-column:1/-1;max-height:min(52dvh,520px);overflow:auto;margin-top:8px;padding:14px 16px;border-radius:12px;background:#fffdf2;color:#25443b;box-shadow:0 8px 24px #102e2940;pointer-events:auto}
 .clinic-choice .overline{color:#687c62;font-size:12px}.clinic-choice h2{font-size:clamp(18px,2vw,23px);margin:5px 0}.clinic-choice p,.clinic-followup p{font-size:14px;line-height:1.55;margin:7px 0}
 .clinic-form fieldset,.clinic-followup fieldset{border:0;padding:0;margin:10px 0;display:flex;flex-wrap:wrap;gap:7px 14px}.clinic-form legend,.clinic-followup legend{font-weight:800;margin-bottom:4px}.clinic-form label,.clinic-followup label{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:9px 11px;border-radius:8px;background:#eff3e7;font-size:13px;line-height:1.4;flex:1 1 220px}.clinic-form input,.clinic-followup input{width:18px;height:18px;flex:none;margin:2px 0 0;accent-color:#34755b}.clinic-choice button,.clinic-followup button{min-height:48px;padding:10px 16px}.clinic-choice details{margin:8px 0;font-size:13px}.clinic-choice summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}.clinic-choice ul{margin:3px 0;padding-left:22px}.clinic-choice button:disabled,.clinic-followup button:disabled{opacity:.55;cursor:not-allowed}.clinic-followup{margin-top:15px;padding-top:12px;border-top:1px solid #ffffff60;pointer-events:auto}.clinic-followup[hidden],.clinic-choice[hidden]{display:none!important}.clinic-followup strong{font-size:16px}.clinic-followup fieldset{display:grid;grid-template-columns:1fr;gap:5px}.clinic-followup label{background:#ffffff16;color:#fffdf2;flex:none}.clinic-followup label:focus-within,.clinic-form label:focus-within{outline:2px solid #e9c985;outline-offset:2px}
-.shell[data-stage="city"][data-view="solo"] .play-surface{grid-template-columns:minmax(0,1fr)}
-.shell[data-stage="city"][data-view="solo"] .skyline{grid-column:1/-1}
-.shell[data-stage="city"][data-view="solo"] .side-panel{display:none!important}
 @keyframes city-beat-arrive{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:750px){.city-beat{left:4%;right:4%;bottom:4%;padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(max-width:750px){.city-beat{padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
 @media(max-width:750px){.clinic-choice{max-height:min(57dvh,520px);padding:12px}.clinic-form fieldset{display:grid;grid-template-columns:1fr}.clinic-form label{font-size:14px}.clinic-followup label{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.city-beat{animation:none!important}}
 
-/* On result beats, keep the enlarged city and resident response within one viewport. */
-@media(min-width:751px){
- .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0;height:calc(100dvh - 110px);grid-template-rows:57px minmax(0,1fr)}
- .shell[data-view="solo"][data-stage="city"] .skyline{height:calc(100dvh - 199px);min-height:0;max-height:calc(100dvh - 199px)}
-}
-@media(max-width:750px){
- .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0}
- .shell[data-view="solo"][data-stage="city"] .skyline{height:clamp(350px,calc(100dvh - 175px),640px);min-height:350px!important;max-height:640px}
-}
 
 /* Exhibition alerts: visible consequences without revealing hidden scores. */
 .risk-notice[hidden],.ending-incident[hidden]{display:none!important}
@@ -385,6 +373,83 @@
 @media(max-width:750px){.metric-comparison{grid-template-columns:1fr;gap:10px}.press-conference{padding:12px}.metric-group{padding:11px}.metric-group .reveal-heading{min-height:0}.result-panel{max-height:calc(100dvh - 110px);overflow:auto}.result-panel .primary-action{margin-top:12px}}
 
 @media(min-width:751px) and (max-width:1200px){.metric-comparison{grid-template-columns:1fr;gap:10px}.metric-group .reveal-heading{min-height:0}}
+
+/* Keep the city canvas unobstructed; decisions and resident responses occupy their own column/row. */
+@media(min-width:751px){
+ .play-surface{grid-template-rows:57px minmax(390px,1fr);grid-template-columns:minmax(0,1fr) minmax(300px,360px)}
+ .side-panel{position:relative;inset:auto;grid-row:2;grid-column:2;min-width:0;min-height:390px;pointer-events:auto}
+ .side-panel>section{max-height:calc(100dvh - 150px);overflow:auto;pointer-events:auto}
+ .skyline{grid-row:2;grid-column:1;min-width:0;min-height:390px}
+ .city-beat{position:relative;inset:auto;grid-row:2;grid-column:2;align-self:stretch;max-height:calc(100dvh - 150px);overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+ .shell[data-stage=city] .skyline{grid-column:1;grid-row:2;min-height:390px;height:auto;max-height:none}
+ .shell[data-stage=city] .play-surface{grid-template-columns:minmax(0,1fr) minmax(300px,360px);grid-template-rows:57px minmax(390px,1fr);height:auto;min-height:calc(100dvh - 110px)}
+}
+@media(max-width:750px){
+ .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 95px);overflow-x:clip}
+ .skyline{order:1;width:100%;height:clamp(210px,31dvh,300px);min-height:210px;flex:none}
+ .city-beat{position:relative;inset:auto;order:2;width:100%;max-height:min(55dvh,480px);overflow:auto;margin:0;padding:15px;border-radius:12px;pointer-events:auto}
+ .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0;pointer-events:auto}
+ .side-panel>section{min-height:0;max-height:min(68dvh,600px);overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+ .shell[data-stage=city] .skyline{height:clamp(210px,30dvh,300px);min-height:210px!important;max-height:300px}
+ .group-previous-result{font-size:12px;line-height:1.45}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw)}
+ .shell[data-stage=city] .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw)}
+}
+.decision[data-vote=ai]{min-height:64px;padding-block:12px}
+.decision[data-vote=ai] .decision-tradeoff,.decision[data-vote=ai] .impact-row{display:none}
+.group-previous-result{margin:8px 0 0;padding:8px 10px;border-radius:7px;background:#eef3e8;color:#385c4a;font-size:13px;font-weight:750;line-height:1.5}
+.group-accountability{margin:12px 0;padding:16px;border:1px solid #d0dbcc;border-radius:12px;background:#fffef5}
+.group-accountability ol{margin:8px 0 0;padding-left:22px}
+.group-accountability li{padding:9px 0;line-height:1.5}
+.group-accountability li+li{border-top:1px solid #e0e5d7}
+.group-accountability li strong,.group-accountability li span{display:block}
+.group-accountability li span{font-size:13px;color:#4d6658}
+@media(max-width:750px){.group-accountability{padding:12px}.group-accountability li{padding:8px 0}.group-accountability li span{font-size:12px}}
+@media(min-width:751px) and (max-width:1000px) and (orientation:portrait){
+ .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 114px);overflow-x:clip}
+ .hud{order:0;flex:none}
+ .skyline{order:1;width:100%;height:320px;min-height:0;flex:none}
+ .city-beat{order:2;position:relative;inset:auto;width:100%;max-height:min(48dvh,520px);overflow:auto;margin:0;pointer-events:auto}
+ .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0;pointer-events:auto}
+ .side-panel>section{max-height:65dvh;overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+}
+
+/* Final override: the previous cinematic desktop absolute panel must never cover the city. */
+@media(min-width:1201px){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{grid-template-columns:minmax(0,1fr) minmax(380px,435px)}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{grid-column:1;grid-row:2}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;left:auto;right:auto;bottom:auto;inset:auto;z-index:auto;grid-row:2;grid-column:2;align-self:stretch;width:auto;min-width:0;max-width:none;display:flex}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{margin:0;max-width:none;width:100%}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:flex;flex-direction:column;gap:0;padding:18px;min-width:0}
+ .question-panel .conversation{display:flex;flex-direction:row;align-items:flex-start;gap:10px;margin-top:12px}
+ .question-panel .conversation-copy{align-self:flex-start}
+ .question-panel .agent-portrait{width:98px;height:125px;flex:none}
+ .question-panel .decision-options{display:flex;flex-direction:column;gap:9px;align-self:stretch;width:100%;margin-top:12px;padding-top:8px;grid-column:auto;grid-row:auto}
+ .question-panel .decision-options[hidden]{display:none!important}
+ .question-panel .vote-feedback,.question-panel .community-status{grid-column:auto;grid-row:auto}
+ .shell[data-stage=city][data-view=solo] .play-surface{grid-template-columns:minmax(0,1fr) minmax(380px,435px);grid-template-rows:57px minmax(390px,1fr);height:auto;min-height:calc(100dvh - 110px)}
+ .shell[data-stage=city][data-view=solo] .skyline{grid-column:1;grid-row:2;height:auto;min-height:390px;max-height:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .shell[data-stage=city][data-view=solo] .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw);grid-template-rows:57px minmax(390px,1fr);height:auto}
+ .shell[data-stage=city][data-view=solo] .skyline{grid-column:1;grid-row:2;height:auto;min-height:390px;max-height:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:portrait){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex;flex-direction:column;overflow-x:clip}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{order:1;width:100%;height:320px;min-height:0;flex:none}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:none;max-height:65dvh;overflow:auto}
+ .shell[data-stage=city][data-view=solo] .skyline{height:320px;min-height:0;max-height:320px}
+ .shell[data-stage=city][data-view=solo] .city-beat{order:2;position:relative;inset:auto;width:100%;max-height:min(48dvh,520px);overflow:auto}
+}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -398,7 +463,8 @@
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
    <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section></div>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div></div>
+  <div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section>
   </div>
   <section class="hud" aria-label="まちの様子">
    <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
@@ -421,7 +487,7 @@
     <p id="tutorialLine" aria-live="polite">ヒカリ「公園にベンチを増やすよ。どこに置くか、誰が決める？」</p>
     <div id="tutorialChoices" class="tutorial-choices">
      <button type="button" id="tutorialHuman" class="tutorial-choice"><span>01 · 人が判断する</span><strong>公園の利用者に聞く</strong></button>
-     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02 · AIに任せる</span><strong>AIに混雑データで決めてもらう</strong></button>
+     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02</span><strong>AIに任せる</strong></button>
     </div>
     <div id="tutorialFeedback" class="tutorial-feedback" role="status" hidden></div>
     <button type="button" id="tutorialContinue" class="primary-action" hidden>本編へ進む →</button>
@@ -441,10 +507,10 @@
    </section>
    <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
    <section class="question-panel" id="questionPanel" hidden>
-    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
+    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
     <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><span class="resident-label">影響を受ける人 · 住民</span><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><p class="workload-note" id="workloadNote">展示上の情景 · 相談や依頼が重なる街。AIは選定を速く進めます。</p><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">市長として、どう決めますか？</p>
      <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">まちづくり支援AI · 委任</span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02</span><strong>AIに任せる</strong><span id="aiText" hidden></span><span id="aiTradeoff" hidden></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安" hidden></span><span class="option-arrow">↗</span></button>
      <p class="impact-note" id="impactNote">表の3指標の変化目安。裏の指標は表示されません。</p>
     </div>
     <section class="strategy-choice" id="strategyChoice" hidden aria-labelledby="strategyTitle"><span class="overline">市長が選ぶ人の方針</span><h2 id="strategyTitle">どんな視点で決める？</h2><p>演出上の検討方針です。どちらを選んでも、人の判断として同じ施策・同じスコアになります。</p><button type="button" data-strategy="voices">現地の声を確かめる</button><button type="button" data-strategy="balance">複数地区の希望を調整する</button><button type="button" id="cancelStrategy" class="text-action">選択に戻る</button></section>
@@ -459,7 +525,7 @@
      <div id="aiClinicForm" class="clinic-form" hidden>
       <p>AIの提案：駅前。予測利用者数、交通の便、人口構成などを使った提案です。これらの項目は確認できますが、個々の通院事情が提案にどれだけ影響したかは、この場で説明しきれません。</p>
       <details><summary>提案に使った項目を見る</summary><ul><li>予測利用者数</li><li>交通の便と移動のつながり</li><li>人口構成</li></ul><p>個別の事情をどの程度重く扱ったかまでは、この提案だけでは確かめられません。</p></details>
-      <button id="acceptAiClinic" class="primary-action" type="button">提案を確認して、駅前に決める</button>
+
      </div>
      <p class="clinic-record" id="clinicChoiceRecord" aria-live="polite" hidden></p>
     </section>
@@ -470,7 +536,7 @@
    <section class="result-panel" id="resultPanel" hidden>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
-    <section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
+    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
     <section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>誰に任せ、どの方針を選び、街に何が残ったかを保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
@@ -2884,12 +2950,27 @@ class F5Primitives {
 });
 
 </script><script>
+/* Ephemeral group-vote comparison presenter. No persistence or identity data. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;root.GroupAccountability=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ function present(event,personalVote,participantAvailable=true){
+  if(!event)return null;
+  const human=Number(event.human)||0,ai=Number(event.ai)||0;
+  const outcome=event.chosen==='human'?'人の案':event.chosen==='ai'?'AIの案':event.chosen==='mixed'?'同数のため保留':event.chosen==='none'?'投票なし':'保留';
+  const personal=personalVote==='human'?'人が判断する':personalVote==='ai'?'AIに任せる':participantAvailable?'このタブでの記録なし':'参加者ではありません';
+  return {round:event.round,heading:event.heading,personal,outcome,human,ai,tally:`人 ${human}票 / AI ${ai}票`,chosen:event.chosen};
+ }
+ function list(history,choices,participantAvailable=true){return (history||[]).map(e=>present(e,choices instanceof Map?choices.get(e.round):choices?.[e.round],participantAvailable));}
+ return Object.freeze({present,list});
+});
+
+</script><script>
 /* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
  const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
  shell.dataset.view=view;
@@ -2924,9 +3005,10 @@ class F5Primitives {
    chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);
   }
   $('cityBeatDeltas').replaceChildren(nodes);
-  storyBeatUntil=clinic?Number.MAX_SAFE_INTEGER:Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
-  show('clinicFollowup',!!clinic);
-  if(clinic){
+  const needsResponse=!!clinic&&clinic.kind==='human';
+  storyBeatUntil=needsResponse?Number.MAX_SAFE_INTEGER:Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
+  show('clinicFollowup',needsResponse);
+  if(needsResponse){
    clinicFollowupPending=true;
    $('clinicResidentQuestion').textContent=clinicQuestion();
    $('clinicResponseCopy').textContent=clinicRecord.kind==='ai'
@@ -2938,7 +3020,7 @@ class F5Primitives {
   }
   shell.dataset.stage='city';
   show('cityBeat',true);
-  scene.setZoom(1.25);scene.layout();
+  scene.resetView();scene.layout();
  }
  function clearCityBeat(){
   if(!storyBeatUntil)return;
@@ -2963,7 +3045,7 @@ class F5Primitives {
   if(!clinicRecord)return '';
   const place=clinicRecord.kind==='ai'?'AI提案・駅前':clinicRecord.place==='station'?'人が判断・駅前':'人が判断・郊外';
   const reason=clinicReasonLabel();
-  const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response]||'対応未選択';
+  const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response]||(clinicRecord.kind==='ai'?'追加選択せず次の議題へ':'対応未選択');
   return `診療所：${place}。優先理由：${reason}。次の対応：${response}。これは物語上の記録で、街の指標や投票結果には加算されません。`;
  }
  const hiddenNames={trust:'信頼',fairness:'公正',resilience:'持続性'};
@@ -3029,6 +3111,9 @@ class F5Primitives {
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
+  const previous=window.GroupAccountability?.present(s.lastEvent,groupPersonalVotes.get(s.lastEvent?.round),!!s.isParticipant);
+  const comparison=$('groupPreviousResult');
+  if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}
   const voice=voices[e.agent]||voices.ソラ;
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
   $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';
@@ -3059,11 +3144,11 @@ class F5Primitives {
   $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
   if(s.round===0){$('humanText').textContent=view==='solo'?'場所と優先理由を自分で決める':'場所と優先理由を話し合う';$('aiText').textContent=view==='solo'?'AIの駅前提案を確認する':'利用予測や交通を参考にする';}
   $('humanTradeoff').textContent=`人は方針を説明しやすい一方、調整に時間がかかる。今：${e.humanNow}　その先：${e.humanLater}`;
-  $('aiTradeoff').textContent=`AIは速く選定し、見える成果を伸ばしやすい。重み付けの詳細は追いにくい。今：${e.aiNow}　その先：${e.aiLater}`;
+  $('aiTradeoff').textContent='';
   renderImpact('humanImpact',e.impactPreview?.human);
   renderImpact('aiImpact',e.impactPreview?.ai);
   $('impactNote').textContent=view==='group'
-   ?'表3指標の目安（全員が同じ案を選んだ場合）。実際は投票割合で変わります。裏の指標は非表示。'
+   ?'表3指標の変化目安は投票割合で変わります。裏の指標は非表示。'
    :'この街の表3指標の変化目安。裏の指標には別の影響もあります。';
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
@@ -3075,8 +3160,21 @@ class F5Primitives {
  function resultDescription(s){
   return {heading:s.ending?.heading||'街の判断を振り返る。',sub:s.ending?.description||'判断の記録と、街に残った課題を確かめてください。'};
  }
+ function renderGroupAccountability(s){
+  const root=$('groupAccountabilityList');if(!root)return;
+  root.replaceChildren();
+  const rows=window.GroupAccountability.list(s.history||[],groupPersonalVotes,!!s.isParticipant);
+  for(const row of rows){
+   const item=document.createElement('li'),title=document.createElement('strong'),detail=document.createElement('span');
+   title.textContent=`第${row.round}回 · ${row.heading}`;
+   detail.textContent=`自分が押した票：${row.personal}。街で実施された案：${row.outcome}。集計：${row.tally}。`;
+   item.append(title,detail);root.append(item);
+  }
+  $('groupAccountability').hidden=rows.length===0;
+ }
  function renderResult(s){
   if(!s?.shadow)return;
+  if(view==='group')renderGroupAccountability(s);
   if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
@@ -3139,6 +3237,7 @@ class F5Primitives {
  }
  function render(s){
   if(!s)return;state=s;
+  if(view==='group'){if(groupVoteCityStartedAt!==s.cityStartedAt){groupVoteCityStartedAt=s.cityStartedAt;groupPersonalVotes=new Map();}if(s.phase==='active'&&s.isParticipant&&['human','ai'].includes(s.myVote))groupPersonalVotes.set(s.round+1,s.myVote);}
   renderHud(s);syncArt(s);
   $('lobbyPeople').textContent=String(s.onlineCount||0);
   $('lobbyReadyCount').textContent=String(s.readyCount||0);
@@ -3212,8 +3311,8 @@ class F5Primitives {
   $('tutorialFeedback').textContent=choice==='human'
    ?'公園を使う人たちが、日陰で休みたいと教えてくれた。時間はかかったけれど、必要な場所が見えてきた。'
    :'AIが混雑している場所をすぐに選んだ。でも、静かな場所で休みたい人のことは、まだ分からない。';
-  show('tutorialChoices',false);show('tutorialFeedback',true);show('tutorialContinue',true);
-  $('tutorialSkip').hidden=true;$('tutorialContinue').focus();
+  show('tutorialChoices',false);show('tutorialFeedback',true);show('tutorialContinue',choice==='human');
+  $('tutorialSkip').hidden=true;if(choice==='ai'){setTimeout(()=>{if(tutorialActive&&tutorialChoice==='ai')finishTutorial();},3200);}else $('tutorialContinue').focus();
  }
  function finishTutorial(restore=true){
   tutorialActive=false;show('tutorialPanel',false);
@@ -3238,7 +3337,8 @@ class F5Primitives {
  async function choose(choice){
   if(view==='solo'){
    if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
-   if(soloGame.round===0){clinicPending=choice;show('decisionOptions',false);show('clinicChoice',true);show('humanClinicForm',choice==='human');show('aiClinicForm',choice==='ai');show('clinicChoiceRecord',false);if(choice==='human'){document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.checked=false);$('confirmHumanClinic').disabled=true;}document.querySelector(choice==='human'?'[name="clinicPlace"]':'#acceptAiClinic').focus();return;}
+   if(soloGame.round===0&&choice==='human'){clinicPending='human';show('decisionOptions',false);show('clinicChoice',true);show('humanClinicForm',true);show('aiClinicForm',false);document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.checked=false);$('confirmHumanClinic').disabled=true;document.querySelector('[name="clinicPlace"]').focus();return;}
+   if(soloGame.round===0&&choice==='ai'){clinicRecord={kind:'ai',place:'station',reason:'forecast'};clinicPending=null;submitSoloVote('ai');return;}
    if(choice==='human'&&soloGame.round>0){show('decisionOptions',false);show('strategyChoice',true);$('strategyChoice').querySelector('[data-strategy="voices"]').focus();return;}
    if(choice==='ai')$('voteFeedback').textContent='支援AIは選定を速く進め、見える成果を伸ばす利点があります。使った項目は示されますが、個別の事情をどう重み付けしたかは十分に追えません。';
    submitSoloVote(choice);return;
@@ -3372,7 +3472,7 @@ class F5Primitives {
    if(!clinicRecord.place||!clinicRecord.reason)return;
    clinicPending=null;submitSoloVote('human');
   };
-  $('acceptAiClinic').onclick=()=>{if(clinicPending!=='ai')return;clinicRecord={kind:'ai',place:'station',reason:'forecast'};clinicPending=null;submitSoloVote('ai');};
+
   document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.onchange=()=>{$('confirmClinicResponse').disabled=!document.querySelector('[name="clinicResponse"]:checked');});
   $('confirmClinicResponse').onclick=()=>{
    if(!clinicRecord||!clinicFollowupPending)return;

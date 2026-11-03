@@ -12,7 +12,8 @@
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
    <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section></div>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div></div>
+  <div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div><section id="clinicFollowup" class="clinic-followup" hidden><strong id="clinicResidentQuestion"></strong><p id="clinicResponseCopy"></p><fieldset id="clinicResponseChoices"><legend>次にどう対応する？</legend><label><input type="radio" name="clinicResponse" value="review">評価を調べ直す（時間をかけて、判断の根拠を確かめる）</label><label><input type="radio" name="clinicResponse" value="support">先に通院を支援する（今の負担を軽くするが、建設場所の偏りは残る）</label><label><input type="radio" name="clinicResponse" value="revise">計画を見直す（場所を再検討できるが、開設が遅れる）</label></fieldset><button id="confirmClinicResponse" class="primary-action" type="button" disabled>対応を記録して続ける</button></section>
   </div>
   <section class="hud" aria-label="まちの様子">
    <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
@@ -35,7 +36,7 @@
     <p id="tutorialLine" aria-live="polite">ヒカリ「公園にベンチを増やすよ。どこに置くか、誰が決める？」</p>
     <div id="tutorialChoices" class="tutorial-choices">
      <button type="button" id="tutorialHuman" class="tutorial-choice"><span>01 · 人が判断する</span><strong>公園の利用者に聞く</strong></button>
-     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02 · AIに任せる</span><strong>AIに混雑データで決めてもらう</strong></button>
+     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02</span><strong>AIに任せる</strong></button>
     </div>
     <div id="tutorialFeedback" class="tutorial-feedback" role="status" hidden></div>
     <button type="button" id="tutorialContinue" class="primary-action" hidden>本編へ進む →</button>
@@ -55,10 +56,10 @@
    </section>
    <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
    <section class="question-panel" id="questionPanel" hidden>
-    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
+    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
     <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><span class="resident-label">影響を受ける人 · 住民</span><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><p class="workload-note" id="workloadNote">展示上の情景 · 相談や依頼が重なる街。AIは選定を速く進めます。</p><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">市長として、どう決めますか？</p>
      <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">まちづくり支援AI · 委任</span><strong id="aiText">収益予測を優先する</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02</span><strong>AIに任せる</strong><span id="aiText" hidden></span><span id="aiTradeoff" hidden></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安" hidden></span><span class="option-arrow">↗</span></button>
      <p class="impact-note" id="impactNote">表の3指標の変化目安。裏の指標は表示されません。</p>
     </div>
     <section class="strategy-choice" id="strategyChoice" hidden aria-labelledby="strategyTitle"><span class="overline">市長が選ぶ人の方針</span><h2 id="strategyTitle">どんな視点で決める？</h2><p>演出上の検討方針です。どちらを選んでも、人の判断として同じ施策・同じスコアになります。</p><button type="button" data-strategy="voices">現地の声を確かめる</button><button type="button" data-strategy="balance">複数地区の希望を調整する</button><button type="button" id="cancelStrategy" class="text-action">選択に戻る</button></section>
@@ -73,7 +74,7 @@
      <div id="aiClinicForm" class="clinic-form" hidden>
       <p>AIの提案：駅前。予測利用者数、交通の便、人口構成などを使った提案です。これらの項目は確認できますが、個々の通院事情が提案にどれだけ影響したかは、この場で説明しきれません。</p>
       <details><summary>提案に使った項目を見る</summary><ul><li>予測利用者数</li><li>交通の便と移動のつながり</li><li>人口構成</li></ul><p>個別の事情をどの程度重く扱ったかまでは、この提案だけでは確かめられません。</p></details>
-      <button id="acceptAiClinic" class="primary-action" type="button">提案を確認して、駅前に決める</button>
+
      </div>
      <p class="clinic-record" id="clinicChoiceRecord" aria-live="polite" hidden></p>
     </section>
@@ -84,7 +85,7 @@
    <section class="result-panel" id="resultPanel" hidden>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
-    <section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
+    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="6指標の結果"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた成果（表3）</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">プレイ中には数値が見えていなかった影響（裏3）</span><div id="shadowMetrics"></div></div></section>
     <section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>誰に任せ、どの方針を選び、街に何が残ったかを保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
@@ -99,5 +100,5 @@
  </div>
  <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
 </div>
-<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/reflection-report.js"></script><script src="/decision-ux.js"></script><script src="/app.js"></script>
+<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/reflection-report.js"></script><script src="/decision-ux.js"></script><script src="/group-accountability.js"></script><script src="/app.js"></script>
 </body></html>

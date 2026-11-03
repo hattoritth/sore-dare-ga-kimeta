@@ -26,13 +26,13 @@ test('dialogue presents decisions directly without an intermediary button',()=>{
  assert.match(app,/show\('decisionOptions',true\)/);
 });
 
-test('each decision explains short- and long-term tradeoffs and the ending records agency',()=>{
+test('human choices explain their tradeoffs while the AI action stays one tap and ending records agency',()=>{
  const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  const engine=fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8');
- assert.match(html,/id="humanTradeoff"/);assert.match(html,/id="aiTradeoff"/);
+ assert.match(html,/id="humanTradeoff"/);assert.match(html,/id="aiTradeoff" hidden/);assert.match(html,/<strong>AIに任せる<\/strong>/);
  assert.match(app,/今：\$\{e\.humanNow\}　その先：\$\{e\.humanLater\}/);
- assert.match(app,/今：\$\{e\.aiNow\}　その先：\$\{e\.aiLater\}/);
+ assert.doesNotMatch(app,/今：\$\{e\.aiNow\}/);
  assert.match(html,/決め方と責任/);assert.match(app,/AIに何を任せるか決めたのも、あなたの選択です/);
  const Engine=require('../engine.js');
  assert.equal(Engine.EPISODES.length,7);
@@ -95,3 +95,8 @@ test('initial city draw has a moving placeholder until canvas renders',()=>{
  assert.match(app,/scene\.render\(dt\)/);
  assert.match(app,/if\(pixel\[0\]\+pixel\[1\]\+pixel\[2\]>220\)show\('cityLoading',false\)/);
 });
+
+const nodeTest=require('node:test'); const nodeAssert=require('node:assert/strict'); const nodeFs=require('node:fs'); const nodePath=require('node:path');
+nodeTest('shared comparison render target exists before question rendering',()=>{const html=nodeFs.readFileSync(nodePath.join(__dirname,'../public/index.html'),'utf8');const app=nodeFs.readFileSync(nodePath.join(__dirname,'../public/app.js'),'utf8');nodeAssert.match(html,/id="groupPreviousResult"/);nodeAssert.match(app,/\$\('groupPreviousResult'\)/);});
+
+nodeTest('onboarding AI delegation is a single choice and auto progresses',()=>{const html=nodeFs.readFileSync(nodePath.join(__dirname,'../public/index.html'),'utf8');const app=nodeFs.readFileSync(nodePath.join(__dirname,'../public/app.js'),'utf8');nodeAssert.match(html,/<button[^>]+id="tutorialAi"[^>]*><span>02<\/span><strong>AIに任せる<\/strong>/);nodeAssert.match(app,/show\('tutorialContinue',choice==='human'\)/);nodeAssert.match(app,/if\(choice==='ai'\)\{setTimeout/);});
