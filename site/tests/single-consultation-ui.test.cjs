@@ -30,7 +30,8 @@ test('the mayor is still offered both actions; AI is one tap and public estimate
  assert.match(html,/id="humanDecision"/);
  assert.match(html,/id="humanImpact"/);
  assert.match(html,/id="aiDecision"/);
- assert.match(html,/id="aiImpact"[^>]*hidden/);
+ assert.match(html,/id="aiImpact"[^>]*aria-label="AI案の表3指標の変化予測"/);
  assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
+ assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
  assert.match(app,/e\.aiNow,e\.aiLater/);
 });

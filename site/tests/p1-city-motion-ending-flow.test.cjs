@@ -10,7 +10,7 @@ test('ending reveal follows picture, title, reason, metrics, then save with deli
  assert.match(app,/endingFlowLabels=\['変わった街','結末','理由','6つの指標','保存'\]/);
  assert.match(app,/endingSceneCache\.get\(s\.cityStartedAt/);
  assert.match(app,/endingFlowStage=Math\.min\(4,endingFlowStage\+1\)/);
- assert.match(app,/endingFlowStage=4/);
+ assert.match(app,/endingFlowStage=3;if\(state\)renderResult\(state\)/);
  assert.match(app,/metricComparison'\)\.hidden=endingFlowStage<3/);
  assert.match(app,/endingCardTools'\)\.hidden=endingFlowStage<4/);
  assert.match(app,/pressConference'\)\.hidden=endingFlowStage<4\|\|!pressOpen/);

@@ -12,6 +12,7 @@
    const allAi=chosen.length>0&&chosen.every(item=>item==='ai');
    const allHuman=chosen.length>0&&chosen.every(item=>item==='human');
    if(allAi)return '判断をAIに委ねる選択が続きました。結果に出た課題を、人が途中で確かめる機会が足りなかった可能性があります。';
+   if(allHuman&&state?.ending?.metric==='prosperity')return `結末ではにぎわいが0となり、仕事やお店、街の経済を維持できませんでした。今回の記録では${chosen.length}回とも人の案が選ばれ、AI案の予測利用者数や企業需要は実施案に採用されていません。経済への影響は結末と履歴に現れていますが、各選択の寄与まではこの記録から切り分けられません。`;
    if(allHuman)return '人が判断を担い続けても、街の課題は残りました。AIの予測や別の地区の情報を加えて確かめる余地があります。';
    return '人とAIの判断を組み合わせても課題が残りました。街に起きた変化を確かめ、次に何を見直すか考える余地があります。';
   }

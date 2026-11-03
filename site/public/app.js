@@ -176,6 +176,9 @@
   $('aiTradeoff').textContent=[e.aiNow,e.aiLater].filter(Boolean).join('。');
   renderImpact('humanImpact',e.impactPreview?.human);
   $('humanImpact').setAttribute('aria-label',view==='solo'?'人の案の表3指標の変化予測。詳細選択によって変わります':'人が判断した場合の表3指標の変化予測');
+  $('aiImpact').title='プレイ中に見える3指標の大まかな変化予測です。';
+  $('aiImpact').setAttribute('aria-label','AI案の表3指標の変化予測');
+  renderImpact('aiImpact',e.impactPreview?.ai);
   $('impactNote').textContent=view==='group'
    ?'表3指標の変化目安は投票割合で変わります。裏の指標は非表示。'
    :'人の案の表3指標（詳細選択後に変化）。';
@@ -206,7 +209,7 @@
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();$('shadowSpotlightRows').replaceChildren();}
   const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
   if(!endingSceneReady){if(scene?.render)scene.render(0);endingSceneImage=endingSceneCache.get(s.cityStartedAt,$('townCanvas'));endingSceneReady=true;}
   const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
@@ -217,10 +220,12 @@
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   if(['stable','true','collapse'].includes(s.ending?.kind))$('endingText').textContent=window.ReflectionReport.normalReflection(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);
-  show('endingIncident',!!s.incident||!!s.ending?.risks.length);
-  $('endingIncident').textContent=s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ');
+  show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
+  $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
-  if(endingFlowStage>=3&&endingMetricsCity!==s.cityStartedAt){endingMetricsCity=s.cityStartedAt;for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}}
+  if(endingFlowStage>=3&&endingMetricsCity!==s.cityStartedAt){endingMetricsCity=s.cityStartedAt;for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
+   const spotlight=$('shadowSpotlightRows');spotlight.replaceChildren();for(const metric of pressData.metrics.filter(x=>x.group==='shadow')){const row=document.createElement('article'),name=document.createElement('strong'),value=document.createElement('b'),meaning=document.createElement('span');row.className='shadow-spotlight-row';name.textContent=metric.label;value.textContent=String(clamp(metric.value));value.setAttribute('aria-label',`${metric.label} ${clamp(metric.value)} / 100`);meaning.textContent=metric.meaning;row.append(name,value,meaning);spotlight.append(row);}
+  }
   const radar=$('endingRadar');if(endingFlowStage>=3&&endingRadarCity!==s.cityStartedAt){endingRadarCity=s.cityStartedAt;radar.innerHTML=window.EndingCard.radarSvg(window.EndingCard.metricKeys.map(key=>pressData.metrics.find(metric=>metric.key===key)?.value??0));}
   $('metricComparison').hidden=!pressDone;
   const card=$('endingCardTools');card.hidden=!pressDone;
@@ -237,22 +242,23 @@
   const endingFlowLabels=['変わった街','結末','理由','6つの指標','保存'];
   $('endingProgress').textContent=`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
   $('endingCityPicture').hidden=endingFlowStage!==0;
-  $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2;
-  $('endingIncident').hidden=endingFlowStage<2||(!s.incident&&!s.ending?.risks.length);
+  $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2||endingFlowStage===3;
+  $('shadowSpotlight').hidden=endingFlowStage!==3;
+  $('endingIncident').hidden=endingFlowStage<3||(!s.incident&&!s.ending?.risks.length);
   if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
   if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
   if(endingFlowStage<4){$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();}
   $('metricComparison').hidden=endingFlowStage<3;
-  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;if(endingUiStage!==endingFlowStage){endingUiStage=endingFlowStage;$('metricComparison').open=endingFlowStage===3;if(endingFlowStage===4)$('endingCardMore').open=false;}
+  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;if(endingUiStage!==endingFlowStage){endingUiStage=endingFlowStage;$('metricComparison').open=false;if(endingFlowStage===4)$('endingCardMore').open=false;}
   $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
-  $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4;$('resultNote').hidden=endingFlowStage<4;
+  $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4||view!=='solo';$('resultNote').hidden=endingFlowStage<4;
   $('pressConference').hidden=endingFlowStage<4||!pressOpen;
   $('openEndingPress').hidden=endingFlowStage<4||pressOpen;
   if(endingFlowStage<3){if(endingMetricsCity===s.cityStartedAt){endingMetricsCity=null;$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();}if(endingRadarCity===s.cityStartedAt){endingRadarCity=null;radar.replaceChildren();}}
   if(endingFlowStage<4){$('decisionAccountability').textContent='';$('historyList').replaceChildren();$('resultNote').textContent='';}
   $('endingNext').hidden=endingFlowStage>=4;
   $('endingNext').textContent=['結末を見る','理由を見る','指標を見る','保存へ進む','保存する'][endingFlowStage]||'保存する';
-  $('endingShowAll').hidden=endingFlowStage>=4;
+  $('endingShowAll').hidden=endingFlowStage>=3;
   $('resultNote').textContent=view==='group'?'次の街の参加受付まで '+clock(s.endsAt-EngineNow())+'。保留した議題も、次の判断で考えてみてください。':'数字に現れなかった声も、次の判断で確かめてみてください。';
   const choicesCount={human:0,ai:0,mixed:0,none:0};
   for(const event of s.history||[])choicesCount[event.chosen]=(choicesCount[event.chosen]||0)+1;
@@ -278,7 +284,7 @@
   $('replayButton').disabled=view!=='solo';
  }
  $('endingNext').addEventListener('click',()=>{endingFlowStage=Math.min(4,endingFlowStage+1);if(state)renderResult(state);});
- $('endingShowAll').addEventListener('click',()=>{endingFlowStage=4;if(state)renderResult(state);});
+ $('endingShowAll').addEventListener('click',()=>{endingFlowStage=3;if(state)renderResult(state);});
  function renderDisplay(s){
   if(view!=='display')return;
   const count=s?.onlineCount||0;$('displayCount').replaceChildren();
@@ -301,6 +307,11 @@
  }
  function render(s){
   if(!s)return;state=s;
+  if(s.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s.cityStartedAt!==endingFlowCityStartedAt){
+   $('shadowSpotlightRows').replaceChildren();$('shadowSpotlight').hidden=true;
+   $('shadowMetrics').replaceChildren();$('publicMetrics').replaceChildren();$('endingRadar').replaceChildren();
+   endingFlowCityStartedAt=null;endingUiStage=-1;
+  }
   if(view==='group'){if(groupVoteCityStartedAt!==s.cityStartedAt){groupVoteCityStartedAt=s.cityStartedAt;groupPersonalVotes=new Map();}if(s.phase==='active'&&s.isParticipant&&['human','ai'].includes(s.myVote))groupPersonalVotes.set(s.round+1,s.myVote);}
   renderHud(s);syncArt(s);
   $('lobbyPeople').textContent=String(s.onlineCount||0);
@@ -313,7 +324,7 @@
   $('shell').setAttribute('data-crisis',s.incident?.visual||'');
   $('yearStamp').innerHTML=`${2035+Math.min(8,Math.max(1,s.round+1))} <i>·</i> ${['春','夏','秋','冬'][s.round%4]}`;
   $('cityStatus').textContent=s.ending?.kind==='warning'?'警告を残して街は続きます':s.ending?.kind==='undecided'?'街の判断が保留されています':s.incident?'街に重大なトラブルが発生':s.alert?'街に異変が起きている':s.phase==='reveal'?'街に、変化が起きた':s.phase==='lobby'?'参加者がそろうのを待っています':s.phase==='waiting'?'街の暮らしは続いている':'市長政策会議中';
-  const ticker=s.ending?.kind==='warning'?'【街に残る課題】'+s.ending.risks.map(x=>x.title).join('・'):s.ending?.kind==='undecided'?s.ending.heading:s.incident?'【街の緊急ニュース】'+s.incident.title:s.alert?'【街の異変】'+s.alert.title:s.phase==='reveal'?'すべての決定には、続きがある。':s.lastEvent?.result||'街は、今日も少しずつ変わっていく。';if($('cityTicker').textContent!==ticker){$('cityTicker').textContent=ticker;$('cityTicker').classList.remove('ticker-arrived');void $('cityTicker').offsetWidth;$('cityTicker').classList.add('ticker-arrived');}
+  const ticker=view==='group'&&!s.isParticipant&&s.phase!=='reveal'?(s.phase==='lobby'?'参加受付中。準備ができたら街づくりが始まります。':s.phase==='waiting'?'次の街を準備しています。':s.phase==='active'&&s.round+1>=s.roundTotal?'最後の議題が進行中です。今回は結末を見届け、次の街から参加できます。':'この街は進行中。次の議題から参加できます。'):s.ending?.kind==='warning'?'【街に残る課題】'+s.ending.risks.map(x=>x.title).join('・'):s.ending?.kind==='undecided'?s.ending.heading:s.incident?'【街の緊急ニュース】'+s.incident.title:s.alert?'【街の異変】'+s.alert.title:s.phase==='reveal'?'すべての決定には、続きがある。':s.lastEvent?.result||'街は、今日も少しずつ変わっていく。';if($('cityTicker').textContent!==ticker){$('cityTicker').textContent=ticker;$('cityTicker').classList.remove('ticker-arrived');void $('cityTicker').offsetWidth;$('cityTicker').classList.add('ticker-arrived');}
   $('cityLocation').textContent='まちの中心から';$('cityWeather').textContent=s.incident?({flood:'豪雨・道路冠水',transit:'交通停止',economy:'街の施設が休業',departure:'人通りが減った街',divide:'地区間で対立',protest:'住民が説明を求める'})[s.incident.visual]:s.ending?.kind==='warning'?'残った課題を点検中':['穏やかな風','夏の陽射し','秋の気配','冬の空'][s.round%4];
   renderDisplay(s);
   if(view==='home')return;
@@ -498,6 +509,7 @@
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
   for(const b of document.querySelectorAll('[data-strategy]'))b.onclick=()=>{if(view!=='solo'||!soloGame||soloGame.round<1||soloGame.round>3||soloGame.votes.solo)return;const plan=DecisionUX.record(soloGame.round+1,b.dataset.strategy);if(!plan||!MachiEngine.chooseSoloDetail(soloGame,'solo',{kind:'strategy',strategy:plan.strategy}))return;soloHumanPlans.push(plan);submitSoloVote('human');};
   $('cancelStrategy').onclick=()=>{show('strategyChoice',false);show('decisionOptions',true);$('humanDecision').focus();};
+  $('cancelHumanClinic').onclick=()=>{if(clinicPending!=='human'||view!=='solo')return;clinicPending=null;show('clinicChoice',false);show('decisionOptions',true);$('humanDecision').focus();};
   const updateHumanClinic=()=>{$('confirmHumanClinic').disabled=!document.querySelector('[name="clinicPlace"]:checked')||!document.querySelector('[name="clinicReason"]:checked');};
   document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.onchange=updateHumanClinic);
   $('confirmHumanClinic').onclick=()=>{
