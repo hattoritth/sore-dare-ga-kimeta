@@ -25,20 +25,33 @@
   const texts=labels.map((label,i)=>{const [x,y]=point(119,i);let anchor='middle';if(x<cx-20)anchor='end';if(x>cx+20)anchor='start';const vy=y<cy-20?'hanging':y>cy+20?'auto':'middle';return `<text x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="${vy}" class="axis">${label} ${Math.round(clamp(values[i]))}</text>`;}).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
  }
+ function wrapText(value,maxChars,maxLines){
+  const chars=Array.from(String(value||'')),lines=[];
+  while(chars.length&&lines.length<maxLines)lines.push(chars.splice(0,maxChars).join(''));
+  if(chars.length&&lines.length)lines[lines.length-1]=Array.from(lines[lines.length-1]).slice(0,Math.max(1,maxChars-1)).join('')+'…';
+  return lines.length?lines:[''];
+ }
+ function svgLines(value,x,y,className,maxChars,maxLines,lineHeight){
+  return wrapText(value,maxChars,maxLines).map((line,i)=>`<text x="${x}" y="${y+i*lineHeight}" class="${className}">${esc(line)}</text>`).join('');
+ }
+ function valuesFor(data){return metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));}
+ function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='stable'?'stable':'neutral');}
+ function buildPreview(data={}){
+  const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');
+  return `<article class="ending-preview-card"><header><span class="ending-preview-eyebrow">街の記録</span><h3>${esc(heading)}</h3><p>${esc(desc)}</p></header><div class="ending-preview-layout"><figure class="ending-preview-scene">${sceneSvg(sceneFor(data))}<figcaption>${esc(data.endingLabel||scene.label)}</figcaption></figure><section class="ending-preview-metrics" aria-label="街の最終指標"><h4>街に残った6つの状態</h4><ul>${rows}</ul></section></div></article>`;
+ }
  function buildSvg(data={}){
-  const vals=metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));
-  const scene=data.scene|| (data.kind==='collapse'?data.metric:data.kind==='stable'?'stable':'neutral');
-  const desc=String(data.description||'街の判断の結果です。');
-  const heading=String(data.title||'街の記録');
-  const sceneMarkup=sceneSvg(scene).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scenes[scenes[scene]?scene:'neutral'].label+'">','<g transform="translate(72 158) scale(1.08 1.08)">').replace('</svg>','</g>');
-  const chart=radarSvg(vals).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100">','<g transform="translate(770 164) scale(1.3)">').replace('</svg>','</g>');
-  const valueRows=labels.map((l,i)=>`<text x="1160" y="${278+i*74}" class="metriclabel">${l}</text><text x="1485" y="${278+i*74}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1160" y="${294+i*74}" width="325" height="13" rx="6" fill="#e0e5da"/><rect x="1160" y="${294+i*74}" width="${325*vals[i]/100}" height="13" rx="6" fill="${i<3?'#467c5a':'#b17943'}"/>`).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:58px;font-weight:800}.desc{font-size:25px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:12px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:25px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="48" y="48" width="1504" height="1004" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="142" class="title">${esc(heading)}</text><text x="98" y="190" class="desc">${esc(desc)}</text>${sceneMarkup}<text x="112" y="506" class="section">街の結末</text><text x="112" y="554" class="desc">${esc(data.endingLabel||scenes[scenes[scene]?scene:'neutral'].label)}</text><text x="112" y="635" class="section">街の同じ風景に残った変化</text><text x="800" y="132" class="section">6指標 · 最終値 / 100</text>${chart}<text x="1158" y="220" class="section">値</text>${valueRows}<text x="96" y="1007" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
+  const vals=valuesFor(data),sceneKey=sceneFor(data),scene=scenes[scenes[sceneKey]?sceneKey:'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const sceneMarkup=sceneSvg(sceneKey).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scene.label+'">','<g transform="translate(100 420) scale(1.04 1.04)">').replace('</svg>','</g>');
+  const chart=radarSvg(vals).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100">','<g transform="translate(555 410) scale(1.16)">').replace('</svg>','</g>');
+  const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:14px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6指標 · 最終値 / 100</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="746" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,790,'desc',32,3,36)}${chart}${valueRows}<text x="100" y="1004" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
  }
  function renderCard(context,canvas){
   if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
   const svg=buildSvg(context),blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob);
   return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);resolve(canvas);}catch(error){URL.revokeObjectURL(url);reject(error);}};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('結果カードをPNG画像に変換できませんでした。'));};img.src=url;});
  }
- return {sceneSvg,buildSvg,renderCard,metricKeys,labels,scenes};
+ return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes};
 });

@@ -75,6 +75,8 @@ test('landing and decision surface keep role and workload explanations concise a
  const css=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/style.css'),'utf8');
  assert.doesNotMatch(html,/class="role-key|workload-note|相談や依頼が重なる街/);
  assert.match(html,/街へ進む／スキップ/);
+ assert.match(css,/\.play-surface>:not\(\.side-panel\)\{display:none!important\}/);
+ assert.match(css,/#resultPanel>:not\(#endingCardTools\)\{display:none!important\}/);
  assert.match(css,/prefers-reduced-motion:reduce/);
  const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
  assert.match(app,/const prologueTimes=\[1300,1500,1700,1300\]/);
@@ -94,6 +96,37 @@ test('ending card covers six risk scenes, success and qualified neutral with all
  const undecided=card.buildSvg({kind:'undecided',scene:'neutral',metrics});assert.match(undecided,/課題の残る街/);
  const stable=card.buildSvg({kind:'stable',scene:'stable',metrics});assert.match(stable,/健やかに続く街/);
  for(const value of values)assert.ok(stable.includes('>'+value+'</text>'));
+});
+
+test('ending preview is readable semantic HTML while exports keep a separate complete 1600 by 1100 SVG',()=>{
+ const card=require('../public/ending-card.js'),fs=require('node:fs'),path=require('node:path');
+ const metrics=card.metricKeys.map((key,i)=>({key,value:[100,82,64,46,28,10][i]}));
+ const context={kind:'collapse',metric:'trust',scene:'trust',title:'市への信頼が失われた街',description:'長い説明文を安全に折り返して表示し、画面内の要素と重ならないことを確かめる。'.repeat(4),endingLabel:'市への信頼の危機',metrics};
+ const preview=card.buildPreview(context),svg=card.buildSvg(context);
+ assert.match(preview,/class="ending-preview-card"/);assert.match(preview,/<h3>市への信頼が失われた街<\/h3>/);
+ assert.doesNotMatch(preview,/<svg[^>]+width="1600"/);
+ for(const [i,value] of [100,82,64,46,28,10].entries()){
+  assert.ok(preview.includes(card.labels[i]),card.labels[i]+' preview label');
+  assert.match(svg,new RegExp(`class="metricvalue">${value}<\/text>`),card.labels[i]+' exported value');
+ }
+ const hostile=card.buildPreview({...context,title:'<img src=x onerror=alert(1)>'});
+ assert.doesNotMatch(hostile,/<img src=x/);assert.match(hostile,/&lt;img src=x onerror=alert\(1\)&gt;/);
+ const long=card.buildSvg({...context,title:'長い結末見出し'.repeat(8),description:'長い説明を最後まで読みやすく折り返します。'.repeat(12)});
+ const header=long.split('<line x1=')[0];
+ assert.equal((header.match(/class="title"/g)||[]).length,2,'long title uses two lines');
+ assert.equal((header.match(/class="desc"/g)||[]).length,2,'long explanation uses two lines');
+ assert.match(header,/class="title">長い結末/);assert.match(header,/y="257" class="desc"/);
+ assert.match(svg,/width="1600" height="1100" viewBox="0 0 1600 1100"/);
+ assert.match(svg,/class="title"/);assert.match(svg,/class="axis"/);assert.match(svg,/translate\(555 410\)/);
+ const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8'),html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8'),css=fs.readFileSync(path.join(__dirname,'../public/style.css'),'utf8');
+ assert.match(app,/endingCardPreview'\)\.innerHTML=window\.EndingCard\.buildPreview\(context\)/);
+ assert.match(app,/endingCardPrint'\)\.innerHTML=window\.EndingCard\.buildSvg\(context\)/);
+ assert.match(app,/renderCard\(context,\$\('endingCardCanvas'\)\)/);
+ assert.match(html,/id="endingCardPrint" class="ending-card-print"/);
+ assert.match(css,/\.metric-comparison\{grid-template-columns:minmax\(0,1fr\)/);
+ assert.match(css,/@container \(min-width:440px\)/);
+ assert.match(css,/#endingCardPrint svg\{display:block!important;width:100%!important;height:auto!important;max-height:277mm!important/);
+ assert.match(css,/prefers-reduced-motion:reduce/);
 });
 
 test('standalone ending card has no external resource references and decision confirmation uses real event text',()=>{
