@@ -377,6 +377,7 @@
 /* Ending reveal: the actual town image leads; metrics stay readable in the narrow result rail. */
 .ending-scene-visual,.ending-stage-scene{position:relative;overflow:hidden;border-radius:16px;background:#d5d8cf;aspect-ratio:16/10;min-height:150px;isolation:isolate}
 .ending-scene-visual img{display:block;width:100%;height:100%;object-fit:cover}
+.ending-scene-visual>svg{display:block;width:100%;height:100%;min-height:inherit}
 .ending-scene-visual>span{position:absolute;inset:0;pointer-events:none;background:var(--ending-tone,transparent);mix-blend-mode:soft-light}
 .ending-scene-visual[data-theme=success]{--ending-tone:linear-gradient(135deg,#fff3b0aa,#d3edc455)}
 .ending-scene-visual[data-theme=caution]{--ending-tone:linear-gradient(135deg,#d89a4a55,#4b514a22)}

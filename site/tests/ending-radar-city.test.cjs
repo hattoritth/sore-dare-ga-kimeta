@@ -56,3 +56,36 @@ test('saved preview and 1600x1100 card include the real town image, radar and al
  assert.match(svg,/6指標/);for(const metric of metrics)assert.match(svg,new RegExp(`>${metric.value}<`));
  assert.match(app,/scene\.render\(0\)/);assert.match(app,/endingSceneCache\.clear\(\)/);
 });
+
+
+test('new city clears the prior hero image and all final metric DOM before recapturing',()=>{
+ assert.match(app,/endingSceneCache\.clear\(\);endingSceneReady=false/);
+ assert.match(app,/endingFlowStage=0;pressDone=true;pressOpen=false;\$\('endingCityPicture'\)\.replaceChildren\(\)/);
+ for(const id of ['endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList'])
+  assert.ok(app.includes("$('"+id+"').replaceChildren()"), "reset "+id);
+});
+
+test('fallback scene preserves distinct themes and reveals no ending title to screen readers',()=>{
+ const formats=[['true','true','success'],['stable','stable','neutral'],['warning','neutral','caution'],['undecided','neutral','neutral']];
+ for(const [kind,scene,theme] of formats){
+  const html=Card.sceneVisual({kind,scene,sceneImage:''});
+  assert.match(html,new RegExp('data-theme="'+theme+'"'));
+  assert.match(html,/<svg[^>]*aria-hidden="true"/);
+  assert.doesNotMatch(html,/aria-label="TRUE END/);
+ }
+ assert.notEqual(Card.sceneVisual({kind:'true',scene:'true'}),Card.sceneVisual({kind:'stable',scene:'stable'}));
+ assert.notEqual(Card.sceneVisual({kind:'warning',scene:'neutral'}),Card.sceneVisual({kind:'undecided',scene:'neutral'}));
+});
+
+test('exported city cards have four genuinely distinct visible overlays',()=>{
+ const stubImage='data:image/png;base64,iVBORw0KGgo=';
+ const cases=[['true','true'],['stable','stable'],['warning','neutral'],['undecided','neutral']];
+ const overlays=cases.map(([kind,scene])=>{
+  const svg=Card.buildSvg({kind,scene,sceneImage:stubImage,metrics});
+  const m=svg.match(/<rect x="96" y="416" width="390" height="310" rx="14" fill="(#[0-9a-f]{6})" opacity="([.0-9]+)" clip-path="url\(#ending-city-clip\)"\/>/);
+  assert.ok(m,'expected colored overlay '+kind);
+  return m[1]+':'+m[2];
+ });
+ assert.equal(new Set(overlays).size,4);
+ assert.match(css,/\.ending-scene-visual>svg\{display:block;width:100%/);
+});

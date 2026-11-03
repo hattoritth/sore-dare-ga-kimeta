@@ -23,9 +23,11 @@
  function createSceneSnapshotCache(){let city=null,image='';return {get(cityStartedAt,canvas){if(city!==cityStartedAt){city=cityStartedAt;image='';try{if(canvas?.width>0&&canvas?.height>0)image=validSceneImage(canvas.toDataURL('image/png'))||'';}catch(_){image='';}}return image;},clear(){city=null;image='';}};}
  function sceneVisual(data={},className='ending-scene-visual'){
   const key=scenes[sceneFor(data)]?sceneFor(data):'neutral',label=data.endingLabel||scenes[key].label,image=validSceneImage(data.sceneImage);
-  if(!image)return sceneSvg(key).replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"');
   const theme=({prosperity:'prosperity',convenience:'convenience',appeal:'appeal',trust:'trust',fairness:'fairness',resilience:'resilience',stable:'neutral',true:'success',neutral:data.kind==='warning'?'caution':'neutral'})[key]||'neutral';
-  return `<div class="${className}" data-theme="${theme}" role="img" aria-label="判断後の街の風景"><img src="${image}" alt="" decoding="async"><span aria-hidden="true"></span></div>`;
+  // Preserve the ending-specific styling even when the canvas cannot be captured.
+  // The nested SVG has no accessible title; the wrapper describes only the scene.
+  const picture=image?`<img src="${image}" alt="" decoding="async">`:sceneSvg(key).replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"');
+  return `<div class="${className}" data-theme="${theme}" role="img" aria-label="判断後の街の風景">${picture}<span aria-hidden="true"></span></div>`;
  }
  function radarFigure(vals){return `<figure class="ending-preview-radar" aria-label="6つの指標"><figcaption>6つの指標</figcaption>${radarSvg(vals)}</figure>`;}
  function radarSvg(values){
@@ -53,8 +55,13 @@
  }
  function buildSvg(data={}){
   const vals=valuesFor(data),sceneKey=sceneFor(data),scene=scenes[scenes[sceneKey]?sceneKey:'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
-  const image=validSceneImage(data.sceneImage),themeColor=({resilience:'#4c8ca0',trust:'#9a6455',fairness:'#92745c',prosperity:'#686257',convenience:'#b87352',appeal:'#82916a',stable:'#f2d785',true:'#f2d785',neutral:'#d7c89b'})[sceneKey]||'#d7c89b';
-  const sceneMarkup=image?`<defs><clipPath id="ending-city-clip"><rect x="96" y="416" width="390" height="310" rx="14"/></clipPath></defs><image href="${image}" x="96" y="416" width="390" height="310" preserveAspectRatio="xMidYMid slice" clip-path="url(#ending-city-clip)"/><rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${data.kind==='true'?'.04':data.kind==='stable'?'.07':data.kind==='collapse'?'.16':'.11'}" clip-path="url(#ending-city-clip)"/>`:
+  const image=validSceneImage(data.sceneImage);
+  // Result cards distinguish accountable TRUE, ordinary survival, an unresolved
+  // decision, and warning. Crisis colors remain linked to their actual metric.
+  const themeColor=({resilience:'#4c8ca0',trust:'#9a6455',fairness:'#92745c',prosperity:'#686257',convenience:'#b87352',appeal:'#82916a'})[sceneKey]
+    ||({true:'#e5b54b',stable:'#7ea995',warning:'#cd9a48',undecided:'#9ba7a0'})[data.kind]||'#9ba7a0';
+  const themeOpacity=({true:'.12',stable:'.08',warning:'.15',undecided:'.06',collapse:'.16'})[data.kind]||'.08';
+  const sceneMarkup=image?`<defs><clipPath id="ending-city-clip"><rect x="96" y="416" width="390" height="310" rx="14"/></clipPath></defs><image href="${image}" x="96" y="416" width="390" height="310" preserveAspectRatio="xMidYMid slice" clip-path="url(#ending-city-clip)"/><rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}" clip-path="url(#ending-city-clip)"/>`:
    sceneSvg(sceneKey).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scene.label+'">','<g transform="translate(100 420) scale(1.04 1.04)">').replace('</svg>','</g>');
   const chart=radarSvg(vals).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100">','<g transform="translate(555 410) scale(1.16)">').replace('</svg>','</g>');
   const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
