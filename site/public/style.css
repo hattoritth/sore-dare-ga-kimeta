@@ -423,3 +423,20 @@
 /* One simple online-mode disclosure, only when opening the offline HTML. */
 .standalone-group-note{grid-column:1/-1;margin:0;color:#f6efdf;font-size:12px;line-height:1.45;font-weight:600;text-align:center}
 .standalone-group-note[hidden]{display:none!important}
+
+/* Single speaker, single question: the department head asks the mayor directly. */
+.question-panel .conversation .agent-bio{padding:6px 11px;gap:7px;flex-wrap:wrap;white-space:normal}
+.question-panel .speech-bubble{padding:14px 16px}
+.question-panel .speech-bubble .agent-line{display:block;margin:0;font-size:clamp(17px,1.5vw,21px);line-height:1.5;font-weight:800;letter-spacing:-.02em;color:#234c40;text-wrap:pretty}
+.question-panel .speech-bubble .question-detail{margin:9px 0 0;font-size:13px;line-height:1.55;font-weight:600;color:#627a6e}
+.question-panel .speech-bubble .question-detail[hidden]{display:none!important}
+.question-panel .decision-options{padding-top:8px}
+@media(max-width:750px){
+ .question-panel .conversation .agent-bio{gap:5px;padding:6px 8px}
+ .question-panel .conversation .agent-bio strong{font-size:13px}
+ .question-panel .conversation .agent-bio span{font-size:11px}
+ .question-panel .speech-bubble{padding:12px}
+ .question-panel .speech-bubble .agent-line{font-size:17px;line-height:1.48}
+ .question-panel .speech-bubble .question-detail{font-size:12px;line-height:1.5;margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){.question-panel .conversation-copy{animation:none!important}}

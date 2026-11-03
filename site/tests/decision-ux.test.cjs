@@ -41,14 +41,15 @@ test('landing identifies the mayor, human department heads and one city AI witho
  assert.doesNotMatch(html,/class="role-key/);
  for(const name of ['早川ひかり','三浦蒼太','高瀬 凪','森田みどり','保健福祉部長','都市整備部長','建設部長','環境政策部長'])assert.ok(app.includes(name));
  assert.doesNotMatch(html+app,/支援AI|まちづくり支援AI|街づくりAI · 4人の助言者|街づくりAI · (暮らし|都市計画|施設整備|環境)/);
- assert.match(html,/class="resident-label" id="residentLabel">相談・情報提供の出どころ/);
+ assert.match(html,/<h2 id="agentLine" class="agent-line">/);
+ assert.doesNotMatch(html,/id="residentLabel"|id="questionTitle"|class="decision-prompt"/);
  assert.match(html,/strong>AIに任せる</);
  assert.match(app,/住民から届いた「母の通院に片道1時間かかる」という相談/);
  assert.doesNotMatch(app,/ヒカリ「住民から|母の通院には片道1時間/);
  assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
  assert.match(html,/ひとつの診療所を、どこへ/);
- assert.match(app,/\$\('questionTitle'\)\.textContent=e\.heading/);
- assert.match(app,/\$\('residentLabel'\)\.textContent=sources\[e\.site\]/);
+ assert.match(app,/\$\('agentLine'\)\.textContent=staffSpeeches\[e\.site\]/);
+ assert.match(app,/conciseFacts=\{clinic:/);
 });
 
 test('all seven sites open with concise mayor-facing staff dialogue and factual source labels',()=>{
@@ -61,10 +62,10 @@ test('all seven sites open with concise mayor-facing staff dialogue and factual 
   assert.ok(line.startsWith('市長、'),site);
   assert.ok([...line].length<=60,site+' stays concise');
   assert.ok((line.match(/[。？]/g)||[]).length<=2,site+' uses at most two short sentences');
-  assert.match(line,/相談|話|声|提案|方針/);
+  assert.match(line,/？$/,site+' ends as a clear question for the mayor');
  }
- assert.match(app,/\$\('residentLabel'\)\.textContent=sources\[e\.site\]/);
- assert.match(app,/\$\('questionTitle'\)\.textContent=e\.heading;\$\('questionHint'\)\.textContent=e\.hint/);
+ assert.doesNotMatch(app,/\$\('residentLabel'\)|\$\('questionTitle'\)/);
+ assert.match(app,/show\('questionHint',!!fact\)/);
  assert.match(app,/\$\('agentLine'\)\.textContent=staffSpeeches\[e\.site\]/);
  assert.doesNotMatch(app,/市長が人の判断を選びました|市長の委任を受け、街づくりAIが選びました/);
 });

@@ -5,7 +5,15 @@
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
  let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
- const staffSpeeches={clinic:'市長、診療所の場所でご相談です。通院が大変だという声が届いています。',office:'市長、駅前に出店の話が来ています。どうしましょう？',waterfront:'市長、海辺の整備方針を決めたいです。にぎわいと防災、どちらを重視しますか？',energy:'市長、電力需要が増えています。将来の備えも含めて、方針をご相談させてください。',transit:'市長、駅まで遠い地区から相談です。交通の拠点をどう整えましょう？',parkA:'市長、中央公園の使い方に提案が届いています。緑を残すか、施設を増やすか、ご相談です。',school:'市長、学びの場についてご相談です。子どもが増え、今から整備しますか？'};
+ const staffSpeeches={
+  clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
+  office:'市長、企業から駅前への出店提案が来ています。どう進めましょう？',
+  waterfront:'市長、海辺の整備です。にぎわいと高潮対策、どちらを優先しますか？',
+  energy:'市長、街の電力が足りなくなりそうです。今の便利さと将来への備え、どうしましょう？',
+  transit:'市長、駅が遠くて困るという声が届いています。交通をどう整えましょう？',
+  parkA:'市長、中央公園の使い方で相談です。緑を残すか施設を増やすか、どうしましょう？',
+  school:'市長、子どもが増えています。学校の整備を今から進めますか？'
+ };
  const staff={ヒカリ:['早川ひかり','保健福祉部長'],ソラ:['三浦蒼太','都市整備部長'],ナギ:['高瀬 凪','建設部長'],ミドリ:['森田みどり','環境政策部長']};
  shell.dataset.view=view;
   const faceColors={ヒカリ:['#bc7d8c','#df9aa2'],ソラ:['#4c799a','#8bb4cf'],ナギ:['#a47a46','#e3b97c'],ミドリ:['#387a63','#87b89b']};
@@ -157,12 +165,11 @@
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
   $('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
   const [staffName,staffRole]=staff[e.agent]||staff.ソラ;
-  $('agentName').textContent=staffName;$('agentRole').textContent='市長政策会議 · '+staffRole;
-  const sources={clinic:'住民からの相談',transit:'住民からの相談',office:'企業からの提案',energy:'市役所の調査・報告',waterfront:'市役所の防災計画',parkA:'地域からの提案',school:'市役所の人口データ'};
-  $('residentLabel').textContent=sources[e.site]||'相談・情報提供の出どころ';
+  $('agentName').textContent=staffName;$('agentRole').textContent=staffRole;
   const c=faceColors[e.agent]||faceColors.ソラ;
   $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
-  $('questionTitle').textContent=e.heading;$('questionHint').textContent=e.hint;
+  const conciseFacts={clinic:'駅前：多くの人に便利　／　郊外：通院の負担を軽くできる'};
+  const fact=conciseFacts[e.site]||'';$('questionHint').textContent=fact;show('questionHint',!!fact);
   show('riskNotice',!!s.alert);
   if(view==='solo'&&s.round===0&&!s.hasVoted&&clinicPending===null){show('clinicChoice',false);show('decisionOptions',true);}
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
