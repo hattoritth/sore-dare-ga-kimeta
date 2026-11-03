@@ -44,7 +44,7 @@ test('landing identifies the mayor, human department heads and one city AI witho
  assert.match(html,/<h2 id="agentLine" class="agent-line">/);
  assert.doesNotMatch(html,/id="residentLabel"|id="questionTitle"|class="decision-prompt"/);
  assert.match(html,/strong>AIに任せる</);
- assert.match(app,/住民から届いた「母の通院に片道1時間かかる」という相談/);
+ assert.match(app,/cityBeatVoice'\)\.textContent=clinic\?clinicResidentLine\(\):reaction\[choice\]/);
  assert.doesNotMatch(app,/ヒカリ「住民から|母の通院には片道1時間/);
  assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
  assert.match(html,/ひとつの診療所を、どこへ/);
@@ -101,7 +101,7 @@ test('standalone ending card has no external resource references and decision co
  const card=fs.readFileSync(path.join(__dirname,'../public/ending-card.js'),'utf8');
  const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
  assert.doesNotMatch(card,/https?:\/\/(?!www\.w3\.org)/);
- assert.match(app,/cityBeatHeading'\)\.textContent=event\.result/);
+ assert.match(app,/cityBeatHeading'\)\.textContent=clinic\?clinicHeading\(\):event\.result/);
  assert.match(app,/card\.hidden=!pressDone/);
  assert.match(app,/classList\.add\('is-confirmed'\)/);
  assert.match(fs.readFileSync(path.join(__dirname,'../public/style.css'),'utf8'),/prefers-reduced-motion:reduce[^}]*\.vote-feedback\.is-confirmed/);

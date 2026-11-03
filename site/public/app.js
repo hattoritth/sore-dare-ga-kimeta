@@ -36,8 +36,8 @@
   if(!event)return;
   const choice=event.chosen==='ai'?'ai':event.chosen==='mixed'?'mixed':'human';
   const reaction=residentReactions[Math.min(event.round-1,residentReactions.length-1)];
-  $('cityBeatHeading').textContent=event.result;
   const clinic=event.round===1&&view==='solo'&&clinicRecord;
+  $('cityBeatHeading').textContent=clinic?clinicHeading():event.result;
   $('cityBeatVoice').textContent=clinic?clinicResidentLine():reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
   renderCityBeatDeltas(game);
   const needsResponse=!!clinic&&clinic.kind==='human';
@@ -45,10 +45,7 @@
   show('clinicFollowup',needsResponse);
   if(needsResponse){
    clinicFollowupPending=true;
-   $('clinicResidentQuestion').textContent=clinicQuestion();
-   $('clinicResponseCopy').textContent=clinicRecord.kind==='ai'
-    ?'街づくりAIは予測利用者数・交通・人口構成を参考に駅前を推奨しました。承認したのはあなたです。ただ、住民から届いた通院の相談をどの程度重く扱ったかは、まだ確かめられていません。'
-    :'あなたは「'+clinicReasonLabel()+'」を優先して'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選びました。場所と理由は街の指標に反映されています。別の場所を必要とする人の事情に、次の対応を選べます。';
+   $('clinicResidentQuestion').textContent='どうする？';
    document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.checked=false);
    $('confirmClinicResponse').disabled=true;
    document.querySelector('[name="clinicResponse"]').focus();
@@ -70,15 +67,11 @@
   shell.dataset.stage='play';show('cityBeat',false);
   scene.resetView();scene.layout();
  }
- function clinicQuestion(){
-  if(clinicRecord.kind==='ai')return '住民から届いた「母の通院に片道1時間かかる」という相談を、駅前の提案でどう扱うか。';
-  if(clinicRecord.place==='station')return '駅前の利便性と、通院が難しい人に届くこと。両方への説明が必要です。';
-  return '郊外で通院負担を軽くできる人がいる一方、駅前の利便性を必要とする人もいます。';
- }
  function clinicResidentLine(){
   const place=clinicRecord.kind==='ai'?'駅前':clinicRecord.place==='station'?'駅前':'郊外';
-  return `${place}に診療所ができた。住民から、選ばれなかった場所の人への説明を求める声が上がっている。`;
+  return place==='駅前'?'郊外から通う人には、駅前までの距離が残る。':'駅前を使う人には、診療所までの距離が残る。';
  }
+ function clinicHeading(){return `${clinicRecord.place==='station'?'駅前':'郊外'}に診療所ができた！`;}
  function clinicReasonLabel(){
   if(!clinicRecord)return '';
   return clinicRecord.kind==='ai'?'予測利用者数・交通・人口構成を参考':clinicRecord.reason==='total'?'総利用者数と仕事帰りの通いやすさ':'通院が難しい人への届きやすさ';
@@ -514,7 +507,7 @@
    const response=document.querySelector('[name="clinicResponse"]:checked')?.value;
    if(!response||!MachiEngine.clinicResponse(soloGame,'solo',response,Date.now()))return;
    clinicRecord.response=response;clinicFollowupPending=false;show('clinicFollowup',false);storyBeatUntil=Date.now()+1800;
-   $('cityBeatHeading').textContent=soloGame.lastEvent.result;renderCityBeatDeltas(soloGame);
+   $('cityBeatHeading').textContent=clinicHeading();renderCityBeatDeltas(soloGame);
    state=MachiEngine.publicState(soloGame,'solo');render(state);
   };
   $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
