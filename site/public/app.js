@@ -147,7 +147,7 @@
    chip.dataset.direction=mark.startsWith('+')?'up':mark.startsWith('−')?'down':'neutral';
    const name=document.createElement('span');name.textContent=label;
    const sign=document.createElement('strong');sign.textContent=mark;
-   chip.setAttribute('aria-label',label+'：'+(mark==='±0'?'変化なし':mark.startsWith('+')?'上昇の目安 '+mark.length+'段階':'低下の目安 '+mark.length+'段階'));
+   chip.setAttribute('aria-label',label+'：'+(mark==='±0'?'変化なし':mark==='±'?'詳細選択によって上昇・変化なし・低下のいずれか':mark.startsWith('+')?'上昇の目安 '+mark.length+'段階':'低下の目安 '+mark.length+'段階'));
    chip.append(name,sign);target.append(chip);
   }
  }
@@ -174,14 +174,15 @@
   if(view==='solo'&&s.round===0&&!s.hasVoted&&clinicPending===null){show('clinicChoice',false);show('decisionOptions',true);}
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
   $('humanText').textContent=view==='solo'?'自分で決める':'人の案に投票する';$('aiText').textContent=e.ai;
-  $('humanImpact').title=view==='group'?'得票割合によって実際の増減は変わります。':'表示値は予測です。決定後に実際の増減を確認できます。';
+  $('humanImpact').title=view==='group'?'得票割合によって実際の増減は変わります。':'ソロの人の案は、詳細選択によって実際の増減が変わります。';
   $('humanTradeoff').textContent=view==='solo'?(s.round===0?'場所と理由を選ぶ':'考え方を選ぶ'):e.human;
   $('aiTradeoff').textContent='';
   renderImpact('humanImpact',e.impactPreview?.human);
   renderImpact('aiImpact',e.impactPreview?.ai);
+  $('humanImpact').setAttribute('aria-label',view==='solo'?'人の案の表3指標の変化予測。詳細選択によって変わります':'人が判断した場合の表3指標の変化予測');
   $('impactNote').textContent=view==='group'
    ?'表3指標の変化目安は投票割合で変わります。裏の指標は非表示。'
-   :'決定後の表3指標。選択が街の状態に反映されています。';
+   :'人の案の表3指標（詳細選択後に変化）。';
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }

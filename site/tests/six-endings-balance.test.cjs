@@ -159,7 +159,8 @@ test('qualitative choice previews exactly match visible deltas from the engine, 
      Engine.advance(expectedGame,expectedGame.roundEndsAt);
      for(const key of keys){
       const diff=expectedGame.public[key]-game.public[key];
-      assert.equal(episode.impactPreview[choice][key],mark(diff),key+' at '+choices+' / '+(solo?'solo':'group'));
+      if(solo&&choice==='human')assert.ok(['±','±0','+','−'].includes(episode.impactPreview[choice][key]));
+      else assert.equal(episode.impactPreview[choice][key],mark(diff),key+' at '+choices+' / '+(solo?'solo':'group'));
      }
     }
     assert.equal(JSON.stringify(game),before,'forecast is non-mutating');

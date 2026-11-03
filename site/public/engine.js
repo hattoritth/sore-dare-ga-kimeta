@@ -111,7 +111,7 @@
   if(game.storyMode!=='solo'||game.phase!=='active'||game.round!==1||!game.awaitingClinicResponse||!game.participants[id]||Object.keys(game.participants).length!==1||!Object.hasOwn(SOLO_DETAIL_IMPACT.response,response))return false;
   const event=game.history[0];if(!event||event.chosen!=='human'||event.clinicResponseApplied)return false;
   const before={...game.public};applySoloImpact(game,SOLO_DETAIL_IMPACT.response[response]);
-  const lines={review:'住民の評価を調べ直し、根拠の説明と地区間の公平さを補いました。',support:'通院支援を先に進め、利用のしやすさを補いました。',revise:'計画を見直し、地区間の公平さを優先しました。'};
+  const lines={review:'住民の評価を調べ直し、根拠の説明と地区ごとの状況を確かめました。',support:'通院支援を先に進め、利用のしやすさを補いました。',revise:'計画を見直し、各地区の事情を反映しました。'};
   const responseDelta=Object.fromEntries(Object.keys(game.public).map(k=>[k,game.public[k]-before[k]]));
   event.result+=' '+lines[response];event.clinicResponse=response;event.clinicResponseApplied=true;event.responseDelta=responseDelta;event.visible=copy(game.public);event.hidden=copy(game.shadow);
   if(game.lastEvent){game.lastEvent.result=event.result;game.lastEvent.clinicResponseApplied=true;game.lastEvent.responseDelta=responseDelta;}
@@ -212,6 +212,25 @@
  function publicImpactPreview(game){
    const preview={};
    for(const choice of ['human','ai']){
+     if(game.storyMode==='solo'&&choice==='human'){
+       const variants=game.round===0
+         ?['station','suburb'].flatMap(place=>['total','access'].map(reason=>({kind:'clinic',place,reason})))
+         :game.round>0&&game.round<maxRounds(game)
+           ?['voices','balance'].map(strategy=>({kind:'strategy',strategy}))
+           :[];
+       const outcomes=variants.map(detail=>{
+         const simulated=copy(game);
+         simulated.votes={forecast:choice};
+         simulated.soloDetails[game.round]=detail;
+         resolve(simulated,game.roundEndsAt);
+         return IMPACT_KEYS.map(key=>simulated.public[key]-game.public[key]);
+       });
+       preview[choice]=Object.fromEntries(IMPACT_KEYS.map((key,i)=>{
+         const signs=new Set(outcomes.map(row=>Math.sign(row[i])));
+         return [key,signs.size===1?(signs.has(0)?'±0':signs.has(1)?'+':'−'):'±'];
+       }));
+       continue;
+     }
      const simulated=copy(game);
      simulated.votes={forecast:choice}; // hypothetical unanimous choice
      resolve(simulated,game.roundEndsAt);
