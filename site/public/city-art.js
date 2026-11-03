@@ -1546,10 +1546,27 @@ class F5Primitives {
   drawDecisionHighlight(){
    const beat=this.decisionHighlight;if(!beat)return;
    const site=this.model.site(beat.id);if(!site){this.decisionHighlight=null;return;}
-   const elapsed=performance.now()-beat.startedAt;if(elapsed>(this.reduced?2200:850)){this.decisionHighlight=null;return;}
-   const p=this.iso(site.cell[0]+site.w*.52,site.cell[1]+site.d*.55),c=this.ctx,t=this.reduced?1:Math.min(1,elapsed/850),radius=this.reduced?46:24+t*35,alpha=this.reduced?0.72:1-t*.45;
-   c.save();c.globalAlpha=alpha;c.strokeStyle='#fff2bd';c.lineWidth=5;c.beginPath();c.ellipse(p.x,p.y-8,radius,radius*.42,0,0,Math.PI*2);c.stroke();c.strokeStyle='#4e9a72';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y-8,radius+8,(radius+8)*.42,0,0,Math.PI*2);c.stroke();
-   if(elapsed<650||this.reduced){const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';const w=c.measureText(label).width+22,x=p.x-w/2,y=p.y-78;c.fillStyle='rgba(255,253,239,.96)';c.beginPath();c.roundRect(x,y,w,26,8);c.fill();c.fillStyle='#285748';c.textAlign='center';c.textBaseline='middle';c.fillText(label,p.x,y+13);}
+   const elapsed=performance.now()-beat.startedAt;if(!this.reduced&&elapsed>850){this.decisionHighlight=null;return;}
+   // Convert the iso-space district center to the *viewport* before drawing.
+   // Canvas world scale can be ~0.2 on iPhone: world-space text would become unreadable.
+   const p=this.project([site.cell[0]+site.w*.52,site.cell[1]+site.d*.55],0,-16);
+   const c=this.ctx,r=this.canvas.getBoundingClientRect(),t=this.reduced?1:Math.min(1,elapsed/850);
+   const ease=1-Math.pow(1-t,3),radius=this.reduced?37:24+ease*30,alpha=this.reduced?.82:1-t*.6;
+   c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=alpha;
+   c.strokeStyle='#fff5b8';c.lineWidth=4;c.beginPath();c.ellipse(p.x,p.y,radius,radius*.52,0,0,Math.PI*2);c.stroke();
+   c.strokeStyle='#257657';c.lineWidth=2.5;c.beginPath();c.ellipse(p.x,p.y,radius+8,(radius+8)*.52,0,0,Math.PI*2);c.stroke();
+   if(!this.reduced&&elapsed<650){
+    for(let k=0;k<5;k++){const a=k*Math.PI*2/5+Math.PI/5,dist=radius+16;
+     c.fillStyle=k%2?'#fff5b8':'#8fcda1';c.beginPath();c.arc(p.x+Math.cos(a)*dist,p.y+Math.sin(a)*dist*.54,3.5,0,Math.PI*2);c.fill();}
+   }
+   if(elapsed<650||this.reduced){
+    const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';
+    const w=c.measureText(label).width+24,h=30;
+    const x=Math.max(8,Math.min(r.width-w-8,p.x-w/2)),y=Math.max(45,Math.min(r.height-h-8,p.y-79));
+    c.fillStyle='rgba(255,253,239,.97)';c.beginPath();c.roundRect(x,y,w,h,8);c.fill();
+    c.strokeStyle='#2f7454';c.lineWidth=1.5;c.stroke();
+    c.fillStyle='#245642';c.textAlign='center';c.textBaseline='middle';c.fillText(label,x+w/2,y+h/2);
+   }
    c.restore();
   }
   drawServices(){
