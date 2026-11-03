@@ -34,10 +34,11 @@ test('human strategy options stay separate from binary shared vote values',()=>{
  assert.equal((html.match(/data-vote=/g)||[]).length,2);
 });
 
-test('intro and practice distinguish the mayor, four municipal employees, information sources and one city planning AI',()=>{
+test('landing identifies the mayor, human department heads and one city AI without a role-card wall',()=>{
  const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8');
  const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
- for(const role of ['市長 · あなた','市役所職員','住民・事業者など','街づくりAI'])assert.ok(html.includes(role));
+ assert.match(html,/市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます/);
+ assert.doesNotMatch(html,/class="role-key/);
  for(const name of ['早川ひかり','三浦蒼太','高瀬 凪','森田みどり','保健福祉部長','都市整備部長','建設部長','環境政策部長'])assert.ok(app.includes(name));
  assert.doesNotMatch(html+app,/支援AI|まちづくり支援AI|街づくりAI · 4人の助言者|街づくりAI · (暮らし|都市計画|施設整備|環境)/);
  assert.match(html,/class="resident-label" id="residentLabel">相談・情報提供の出どころ/);
@@ -45,16 +46,39 @@ test('intro and practice distinguish the mayor, four municipal employees, inform
  assert.match(app,/住民から届いた「母の通院に片道1時間かかる」という相談/);
  assert.doesNotMatch(app,/ヒカリ「住民から|母の通院には片道1時間/);
  assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
- assert.match(app,/AIは予測利用者数/);
+ assert.match(html,/ひとつの診療所を、どこへ/);
+ assert.match(app,/\$\('questionTitle'\)\.textContent=e\.heading/);
+ assert.match(app,/\$\('residentLabel'\)\.textContent=sources\[e\.site\]/);
 });
 
-test('exhibition workload cue uses no fabricated queue count or timed penalty and honors reduced motion',()=>{
+test('all seven sites open with concise mayor-facing staff dialogue and factual source labels',()=>{
+ const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
+ const match=app.match(/const staffSpeeches=\{([^}]+)\}/);
+ assert.ok(match,'site dialogue map exists');
+ const entries=[...match[1].matchAll(/(clinic|office|waterfront|energy|transit|parkA|school):'([^']+)'/g)];
+ assert.deepEqual(entries.map(x=>x[1]),['clinic','office','waterfront','energy','transit','parkA','school']);
+ for(const [,site,line] of entries){
+  assert.ok(line.startsWith('市長、'),site);
+  assert.ok([...line].length<=60,site+' stays concise');
+  assert.ok((line.match(/[。？]/g)||[]).length<=2,site+' uses at most two short sentences');
+  assert.match(line,/相談|話|声|提案|方針/);
+ }
+ assert.match(app,/\$\('residentLabel'\)\.textContent=sources\[e\.site\]/);
+ assert.match(app,/\$\('questionTitle'\)\.textContent=e\.heading;\$\('questionHint'\)\.textContent=e\.hint/);
+ assert.match(app,/\$\('agentLine'\)\.textContent=staffSpeeches\[e\.site\]/);
+ assert.doesNotMatch(app,/市長が人の判断を選びました|市長の委任を受け、街づくりAIが選びました/);
+});
+
+test('landing and decision surface keep role and workload explanations concise and honor reduced motion',()=>{
  const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8');
  const css=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/style.css'),'utf8');
- assert.match(html,/展示上の情景 · 相談や依頼が重なる街/);
- assert.match(html,/スキップする/);
+ assert.doesNotMatch(html,/class="role-key|workload-note|相談や依頼が重なる街/);
+ assert.match(html,/街へ進む／スキップ/);
  assert.match(css,/prefers-reduced-motion:reduce/);
- assert.doesNotMatch(html,/未処理\s*\d+件|残り\s*\d+秒/);
+ const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
+ assert.match(app,/const prologueTimes=\[1300,1500,1700,1300\]/);
+ assert.match(app,/elapsed\/24/);
+ assert.match(app,/characters\.length\*24\+500/);
 });
 
 

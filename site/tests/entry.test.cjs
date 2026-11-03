@@ -9,6 +9,7 @@ test('landing offers solo and group and display QR points directly to shared par
  assert.match(html,/id="openSolo"/);
  assert.match(html,/id="openShared"/);
  assert.match(html,/ひとりで遊ぶ/);
+ assert.doesNotMatch(html,/mode-card-index|mode-card-arrow|01 \/ YOUR CITY|02 \/ OUR CITY/);
  assert.match(html,/みんなで遊ぶ/);
  assert.match(app,/const url=location\.origin\+'\/\?mode=group';/);
  for(const name of ['PoC','デモ','試作','テスト版']) assert.ok(!html.includes(name),`no dev word ${name}`);
@@ -31,7 +32,7 @@ test('human choices explain their tradeoffs while the AI action stays one tap an
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  const engine=fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8');
  assert.match(html,/id="humanTradeoff"/);assert.match(html,/id="aiTradeoff" hidden/);assert.match(html,/<strong>AIに任せる<\/strong>/);
- assert.match(app,/今：\$\{e\.humanNow\}　その先：\$\{e\.humanLater\}/);
+ assert.match(app,/s\.round===0\?'場所と理由を選ぶ':'考え方を選ぶ'/);
  assert.doesNotMatch(app,/今：\$\{e\.aiNow\}/);
  assert.match(html,/決め方と責任/);assert.match(app,/AIに何を任せるか決めたのも、あなたの選択です/);
  const Engine=require('../engine.js');
@@ -73,19 +74,19 @@ test('prologue keeps a visible typing activity indicator during the automatic pa
  assert.match(app,/prologueIndex\+\+;renderPrologue\(\)/);
 });
 
-test('practice decision is a separate first-time interaction, not a consequential round',()=>{
+test('solo opens its first real decision and group goes directly to join or lobby without a practice gate',()=>{
  const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  const css=fs.readFileSync(path.join(dir,'style.css'),'utf8');
- for(const id of ['tutorialPanel','tutorialHuman','tutorialAi','tutorialChoices','tutorialFeedback','tutorialContinue','tutorialSkip'])assert.match(html,new RegExp('id="'+id+'"'));
- const practice=app.split(' function practice(choice){')[1]?.split(' function finishTutorial(')[0];
- assert.ok(practice,'practice callback exists');
- assert.doesNotMatch(practice,/MachiEngine\.(vote|advance)|\/api\/vote|\/api\/start/);
- assert.match(app,/if\(tutorialActive&&\(view==='solo'\|\|view==='group'\)\)/);
- assert.match(app,/startTutorial\(\);startSolo\(\)/);
- assert.match(app,/if\(view==='group'\)startTutorial\(\)/);
- assert.match(css,/\.tutorial-choice/);
- assert.match(html,/街の点数や本編の判断回数は変わりません/);
+ assert.doesNotMatch(html+app+css,/tutorial|practice|練習|チュートリアル/i);
+ assert.match(app,/else if\(view==='solo'\)\{startSolo\(\);\}/);
+ assert.match(app,/function startSolo\(\)[^]*?MachiEngine\.createGame\([^]*?render\(MachiEngine\.publicState/);
+ assert.match(app,/else \{setupQR\(\);fetchState\(\);/);
+ assert.match(app,/show\('joinPanel',!everJoined&&s\.phase!=='reveal'\)/);
+ assert.match(app,/show\('lobbyPanel',everJoined&&s\.phase==='lobby'\)/);
+ assert.match(html,/id="questionPanel"/);
+ assert.match(html,/id="joinPanel"/);
+ assert.match(html,/id="lobbyPanel"/);
 });
 
 test('initial city draw has a moving placeholder until canvas renders',()=>{
@@ -99,4 +100,18 @@ test('initial city draw has a moving placeholder until canvas renders',()=>{
 const nodeTest=require('node:test'); const nodeAssert=require('node:assert/strict'); const nodeFs=require('node:fs'); const nodePath=require('node:path');
 nodeTest('shared comparison render target exists before question rendering',()=>{const html=nodeFs.readFileSync(nodePath.join(__dirname,'../public/index.html'),'utf8');const app=nodeFs.readFileSync(nodePath.join(__dirname,'../public/app.js'),'utf8');nodeAssert.match(html,/id="groupPreviousResult"/);nodeAssert.match(app,/\$\('groupPreviousResult'\)/);});
 
-nodeTest('onboarding AI delegation is a single choice and auto progresses',()=>{const html=nodeFs.readFileSync(nodePath.join(__dirname,'../public/index.html'),'utf8');const app=nodeFs.readFileSync(nodePath.join(__dirname,'../public/app.js'),'utf8');nodeAssert.match(html,/<button[^>]+id="tutorialAi"[^>]*><span>02<\/span><strong>AIに任せる<\/strong>/);nodeAssert.match(app,/show\('tutorialContinue',choice==='human'\)/);nodeAssert.match(app,/if\(choice==='ai'\)\{setTimeout/);});
+test('vote buttons have concise actions without redundant option numbers or arrows',()=>{
+ const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+ const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
+ const human=html.match(/<button[^>]+id="humanDecision"[^>]*>[\s\S]*?<\/button>/)?.[0];
+ const ai=html.match(/<button[^>]+id="aiDecision"[^>]*>[\s\S]*?<\/button>/)?.[0];
+ assert.ok(human&&ai);
+ for(const button of [human,ai]){assert.doesNotMatch(button,/decision-small|option-arrow|>01\b|>02\b/);}
+ assert.match(human,/<strong id="humanText">自分で決める<\/strong>/);
+ assert.match(ai,/<strong>AIに任せる<\/strong>/);
+ assert.match(ai,/id="aiImpact"[^>]+hidden/);
+ assert.match(html,/id="impactNote" hidden/);
+ assert.match(app,/view==='solo'\?'自分で決める':'人の案に投票する'/);
+ assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
+ assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
+});

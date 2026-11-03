@@ -720,33 +720,6 @@ class F5Primitives {
       this.rect(x-9,y-20,4,4,'#3d4754');this.rect(x+5,y-20,4,4,'#3d4754');
       this.rect(x-9,y+4,6,5,'#526976');this.rect(x+3,y+4,6,5,'#526976');
     }
-    drawAgent(x,y,agent,focus,slot,selected) {
-      const t=this.time, bob=focus>0?Math.sin(t*5+slot*2)*1.5:0,xx=Math.round(x),yy=Math.round(y+bob);
-      if(selected){
-        this.ellipse(xx,yy+13,28+2*Math.sin(t*4),12,'rgba(65,196,218,.21)');
-        this.ellipse(xx,yy+13,21,8,'rgba(26,129,179,.21)');
-      }
-      this.ellipse(xx,yy+13,18,6,'rgba(66,65,64,.20)');
-      if(focus===0){
-        this.ellipse(xx-13,yy-39,8,6,'#f4e9d7');
-        this.text('Z',xx-13,yy-39,10,'#78a1a5','center','800');
-      }
-      const h=agent.hair||'#4d779b';
-      this.rect(xx-10,yy-12,9,23,'#415e72');this.rect(xx+1,yy-12,9,23,'#415e72');
-      this.rect(xx-12,yy-34,25,26,agent.skin||'#f4c5a4');
-      this.rect(xx-16,yy-39,30,12,h);this.rect(xx-15,yy-27,5,12,h);
-      this.rect(xx+9,yy-28,5,8,h);
-      this.rect(xx-8,yy-24,4,4,'#354357');this.rect(xx+4,yy-24,4,4,'#354357');
-      this.rect(xx-10,yy-8,21,17,agent.color);
-      this.rect(xx-16,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx+10,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx-9,yy+8,8,7,'#3f5067');this.rect(xx+2,yy+8,8,7,'#3f5067');
-      if(focus>0){
-        const period=1.2+slot*.2;
-        const spark=Math.sin(t*2*Math.PI/period+slot);
-        if(spark>.6){this.rect(xx+18,yy-42,5,5,'#f4f1b2');this.rect(xx+25,yy-49,3,3,'#fff9d4');}
-      }
-    }
     drawRobot(x,y) {
       this.ellipse(x,y+7,16,6,'rgba(13,74,87,.25)');
       this.rect(x-15,y-23,30,27,'#e4ece5');
@@ -1558,19 +1531,6 @@ class F5Primitives {
    this.coastObjects(add);
    // Editable sites are depth-sorted tree-by-tree and building-by-building.
    for(const site of m.sites)this.addSiteObjects(site,add);
-   root.F5City.AGENTS.forEach((a,k)=>{
-    const working=this.agentWork(a.id),p=this.agentPoint(a.id);
-    if(!p)return;
-    const selected=this.selectedAgentId===a.id;
-    add(p,()=>{
-     this.ctx.save();
-     if(selected){this.ellipse(p.x,p.y+6,35,15,'rgba(250,244,206,.90)');this.ellipse(p.x,p.y+6,27,10,'rgba(50,127,110,.48)');}
-     this.ctx.translate(p.x,p.y);this.ctx.scale(.64,.64);
-     this.drawAgent(0,0,a,80,k,selected||!!working);
-     this.ctx.restore();
-     if(selected){this.round(p.x-36,p.y-86,72,25,8,'#fffdf4','#80a38c');this.text(a.name,p.x,p.y-73,15,'#204f44','center','800');}
-    });
-   });
    return entities;
   }
   render(dt=0){

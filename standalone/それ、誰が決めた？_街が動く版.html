@@ -282,58 +282,12 @@
 @keyframes typing-dot{0%,70%,100%{opacity:.42;transform:translateY(0)}35%{opacity:1;transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.typing-dots i{animation:none;opacity:1}}
 
-/* A single practice decision before the actual four/seven consequential rounds. */
-.tutorial-panel[hidden],.tutorial-choices[hidden],.tutorial-feedback[hidden]{display:none!important}
-.shell[data-view=solo] .tutorial-panel,.shell[data-view=group] .tutorial-panel{
- width:100%;max-width:680px;min-width:0;align-self:center;
- background:linear-gradient(140deg,#fcfcf1,#eaf3e8);
- border:1px solid #b9d0be;border-radius:15px;padding:clamp(18px,2.5vw,27px);
- box-shadow:0 15px 55px #183a3260;max-height:calc(100dvh - 150px);
- overflow:auto;overscroll-behavior:contain
-}
-.tutorial-speaker{display:flex;align-items:center;gap:11px;margin:13px 0 6px}
-.tutorial-avatar{display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:50%;background:#2e624f;color:#f4dca8;font-size:23px}
-.tutorial-speaker strong{display:block;font-size:16px;color:#244f40}
-.tutorial-speaker small{display:block;color:#5c796c;font-size:12px;margin-top:2px}
-.tutorial-panel h2{font-size:clamp(20px,2vw,26px);line-height:1.45;color:#234c3e;margin:8px 0}
-.tutorial-panel #tutorialLine{font-size:15px;font-weight:700;line-height:1.7;color:#425f50;margin:7px 0 12px}
-.tutorial-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
-.tutorial-choice{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:9px;padding:14px 15px;min-height:95px;width:100%;text-align:left;border-radius:9px;border:1px solid #adccbc;background:#f6faf4;color:#315e49}
-.tutorial-choice:nth-child(2){background:#fcf6e9;border-color:#d6c5a6;color:#775a31}
-.tutorial-choice span{font-size:11px;font-weight:850}
-.tutorial-choice strong{font-size:15px;line-height:1.4}
-.tutorial-choice:hover,.tutorial-choice:focus-visible{outline:2px solid #548f73;outline-offset:1px}
-.tutorial-feedback{padding:13px 15px;background:#e0f0e1;border-left:4px solid #438569;color:#285a42;border-radius:4px;font-size:14px;line-height:1.65;font-weight:800;margin:14px 0}
-.tutorial-panel .primary-action{width:100%;min-height:52px;margin:13px 0 0}
-.tutorial-skip{min-height:44px;border:none;background:transparent;text-decoration:underline;text-underline-offset:4px;color:#547366;font-size:13px;font-weight:750;cursor:pointer;margin-top:7px}
-.tutorial-note{color:#6b7d6e;font-size:12px;line-height:1.6;margin:8px 0 0}
-@media(max-width:750px){
- .shell[data-view=solo] .tutorial-panel,.shell[data-view=group] .tutorial-panel{padding:15px;max-height:none;overflow:visible}
- .tutorial-panel h2{font-size:20px}
- .tutorial-panel #tutorialLine{font-size:13px;line-height:1.55;margin-bottom:8px}
- .tutorial-choices{gap:8px;margin:10px 0}
- .tutorial-choice{min-height:85px;padding:10px;gap:6px}
- .tutorial-choice strong{font-size:13px}
- .tutorial-speaker{margin:5px 0}
- .tutorial-note{font-size:11px}
- .prologue-activity{font-size:11px;margin-top:8px}
-}
-@media(max-width:370px){.tutorial-choices{grid-template-columns:1fr}.tutorial-choice{min-height:57px}}
-
-/* Make the decision roles legible without changing the existing cast or story flow. */
-.role-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0 15px}
-.role-key p{min-width:0;margin:0;padding:10px;border-radius:9px;background:#eaf1e7;border:1px solid #cbd9c7}
-.role-key p:nth-child(2){background:#f7eee1;border-color:#dfcdb4}.role-key p:nth-child(3){background:#e9eef1;border-color:#c5d1d8}
-.role-key b,.role-key span{display:block}.role-key b{font-size:12px;line-height:1.35;color:#294f40}.role-key span{font-size:11px;line-height:1.4;margin-top:4px;color:#55685d}
-.role-key-compact{margin:8px 0}.role-key-compact p{padding:7px 8px}.role-key-compact b{font-size:11px}.role-key-compact span{font-size:10px}
 .resident-label{display:inline-block;padding:4px 8px;margin-bottom:5px;border-radius:20px;background:#f6ead5;color:#775638;font-size:11px;font-weight:850}
-.workload-note{margin:7px 0;padding:7px 10px;border-left:3px solid #d2b57b;background:#f5f1e7;color:#655c49;font-size:11px;line-height:1.45}
 .strategy-choice{grid-column:1/-1;margin-top:9px;padding:14px;border:1px solid #b8cdbd;border-radius:11px;background:#f1f6ee;color:#294d3d}
 .strategy-choice[hidden]{display:none!important}.strategy-choice h2{font-size:18px;margin:4px 0}.strategy-choice p{font-size:13px;line-height:1.5;margin:6px 0 10px}
 .strategy-choice button[data-strategy]{display:block;width:100%;min-height:48px;margin:7px 0;padding:10px 13px;text-align:left;border:1px solid #b8cdbd;border-radius:8px;background:#fff;color:#315943;font-weight:800}
 .strategy-choice button:focus-visible{outline:3px solid #548f73;outline-offset:2px}
-@media(max-width:750px){.role-key{gap:5px}.role-key p{padding:7px 6px}.role-key b{font-size:10px}.role-key span{font-size:9px}.resident-label{font-size:10px}.strategy-choice{padding:11px}}
-@media(max-width:360px){.role-key{grid-template-columns:1fr}.role-key p{display:flex;align-items:center;gap:8px}.role-key span{margin:0}}
+@media(max-width:750px){.resident-label{font-size:10px}.strategy-choice{padding:11px}}
 
 
 /* Avoid a black empty canvas while the first illustrated frame is prepared. */
@@ -457,6 +411,15 @@
 
 /* Short, readable decision confirmation; animation is suppressed for reduced motion. */
 .decision-stamp{display:inline-block;padding:3px 9px;border-radius:999px;background:#326b50;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;vertical-align:middle}.decision-teaser{display:block;margin-top:5px;color:#536d5d;font-size:13px}.vote-feedback.is-confirmed{animation:decision-arrive .32s ease-out}.decision-stamp{animation:stamp-arrive .36s cubic-bezier(.2,.8,.2,1)}@keyframes decision-arrive{from{transform:translateY(3px);opacity:.65}to{transform:translateY(0);opacity:1}}@keyframes stamp-arrive{from{transform:scale(.94)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.vote-feedback.is-confirmed,.decision-stamp{animation:none!important}}
+
+/* High-clarity decision buttons: action names are the hierarchy, not decorative indexes. */
+.question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px}
+.question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:center;text-align:center}
+.question-panel .decision strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3;overflow-wrap:normal}
+.question-panel .decision-tradeoff{font-size:12px;line-height:1.35;color:#526c5f}
+.question-panel .decision[data-vote=ai] strong{font-size:clamp(18px,1.55vw,21px)}
+.question-panel .impact-note[hidden]{display:none!important}
+@media(max-width:750px){.question-panel .decision strong{font-size:16px}.question-panel .decision[data-vote=ai] strong{font-size:17px}.question-panel .decision[data-vote=human]{min-height:83px}.question-panel .decision[data-vote=ai]{min-height:83px}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -479,48 +442,33 @@
    <div class="stat" data-stat="appeal" title="公園・居場所・暮らし続けたい魅力" aria-label="住み心地。公園・居場所・暮らし続けたい魅力"><span class="stat-label">住み心地</span><div class="stat-track"><i></i></div><strong>67</strong></div>
   </section>
   <div class="join-landing" id="landing" hidden>
-   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><div class="role-key" aria-label="街に関わる人とAI"><p><b>市長 · あなた</b><span>方針を決め、承認する</span></p><p><b>市役所の担当職員</b><span>4人が相談や計画を届ける</span></p><p><b>住民・事業者など</b><span>相談や提案の出どころ</span></p><p><b>街づくりAI</b><span>市長が判断を委ねる一つのシステム</span></p></div><p>職員から届く情報をもとに、市長が自分で決めるか、街づくりAIに任せます。<br>AIに任せた後の追加確認はなく、街は自動で動きます。</p>
+   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
-       <button id="openSolo" class="mode-card" type="button"><span class="mode-card-index">01 / YOUR CITY</span><strong>ひとりで遊ぶ</strong><span class="mode-card-detail">自分の街で、決めてみる。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
-       <button id="openShared" class="mode-card" type="button"><span class="mode-card-index">02 / OUR CITY</span><strong>みんなで遊ぶ</strong><span class="mode-card-detail">ひとつの街を、みんなで動かす。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
+       <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong></button>
+       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong></button>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
-   <section class="tutorial-panel" id="tutorialPanel" hidden aria-label="はじめての練習">
-    <span class="overline">市長政策会議 · はじめての練習</span>
-    <div class="role-key role-key-compact" aria-label="街に関わる人とAI"><p><b>市長 · あなた</b><span>決める人</span></p><p><b>市役所職員</b><span>情報を届ける4人</span></p><p><b>街づくりAI</b><span>判断を委ねる一つのシステム</span></p></div>
-    <div class="tutorial-speaker"><span class="tutorial-avatar" aria-hidden="true">✳</span><div><strong>早川ひかり</strong><small>市役所職員 · 保健福祉部長</small></div></div>
-    <h2 id="tutorialTitle">公園に、ベンチを増やすとしたら？</h2>
-    <p id="tutorialLine" aria-live="polite">公園にベンチを増やす計画です。置き場所を誰が決めるか、練習してみましょう。</p>
-    <div id="tutorialChoices" class="tutorial-choices">
-     <button type="button" id="tutorialHuman" class="tutorial-choice"><span>01 · 人が判断する</span><strong>公園の利用者に聞く</strong></button>
-     <button type="button" id="tutorialAi" class="tutorial-choice"><span>02</span><strong>AIに任せる</strong></button>
-    </div>
-    <div id="tutorialFeedback" class="tutorial-feedback" role="status" hidden></div>
-    <button type="button" id="tutorialContinue" class="primary-action" hidden>本編へ進む →</button>
-    <button type="button" id="tutorialSkip" class="tutorial-skip">練習をスキップする</button>
-    <p class="tutorial-note">これは練習。街の点数や本編の判断回数は変わりません。</p>
-   </section>
    <section class="join-panel" id="joinPanel" hidden>
     <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
    </section>
    <section class="lobby-panel" id="lobbyPanel" hidden>
     <span class="overline">参加受付中</span><h2>みんなの準備ができたら。</h2>
-    <p>内容を読んで「準備OK」にしてください。接続中の全員が準備できたら開始できます。途中参加は次の議題からです。</p>
+    <p>全員が「準備OK」になったら開始します。途中参加は次の議題からです。</p>
     <button class="primary-action" id="readyShared" type="button" aria-pressed="false">準備OKにする</button>
     <button class="primary-action" id="startShared" type="button">みんなで始める <span>→</span></button>
-    <p class="lobby-note">準備OK <strong id="lobbyReadyCount">0</strong> / 接続中 <strong id="lobbyPeople">0</strong> 人。開始後は同じ23秒です。接続が90秒途切れた人は準備人数から外れます。</p>
+    <p class="lobby-note">準備OK <strong id="lobbyReadyCount">0</strong> / 接続中 <strong id="lobbyPeople">0</strong> 人 · 投票は全員同じ23秒です。</p>
    </section>
    <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
    <section class="question-panel" id="questionPanel" hidden>
     <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
-    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">三浦蒼太</strong><span id="agentRole">市役所職員 · 都市整備部長</span></div><div class="speech-bubble"><span class="resident-label" id="residentLabel">相談・情報提供の出どころ</span><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><p class="workload-note" id="workloadNote">展示上の情景 · 相談や依頼が重なる街。AIは選定を速く進めます。</p><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">市長として、どう決めますか？</p>
-     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="表の指標への影響目安"></span><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02</span><strong>AIに任せる</strong><span id="aiText" hidden></span><span id="aiTradeoff" hidden></span><span class="impact-row" id="aiImpact" aria-label="表の指標への影響目安" hidden></span><span class="option-arrow">↗</span></button>
-     <p class="impact-note" id="impactNote">今見えている3つの数字の変化目安。残り3つは終了後に公開されます。</p>
+    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">三浦蒼太</strong><span id="agentRole">市役所職員 · 都市整備部長</span></div><div class="speech-bubble"><span class="resident-label" id="residentLabel">相談・情報提供の出どころ</span><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><a class="choices-jump" href="#decisionOptions">判断の選択肢へ ↓</a><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">市長として、どう決めますか？</p>
+     <button type="button" data-vote="human" class="decision" id="humanDecision"><strong id="humanText">自分で決める</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="人が判断した場合の表3指標の変化予測"></span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><strong>AIに任せる</strong><span id="aiText" hidden></span><span id="aiTradeoff" hidden></span><span class="impact-row" id="aiImpact" aria-label="AI側の非公開の事前予測" hidden></span></button>
+     <p class="impact-note" id="impactNote" hidden aria-hidden="true"></p>
     </div>
-    <section class="strategy-choice" id="strategyChoice" hidden aria-labelledby="strategyTitle"><span class="overline">市長が選ぶ人の方針</span><h2 id="strategyTitle">どんな視点で決める？</h2><p>演出上の検討方針です。どちらを選んでも、人の判断として同じ施策・同じスコアになります。</p><button type="button" data-strategy="voices">現地の声を確かめる</button><button type="button" data-strategy="balance">複数地区の希望を調整する</button><button type="button" id="cancelStrategy" class="text-action">選択に戻る</button></section>
+    <section class="strategy-choice" id="strategyChoice" hidden aria-labelledby="strategyTitle"><span class="overline">市長が選ぶ人の方針</span><h2 id="strategyTitle">どんな視点で決める？</h2><p>どちらも人の判断として、同じ施策とスコアになります。</p><button type="button" data-strategy="voices">現地の声を確かめる</button><button type="button" data-strategy="balance">複数地区の希望を調整する</button><button type="button" id="cancelStrategy" class="text-action">選択に戻る</button></section>
     <section class="clinic-choice" id="clinicChoice" aria-labelledby="clinicChoiceTitle" hidden>
      <span class="overline">診療所の計画</span><h2 id="clinicChoiceTitle">ひとつの診療所を、どこへ？</h2>
      <p id="clinicChoiceContext">建設できるのは1か所です。駅前は総利用者が多く、仕事帰りにも便利。郊外は通院の負担が重い人に届きやすい一方、利用者数は少なくなります。</p>
@@ -544,7 +492,7 @@
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
     <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた3つの成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる3つの影響</span><div id="shadowMetrics"></div></div></section>
-    <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を一枚にまとめました。共有用の画像に、個人名や投票者ごとの記録は含まれません。</p><div id="endingCardPreview" class="ending-card-preview"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNG画像を保存</button><button class="text-action" id="printEndingCard" type="button">PDFとして保存</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section><section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>誰に任せ、どの方針を選び、街に何が残ったかを保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
+    <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を保存できます。個人名や投票者別の記録は含みません。</p><div id="endingCardPreview" class="ending-card-preview"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNG画像を保存</button><button class="text-action" id="printEndingCard" type="button">PDFとして保存</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section><section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>判断の記録を保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
     <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
@@ -1280,33 +1228,6 @@ class F5Primitives {
       this.rect(x-13,y-36,26,10,color);
       this.rect(x-9,y-20,4,4,'#3d4754');this.rect(x+5,y-20,4,4,'#3d4754');
       this.rect(x-9,y+4,6,5,'#526976');this.rect(x+3,y+4,6,5,'#526976');
-    }
-    drawAgent(x,y,agent,focus,slot,selected) {
-      const t=this.time, bob=focus>0?Math.sin(t*5+slot*2)*1.5:0,xx=Math.round(x),yy=Math.round(y+bob);
-      if(selected){
-        this.ellipse(xx,yy+13,28+2*Math.sin(t*4),12,'rgba(65,196,218,.21)');
-        this.ellipse(xx,yy+13,21,8,'rgba(26,129,179,.21)');
-      }
-      this.ellipse(xx,yy+13,18,6,'rgba(66,65,64,.20)');
-      if(focus===0){
-        this.ellipse(xx-13,yy-39,8,6,'#f4e9d7');
-        this.text('Z',xx-13,yy-39,10,'#78a1a5','center','800');
-      }
-      const h=agent.hair||'#4d779b';
-      this.rect(xx-10,yy-12,9,23,'#415e72');this.rect(xx+1,yy-12,9,23,'#415e72');
-      this.rect(xx-12,yy-34,25,26,agent.skin||'#f4c5a4');
-      this.rect(xx-16,yy-39,30,12,h);this.rect(xx-15,yy-27,5,12,h);
-      this.rect(xx+9,yy-28,5,8,h);
-      this.rect(xx-8,yy-24,4,4,'#354357');this.rect(xx+4,yy-24,4,4,'#354357');
-      this.rect(xx-10,yy-8,21,17,agent.color);
-      this.rect(xx-16,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx+10,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx-9,yy+8,8,7,'#3f5067');this.rect(xx+2,yy+8,8,7,'#3f5067');
-      if(focus>0){
-        const period=1.2+slot*.2;
-        const spark=Math.sin(t*2*Math.PI/period+slot);
-        if(spark>.6){this.rect(xx+18,yy-42,5,5,'#f4f1b2');this.rect(xx+25,yy-49,3,3,'#fff9d4');}
-      }
     }
     drawRobot(x,y) {
       this.ellipse(x,y+7,16,6,'rgba(13,74,87,.25)');
@@ -2119,19 +2040,6 @@ class F5Primitives {
    this.coastObjects(add);
    // Editable sites are depth-sorted tree-by-tree and building-by-building.
    for(const site of m.sites)this.addSiteObjects(site,add);
-   root.F5City.AGENTS.forEach((a,k)=>{
-    const working=this.agentWork(a.id),p=this.agentPoint(a.id);
-    if(!p)return;
-    const selected=this.selectedAgentId===a.id;
-    add(p,()=>{
-     this.ctx.save();
-     if(selected){this.ellipse(p.x,p.y+6,35,15,'rgba(250,244,206,.90)');this.ellipse(p.x,p.y+6,27,10,'rgba(50,127,110,.48)');}
-     this.ctx.translate(p.x,p.y);this.ctx.scale(.64,.64);
-     this.drawAgent(0,0,a,80,k,selected||!!working);
-     this.ctx.restore();
-     if(selected){this.round(p.x-36,p.y-86,72,25,8,'#fffdf4','#80a38c');this.text(a.name,p.x,p.y-73,15,'#204f44','center','800');}
-    });
-   });
    return entities;
   }
   render(dt=0){
@@ -2685,7 +2593,7 @@ class F5Primitives {
 (function(global){
  'use strict';
  const EPISODES = [
-  {agent:'ヒカリ',role:'住民の声',site:'clinic',heading:'診療所を増やす？',hint:'新しい住宅街からの要望。',human:'住民に聞いて決める',ai:'需要予測で進める',humanNow:'地域ごとの必要を拾う',humanLater:'必要な場所へ届けるには話し合いが要る',aiNow:'予測に合わせて早く整える',aiLater:'想定から外れた地区の声は残る',resultHuman:'住民の要望を聞き、診療所を整えた。',resultAI:'需要予測をもとに診療所を整えた。',humanBuild:'clinic',aiBuild:'clinic',impact:{human:{prosperity:-4,convenience:2,appeal:1,trust:4,fairness:2,resilience:1},ai:{prosperity:11,convenience:10,appeal:4,trust:2,fairness:-8,resilience:-21}}},
+  {agent:'ヒカリ',role:'住民の声',site:'clinic',heading:'診療所を増やす？',hint:'診療所は1か所。駅前は利用者が多く、郊外は通院の負担を減らせます。',human:'住民に聞いて決める',ai:'需要予測で進める',humanNow:'地域ごとの必要を拾う',humanLater:'必要な場所へ届けるには話し合いが要る',aiNow:'予測に合わせて早く整える',aiLater:'想定から外れた地区の声は残る',resultHuman:'住民の要望を聞き、診療所を整えた。',resultAI:'需要予測をもとに診療所を整えた。',humanBuild:'clinic',aiBuild:'clinic',impact:{human:{prosperity:-4,convenience:2,appeal:1,trust:4,fairness:2,resilience:1},ai:{prosperity:11,convenience:10,appeal:4,trust:2,fairness:-8,resilience:-21}}},
   {agent:'ソラ',role:'都市計画',site:'office',heading:'駅前の空き地をどうする？',hint:'新しい企業が進出を希望。',human:'使い道を話し合う',ai:'収益予測を優先する',humanNow:'地域の望む使い方を選ぶ',humanLater:'話し合いで声の大きい地区に偏ることも',aiNow:'仕事の拠点を広げる',aiLater:'予測の前提が偏ると、投資先も偏ることがある',resultHuman:'相談の結果、街に市場が生まれた。',resultAI:'予測をもとに、仕事の拠点が増えた。',humanBuild:'market',aiBuild:'dc',impact:{human:{prosperity:1,convenience:0,appeal:1,trust:3,fairness:-6,resilience:1},ai:{prosperity:14,convenience:7,appeal:-2,trust:-11,fairness:3,resilience:-3}}},
   {agent:'ナギ',role:'施設整備',site:'waterfront',heading:'海辺を開発する？',hint:'集客施設か、防災対策か。',human:'暮らす人の声を聞く',ai:'効率的な開発を進める',humanNow:'高潮に備える設備を整える',humanLater:'集客や便利さへの投資は控えめ',aiNow:'商業施設で人を呼び込む',aiLater:'にぎわいが増えても高潮への備えは別に必要',resultHuman:'高潮に備える設備が整った。',resultAI:'予測をもとに、海辺に商業施設ができた。',humanBuild:'floodgate',aiBuild:'market',impact:{human:{prosperity:-6,convenience:-3,appeal:2,trust:2,fairness:1,resilience:14},ai:{prosperity:12,convenience:3,appeal:9,trust:-10,fairness:-4,resilience:-22}}},
   {agent:'ミドリ',role:'環境・調査',site:'energy',heading:'新しい電力をどう確保する？',hint:'街の使用電力が増えている。',human:'将来の負荷も調べる',ai:'今の需要に合わせる',humanNow:'先の需要まで見て電源を選ぶ',humanLater:'今すぐの成長や便利さはゆるやか',aiNow:'今の需要に合わせて施設を増やす',aiLater:'需要が急増すると、長期の備えが足りないことも',resultHuman:'長く使える発電設備が整った。',resultAI:'需要予測をもとに、効率的な情報施設を整えた。',humanBuild:'solar',aiBuild:'dc',impact:{human:{prosperity:-4,convenience:-1,appeal:2,trust:1,fairness:1,resilience:14},ai:{prosperity:14,convenience:9,appeal:1,trust:-10,fairness:-4,resilience:4}}},
@@ -3023,9 +2931,9 @@ class F5Primitives {
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,tutorialActive=false,tutorialChoice=null,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
- const prologueLines=[['あなたの心の声','「AIが言ってたので」。便利になった街で、そう答える人が増えていた。'],['案内人','ようこそ。ここは、市長と一つの街づくりAIが判断を重ねてきた街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
- const voices={ヒカリ:{line:'暮らしへの影響を比べられます。',human:'市長が人の判断を選びました。',ai:'市長の委任を受け、街づくりAIが選びました。'},ソラ:{line:'計画と移動への影響を比べられます。',human:'市長が人の判断を選びました。',ai:'市長の委任を受け、街づくりAIが選びました。'},ナギ:{line:'施設と防災への影響を比べられます。',human:'市長が人の判断を選びました。',ai:'市長の委任を受け、街づくりAIが選びました。'},ミドリ:{line:'環境と将来の需要への影響を比べられます。',human:'市長が人の判断を選びました。',ai:'市長の委任を受け、街づくりAIが選びました。'}};
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
+ const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
+ const staffSpeeches={clinic:'市長、診療所の場所でご相談です。通院が大変だという声が届いています。',office:'市長、駅前に出店の話が来ています。どうしましょう？',waterfront:'市長、海辺の整備方針を決めたいです。にぎわいと防災、どちらを重視しますか？',energy:'市長、電力需要が増えています。将来の備えも含めて、方針をご相談させてください。',transit:'市長、駅まで遠い地区から相談です。交通の拠点をどう整えましょう？',parkA:'市長、中央公園の使い方に提案が届いています。緑を残すか、施設を増やすか、ご相談です。',school:'市長、学びの場についてご相談です。子どもが増え、今から整備しますか？'};
  const staff={ヒカリ:['早川ひかり','保健福祉部長'],ソラ:['三浦蒼太','都市整備部長'],ナギ:['高瀬 凪','建設部長'],ミドリ:['森田みどり','環境政策部長']};
  shell.dataset.view=view;
   const faceColors={ヒカリ:['#bc7d8c','#df9aa2'],ソラ:['#4c799a','#8bb4cf'],ナギ:['#a47a46','#e3b97c'],ミドリ:['#387a63','#87b89b']};
@@ -3169,22 +3077,9 @@ class F5Primitives {
   const previous=window.GroupAccountability?.present(s.lastEvent,groupPersonalVotes.get(s.lastEvent?.round),!!s.isParticipant);
   const comparison=$('groupPreviousResult');
   if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}
-  const voice=voices[e.agent]||voices.ソラ;
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
   $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';
-  const linked=view==='solo'&&s.lastEvent&&s.round>=1;
-  const links={
-    1:{ai:'診療所はできたけど、遠くの人はまだ通いにくい。次は交通を考えよう。',human:'診療所の話し合いで、駅まで遠い人の声も聞けた。次は交通だね。',mixed:'診療所を整えた次は、駅までの移動も一緒に考えよう。'},
-    2:{ai:'駅前はにぎやか。でも移動の問題が残った。海辺の計画にも影響があるよ。',human:'交通がつながって、海辺に来る人も増えそう。次の整備を考えよう。',mixed:'交通の便利さと街全体のつながり、両方を見て海辺を考えよう。'},
-    3:{ai:'海辺にお店が増えて、電力の負担が大きくなってきた。',human:'海辺を守る工事が進んだ。次は長く使う電力を考えたい。',mixed:'海辺のにぎわいと備えを見ながら、次は電力を考えよう。'}
-  };
-  const clinicNext=view==='solo'&&s.round===1&&clinicRecord?.response?{
-   review:'診療所の評価を調べ直すことにした。理由を確かめるには時間がかかる。次は街の移動も考えよう。',
-   support:'開設場所はそのままに、通院支援を始めた。ほかの地区の課題は残る。次は交通だね。',
-   revise:'診療所の場所を再検討することにした。開設には遅れが出る。次は交通の選択だ。'
-  }[clinicRecord.response]:null;
-  const lead=clinicNext||(linked?(links[s.round]?.[s.lastEvent.chosen]||voice.line):voice.line);
-  $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):lead;
+  $('agentLine').textContent=staffSpeeches[e.site]||'市長、ご相談です。';
   // Present both decisions with the conversation; no intermediate acknowledgement required.
   show('decisionOptions',!(view==='solo'&&s.round===0&&clinicPending!==null));
   $('progressLabel').textContent=progressLabel(s.round)+'の決定';
@@ -3195,13 +3090,13 @@ class F5Primitives {
   $('residentLabel').textContent=sources[e.site]||'相談・情報提供の出どころ';
   const c=faceColors[e.agent]||faceColors.ソラ;
   $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
-  $('questionTitle').textContent=e.heading;$('questionHint').textContent=linked?'前の決定が、次の課題につながった。':(s.round===0?(view==='solo'?'ある住民から「母親の通院に片道1時間かかる」という相談。診療所は1か所です。駅前は総利用者が多く仕事帰りにも便利。郊外は通院の負担が重い人に届く一方、利用者は少ない。':'住民からの相談です。診療所は1か所。駅前は利用者が多く仕事帰りに便利。郊外は通院の負担が重い人に届きやすい一方、利用者数は少なめです。'):e.hint);
+  $('questionTitle').textContent=e.heading;$('questionHint').textContent=e.hint;
   show('riskNotice',!!s.alert);
   if(view==='solo'&&s.round===0&&!s.hasVoted&&clinicPending===null){show('clinicChoice',false);show('decisionOptions',true);}
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
-  $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
-  if(s.round===0){$('humanText').textContent=view==='solo'?'場所と優先理由を自分で決める':'場所と優先理由を話し合う';$('aiText').textContent=view==='solo'?'AIの駅前提案を確認する':'利用予測や交通を参考にする';}
-  $('humanTradeoff').textContent=`人は方針を説明しやすい一方、調整に時間がかかる。今：${e.humanNow}　その先：${e.humanLater}`;
+  $('humanText').textContent=view==='solo'?'自分で決める':'人の案に投票する';$('aiText').textContent=e.ai;
+  $('humanImpact').title=view==='group'?'得票割合によって実際の増減は変わります。':'表示値は予測です。決定後に実際の増減を確認できます。';
+  $('humanTradeoff').textContent=view==='solo'?(s.round===0?'場所と理由を選ぶ':'考え方を選ぶ'):e.human;
   $('aiTradeoff').textContent='';
   renderImpact('humanImpact',e.impactPreview?.human);
   renderImpact('aiImpact',e.impactPreview?.ai);
@@ -3316,17 +3211,12 @@ class F5Primitives {
   shell.dataset.ending=s.ending?.kind||'';
   $('shell').setAttribute('data-crisis',s.incident?.visual||'');
   $('yearStamp').innerHTML=`${2035+Math.min(8,Math.max(1,s.round+1))} <i>·</i> ${['春','夏','秋','冬'][s.round%4]}`;
-  $('cityStatus').textContent=s.ending?.kind==='warning'?'警告を残して街は続きます':s.ending?.kind==='undecided'?'街の判断が保留されています':s.incident?'街に重大なトラブルが発生':s.alert?'街に異変が起きている':s.phase==='reveal'?'街に、変化が起きた':s.phase==='lobby'?'参加者がそろうのを待っています':s.phase==='waiting'?'街の暮らしは続いている':s.episode?.agent+'が考えている';
+  $('cityStatus').textContent=s.ending?.kind==='warning'?'警告を残して街は続きます':s.ending?.kind==='undecided'?'街の判断が保留されています':s.incident?'街に重大なトラブルが発生':s.alert?'街に異変が起きている':s.phase==='reveal'?'街に、変化が起きた':s.phase==='lobby'?'参加者がそろうのを待っています':s.phase==='waiting'?'街の暮らしは続いている':'市長政策会議中';
   const ticker=s.ending?.kind==='warning'?'【街に残る課題】'+s.ending.risks.map(x=>x.title).join('・'):s.ending?.kind==='undecided'?s.ending.heading:s.incident?'【街の緊急ニュース】'+s.incident.title:s.alert?'【街の異変】'+s.alert.title:s.phase==='reveal'?'すべての決定には、続きがある。':s.lastEvent?.result||'街は、今日も少しずつ変わっていく。';if($('cityTicker').textContent!==ticker){$('cityTicker').textContent=ticker;$('cityTicker').classList.remove('ticker-arrived');void $('cityTicker').offsetWidth;$('cityTicker').classList.add('ticker-arrived');}
   $('cityLocation').textContent='まちの中心から';$('cityWeather').textContent=s.incident?({flood:'豪雨・道路冠水',transit:'交通停止',economy:'街の施設が休業',departure:'人通りが減った街',divide:'地区間で対立',protest:'住民が説明を求める'})[s.incident.visual]:s.ending?.kind==='warning'?'残った課題を点検中':['穏やかな風','夏の陽射し','秋の気配','冬の空'][s.round%4];
   renderDisplay(s);
   if(view==='home')return;
   if(view==='display'){show('displayFrame',true);return;}
-  if(tutorialActive&&(view==='solo'||view==='group')){
-   for(const id of ['joinPanel','lobbyPanel','questionPanel','lateJoinPanel','resultPanel','waitingPanel'])show(id,false);
-   show('tutorialPanel',true);return;
-  }
-  show('tutorialPanel',false);
   if(view==='group'){
    show('joinPanel',!everJoined&&s.phase!=='reveal');
    show('lobbyPanel',everJoined&&s.phase==='lobby');
@@ -3356,35 +3246,10 @@ class F5Primitives {
   polling=true;
   try{
    const x=await request('/api/state');offset=x.serverNow-Date.now();failedRequests=0;
-   if(view==='group'){everJoined=!!x.isParticipant;if(everJoined&&tutorialActive)finishTutorial(false);}
+   if(view==='group')everJoined=!!x.isParticipant;
    if(!state||x.cityStartedAt!==state.cityStartedAt||x.round>=state.round||x.phase==='waiting')render(x);
   }catch(err){failedRequests++;if(failedRequests===3){$('cityStatus').textContent='通信を確認してください';$('cityTicker').textContent='ネットワークの接続を確認してください。';}}
   finally{polling=false;}
- }
- function startTutorial(){
-  tutorialActive=true;tutorialChoice=null;
-  $('tutorialTitle').textContent='公園に、ベンチを増やすとしたら？';
-  $('tutorialLine').textContent='公園に新しいベンチを置く計画です。まずは、場所の決め方を練習しましょう。';
-  $('tutorialChoices').hidden=false;show('tutorialFeedback',false);show('tutorialContinue',false);
-  $('tutorialSkip').hidden=false;
-  if(view==='solo')$('tutorialContinue').textContent='本編の4つの判断へ →';
-  else $('tutorialContinue').textContent='参加受付へ進む →';
-  show('tutorialPanel',true);
- }
- function practice(choice){
-  if(!tutorialActive||tutorialChoice)return;
-  tutorialChoice=choice;
-  $('tutorialTitle').textContent='ひとつの判断にも、続きがある。';
-  $('tutorialLine').textContent='便利さだけでなく、誰が困るかも考えるのが市長の役割です。';
-  $('tutorialFeedback').textContent=choice==='human'
-   ?'公園を使う人たちが、日陰で休みたいと教えてくれた。時間はかかったけれど、必要な場所が見えてきた。'
-   :'AIが混雑している場所をすぐに選んだ。でも、静かな場所で休みたい人のことは、まだ分からない。';
-  show('tutorialChoices',false);show('tutorialFeedback',true);show('tutorialContinue',choice==='human');
-  $('tutorialSkip').hidden=true;if(choice==='ai'){setTimeout(()=>{if(tutorialActive&&tutorialChoice==='ai')finishTutorial();},3200);}else $('tutorialContinue').focus();
- }
- function finishTutorial(restore=true){
-  tutorialActive=false;show('tutorialPanel',false);
-  if(restore&&state)render(state);
  }
  function startSolo(){clearCityBeat();clinicPending=null;clinicRecord=null;soloHumanPlans=[];soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
@@ -3457,7 +3322,7 @@ class F5Primitives {
   }
  }
  const introReduce=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const prologueTimes=[2900,3900,5600,4000];
+ const prologueTimes=[1300,1500,1700,1300];
  function showPrologueLine(){
   $('prologueText').textContent=prologueLines[prologueIndex][1];
   $('prologueText').dataset.typing='false';
@@ -3471,11 +3336,11 @@ class F5Primitives {
   const raw=prologueLines[prologueIndex][1],characters=Array.from(raw);
   const elapsed=ts-prologueStartedAt;
   if(!introReduce()&&!prologueFullyTyped){
-   const n=Math.min(characters.length,Math.floor(elapsed/42));
+   const n=Math.min(characters.length,Math.floor(elapsed/24));
    $('prologueText').textContent=characters.slice(0,n).join('');
    if(n===characters.length)showPrologueLine();
   }
-  const minimumTime=Math.max(prologueTimes[prologueIndex],characters.length*42+1600);
+  const minimumTime=Math.max(prologueTimes[prologueIndex],characters.length*24+500);
   if(elapsed>=minimumTime){
    if(prologueIndex===prologueLines.length-1){finishPrologue();return;}
    prologueIndex++;renderPrologue();return;
@@ -3517,16 +3382,14 @@ class F5Primitives {
   }
   if(view==='home'){
    show('landing',true);show('sidePanel',false);$('cityStatus').textContent='誰が、未来を決める？';renderPrologue();
-  }else if(view==='solo'){startTutorial();startSolo();}
-  else {if(view==='group')startTutorial();setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
+  }else if(view==='solo'){startSolo();}
+  else {setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
   $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){cancelAnimationFrame(pressFrame);const line=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;$('pressAnswer').textContent=line;pressTyped=true;if(state)renderResult(state);return;}if(pressIndex<pressData.answers.length){pressIndex++;}else{pressDone=true;}if(state)renderResult(state);};
   $('pressSkip').onclick=()=>{cancelAnimationFrame(pressFrame);pressDone=true;if(state)renderResult(state);};
   $('pressReplay').onclick=()=>{pressIndex=-1;pressDone=false;pressRenderKey='done';if(state)renderResult(state);};
   $('saveReflection').onclick=()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
-  $('tutorialHuman').onclick=()=>practice('human');$('tutorialAi').onclick=()=>practice('ai');
-  $('tutorialContinue').onclick=()=>finishTutorial();$('tutorialSkip').onclick=()=>finishTutorial();
   $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);

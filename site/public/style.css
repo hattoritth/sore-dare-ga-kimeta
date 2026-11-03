@@ -281,58 +281,12 @@
 @keyframes typing-dot{0%,70%,100%{opacity:.42;transform:translateY(0)}35%{opacity:1;transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.typing-dots i{animation:none;opacity:1}}
 
-/* A single practice decision before the actual four/seven consequential rounds. */
-.tutorial-panel[hidden],.tutorial-choices[hidden],.tutorial-feedback[hidden]{display:none!important}
-.shell[data-view=solo] .tutorial-panel,.shell[data-view=group] .tutorial-panel{
- width:100%;max-width:680px;min-width:0;align-self:center;
- background:linear-gradient(140deg,#fcfcf1,#eaf3e8);
- border:1px solid #b9d0be;border-radius:15px;padding:clamp(18px,2.5vw,27px);
- box-shadow:0 15px 55px #183a3260;max-height:calc(100dvh - 150px);
- overflow:auto;overscroll-behavior:contain
-}
-.tutorial-speaker{display:flex;align-items:center;gap:11px;margin:13px 0 6px}
-.tutorial-avatar{display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:50%;background:#2e624f;color:#f4dca8;font-size:23px}
-.tutorial-speaker strong{display:block;font-size:16px;color:#244f40}
-.tutorial-speaker small{display:block;color:#5c796c;font-size:12px;margin-top:2px}
-.tutorial-panel h2{font-size:clamp(20px,2vw,26px);line-height:1.45;color:#234c3e;margin:8px 0}
-.tutorial-panel #tutorialLine{font-size:15px;font-weight:700;line-height:1.7;color:#425f50;margin:7px 0 12px}
-.tutorial-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
-.tutorial-choice{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:9px;padding:14px 15px;min-height:95px;width:100%;text-align:left;border-radius:9px;border:1px solid #adccbc;background:#f6faf4;color:#315e49}
-.tutorial-choice:nth-child(2){background:#fcf6e9;border-color:#d6c5a6;color:#775a31}
-.tutorial-choice span{font-size:11px;font-weight:850}
-.tutorial-choice strong{font-size:15px;line-height:1.4}
-.tutorial-choice:hover,.tutorial-choice:focus-visible{outline:2px solid #548f73;outline-offset:1px}
-.tutorial-feedback{padding:13px 15px;background:#e0f0e1;border-left:4px solid #438569;color:#285a42;border-radius:4px;font-size:14px;line-height:1.65;font-weight:800;margin:14px 0}
-.tutorial-panel .primary-action{width:100%;min-height:52px;margin:13px 0 0}
-.tutorial-skip{min-height:44px;border:none;background:transparent;text-decoration:underline;text-underline-offset:4px;color:#547366;font-size:13px;font-weight:750;cursor:pointer;margin-top:7px}
-.tutorial-note{color:#6b7d6e;font-size:12px;line-height:1.6;margin:8px 0 0}
-@media(max-width:750px){
- .shell[data-view=solo] .tutorial-panel,.shell[data-view=group] .tutorial-panel{padding:15px;max-height:none;overflow:visible}
- .tutorial-panel h2{font-size:20px}
- .tutorial-panel #tutorialLine{font-size:13px;line-height:1.55;margin-bottom:8px}
- .tutorial-choices{gap:8px;margin:10px 0}
- .tutorial-choice{min-height:85px;padding:10px;gap:6px}
- .tutorial-choice strong{font-size:13px}
- .tutorial-speaker{margin:5px 0}
- .tutorial-note{font-size:11px}
- .prologue-activity{font-size:11px;margin-top:8px}
-}
-@media(max-width:370px){.tutorial-choices{grid-template-columns:1fr}.tutorial-choice{min-height:57px}}
-
-/* Make the decision roles legible without changing the existing cast or story flow. */
-.role-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0 15px}
-.role-key p{min-width:0;margin:0;padding:10px;border-radius:9px;background:#eaf1e7;border:1px solid #cbd9c7}
-.role-key p:nth-child(2){background:#f7eee1;border-color:#dfcdb4}.role-key p:nth-child(3){background:#e9eef1;border-color:#c5d1d8}
-.role-key b,.role-key span{display:block}.role-key b{font-size:12px;line-height:1.35;color:#294f40}.role-key span{font-size:11px;line-height:1.4;margin-top:4px;color:#55685d}
-.role-key-compact{margin:8px 0}.role-key-compact p{padding:7px 8px}.role-key-compact b{font-size:11px}.role-key-compact span{font-size:10px}
 .resident-label{display:inline-block;padding:4px 8px;margin-bottom:5px;border-radius:20px;background:#f6ead5;color:#775638;font-size:11px;font-weight:850}
-.workload-note{margin:7px 0;padding:7px 10px;border-left:3px solid #d2b57b;background:#f5f1e7;color:#655c49;font-size:11px;line-height:1.45}
 .strategy-choice{grid-column:1/-1;margin-top:9px;padding:14px;border:1px solid #b8cdbd;border-radius:11px;background:#f1f6ee;color:#294d3d}
 .strategy-choice[hidden]{display:none!important}.strategy-choice h2{font-size:18px;margin:4px 0}.strategy-choice p{font-size:13px;line-height:1.5;margin:6px 0 10px}
 .strategy-choice button[data-strategy]{display:block;width:100%;min-height:48px;margin:7px 0;padding:10px 13px;text-align:left;border:1px solid #b8cdbd;border-radius:8px;background:#fff;color:#315943;font-weight:800}
 .strategy-choice button:focus-visible{outline:3px solid #548f73;outline-offset:2px}
-@media(max-width:750px){.role-key{gap:5px}.role-key p{padding:7px 6px}.role-key b{font-size:10px}.role-key span{font-size:9px}.resident-label{font-size:10px}.strategy-choice{padding:11px}}
-@media(max-width:360px){.role-key{grid-template-columns:1fr}.role-key p{display:flex;align-items:center;gap:8px}.role-key span{margin:0}}
+@media(max-width:750px){.resident-label{font-size:10px}.strategy-choice{padding:11px}}
 
 
 /* Avoid a black empty canvas while the first illustrated frame is prepared. */
@@ -456,3 +410,12 @@
 
 /* Short, readable decision confirmation; animation is suppressed for reduced motion. */
 .decision-stamp{display:inline-block;padding:3px 9px;border-radius:999px;background:#326b50;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;vertical-align:middle}.decision-teaser{display:block;margin-top:5px;color:#536d5d;font-size:13px}.vote-feedback.is-confirmed{animation:decision-arrive .32s ease-out}.decision-stamp{animation:stamp-arrive .36s cubic-bezier(.2,.8,.2,1)}@keyframes decision-arrive{from{transform:translateY(3px);opacity:.65}to{transform:translateY(0);opacity:1}}@keyframes stamp-arrive{from{transform:scale(.94)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.vote-feedback.is-confirmed,.decision-stamp{animation:none!important}}
+
+/* High-clarity decision buttons: action names are the hierarchy, not decorative indexes. */
+.question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px}
+.question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:center;text-align:center}
+.question-panel .decision strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3;overflow-wrap:normal}
+.question-panel .decision-tradeoff{font-size:12px;line-height:1.35;color:#526c5f}
+.question-panel .decision[data-vote=ai] strong{font-size:clamp(18px,1.55vw,21px)}
+.question-panel .impact-note[hidden]{display:none!important}
+@media(max-width:750px){.question-panel .decision strong{font-size:16px}.question-panel .decision[data-vote=ai] strong{font-size:17px}.question-panel .decision[data-vote=human]{min-height:83px}.question-panel .decision[data-vote=ai]{min-height:83px}}
