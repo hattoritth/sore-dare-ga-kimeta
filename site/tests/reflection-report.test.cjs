@@ -1,7 +1,8 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {build}=require('../public/reflection-report.js');
+const Reflection=require('../public/reflection-report.js');
+const {build}=Reflection;
 const metricState={public:{prosperity:61,convenience:52,appeal:43},shadow:{trust:34,fairness:25,resilience:16}};
 function state(history,extra={}){return {phase:'reveal',ending:{kind:'warning',heading:'街は課題を残して続く。',description:'課題を確かめる判断が残りました。',risks:[{title:'格差の課題'}]},...metricState,history,...extra};}
 test('active phase and incomplete reveal never produce report or hidden metric values',()=>{
@@ -30,3 +31,22 @@ test('saved report names TRUE, NORMAL, WARNING and BAD ending classes',()=>{
  }
 });
 test('build is deterministic for identical input',()=>{const input=state([{heading:'議題',chosen:'none',result:'保留'}]);assert.equal(build(input,{mode:'group'}),build(input,{mode:'group'}));});
+
+test('post-game feedback reflects representative solo routes and the true, normal and bad ending responsibility',()=>{
+ const Reflection=require('../public/reflection-report.js');
+ const haha=Reflection.normalReflection({ending:{kind:'stable'},history:[{chosen:'human'},{chosen:'ai'},{chosen:'human'},{chosen:'ai'}]},{kind:'human',place:'station',reason:'total'},[{round:3,strategy:'voices'}]);
+ assert.match(haha,/駅前の使いやすさ/);assert.match(haha,/駅前に商業施設が増えました/);assert.doesNotMatch(haha,/TRUE|正解/);
+ const hhha=Reflection.normalReflection({ending:{kind:'true'},history:[{chosen:'human'},{chosen:'human'},{chosen:'human'},{chosen:'ai'}]},{kind:'human',place:'suburb',reason:'access',response:'support'},[{round:3,strategy:'balance'}]);assert.match(hhha,/人とAIに異なる役割/);
+ assert.match(Reflection.normalReflection({ending:{kind:'collapse'},history:[{chosen:'ai'},{chosen:'ai'},{chosen:'ai'},{chosen:'ai'}]},null,[]),/AIに委ねる選択が続きました/);
+ assert.match(Reflection.normalReflection({ending:{kind:'collapse'},history:[{chosen:'human'},{chosen:'human'},{chosen:'human'},{chosen:'human'}]},null,[]),/人が判断を担い続けても/);
+});
+
+
+test('shared NORMAL reflection uses fifth transit decision, never second office decision',()=>{
+ const officeAi={ending:{kind:'stable'},roundTotal:7,history:['human','ai','human','human','human','human','human'].map(chosen=>({chosen}))};
+ const transitHuman=Reflection.normalReflection(officeAi,null,[]);
+ assert.doesNotMatch(transitHuman,/交通の議題ではAI案|駅前の商業施設が優先/);
+ const transitAi={ending:{kind:'stable'},roundTotal:7,history:['human','human','human','human','ai','human','human'].map(chosen=>({chosen}))};
+ assert.match(Reflection.normalReflection(transitAi,null,[]),/第5の交通の議題/);
+ assert.doesNotMatch(Reflection.normalReflection(transitAi,null,[]),/診療所は駅前/);
+});

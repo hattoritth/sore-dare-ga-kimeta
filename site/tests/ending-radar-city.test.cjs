@@ -102,3 +102,14 @@ test('saved SVG fallback also keeps four visually distinct ending themes',()=>{
  });
  assert.equal(new Set(overlays).size,4);
 });
+
+test('ending radar label anchors stay inside a wide viewBox and labels wrap',()=>{
+ const svg=Card.radarSvg([74,86,76,73,59,85]);assert.match(svg,/viewBox=\"0 0 400 296\"/);assert.equal((svg.match(/<tspan/g)||[]).length,12);assert.match(svg,/未来への備え/);
+});
+test('stage four is expanded by stage transition and ending controls use single accessible details ids',()=>{
+ assert.match(app,/endingUiStage!==endingFlowStage/);assert.match(app,/endingFlowStage===3/);assert.match(html,/<details class=\"metric-comparison\" id=\"metricComparison\"/);assert.match(html,/<details id=\"endingCardMore\"/);assert.match(html,/id=\"downloadEndingPng\"/);assert.match(html,/id=\"printEndingCard\"/);
+});
+
+test('exported ending card embeds radar labels within the transformed card group',()=>{
+ const svg=Card.buildSvg({kind:'stable',metrics});assert.match(svg,/translate\(500 410\) scale\(\.9\)/);assert.equal((svg.match(/<tspan x=/g)||[]).length,12);
+});

@@ -3,6 +3,25 @@
  const metrics=[['prosperity','にぎわい','public'],['convenience','便利さ','public'],['appeal','住み心地','public'],['trust','市への信頼','shadow'],['fairness','公平さ','shadow'],['resilience','未来への備え','shadow']];
  const choices={human:'人が方針を選択',ai:'AIに任せる方針を選択',mixed:'人とAIが同数で保留',none:'投票なしで保留'};
  const groupChoices={human:'集団で人の方針が多数となり実施',ai:'集団でAIへの委任案が多数となり実施',mixed:'集団で同数となり実施保留',none:'投票なしで実施保留'};
+
+ function normalReflection(state,clinic,plans=[]){
+  const history=state?.history||[],chosen=history.map(item=>item.chosen),ending=state?.ending?.kind;
+  const solo=state?.roundTotal===4||(state?.roundTotal==null&&history.length===4);
+  if(ending==='true')return '人が住民の事情や地区間の調整を担い、AIの予測も組み合わせました。人とAIに異なる役割を持たせ、街の判断を支えています。';
+  if(ending==='collapse'){
+   const allAi=chosen.length>0&&chosen.every(item=>item==='ai');
+   const allHuman=chosen.length>0&&chosen.every(item=>item==='human');
+   if(allAi)return '判断をAIに委ねる選択が続きました。結果に出た課題を、人が途中で確かめる機会が足りなかった可能性があります。';
+   if(allHuman)return '人が判断を担い続けても、街の課題は残りました。AIの予測や別の地区の情報を加えて確かめる余地があります。';
+   return '人とAIの判断を組み合わせても課題が残りました。街に起きた変化を確かめ、次に何を見直すか考える余地があります。';
+  }
+  const notes=[];
+  if(clinic?.kind==='human'&&clinic.place==='station'&&clinic.reason==='total')notes.push('診療所は駅前の使いやすさを優先しました。郊外の通院事情も確かめる余地が残りました。');
+  else if(clinic?.kind==='human'&&clinic.place==='suburb'&&clinic.reason==='access')notes.push('診療所は郊外に置き、通院の届きやすさを優先しました。利用の多い駅前との両立は次の課題です。');
+  if(chosen[solo?1:4]==='ai')notes.push(solo?'交通の議題ではAI案を選び、需要の多い駅前に商業施設が増えました。遠い地区をどうつなぐか、人が結果を確かめる余地があります。':'第5の交通の議題では、集団のAI案により駅前の商業施設が優先されました。遠い地区への交通が十分か、結果を確かめる余地があります。');
+  const plan=plans.find(item=>item?.round===3);if(plan?.strategy==='voices')notes.push('海辺では現地の声を聞く進め方を選び、高潮対策を整えました。');else if(plan?.strategy==='balance')notes.push('海辺では地区間の希望を調整する進め方を選び、高潮対策を整えました。');
+  return notes.slice(0,2).join(' ')||'街は続きました。AIに任せた案の結果と、現地で確かめる人の判断を次の議題でも組み合わせられます。';
+ }
  function build(state,{mode='solo',clinicRecord=null,humanPlans=[]}={}){
   if(state?.phase!=='reveal'||!state.ending||!['solo','group'].includes(mode))return null;
   const values=metrics.map(([key,,group])=>state[group]?.[key]);
@@ -35,5 +54,5 @@
   lines.push('','振り返り','・AIに任せる方針を選んだのは誰でしょうか。','・その方針から具体策を選び、結果を説明するのは誰でしょうか。','・保留した判断を、次に何を確かめてから決めますか。','',mode==='group'?'共有プレイの票数は議題ごとの集計です。特定の個人が賛成・承認したとは示しません。':'このソロ記録は、このブラウザー内の選択をまとめたものです。','この記録は展示上のシナリオです。実際の行政判断、診療所の運営、利用者の心理を示すものではありません。','個人の心理は推測していません。');
   return lines.join('\n');
  }
- return {build,metrics};
+ return {build,metrics,normalReflection};
 });

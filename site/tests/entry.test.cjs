@@ -31,8 +31,8 @@ test('human choices explain their tradeoffs while the AI action stays one tap an
  const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  const engine=fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8');
- assert.match(html,/id="humanTradeoff"/);assert.match(html,/id="aiTradeoff" hidden/);assert.match(html,/<strong>AIに任せる<\/strong>/);
- assert.match(app,/s\.round===0\?'場所と理由を選ぶ':'考え方を選ぶ'/);
+ assert.match(html,/id="humanTradeoff"/);assert.match(html,/id="aiTradeoff"/);assert.match(html,/<strong>AIに任せる<\/strong>/);
+ assert.match(app,/s\.round===0\?'場所と理由を選ぶ'/);assert.match(app,/e\.humanNow,e\.humanLater/);
  assert.doesNotMatch(app,/今：\$\{e\.aiNow\}/);
  assert.match(html,/決め方と責任/);assert.match(app,/AIに何を任せるか決めたのも、あなたの選択です/);
  const Engine=require('../engine.js');
@@ -109,11 +109,11 @@ test('vote buttons have concise actions without redundant option numbers or arro
  for(const button of [human,ai]){assert.doesNotMatch(button,/decision-small|option-arrow|>01\b|>02\b/);}
  assert.match(human,/<strong id="humanText">自分で決める<\/strong>/);
  assert.match(ai,/<strong>AIに任せる<\/strong>/);
- assert.match(ai,/id="aiImpact"[^>]+hidden/);
+ assert.match(ai,/id="aiTradeoff"[^>]*/);
  assert.match(html,/id="impactNote" hidden/);
  assert.match(app,/view==='solo'\?'自分で決める':'人の案に投票する'/);
  assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
- assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
+ assert.match(app,/e\.aiNow,e\.aiLater/);
 });
 
 test('offline mode keeps group choice visible and routes to published online play without pretending to host a group',()=>{

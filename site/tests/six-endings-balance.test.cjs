@@ -195,8 +195,9 @@ test('impact legend is in each real choice and no hidden parameters appear in ch
  const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  for(const id of ['humanImpact','aiImpact','impactNote'])assert.ok(html.includes('id="'+id+'"'));
+ assert.doesNotMatch(html.match(/id="aiDecision"[\s\S]*?<\/button>/)?.[0]||'',/trust|fairness|resilience|impactPreview/);
  assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
- assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
+ assert.match(app,/e\.aiNow,e\.aiLater/);
  assert.match(app,/投票割合で変わります/);
  assert.match(app,/裏の指標/);
 });

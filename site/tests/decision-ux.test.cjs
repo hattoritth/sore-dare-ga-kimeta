@@ -2,6 +2,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const DecisionUX=require('../public/decision-ux.js');
 const Conference=require('../public/conference.js');
+const fs=require('node:fs');const path=require('node:path');const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
 
 test('solo human strategy label stays separate from binary vote values and explains its engine effect',()=>{
  for(const strategy of ['voices','balance']){
@@ -37,13 +38,13 @@ test('human strategy options stay separate from binary shared vote values',()=>{
 test('landing identifies the mayor, human department heads and one city AI without a role-card wall',()=>{
  const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8');
  const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
- assert.match(html,/市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます/);
+ assert.match(html,/市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます/);assert.match(html,/いま見える数字だけでは、街のすべてはわかりません/);
  assert.doesNotMatch(html,/class="role-key/);
  for(const name of ['早川ひかり','三浦蒼太','高瀬 凪','森田みどり','保健福祉部長','都市整備部長','建設部長','環境政策部長'])assert.ok(app.includes(name));
  assert.doesNotMatch(html+app,/支援AI|まちづくり支援AI|街づくりAI · 4人の助言者|街づくりAI · (暮らし|都市計画|施設整備|環境)/);
  assert.match(html,/<h2 id="agentLine" class="agent-line">/);
  assert.doesNotMatch(html,/id="residentLabel"|id="questionTitle"|class="decision-prompt"/);
- assert.match(html,/strong>AIに任せる</);
+ assert.match(html,/<strong>AIに任せる<\/strong>/);
  assert.match(app,/cityBeatVoice'\)\.textContent=clinic\?clinicResidentLine\(\):reaction\[choice\]/);
  assert.doesNotMatch(app,/ヒカリ「住民から|母の通院には片道1時間/);
  assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
@@ -76,7 +77,7 @@ test('landing and decision surface keep role and workload explanations concise a
  assert.doesNotMatch(html,/class="role-key|workload-note|相談や依頼が重なる街/);
  assert.match(html,/街へ進む／スキップ/);
  assert.match(css,/\.play-surface>:not\(\.side-panel\)\{display:none!important\}/);
- assert.match(css,/#resultPanel>:not\(#endingCardTools\)\{display:none!important\}/);
+ assert.match(css,/#resultPanel>:not\(#endingFlow\)\{display:none!important\}/);assert.match(css,/#endingFlow>:not\(#endingCardTools\)\{display:none!important\}/);
  assert.match(css,/prefers-reduced-motion:reduce/);
  const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
  assert.match(app,/const prologueTimes=\[1300,1500,1700,1300\]/);
@@ -117,7 +118,7 @@ test('ending preview is readable semantic HTML while exports keep a separate com
  assert.equal((header.match(/class="desc"/g)||[]).length,2,'long explanation uses two lines');
  assert.match(header,/class="title">長い結末/);assert.match(header,/y="257" class="desc"/);
  assert.match(svg,/width="1600" height="1100" viewBox="0 0 1600 1100"/);
- assert.match(svg,/class="title"/);assert.match(svg,/class="axis"/);assert.match(svg,/translate\(555 410\)/);
+ assert.match(svg,/class="title"/);assert.match(svg,/class="axis"/);assert.match(svg,/viewBox="0 0 1600 1100"/);
  const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8'),html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8'),css=fs.readFileSync(path.join(__dirname,'../public/style.css'),'utf8');
  assert.match(app,/endingCardPreview'\)\.innerHTML=window\.EndingCard\.buildPreview\(context\)/);
  assert.match(app,/endingCardPrint'\)\.innerHTML=window\.EndingCard\.buildSvg\(context\)/);
@@ -138,4 +139,10 @@ test('standalone ending card has no external resource references and decision co
  assert.match(app,/card\.hidden=!pressDone/);
  assert.match(app,/classList\.add\('is-confirmed'\)/);
  assert.match(fs.readFileSync(path.join(__dirname,'../public/style.css'),'utf8'),/prefers-reduced-motion:reduce[^}]*\.vote-feedback\.is-confirmed/);
+});
+
+test('vote confirmation never reuses the preceding event result; group wait is explicit',()=>{
+ assert.match(app,/if\(s\.hasVoted\)\{feedback\.replaceChildren\(\);const stamp/);
+ assert.doesNotMatch(app,/if\(s\.lastEvent\?\.result\)\{const teaser/);
+ assert.match(app,/多数案の確定を待っています/);
 });

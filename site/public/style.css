@@ -527,9 +527,35 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
  .shell>:not(.play-surface){display:none!important}
  .play-surface>:not(.side-panel){display:none!important}
  .side-panel>:not(#resultPanel){display:none!important}
- #resultPanel>:not(#endingCardTools){display:none!important}
+ #resultPanel>:not(#endingFlow){display:none!important}
+ #endingFlow>:not(#endingCardTools){display:none!important}
+ #endingFlow{display:block!important}
  #endingCardTools>:not(#endingCardPrint){display:none!important}
  .shell,.play-surface,.side-panel,#resultPanel,#endingCardTools{display:block!important;position:static!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;box-shadow:none!important;transform:none!important}
  #endingCardPrint{display:block!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important}
  #endingCardPrint svg{display:block!important;width:100%!important;height:auto!important;max-height:190mm!important;object-fit:contain;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+
+/* First-time decision clarity and compact ending actions. */
+#aiDecision .decision-tradeoff{display:block!important;max-width:100%;font-size:12px;line-height:1.35;text-align:left}
+#endingCardTools{grid-column:1/-1;margin-top:0;padding-top:10px}
+#endingCardMore summary,.metric-comparison>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}
+#endingCardMore[open] summary{margin-bottom:8px}
+.metric-comparison{display:block}
+.metric-comparison[hidden]{display:none!important}
+.group-join-rules{font-size:13px;line-height:1.45}
+.clinic-form fieldset{gap:5px;margin:6px 0}.clinic-form label{min-height:44px;padding:7px 9px}
+@media(max-width:750px){.clinic-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.clinic-form label{font-size:12px;line-height:1.25;align-items:center}.clinic-form label input{margin:0}}
+
+.metric-clue{font-size:12px;line-height:1.4;color:#536d5d;margin-top:7px}
+
+/* Once the clinic detail starts, the form owns the screen. The consultation is
+   already understood; repeating its full speech pushes the confirmation away. */
+@media(max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .conversation{display:none!important}
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .question-head{margin-bottom:8px}
+}
+
+@media(min-width:751px) and (max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .clinic-choice{max-height:min(65dvh,520px)}
 }

@@ -21,7 +21,7 @@ test('clinic keeps an explicit but short station-versus-suburbs tradeoff; other 
  const facts=app.match(/const conciseFacts=\{([^}]+)\}/)?.[1];
  assert.ok(facts);
  assert.match(facts,/clinic:'駅前：多くの人に便利　／　郊外：通院の負担を軽くできる'/);
- assert.doesNotMatch(facts,/office:|waterfront:|energy:|transit:|parkA:|school:/);
+ assert.doesNotMatch(facts,/office:|transit:|waterfront:|energy:|parkA:|school:/);
  assert.match(app,/show\('questionHint',!!fact\)/);
  assert.match(app,/\$\('agentRole'\)\.textContent=staffRole/);
 });
@@ -32,5 +32,5 @@ test('the mayor is still offered both actions; AI is one tap and public estimate
  assert.match(html,/id="aiDecision"/);
  assert.match(html,/id="aiImpact"[^>]*hidden/);
  assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
- assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
+ assert.match(app,/e\.aiNow,e\.aiLater/);
 });

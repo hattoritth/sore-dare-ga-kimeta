@@ -528,11 +528,37 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
  .shell>:not(.play-surface){display:none!important}
  .play-surface>:not(.side-panel){display:none!important}
  .side-panel>:not(#resultPanel){display:none!important}
- #resultPanel>:not(#endingCardTools){display:none!important}
+ #resultPanel>:not(#endingFlow){display:none!important}
+ #endingFlow>:not(#endingCardTools){display:none!important}
+ #endingFlow{display:block!important}
  #endingCardTools>:not(#endingCardPrint){display:none!important}
  .shell,.play-surface,.side-panel,#resultPanel,#endingCardTools{display:block!important;position:static!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;box-shadow:none!important;transform:none!important}
  #endingCardPrint{display:block!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important}
  #endingCardPrint svg{display:block!important;width:100%!important;height:auto!important;max-height:190mm!important;object-fit:contain;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+
+/* First-time decision clarity and compact ending actions. */
+#aiDecision .decision-tradeoff{display:block!important;max-width:100%;font-size:12px;line-height:1.35;text-align:left}
+#endingCardTools{grid-column:1/-1;margin-top:0;padding-top:10px}
+#endingCardMore summary,.metric-comparison>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}
+#endingCardMore[open] summary{margin-bottom:8px}
+.metric-comparison{display:block}
+.metric-comparison[hidden]{display:none!important}
+.group-join-rules{font-size:13px;line-height:1.45}
+.clinic-form fieldset{gap:5px;margin:6px 0}.clinic-form label{min-height:44px;padding:7px 9px}
+@media(max-width:750px){.clinic-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.clinic-form label{font-size:12px;line-height:1.25;align-items:center}.clinic-form label input{margin:0}}
+
+.metric-clue{font-size:12px;line-height:1.4;color:#536d5d;margin-top:7px}
+
+/* Once the clinic detail starts, the form owns the screen. The consultation is
+   already understood; repeating its full speech pushes the confirmation away. */
+@media(max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .conversation{display:none!important}
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .question-head{margin-bottom:8px}
+}
+
+@media(min-width:751px) and (max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .clinic-choice{max-height:min(65dvh,520px)}
 }
 </style></head>
 <body>
@@ -556,7 +582,7 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
    <div class="stat" data-stat="appeal" title="公園・居場所・暮らし続けたい魅力" aria-label="住み心地。公園・居場所・暮らし続けたい魅力"><span class="stat-label">住み心地</span><div class="stat-track"><i></i></div><strong>67</strong></div>
   </section>
   <div class="join-landing" id="landing" hidden>
-   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p>
+   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p><p class="metric-clue">いま見える数字だけでは、街のすべてはわかりません。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
        <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong></button>
        <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>共有は公開中のオンライン版で遊べます（最新改修は未反映）。</p>
@@ -564,7 +590,7 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
   </div>
   <div class="side-panel" id="sidePanel">
    <section class="join-panel" id="joinPanel" hidden>
-    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
+    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><p class="group-join-rules">7つの判断・1問23秒。多い票の案を採用します。途中参加は次の議題から。</p><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
    </section>
    <section class="lobby-panel" id="lobbyPanel" hidden>
@@ -579,7 +605,7 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
     <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
     <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">三浦蒼太</strong><span id="agentRole">市役所職員 · 都市整備部長</span></div><div class="speech-bubble"><h2 id="agentLine" class="agent-line">市長、少しご相談です。</h2><p class="question-detail" id="questionHint" hidden></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><div class="decision-options" id="decisionOptions" hidden>
      <button type="button" data-vote="human" class="decision" id="humanDecision"><strong id="humanText">自分で決める</strong><span class="decision-tradeoff" id="humanTradeoff"></span><span class="impact-row" id="humanImpact" aria-label="人が判断した場合の表3指標の変化予測"></span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><strong>AIに任せる</strong><span id="aiText" hidden></span><span id="aiTradeoff" hidden></span><span class="impact-row" id="aiImpact" aria-label="AI側の非公開の事前予測" hidden></span></button>
+     <button type="button" data-vote="ai" class="decision" id="aiDecision"><strong>AIに任せる</strong><span class="decision-tradeoff" id="aiTradeoff"></span><span class="impact-row" id="aiImpact" hidden aria-hidden="true"></span></button>
      <p class="impact-note" id="impactNote" hidden aria-hidden="true"></p>
     </div>
     <section class="strategy-choice" id="strategyChoice" hidden aria-labelledby="strategyTitle"><span class="overline">市長が選ぶ人の方針</span><h2 id="strategyTitle">どんな視点で決める？</h2><p>現地で暮らす人の話を聞くか、複数の地区の希望を調整するか。進め方によって、街の変化も異なります。</p><button type="button" data-strategy="voices">現地の声を確かめる</button><button type="button" data-strategy="balance">複数地区の希望を調整する</button><button type="button" id="cancelStrategy" class="text-action">選択に戻る</button></section>
@@ -605,14 +631,15 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
    <section class="result-panel" id="resultPanel" hidden>
     <section id="endingFlow" class="ending-flow" aria-label="街の結末を順に見る">
      <p id="endingProgress" class="ending-progress" aria-live="polite">1 / 5　変わった街</p>
+    <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を保存できます。個人名や投票者別の記録は含みません。</p><details id="endingCardMore"><summary>大きな結果カードを見る</summary><div id="endingCardPreview" class="ending-card-preview"></div></details><div id="endingCardPrint" class="ending-card-print" aria-hidden="true"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNGで保存</button><button class="text-action" id="printEndingCard" type="button">PDFで保存</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section>
      <div id="endingCityPicture" class="ending-city-picture" role="img" aria-label="判断によって変化した街の風景"></div>
      <button id="endingNext" class="primary-action" type="button">街の結末を見る</button>
      <button id="endingShowAll" class="text-action" type="button">結果をすべて見る</button>
     </section>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <button id="openEndingPress" class="text-action" type="button" hidden>記者会見も見る</button><section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div><button class="text-action" id="closeEndingPress" type="button">会見を閉じる</button></section>
-    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><div id="endingRadar" class="ending-inline-radar"></div><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた3つの成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる3つの影響</span><div id="shadowMetrics"></div></div></section>
-    <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を保存できます。個人名や投票者別の記録は含みません。</p><div id="endingCardPreview" class="ending-card-preview"></div><div id="endingCardPrint" class="ending-card-print" aria-hidden="true"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNG画像を保存</button><button class="text-action" id="printEndingCard" type="button">PDFとして保存</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section><section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>判断の記録を保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
+    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><details class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><summary>6つの指標を詳しく見る</summary><div id="endingRadar" class="ending-inline-radar"></div><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた3つの成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる3つの影響</span><div id="shadowMetrics"></div></div></details>
+<section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>判断の記録を保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
     <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
     <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
@@ -2745,7 +2772,7 @@ class F5Primitives {
   {agent:'ソラ',role:'都市計画',site:'office',heading:'駅前の空き地をどうする？',hint:'新しい企業が進出を希望。',human:'使い道を話し合う',ai:'収益予測を優先する',humanNow:'地域の望む使い方を選ぶ',humanLater:'話し合いで声の大きい地区に偏ることも',aiNow:'仕事の拠点を広げる',aiLater:'予測の前提が偏ると、投資先も偏ることがある',resultHuman:'相談の結果、街に市場が生まれた。',resultAI:'予測をもとに、仕事の拠点が増えた。',humanBuild:'market',aiBuild:'dc',impact:{human:{prosperity:1,convenience:0,appeal:1,trust:3,fairness:-6,resilience:1},ai:{prosperity:14,convenience:7,appeal:-2,trust:-11,fairness:3,resilience:-3}}},
   {agent:'ナギ',role:'施設整備',site:'waterfront',heading:'海辺を開発する？',hint:'集客施設か、防災対策か。',human:'暮らす人の声を聞く',ai:'効率的な開発を進める',humanNow:'高潮に備える設備を整える',humanLater:'集客や便利さへの投資は控えめ',aiNow:'商業施設で人を呼び込む',aiLater:'にぎわいが増えても高潮への備えは別に必要',resultHuman:'高潮に備える設備が整った。',resultAI:'予測をもとに、海辺に商業施設ができた。',humanBuild:'floodgate',aiBuild:'market',impact:{human:{prosperity:-6,convenience:-3,appeal:2,trust:2,fairness:1,resilience:14},ai:{prosperity:12,convenience:3,appeal:9,trust:-10,fairness:-4,resilience:-22}}},
   {agent:'ミドリ',role:'環境・調査',site:'energy',heading:'新しい電力をどう確保する？',hint:'街の使用電力が増えている。',human:'将来の負荷も調べる',ai:'今の需要に合わせる',humanNow:'先の需要まで見て電源を選ぶ',humanLater:'今すぐの成長や便利さはゆるやか',aiNow:'今の需要に合わせて施設を増やす',aiLater:'需要が急増すると、長期の備えが足りないことも',resultHuman:'長く使える発電設備が整った。',resultAI:'需要予測をもとに、効率的な情報施設を整えた。',humanBuild:'solar',aiBuild:'dc',impact:{human:{prosperity:-4,convenience:-1,appeal:2,trust:1,fairness:1,resilience:14},ai:{prosperity:14,convenience:9,appeal:1,trust:-10,fairness:-4,resilience:4}}},
-  {agent:'ソラ',role:'都市計画',site:'transit',heading:'新しい交通の拠点は？',hint:'駅までの移動が不便という声。',human:'移動の実態を確認',ai:'データから最適化',humanNow:'遠い地区も交通でつなぐ',humanLater:'広く移動を支え、成長は穏やか',aiNow:'人が集まる路線へ集中する',aiLater:'利用の少ない地区の不便は残る',resultHuman:'街をつなぐ交通拠点ができた。',resultAI:'予測をもとに、駅前に商業施設が増えた。',humanBuild:'transit',aiBuild:'market',impact:{human:{prosperity:-5,convenience:11,appeal:1,trust:2,fairness:2,resilience:1},ai:{prosperity:6,convenience:12,appeal:5,trust:-10,fairness:-20,resilience:-13}}},
+  {agent:'ソラ',role:'都市計画',site:'transit',heading:'新しい交通の拠点は？',hint:'駅までの移動が不便という声。',human:'移動の実態を確認',ai:'データから最適化',humanNow:'遠い地区も交通でつなぐ',humanLater:'広く移動を支え、成長は穏やか',aiNow:'駅前に商業施設を増やす',aiLater:'利用の少ない地区の不便は残る',resultHuman:'街をつなぐ交通拠点ができた。',resultAI:'予測をもとに、駅前に商業施設が増えた。',humanBuild:'transit',aiBuild:'market',impact:{human:{prosperity:-5,convenience:11,appeal:1,trust:2,fairness:2,resilience:1},ai:{prosperity:6,convenience:12,appeal:5,trust:-10,fairness:-20,resilience:-13}}},
   {agent:'ヒカリ',role:'住民の声',site:'parkA',heading:'中央公園を変える？',hint:'土地の活用を求める提案。',human:'公園の役割を残す',ai:'新しい施設へ転用',humanNow:'公園と施設を両立する',humanLater:'大きな商業利用の余地は小さくなる',aiNow:'中心に便利な施設を設ける',aiLater:'緑の場所と街の魅力が失われることも',resultHuman:'公園と施設を両立する形にした。',resultAI:'予測をもとに、街の中心に情報施設ができた。',humanBuild:'mixed',aiBuild:'dc',impact:{human:{prosperity:1,convenience:-1,appeal:5,trust:2,fairness:4,resilience:4},ai:{prosperity:15,convenience:5,appeal:-45,trust:-10,fairness:-30,resilience:-8}}},
   {agent:'ミドリ',role:'環境・調査',site:'school',heading:'学びの場所を増やす？',hint:'子どもの数が増えている。',human:'将来の人口まで調べる',ai:'今すぐ住まいを増やす',humanNow:'次の世代の学びを準備する',humanLater:'今すぐの住宅増加はゆるやか',aiNow:'今の住宅需要にすばやく応える',aiLater:'人口が増えると学びの場所が足りないことも',resultHuman:'次の世代のための学びの場ができた。',resultAI:'予測をもとに、新しい住宅が完成した。',humanBuild:'school',aiBuild:'homes',impact:{human:{prosperity:-2,convenience:2,appeal:2,trust:1,fairness:5,resilience:5},ai:{prosperity:4,convenience:11,appeal:10,trust:-10,fairness:3,resilience:-5}}}
  ];
@@ -3063,6 +3090,25 @@ class F5Primitives {
  const metrics=[['prosperity','にぎわい','public'],['convenience','便利さ','public'],['appeal','住み心地','public'],['trust','市への信頼','shadow'],['fairness','公平さ','shadow'],['resilience','未来への備え','shadow']];
  const choices={human:'人が方針を選択',ai:'AIに任せる方針を選択',mixed:'人とAIが同数で保留',none:'投票なしで保留'};
  const groupChoices={human:'集団で人の方針が多数となり実施',ai:'集団でAIへの委任案が多数となり実施',mixed:'集団で同数となり実施保留',none:'投票なしで実施保留'};
+
+ function normalReflection(state,clinic,plans=[]){
+  const history=state?.history||[],chosen=history.map(item=>item.chosen),ending=state?.ending?.kind;
+  const solo=state?.roundTotal===4||(state?.roundTotal==null&&history.length===4);
+  if(ending==='true')return '人が住民の事情や地区間の調整を担い、AIの予測も組み合わせました。人とAIに異なる役割を持たせ、街の判断を支えています。';
+  if(ending==='collapse'){
+   const allAi=chosen.length>0&&chosen.every(item=>item==='ai');
+   const allHuman=chosen.length>0&&chosen.every(item=>item==='human');
+   if(allAi)return '判断をAIに委ねる選択が続きました。結果に出た課題を、人が途中で確かめる機会が足りなかった可能性があります。';
+   if(allHuman)return '人が判断を担い続けても、街の課題は残りました。AIの予測や別の地区の情報を加えて確かめる余地があります。';
+   return '人とAIの判断を組み合わせても課題が残りました。街に起きた変化を確かめ、次に何を見直すか考える余地があります。';
+  }
+  const notes=[];
+  if(clinic?.kind==='human'&&clinic.place==='station'&&clinic.reason==='total')notes.push('診療所は駅前の使いやすさを優先しました。郊外の通院事情も確かめる余地が残りました。');
+  else if(clinic?.kind==='human'&&clinic.place==='suburb'&&clinic.reason==='access')notes.push('診療所は郊外に置き、通院の届きやすさを優先しました。利用の多い駅前との両立は次の課題です。');
+  if(chosen[solo?1:4]==='ai')notes.push(solo?'交通の議題ではAI案を選び、需要の多い駅前に商業施設が増えました。遠い地区をどうつなぐか、人が結果を確かめる余地があります。':'第5の交通の議題では、集団のAI案により駅前の商業施設が優先されました。遠い地区への交通が十分か、結果を確かめる余地があります。');
+  const plan=plans.find(item=>item?.round===3);if(plan?.strategy==='voices')notes.push('海辺では現地の声を聞く進め方を選び、高潮対策を整えました。');else if(plan?.strategy==='balance')notes.push('海辺では地区間の希望を調整する進め方を選び、高潮対策を整えました。');
+  return notes.slice(0,2).join(' ')||'街は続きました。AIに任せた案の結果と、現地で確かめる人の判断を次の議題でも組み合わせられます。';
+ }
  function build(state,{mode='solo',clinicRecord=null,humanPlans=[]}={}){
   if(state?.phase!=='reveal'||!state.ending||!['solo','group'].includes(mode))return null;
   const values=metrics.map(([key,,group])=>state[group]?.[key]);
@@ -3095,7 +3141,7 @@ class F5Primitives {
   lines.push('','振り返り','・AIに任せる方針を選んだのは誰でしょうか。','・その方針から具体策を選び、結果を説明するのは誰でしょうか。','・保留した判断を、次に何を確かめてから決めますか。','',mode==='group'?'共有プレイの票数は議題ごとの集計です。特定の個人が賛成・承認したとは示しません。':'このソロ記録は、このブラウザー内の選択をまとめたものです。','この記録は展示上のシナリオです。実際の行政判断、診療所の運営、利用者の心理を示すものではありません。','個人の心理は推測していません。');
   return lines.join('\n');
  }
- return {build,metrics};
+ return {build,metrics,normalReflection};
 });
 
 </script><script>
@@ -3157,12 +3203,13 @@ class F5Primitives {
  }
  function radarFigure(vals){return `<figure class="ending-preview-radar" aria-label="6つの指標"><figcaption>6つの指標</figcaption>${radarSvg(vals)}</figure>`;}
  function radarSvg(values){
-  const cx=180,cy=166,r=108,angles=metricKeys.map((_,i)=>-Math.PI/2+i*Math.PI/3),point=(v,i)=>[cx+Math.cos(angles[i])*r*v/100,cy+Math.sin(angles[i])*r*v/100],grid=[20,40,60,80,100].map(n=>`<polygon points="${angles.map((_,i)=>point(n,i).join(',')).join(' ')}" fill="none" stroke="#d1d9cc" stroke-width="1"/>`).join('');
+  const cx=200,cy=148,r=66,angles=metricKeys.map((_,i)=>-Math.PI/2+i*Math.PI/3),point=(v,i)=>[cx+Math.cos(angles[i])*r*v/100,cy+Math.sin(angles[i])*r*v/100],grid=[20,40,60,80,100].map(n=>`<polygon points="${angles.map((_,i)=>point(n,i).join(',')).join(' ')}" fill="none" stroke="#d1d9cc" stroke-width="1"/>`).join('');
   const axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*r}" y2="${cy+Math.sin(a)*r}" stroke="#aab9a9"/>`).join('');
   const pts=values.map((v,i)=>point(clamp(v),i)),poly=pts.map(p=>p.join(',')).join(' ');
-  const texts=labels.map((label,i)=>{const [x,y]=point(119,i);let anchor='middle';if(x<cx-20)anchor='end';if(x>cx+20)anchor='start';const vy=y<cy-20?'hanging':y>cy+20?'auto':'middle';return `<text x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="${vy}" class="axis">${label} ${Math.round(clamp(values[i]))}</text>`;}).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
+  const texts=labels.map((label,i)=>{const a=angles[i],[x,y]=[cx+Math.cos(a)*116,cy+Math.sin(a)*116];const anchor=Math.cos(a)<-.25?'end':Math.cos(a)>.25?'start':'middle';const words=[label,`${Math.round(clamp(values[i]))}`];return `<text x="${x}" y="${y-7}" text-anchor="${anchor}" dominant-baseline="middle" class="axis"><tspan x="${x}" dy="0">${words[0]}</tspan><tspan x="${x}" dy="15">${words[1]}</tspan></text>`;}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 296" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
  }
+
  function wrapText(value,maxChars,maxLines){
   const chars=Array.from(String(value||'')),lines=[];
   while(chars.length&&lines.length<maxLines)lines.push(chars.splice(0,maxChars).join(''));
@@ -3190,7 +3237,7 @@ class F5Primitives {
   const sceneMarkup=image?`<defs><clipPath id="ending-city-clip"><rect x="96" y="416" width="390" height="310" rx="14"/></clipPath></defs><image href="${image}" x="96" y="416" width="390" height="310" preserveAspectRatio="xMidYMid slice" clip-path="url(#ending-city-clip)"/><rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}" clip-path="url(#ending-city-clip)"/>`:
    sceneSvg(sceneKey).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scene.label+'">','<g transform="translate(100 420) scale(1.04 1.04)">').replace('</svg>','</g>')
    +`<rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}"/>`;
-  const chart=radarSvg(vals).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100">','<g transform="translate(555 410) scale(1.16)">').replace('</svg>','</g>');
+  const chart=radarSvg(vals).replace(/<svg[^>]*>/,'<g transform="translate(500 410) scale(.9)">').replace('</svg>','</g>');
   const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:14px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6指標 · 最終値 / 100</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="768" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,824,'desc',32,3,36)}${chart}${valueRows}<text x="100" y="1004" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
  }
@@ -3208,14 +3255,14 @@ class F5Primitives {
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
  const staffSpeeches={
   clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
   office:'市長、企業から駅前への出店提案が来ています。どう進めましょう？',
   waterfront:'市長、海辺の整備です。にぎわいと高潮対策、どちらを優先しますか？',
   energy:'市長、街の電力が足りなくなりそうです。今の便利さと将来への備え、どうしましょう？',
-  transit:'市長、駅が遠くて困るという声が届いています。交通をどう整えましょう？',
+  transit:'市長、駅が遠い地区の移動が不便です。人の少ない地区まで交通をつなぐか、駅前に商業施設を増やすか、どうしましょう？',
   parkA:'市長、中央公園の使い方で相談です。緑を残すか施設を増やすか、どうしましょう？',
   school:'市長、子どもが増えています。学校の整備を今から進めますか？'
  };
@@ -3375,12 +3422,11 @@ class F5Primitives {
   show('riskNotice',!!s.alert);
   if(view==='solo'&&s.round===0&&!s.hasVoted&&clinicPending===null){show('clinicChoice',false);show('decisionOptions',true);}
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
-  $('humanText').textContent=view==='solo'?'自分で決める':'人の案に投票する';$('aiText').textContent=e.ai;
+  $('humanText').textContent=view==='solo'?'自分で決める':'人の案に投票する';
   $('humanImpact').title=view==='group'?'得票割合によって実際の増減は変わります。':'ソロの人の案は、詳細選択によって実際の増減が変わります。';
-  $('humanTradeoff').textContent=view==='solo'?(s.round===0?'場所と理由を選ぶ':'考え方を選ぶ'):e.human;
-  $('aiTradeoff').textContent='';
+  $('humanTradeoff').textContent=view==='solo'&&s.round===0?'場所と理由を選ぶ':[e.humanNow,e.humanLater].filter(Boolean).join('。');
+  $('aiTradeoff').textContent=[e.aiNow,e.aiLater].filter(Boolean).join('。');
   renderImpact('humanImpact',e.impactPreview?.human);
-  renderImpact('aiImpact',e.impactPreview?.ai);
   $('humanImpact').setAttribute('aria-label',view==='solo'?'人の案の表3指標の変化予測。詳細選択によって変わります':'人が判断した場合の表3指標の変化予測');
   $('impactNote').textContent=view==='group'
    ?'表3指標の変化目安は投票割合で変わります。裏の指標は非表示。'
@@ -3389,11 +3435,12 @@ class F5Primitives {
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }
   const feedback=$('voteFeedback');
-  if(s.hasVoted){feedback.replaceChildren();const stamp=document.createElement('span');stamp.className='decision-stamp';stamp.textContent='市長決裁';feedback.append(stamp,document.createTextNode(' '+(s.myVote==='ai'?'街づくりAIに委任しました。':'人が判断しました。')));if(s.lastEvent?.result){const teaser=document.createElement('span');teaser.className='decision-teaser';teaser.textContent=s.lastEvent.result;feedback.append(teaser);}feedback.classList.add('is-confirmed');}
+  if(s.hasVoted){feedback.replaceChildren();const stamp=document.createElement('span');stamp.className='decision-stamp';stamp.textContent=view==='group'?'投票済み':'決裁済み';feedback.append(stamp,document.createTextNode(' '+(s.myVote==='ai'?'AIに委任しました。':'人の案を選びました。')+(view==='group'?' 多数案の確定を待っています。':'')));feedback.classList.add('is-confirmed');}
   else{feedback.textContent=s.alert?'人が判断すると、異変への対策を優先できます。':view==='solo'?'自分の判断で、街の未来が変わる。':'あなたなら、どうする？';feedback.classList.remove('is-confirmed');}
   $('peopleCount').textContent=(s.onlineCount||0)+'人が参加中';$('votedCount').textContent=s.voteCount+'人が判断済み';
   show('communityStatus',view==='group');
  }
+
  function resultDescription(s){
   return {heading:s.ending?.heading||'街の判断を振り返る。',sub:s.ending?.description||'判断の記録と、街に残った課題を確かめてください。'};
  }
@@ -3411,7 +3458,7 @@ class F5Primitives {
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();}
   const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
   if(!endingSceneReady){if(scene?.render)scene.render(0);endingSceneImage=endingSceneCache.get(s.cityStartedAt,$('townCanvas'));endingSceneReady=true;}
   const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
@@ -3421,6 +3468,7 @@ class F5Primitives {
   if(endingFlowStage<3)pressData=null;
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
+  if(['stable','true','collapse'].includes(s.ending?.kind))$('endingText').textContent=window.ReflectionReport.normalReflection(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
   $('endingIncident').textContent=s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ');
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
@@ -3431,7 +3479,7 @@ class F5Primitives {
   if(endingFlowStage>=4&&endingCardRenderCity!==s.cityStartedAt){endingCardRenderCity=s.cityStartedAt;
    const scene=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
    const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,sceneImage:endingSceneImage,title:result.heading,description:result.sub,endingLabel:({collapse:'BAD END · '+(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'WARNING END · 警告の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL END · 健やかに続く街',true:'TRUE END · 役割と備えを確かめた街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
-   $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);
+   $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);$('endingCardMore').open=false;
    $('endingCardPrint').innerHTML=window.EndingCard.buildSvg(context);
    $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};
    $('printEndingCard').onclick=()=>window.print();
@@ -3445,9 +3493,9 @@ class F5Primitives {
   $('endingIncident').hidden=endingFlowStage<2||(!s.incident&&!s.ending?.risks.length);
   if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
   if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
-  if(endingFlowStage<4){$('endingCardPreview').replaceChildren();$('endingCardPrint').replaceChildren();}
+  if(endingFlowStage<4){$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();}
   $('metricComparison').hidden=endingFlowStage<3;
-  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;
+  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;if(endingUiStage!==endingFlowStage){endingUiStage=endingFlowStage;$('metricComparison').open=endingFlowStage===3;if(endingFlowStage===4)$('endingCardMore').open=false;}
   $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
   $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4;$('resultNote').hidden=endingFlowStage<4;
   $('pressConference').hidden=endingFlowStage<4||!pressOpen;
@@ -3577,7 +3625,7 @@ class F5Primitives {
    if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;
    if(soloGame.round===0&&choice==='human'){clinicPending='human';show('decisionOptions',false);show('clinicChoice',true);show('humanClinicForm',true);show('aiClinicForm',false);document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.checked=false);$('confirmHumanClinic').disabled=true;document.querySelector('[name="clinicPlace"]').focus();return;}
    if(soloGame.round===0&&choice==='ai'){clinicRecord={kind:'ai',place:'station',reason:'forecast'};clinicPending=null;submitSoloVote('ai');return;}
-   if(choice==='human'&&soloGame.round>0){show('decisionOptions',false);show('strategyChoice',true);$('strategyChoice').querySelector('[data-strategy="voices"]').focus();return;}
+   if(choice==='human'&&soloGame.round>0){show('decisionOptions',false);show('strategyChoice',true);const flood=soloGame.round===2;$('strategyTitle').textContent=flood?'高潮対策をどう進める？':'どんな視点で決める？';$('strategyChoice').querySelector('p').textContent=flood?'どちらも高潮対策を実施します。現地の声を聞くか、複数地区の希望を調整するかで、進め方が変わります。':'現地で暮らす人の話を聞くか、複数の地区の希望を調整するか。進め方によって、街の変化も異なります。';$('strategyChoice').querySelector('[data-strategy="voices"]').textContent=flood?'現地の声を聞いて対策する':'現地の声を確かめる';$('strategyChoice').querySelector('[data-strategy="balance"]').textContent=flood?'複数地区を調整して対策する':'複数地区の希望を調整する';$('strategyChoice').querySelector('[data-strategy="voices"]').focus();return;}
   if(choice==='ai')$('voteFeedback').textContent='街づくりAIに任せます。選定後の追加確認なしで街が動きます。';
    submitSoloVote(choice);return;
   }
