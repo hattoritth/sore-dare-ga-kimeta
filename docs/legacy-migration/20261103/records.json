@@ -1,0 +1,111 @@
+{
+  "branches": {
+    "experiment/living-city-beats": "archive/legacy-20261103/experiment-living-city-beats",
+    "fix/choices-direct": "archive/legacy-20261103/fix-choices-direct",
+    "fix/prologue-playflow-ux": "archive/legacy-20261103/fix-prologue-playflow-ux",
+    "main": "archive/legacy-20261103/main",
+    "review/sites-v5": "archive/legacy-20261103/import-sites-v5"
+  },
+  "git_history_public": "Anonymized author/committer email and display name; file trees unchanged before this documentation commit.",
+  "issue_count": 2,
+  "issues": [
+    {
+      "body": "## 背景：旧版の面白さが失われた\nユーザーから「昔のバージョンと違って、ずっと選択を押し続けるばかりで楽しくない」との指摘。\n\n**ソース比較（事実）**\n- 元の `sore_dare_ga_kimeta_city_v12_4.html`：AIが自律運営する街に時間経過があり、施設計画・建設・住民の声・ニュース・参加者の介入・終了時の訪問レポートがあった。プレイヤーが操作しなくても街が生きていた。\n- 現行Sites v6/開発PR #4：見た目は2.5D都市だが、ゲーム進行は7つの固定エピソードで各回「人が判断／AIに任せる」を選択する構造。単一のメトリクス変動と次の選択に見え、因果関係が伝わりにくい。\n- UIの「選択肢を見る」削除は摩擦軽減であってゲーム性改善ではない。\n\n## 目標\n**「7連続の二択」から「自律して動く都市に、ときどき介入する物語体験」へ改修する。**\n入力負担を増やさず、AIへ任せる怖さ・便利さを体験として伝える。「方針」などの追加必須設定は復活させない。\n\n## プレイの新しいリズム\n`街の自律進行 → AI担当者が相談 → 人が判断/AIに任せる → 判断を街へ反映するカメラ/施設/住民演出 → 関連ニュースや次の問題 → 結末で裏側の指標を公開`\n\n例：ヒカリの診療所相談 → AI委任 → 建物ができて便利さUP → 「診療所は増えたけど、遠い地区の人は通えない」と住民の声 → ソラの交通相談へつながる。**次の相談が前の選択の結果によって変わる**。\n\n## 優先タスク\n- [ ] v12.4の自律進行（時間・住民・建設・カメラ演出）のうち、現行3指標・ゲームルールに安全に統合できる部分を抽出\n- [ ] 1つの縦スライス（診療所の相談→判断→建設→住民の反応→次のソラの相談）をローカルHTMLで実装。変更後、7問連打からの体感差をレビュー\n- [ ] ソロは**重要判断を3〜4回程度**に再構成し、判断の間に観察時間を設ける。強制タップは2択以外に増やさない\n- [ ] 施設の建設/街の状態変化を実際の2.5D描画で見せ、住民の短い台詞で副作用を示す\n- [ ] 結末前は裏3指標の**数値を秘匿**し、街の見た目と住民の声で違和感を示唆する\n- [ ] 共有モードは23秒投票を維持しつつ、モニターを常時動く共有都市にする。場面演出によって投票可能時間を不当に縮めない\n- [ ] iPad横1024×768、iPhone縦390×844、モニター1920×1080で演出と操作性をテスト。モーション軽減設定も尊重\n- [ ] 元の絵・RPG会話・導入自動進行・QR2択・D1・アクセス権を維持し、回帰テストと視覚比較を記録\n\n## 合格条件\n- **連続で選択肢だけを表示しない**。全判断の間に明確な街の変化・住民の反応・時間経過がある\n- 少なくとも2つの次イベントで、過去の選択による因果関係が台詞や施設に見える\n- ひとりモードを初見で2〜4分程度で体験可能（目標値。実測で調整）\n- みんなモードは既存D1投票/再接続/秘匿を壊さない。5セッション実D1検証の結果を参照し、リリース前に再評価\n- 「PoC」「デモ」「試作」等の開発用文言はゲームに出さない\n- 本番Sites v6に**直接実装しない**。ローカルHTML→Private GitHub Draft PR→視覚レビューの順。merge/公開デプロイは別承認\n\n## 現状\n- 作業用worktree/branch `experiment/living-city-beats` はMacに作成済み。\n- Macのリモート接続が不安定で、**縦スライス実装とテストは未完了**。未実装を完了とは扱わない。\n",
+      "closed_at": null,
+      "created_at": "2026-11-01T05:30:30Z",
+      "original_number": 5,
+      "original_state": "open",
+      "original_type": "issue",
+      "title": "P1: 二択連打から「生きて動く街＋因果のある物語」へゲームループ再設計",
+      "updated_at": "2026-11-01T05:30:30Z"
+    },
+    {
+      "body": "## 目的\nChatGPT Sites **v5**（オーナー限定公開）のソースを、検証可能な形でこのPrivate GitHubリポジトリへ取り込み、以後の開発をCodex＋ローカルHTMLへ移す。\n\n## Source of Truth と参照\n- 既存Sites: `appgprj_6ae596548c00819189f3f54ce3275e02`\n- owner-only site: `https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/`\n- Mac: `~/Projects/sore-dare-ga-kimeta`\n- 旧ZIP (`machi_no_tsuzuki_sites_ready.zip` 等) とサイトv5の同一性は未確認\n\n## Steps\n- [ ] Sites v5のHTML/JS/CSS/アセットとD1設定を**読み取りのみ**でエクスポート（公開権限変更は禁止）\n- [ ] 旧ZIP / ローカルv16-v17とのdiffを確認。秘密・個人情報・ライセンスを点検\n- [ ] v5と一致するソースをfeature branchへインポートし、変更履歴とSHA-256を残す\n- [ ] `npm test`、HTTPテスト、ローカルブラウザの導入→モード→相談→判断→結末、iPad横置き/iPhone縦/モニターを検証\n- [ ] GitHub Actionsの最低限のCIを追加（依存取得不要を優先）\n- [ ] Draft PRで変更・テスト成功とマージ可能品質を別々にレビュー\n- [ ] ユーザー承認後にmainへ統合。既存Sites v5はこの段階では変更しない\n\n## 優先条件\n表示タイトル「それ、誰が決めた？」。2036年の4場面導入、4人のAIとの会話、元の2.5D都市、表裏3指標、QR入口、一人/みんな、D1の共有状態を維持。ゲーム画面に「PoC」「デモ」「試作」を表示しない。\n\n## 完了定義\nGitHubのゲームソースがSites v5基準と追跡可能であり、ローカルから起動・テストできる。展開可否と実D1検証は別途記録。Sitesへの再デプロイや一般公開は行わない。",
+      "closed_at": null,
+      "created_at": "2026-10-31T11:42:06Z",
+      "original_number": 1,
+      "original_state": "open",
+      "original_type": "issue",
+      "title": "P0: Sites v5ソースを正規輸入してローカル開発の基準を確立",
+      "updated_at": "2026-10-31T11:42:06Z"
+    }
+  ],
+  "original_git_history": "Locally backed up (original exact commit hashes not published because commit metadata contained a personal email)",
+  "pr_count": 4,
+  "pull_requests": [
+    {
+      "body": "## 内容\\n- 一人モードを7連続判断から4つの重要判断に再構成（ヒカリ→ソラ→ナギ→ミドリ）\\n- 判断→施設の変化→住民の反応→次の相談の一連の演出を追加\\n- 前の判断が次の相談文を変える因果表現を3箇所追加\\n- 街が主役となる時間を設け、iPad横置き・iPhone縦でも一画面に収める\\n- 共有モードは従来の7ラウンド、23秒投票、D1の契約を変更しない\\n\\n## 検証\\n- Worker成果物検証、npm test 13/13 成功\\n- iPad横置き（人が4判断→存続）、iPhone縦（AIに4判断→崩壊）、小型iPhoneの住民イベント表示をChromeで確認\\n- サーバー不要の単体HTMLでも導入→一人モード→街の変化を確認\\n- 詳細: docs/LIVING_CITY_VERTICAL_SLICE_20261101.md\\n\\n## 未対応と公開境界\\n旧v12.4の完全な自律都市エンジンは未移植。連鎖は主として台詞/施設の表現で、スコア計算の連鎖は未実装。公開Sites v6、実D1、本番権限、mainは変更していない。",
+      "closed_at": null,
+      "comments_count": 0,
+      "created_at": "2026-11-01T05:39:01Z",
+      "draft": true,
+      "merged_at": null,
+      "original_base": "fix/choices-direct",
+      "original_base_sha": "829fb69056fe7c6b7383ad56905727ea431abea8",
+      "original_head": "experiment/living-city-beats",
+      "original_head_sha": "2b50b57f6bd4de6e7e7bec3f08f52f812e258db5",
+      "original_number": 6,
+      "original_state": "open",
+      "original_type": "pull_request",
+      "review_comments_count": 0,
+      "title": "Living city: restore consequence-driven solo story beats",
+      "updated_at": "2026-11-01T05:39:01Z"
+    },
+    {
+      "body": "## 変更\\nAI担当者の会話を読んだ後の「選択肢を見る」を撤廃。相談と「人が判断する / AIに任せる」を同時に表示し、3秒の待機処理も削除。共有モードの23秒投票制限とD1ロジックは変更しません。\\n\\n## 検証\\n- npm test 10/10、Workerビルドと成果物検証成功\\n- iPad横置き1024×768、iPhone390×844、小型375×667、PCでのブラウザー操作・2択表示・横スクロールなしを確認\\n- 一人モード判断成功、ローカル共有モード投票API受理、単体HTML表示確認\\n- 詳細：docs/DIRECT_DECISION_UX_20261101.md\\n\\n## 境界\\n公開中のSites v6は変更なし。実機と公開D1でのこの差分の再検証は未実施。ベースはfix/prologue-playflow-ux、mainへはmergeしません。",
+      "closed_at": null,
+      "comments_count": 0,
+      "created_at": "2026-11-01T04:53:07Z",
+      "draft": true,
+      "merged_at": null,
+      "original_base": "fix/prologue-playflow-ux",
+      "original_base_sha": "1810601dced8d5fab521dc8afece6eb191425f63",
+      "original_head": "fix/choices-direct",
+      "original_head_sha": "829fb69056fe7c6b7383ad56905727ea431abea8",
+      "original_number": 4,
+      "original_state": "open",
+      "original_type": "pull_request",
+      "review_comments_count": 0,
+      "title": "Show choices directly during agent conversations",
+      "updated_at": "2026-11-01T04:53:07Z"
+    },
+    {
+      "body": "## 変更内容\\n- 導入4場面のボタン座標を固定。長文の3場面目でも動かない。\\n- 入口の街を全面表示、重複ラベル非表示。\\n- 一人モードはプレイヤーの選択で進み、選択後2.2秒のリアクション後に次へ。みんなでモードは23秒のまま。\\n\\n## 検証\\n- 4サイズ×4場面の位置検証、iPad横置き7判断完走、スマホ全AI委任で4判断後ゲームオーバー、2端末共有投票・モニター表示、APIの裏指標非公開、9/9自動テスト成功。\\n- 詳細: docs/UX_PLAYTEST_20261031.md\\n\\n## 安全境界\\nSites v5は変更していない。ベースのSites v5輸入PR #2へ向けた積み上げPR。mainへのマージはしない。実端末・実D1は未検証。",
+      "closed_at": null,
+      "comments_count": 0,
+      "created_at": "2026-10-31T12:10:52Z",
+      "draft": true,
+      "merged_at": null,
+      "original_base": "import/sites-v5",
+      "original_base_sha": "c135067e9c1caa41e0877aa7660c6c45e358ea2f",
+      "original_head": "fix/prologue-playflow-ux",
+      "original_head_sha": "1810601dced8d5fab521dc8afece6eb191425f63",
+      "original_number": 3,
+      "original_state": "open",
+      "original_type": "pull_request",
+      "review_comments_count": 0,
+      "title": "Fix prologue action stability and solo play pacing",
+      "updated_at": "2026-10-31T13:00:03Z"
+    },
+    {
+      "body": "## 内容\nSites保存版 v5 のソースを `site/` に取り込み、出典、SHA-256、v17との差分、ライセンス確認結果を `docs/` に記録します。Sitesの変更やデプロイは行っていません。\n\n## 検証\n- `bash scripts/build.sh`、artifact検証、`npm test`: 9件成功。ビルド前は生成物不足で1件失敗。\n- D1はモックで検証。Sites実D1・実端末での同時投票は未検証。\n- QRコードのMITライセンス全文と、街・キャラクター素材の権利の追加確認が必要です。\n\nmainにはマージしません。",
+      "closed_at": null,
+      "comments_count": 0,
+      "created_at": "2026-10-31T11:45:42Z",
+      "draft": true,
+      "merged_at": null,
+      "original_base": "main",
+      "original_base_sha": "4e7527e45c7c7a286a8d95827dd63027793471e8",
+      "original_head": "import/sites-v5",
+      "original_head_sha": "c135067e9c1caa41e0877aa7660c6c45e358ea2f",
+      "original_number": 2,
+      "original_state": "open",
+      "original_type": "pull_request",
+      "review_comments_count": 0,
+      "title": "Import verified Sites v5 source",
+      "updated_at": "2026-10-31T11:45:42Z"
+    }
+  ],
+  "purpose": "Historical preservation, not active development",
+  "source": "Personal legacy repository, frozen 2026-11-03 (JST)"
+}
