@@ -420,6 +420,10 @@
 .question-panel .decision[data-vote=ai] strong{font-size:clamp(18px,1.55vw,21px)}
 .question-panel .impact-note[hidden]{display:none!important}
 @media(max-width:750px){.question-panel .decision strong{font-size:16px}.question-panel .decision[data-vote=ai] strong{font-size:17px}.question-panel .decision[data-vote=human]{min-height:83px}.question-panel .decision[data-vote=ai]{min-height:83px}}
+
+/* One simple online-mode disclosure, only when opening the offline HTML. */
+.standalone-group-note{grid-column:1/-1;margin:0;color:#f6efdf;font-size:12px;line-height:1.45;font-weight:600;text-align:center}
+.standalone-group-note[hidden]{display:none!important}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -445,7 +449,7 @@
    <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
        <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong></button>
-       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong></button>
+       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>共有は公開中のオンライン版で遊べます（最新改修は未反映）。</p>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
@@ -3376,8 +3380,8 @@ class F5Primitives {
  function init(){
   initArt();
   if(location.protocol==='file:'){
-   // Shared mode requires a running server / D1. Do not advertise a broken choice.
-   show('openShared',false);shell.dataset.standalone='true';
+   // The self-contained HTML only runs solo. Keep the group entry visible and identify its published-online destination.
+   show('standaloneGroupNote',true);shell.dataset.standalone='true';
    document.querySelector('.brand').setAttribute('href',location.pathname);
   }
   if(view==='home'){
@@ -3390,7 +3394,7 @@ class F5Primitives {
   $('pressReplay').onclick=()=>{pressIndex=-1;pressDone=false;pressRenderKey='done';if(state)renderResult(state);};
   $('saveReflection').onclick=()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||!pressDone)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
-  $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
+  $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
   for(const b of document.querySelectorAll('[data-strategy]'))b.onclick=()=>{if(view!=='solo'||!soloGame||soloGame.round<1||soloGame.round>3||soloGame.votes.solo)return;const plan=DecisionUX.record(soloGame.round+1,b.dataset.strategy);if(!plan)return;soloHumanPlans.push(plan);submitSoloVote('human');};
