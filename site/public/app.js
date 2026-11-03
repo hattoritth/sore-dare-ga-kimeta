@@ -221,7 +221,8 @@
   if(endingFlowStage>=4){
    const scene=s.ending?.kind==='collapse'?s.ending.metric:s.ending?.kind==='stable'?'stable':'neutral';
    const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,title:result.heading,description:result.sub,endingLabel:({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
-   $('endingCardPreview').innerHTML=window.EndingCard.buildSvg(context);
+   $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);
+   $('endingCardPrint').innerHTML=window.EndingCard.buildSvg(context);
    $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};
    $('printEndingCard').onclick=()=>window.print();
   }
@@ -234,7 +235,7 @@
   $('endingIncident').hidden=endingFlowStage<2||(!s.incident&&!s.ending?.risks.length);
   if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
   if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
-  if(endingFlowStage<4)$('endingCardPreview').replaceChildren();
+  if(endingFlowStage<4){$('endingCardPreview').replaceChildren();$('endingCardPrint').replaceChildren();}
   $('metricComparison').hidden=endingFlowStage<3;
   $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;
   $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
