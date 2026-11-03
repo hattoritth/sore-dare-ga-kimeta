@@ -412,6 +412,10 @@
 /* Short, readable decision confirmation; animation is suppressed for reduced motion. */
 .decision-stamp{display:inline-block;padding:3px 9px;border-radius:999px;background:#326b50;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;vertical-align:middle}.decision-teaser{display:block;margin-top:5px;color:#536d5d;font-size:13px}.vote-feedback.is-confirmed{animation:decision-arrive .32s ease-out}.decision-stamp{animation:stamp-arrive .36s cubic-bezier(.2,.8,.2,1)}@keyframes decision-arrive{from{transform:translateY(3px);opacity:.65}to{transform:translateY(0);opacity:1}}@keyframes stamp-arrive{from{transform:scale(.94)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.vote-feedback.is-confirmed,.decision-stamp{animation:none!important}}
 
+.ending-flow{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid #dce3d5}.ending-progress{grid-column:1/-1;margin:0;color:#526d5d;font-size:13px;font-weight:800}.ending-city-picture{grid-column:1/-1;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;background:#d5d8cf}.ending-city-picture svg{display:block;width:100%;height:auto}.ending-flow button{min-height:48px}.ending-flow .primary-action{margin:0}.ending-flow .text-action{min-height:44px;padding:10px 14px}
+@media(prefers-reduced-motion:reduce){.ending-flow *{scroll-behavior:auto!important}}
+button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):active{transform:scale(.985)}@media(prefers-reduced-motion:reduce){button:not(:disabled){transition:none}button:not(:disabled):active{transform:none}}
+
 /* High-clarity decision buttons: action names are the hierarchy, not decorative indexes. */
 .question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px}
 .question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:center;text-align:center}
@@ -510,6 +514,12 @@
    </section>
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
+    <section id="endingFlow" class="ending-flow" aria-label="街の結末を順に見る">
+     <p id="endingProgress" class="ending-progress" aria-live="polite">1 / 4　街の変化</p>
+     <div id="endingCityPicture" class="ending-city-picture" aria-label="結末を含まない街の風景"></div>
+     <button id="endingNext" class="primary-action" type="button">街の結末を見る</button>
+     <button id="endingShowAll" class="text-action" type="button">結果をすべて見る</button>
+    </section>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
     <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた3つの成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる3つの影響</span><div id="shadowMetrics"></div></div></section>
@@ -1268,7 +1278,7 @@ class F5Primitives {
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  class TownScene extends F5Primitives {
   constructor(canvas,model){
-   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;
+   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;this.decisionHighlight=null;
    this.W=2900;this.H=1600;this.scale=1;this.ox=0;this.oy=0;this.dpr=1;this.running=true;this.mobile=false;this.lastLayout='';this.zoom=1;this.zoomTarget=1;this.panX=0;this.panY=0;this.selectedAgentId=null;
    this.sites=root.F5City.SITES;
    this.roadsI=[-7,1,8,11,16,22,28,35];this.roadsJ=[-6,1,8,15,20];
@@ -2069,7 +2079,18 @@ class F5Primitives {
    if(this.reduced){this.zoom=this.zoomTarget;}else if(Math.abs(this.zoomTarget-this.zoom)>.001){this.zoom+= (this.zoomTarget-this.zoom)*Math.min(1,dt*8);}
    else this.zoom=this.zoomTarget;this.layout();const c=this.ctx,r=this.canvas.getBoundingClientRect();
    c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#e4e9dd';c.fillRect(0,0,r.width,r.height);
-   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();
+   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();this.drawDecisionHighlight();
+  }
+  setDecisionHighlight(id,label){const site=this.model.site(id);if(!site)return false;this.decisionHighlight={id,label,startedAt:performance.now()};return true;}
+  clearDecisionHighlight(){this.decisionHighlight=null;}
+  drawDecisionHighlight(){
+   const beat=this.decisionHighlight;if(!beat)return;
+   const site=this.model.site(beat.id);if(!site){this.decisionHighlight=null;return;}
+   const elapsed=performance.now()-beat.startedAt;if(elapsed>(this.reduced?2200:850)){this.decisionHighlight=null;return;}
+   const p=this.iso(site.cell[0]+site.w*.52,site.cell[1]+site.d*.55),c=this.ctx,t=this.reduced?1:Math.min(1,elapsed/850),radius=this.reduced?46:24+t*35,alpha=this.reduced?0.72:1-t*.45;
+   c.save();c.globalAlpha=alpha;c.strokeStyle='#fff2bd';c.lineWidth=5;c.beginPath();c.ellipse(p.x,p.y-8,radius,radius*.42,0,0,Math.PI*2);c.stroke();c.strokeStyle='#4e9a72';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y-8,radius+8,(radius+8)*.42,0,0,Math.PI*2);c.stroke();
+   if(elapsed<650||this.reduced){const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';const w=c.measureText(label).width+22,x=p.x-w/2,y=p.y-78;c.fillStyle='rgba(255,253,239,.96)';c.beginPath();c.roundRect(x,y,w,26,8);c.fill();c.fillStyle='#285748';c.textAlign='center';c.textBaseline='middle';c.fillText(label,p.x,y+13);}
+   c.restore();
   }
   drawServices(){
    const m=this.model,c=this.ctx,spot=this.iso(25,10);
@@ -3019,7 +3040,7 @@ class F5Primitives {
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[];
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
  const staffSpeeches={
   clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
@@ -3137,11 +3158,15 @@ class F5Primitives {
  }
  function syncArt(s){
   if(!artModel||!s)return;
-  if(artCity!==s.cityStartedAt){artCity=s.cityStartedAt;artModel.reset('M');scene.buildCache();}
+  if(artCity!==s.cityStartedAt){artCity=s.cityStartedAt;artModel.reset('M');scene.clearDecisionHighlight();highlightEventKey='';observedDecisionKey=null;observedCityState=false;scene.buildCache();}
   artModel.year=1+Math.min(8,s.round||0);artModel.t=(s.round||0)*90+Math.max(0,(EngineNow()- (s.endsAt||0) + 23000)/1000);
   let shouldBuild=false;
   Object.entries(s.built||{}).forEach(([id,current])=>{const site=artModel.site(id);if(site&&site.current!==current){site.current=current;site.state='done';site.from=current;site.choice=current;site.level=3;shouldBuild=true;}});
   if(shouldBuild)scene.buildCache();
+  const event=s.lastEvent,groupOrder=['clinic','office','waterfront','energy','transit','parkA','school'],soloOrder=['clinic','parkA','waterfront','energy'];
+  const decisionKey=event?`${s.cityStartedAt}:${event.round}:${event.time}`:null;
+  if(observedCityState&&decisionKey&&decisionKey!==observedDecisionKey&&event.chosen!=='mixed'&&!event.noVotes&&!event.deferred){const id=(view==='solo'?soloOrder:groupOrder)[Math.max(0,event.round-1)],site=artModel.site(id);if(site&&s.built?.[id]&&decisionKey!==highlightEventKey){highlightEventKey=decisionKey;scene.setDecisionHighlight(id,({clinic:'診療所',office:'駅前の市場',waterfront:'海辺の整備',energy:'発電設備',transit:'交通拠点',parkA:'公園と施設',school:'学びの場'})[id]||'街の変化');}}
+  observedDecisionKey=decisionKey;observedCityState=true;
   artModel.serviceState=s.incident?.visual==='flood'?'rain':s.incident?.visual==='transit'?'demand':'normal';
   artModel.crisisVisual=s.incident?.visual||'';
   artModel.finalWarning=s.ending?.kind==='warning';
@@ -3225,31 +3250,46 @@ class F5Primitives {
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(view==='group')renderGroupAccountability(s);
-  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=false;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingFlowStage=0;pressDone=true;$('endingCardPreview').replaceChildren();const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:s.ending?.kind==='stable'?'stable':'neutral';$('endingCityPicture').innerHTML=window.EndingCard.sceneSvg(sceneKey);}
+  if(view==='group'&&endingFlowStage>=3)renderGroupAccountability(s);else{$('groupAccountabilityList').replaceChildren();$('groupAccountability').hidden=true;}
+  if(endingFlowStage>=3&&(!pressData||pressData.cityStartedAt!==s.cityStartedAt)){pressData=window.PressConference.build(s,view==='solo'?clinicRecord:null,view==='solo'?soloHumanPlans:[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=true;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
+  if(endingFlowStage<3)pressData=null;
+  pressDone=true;
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
   show('endingIncident',!!s.incident||!!s.ending?.risks.length);
   $('endingIncident').textContent=s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ');
   $('endingKicker').textContent=({collapse:'THE HIDDEN CITY',warning:'THE CITY NEEDS CARE',undecided:'WHO WILL DECIDE?',stable:'THE CITY CONTINUES'})[s.ending?.kind]||'THE CITY';
-  for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),values=groupMetrics.map(x=>Number(x.value)),max=Math.max(...values),min=Math.min(...values),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v===max)notes.push('この群の最高');if(v===min)notes.push('この群の最低');if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
-  $('pressQuestion').textContent=pressData.question;
-  const pressLine=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;
-  const renderKey=pressDone?'done':String(pressIndex);
-  if(renderKey!==pressRenderKey){pressRenderKey=renderKey;cancelAnimationFrame(pressFrame);pressTyped=pressIndex<0;$('pressAnswer').textContent='';$('pressAnswer').hidden=pressIndex<0||pressDone;if(pressIndex>=0&&!pressDone)typePressLine(pressLine);}
-  $('pressNext').hidden=pressDone;$('pressNext').textContent=pressIndex<0?'会見を始める':!pressTyped?'続きを読む':pressIndex<pressData.answers.length-1?'次の質問へ':pressIndex===pressData.answers.length-1?'最後の問いへ':'会見を終えて結果を見る';
-  $('pressSkip').hidden=pressDone;$('pressReplay').hidden=!pressDone;
+  if(endingFlowStage>=3)for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),values=groupMetrics.map(x=>Number(x.value)),max=Math.max(...values),min=Math.min(...values),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v===max)notes.push('この群の最高');if(v===min)notes.push('この群の最低');if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
   $('metricComparison').hidden=!pressDone;
   const card=$('endingCardTools');card.hidden=!pressDone;
-  if(pressDone){
+  if(pressDone&&endingFlowStage>=4){
    const scene=s.ending?.kind==='collapse'?s.ending.metric:s.ending?.kind==='stable'?'stable':'neutral';
    const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,title:result.heading,description:result.sub,endingLabel:({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
    $('endingCardPreview').innerHTML=window.EndingCard.buildSvg(context);
    $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};
    $('printEndingCard').onclick=()=>window.print();
   }
-  const takeaway=pressDone?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]}):null;
+  const takeaway=endingFlowStage>=4?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]}):null;
   $('takeawayReport').hidden=!takeaway;
+  const endingFlowLabels=['変わった街','結末','理由','6つの指標','保存'];
+  $('endingProgress').textContent=`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
+  $('endingCityPicture').hidden=endingFlowStage!==0;
+  $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2;
+  $('endingIncident').hidden=endingFlowStage<2||(!s.incident&&!s.ending?.risks.length);
+  if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
+  if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
+  if(endingFlowStage<4)$('endingCardPreview').replaceChildren();
+  $('metricComparison').hidden=endingFlowStage<3;
+  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;
+  $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
+  $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4;$('resultNote').hidden=endingFlowStage<4;
+  $('pressConference').hidden=true;
+  if(endingFlowStage<3){$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();}
+  if(endingFlowStage<4){$('decisionAccountability').textContent='';$('historyList').replaceChildren();$('resultNote').textContent='';}
+  $('endingNext').hidden=endingFlowStage>=4;
+  $('endingNext').textContent=['結末を見る','理由を見る','指標を見る','保存へ進む','保存する'][endingFlowStage]||'保存する';
+  $('endingShowAll').hidden=endingFlowStage>=4;
   $('resultNote').textContent=view==='group'?'次の街の参加受付まで '+clock(s.endsAt-EngineNow())+'。保留した議題も、次の判断で考えてみてください。':'数字に現れなかった声も、次の判断で確かめてみてください。';
   const choicesCount={human:0,ai:0,mixed:0,none:0};
   for(const event of s.history||[])choicesCount[event.chosen]=(choicesCount[event.chosen]||0)+1;
@@ -3274,6 +3314,8 @@ class F5Primitives {
   $('replayButton').textContent=view==='solo'?'もう一度、遊ぶ →':'次の街は、もうすぐ。';
   $('replayButton').disabled=view!=='solo';
  }
+ $('endingNext').addEventListener('click',()=>{endingFlowStage=Math.min(4,endingFlowStage+1);if(state)renderResult(state);});
+ $('endingShowAll').addEventListener('click',()=>{endingFlowStage=4;if(state)renderResult(state);});
  function renderDisplay(s){
   if(view!=='display')return;
   const count=s?.onlineCount||0;$('displayCount').replaceChildren();

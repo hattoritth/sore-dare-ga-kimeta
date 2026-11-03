@@ -738,7 +738,7 @@ class F5Primitives {
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  class TownScene extends F5Primitives {
   constructor(canvas,model){
-   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;
+   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;this.decisionHighlight=null;
    this.W=2900;this.H=1600;this.scale=1;this.ox=0;this.oy=0;this.dpr=1;this.running=true;this.mobile=false;this.lastLayout='';this.zoom=1;this.zoomTarget=1;this.panX=0;this.panY=0;this.selectedAgentId=null;
    this.sites=root.F5City.SITES;
    this.roadsI=[-7,1,8,11,16,22,28,35];this.roadsJ=[-6,1,8,15,20];
@@ -1539,7 +1539,18 @@ class F5Primitives {
    if(this.reduced){this.zoom=this.zoomTarget;}else if(Math.abs(this.zoomTarget-this.zoom)>.001){this.zoom+= (this.zoomTarget-this.zoom)*Math.min(1,dt*8);}
    else this.zoom=this.zoomTarget;this.layout();const c=this.ctx,r=this.canvas.getBoundingClientRect();
    c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#e4e9dd';c.fillRect(0,0,r.width,r.height);
-   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();
+   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();this.drawDecisionHighlight();
+  }
+  setDecisionHighlight(id,label){const site=this.model.site(id);if(!site)return false;this.decisionHighlight={id,label,startedAt:performance.now()};return true;}
+  clearDecisionHighlight(){this.decisionHighlight=null;}
+  drawDecisionHighlight(){
+   const beat=this.decisionHighlight;if(!beat)return;
+   const site=this.model.site(beat.id);if(!site){this.decisionHighlight=null;return;}
+   const elapsed=performance.now()-beat.startedAt;if(elapsed>(this.reduced?2200:850)){this.decisionHighlight=null;return;}
+   const p=this.iso(site.cell[0]+site.w*.52,site.cell[1]+site.d*.55),c=this.ctx,t=this.reduced?1:Math.min(1,elapsed/850),radius=this.reduced?46:24+t*35,alpha=this.reduced?0.72:1-t*.45;
+   c.save();c.globalAlpha=alpha;c.strokeStyle='#fff2bd';c.lineWidth=5;c.beginPath();c.ellipse(p.x,p.y-8,radius,radius*.42,0,0,Math.PI*2);c.stroke();c.strokeStyle='#4e9a72';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y-8,radius+8,(radius+8)*.42,0,0,Math.PI*2);c.stroke();
+   if(elapsed<650||this.reduced){const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';const w=c.measureText(label).width+22,x=p.x-w/2,y=p.y-78;c.fillStyle='rgba(255,253,239,.96)';c.beginPath();c.roundRect(x,y,w,26,8);c.fill();c.fillStyle='#285748';c.textAlign='center';c.textBaseline='middle';c.fillText(label,p.x,y+13);}
+   c.restore();
   }
   drawServices(){
    const m=this.model,c=this.ctx,spot=this.iso(25,10);

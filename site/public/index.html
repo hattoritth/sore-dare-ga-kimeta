@@ -68,6 +68,12 @@
    </section>
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
+    <section id="endingFlow" class="ending-flow" aria-label="街の結末を順に見る">
+     <p id="endingProgress" class="ending-progress" aria-live="polite">1 / 4　街の変化</p>
+     <div id="endingCityPicture" class="ending-city-picture" aria-label="結末を含まない街の風景"></div>
+     <button id="endingNext" class="primary-action" type="button">街の結末を見る</button>
+     <button id="endingShowAll" class="text-action" type="button">結果をすべて見る</button>
+    </section>
     <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
     <section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div></section>
     <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><section class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><div class="metric-group"><span class="reveal-heading">プレイ中に見えていた3つの成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる3つの影響</span><div id="shadowMetrics"></div></div></section>
