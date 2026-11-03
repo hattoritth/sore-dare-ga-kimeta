@@ -34,12 +34,16 @@ test('human strategy options stay separate from binary shared vote values',()=>{
  assert.equal((html.match(/data-vote=/g)||[]).length,2);
 });
 
-test('intro and practice distinguish the three roles while preserving cast and first clinic branch',()=>{
+test('intro and practice distinguish the mayor, four municipal employees, information sources and one city planning AI',()=>{
  const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8');
  const app=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/app.js'),'utf8');
- for(const role of ['市長 · あなた','住民','まちづくり支援AI · 委任先'])assert.ok(html.includes(role));
- for(const name of ['ヒカリ','ソラ','ナギ','ミドリ'])assert.ok(app.includes(name));
- assert.match(html,/class="resident-label">影響を受ける人/);
+ for(const role of ['市長 · あなた','市役所職員','住民・事業者など','街づくりAI'])assert.ok(html.includes(role));
+ for(const name of ['早川ひかり','三浦蒼太','高瀬 凪','森田みどり','保健福祉部長','都市整備部長','建設部長','環境政策部長'])assert.ok(app.includes(name));
+ assert.doesNotMatch(html+app,/支援AI|まちづくり支援AI|街づくりAI · 4人の助言者|街づくりAI · (暮らし|都市計画|施設整備|環境)/);
+ assert.match(html,/class="resident-label" id="residentLabel">相談・情報提供の出どころ/);
+ assert.match(html,/strong>AIに任せる</);
+ assert.match(app,/住民から届いた「母の通院に片道1時間かかる」という相談/);
+ assert.doesNotMatch(app,/ヒカリ「住民から|母の通院には片道1時間/);
  assert.match(app,/if\(soloGame\.round===0&&choice==='human'\)/);
  assert.match(app,/AIは予測利用者数/);
 });
@@ -51,4 +55,29 @@ test('exhibition workload cue uses no fabricated queue count or timed penalty an
  assert.match(html,/スキップする/);
  assert.match(css,/prefers-reduced-motion:reduce/);
  assert.doesNotMatch(html,/未処理\s*\d+件|残り\s*\d+秒/);
+});
+
+
+test('ending card covers six risk scenes, success and qualified neutral with all six real metrics',()=>{
+ const card=require('../public/ending-card.js');
+ const keys=['prosperity','convenience','appeal','trust','fairness','resilience'];
+ for(const key of keys)assert.ok(card.scenes[key],key+' scene exists');
+ assert.ok(card.scenes.stable);assert.ok(card.scenes.neutral);
+ const values=[91,82,73,64,55,46],metrics=keys.map((key,i)=>({key,value:values[i]}));
+ for(const key of keys){const svg=card.buildSvg({kind:'collapse',metric:key,scene:key,endingLabel:card.scenes[key].label,metrics});assert.ok(svg.includes('>'+card.scenes[key].label+'</text>'),key+' label appears');}
+ const neutral=card.buildSvg({kind:'warning',scene:'neutral',metrics});assert.match(neutral,/課題の残る街/);assert.doesNotMatch(neutral,/健やかに続く街/);
+ const undecided=card.buildSvg({kind:'undecided',scene:'neutral',metrics});assert.match(undecided,/課題の残る街/);
+ const stable=card.buildSvg({kind:'stable',scene:'stable',metrics});assert.match(stable,/健やかに続く街/);
+ for(const value of values)assert.ok(stable.includes('>'+value+'</text>'));
+});
+
+test('standalone ending card has no external resource references and decision confirmation uses real event text',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const card=fs.readFileSync(path.join(__dirname,'../public/ending-card.js'),'utf8');
+ const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
+ assert.doesNotMatch(card,/https?:\/\/(?!www\.w3\.org)/);
+ assert.match(app,/cityBeatHeading'\)\.textContent=event\.result/);
+ assert.match(app,/card\.hidden=!pressDone/);
+ assert.match(app,/classList\.add\('is-confirmed'\)/);
+ assert.match(fs.readFileSync(path.join(__dirname,'../public/style.css'),'utf8'),/prefers-reduced-motion:reduce[^}]*\.vote-feedback\.is-confirmed/);
 });

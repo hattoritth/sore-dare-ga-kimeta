@@ -1,8 +1,8 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.PressConference=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
  const metrics=[
-  ['prosperity','仕事・商業の活気','仕事や商業が続く力','public'],['convenience','移動・生活の便利さ','移動や日々の暮らしの便利さ','public'],['appeal','街で過ごす魅力','人が暮らし続けたいと思う魅力','public'],
-  ['trust','市政への信頼','決め方を住民が信頼できるか','shadow'],['fairness','機会の公平さ','地区や人に機会が届いているか','shadow'],['resilience','街を維持する力','設備や暮らしを支え続ける力','shadow']
+  ['prosperity','にぎわい','仕事・お店・街の経済','public'],['convenience','便利さ','移動や公共施設の使いやすさ','public'],['appeal','住み心地','公園・居場所・暮らし続けたい魅力','public'],
+  ['trust','市への信頼','判断の理由を住民が信頼・納得できるか','shadow'],['fairness','公平さ','地域や立場によらず恩恵が届くか','shadow'],['resilience','未来への備え','災害・設備・将来の変化に備えているか','shadow']
  ];
  const incidentPrompts={prosperity:'仕事や公共サービスを維持できなくなりました。どの判断が街の活気を支え、何が足りなかったのでしょうか。',convenience:'移動の仕組みが止まりました。便利さを高める判断と、支え続ける備えをどう説明しますか。',appeal:'街を離れる人が増えました。街の魅力を誰の視点で確かめてきたのでしょうか。',trust:'住民が決定の説明を求めています。誰が方針を選び、何を確かめてきたのでしょうか。',fairness:'地区の間に隔たりが生まれました。機会がどこへ届くか、どう確認してきたのでしょうか。',resilience:'豪雨で街が浸水しました。街を維持する備えを、どの判断で確かめてきたのでしょうか。'};
  function build(state,clinicRecord,humanPlans=[]){

@@ -1,6 +1,6 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ReflectionReport=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
- const metrics=[['prosperity','仕事・商業の活気','public'],['convenience','移動・生活の便利さ','public'],['appeal','街で過ごす魅力','public'],['trust','市政への信頼','shadow'],['fairness','機会の公平さ','shadow'],['resilience','街を維持する力','shadow']];
+ const metrics=[['prosperity','にぎわい','public'],['convenience','便利さ','public'],['appeal','住み心地','public'],['trust','市への信頼','shadow'],['fairness','公平さ','shadow'],['resilience','未来への備え','shadow']];
  const choices={human:'人が方針を選択',ai:'AIに任せる方針を選択',mixed:'人とAIが同数で保留',none:'投票なしで保留'};
  const groupChoices={human:'集団で人の方針が多数となり実施',ai:'集団でAIへの委任案が多数となり実施',mixed:'集団で同数となり実施保留',none:'投票なしで実施保留'};
  function build(state,{mode='solo',clinicRecord=null,humanPlans=[]}={}){
