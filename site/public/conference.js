@@ -21,7 +21,7 @@
    if(allHistory.length-Math.min(2,allHistory.length)+index===0&&clinicRecord?.kind){text+=' 診療所については、'+(clinicRecord.kind==='human'?'人が'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選び、'+(clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ')+'を優先しました。':'AIの駅前案を確認して採用しました。');const response={review:'評価を調べ直す方針を選びました。',support:'通院の支援を先に進める方針を選びました。',revise:'計画を見直す方針を選びました。'}[clinicRecord.response];if(response)text+=' '+response;}
    const planRound=Number(event.round)||allHistory.length-Math.min(2,allHistory.length)+index+1;
    const plan=humanPlans.find(item=>item?.round===planRound);
-   if(plan&&event.chosen==='human')text+=' ブラウザ内の今回のプレイ記録では、'+(plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する')+'方針が選ばれました。これは検討方針の記録で、実際の行動や追加効果を示すものではありません。記録はこのタブ内だけにあり、再読み込みで失われます。';
+   if(plan&&event.chosen==='human')text+=' 今回は「'+(plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する')+'」方針を実施し、その影響を街の指標に反映しました。';
    return text;
   });
   return {causeMetric:metric||null,question,answers:history.length?history:['判断履歴はありません。'],close:'任せる方針を選んだのは誰か。具体策を選び、結果を説明するのは誰か。',metrics:state?.phase&&state.phase!=='reveal'?[]:metrics.map(([key,label,meaning,group])=>({key,label,meaning,group,value:Number(state?.[group]?.[key]??0)}))};

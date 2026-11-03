@@ -39,14 +39,7 @@
   $('cityBeatHeading').textContent=event.result;
   const clinic=event.round===1&&view==='solo'&&clinicRecord;
   $('cityBeatVoice').textContent=clinic?clinicResidentLine():reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
-  const prev=game.history.length>1?game.history[game.history.length-2].visible:MachiEngine.INITIAL_PUBLIC;
-  const diffs=[['prosperity','にぎわい'],['convenience','便利さ'],['appeal','住み心地']];
-  const nodes=document.createDocumentFragment();
-  for(const [key,label] of diffs){
-   const chip=document.createElement('span'),delta=game.public[key]-prev[key];
-   chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);
-  }
-  $('cityBeatDeltas').replaceChildren(nodes);
+  renderCityBeatDeltas(game);
   const needsResponse=!!clinic&&clinic.kind==='human';
   storyBeatUntil=needsResponse?Number.MAX_SAFE_INTEGER:Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
   show('clinicFollowup',needsResponse);
@@ -55,7 +48,7 @@
    $('clinicResidentQuestion').textContent=clinicQuestion();
    $('clinicResponseCopy').textContent=clinicRecord.kind==='ai'
     ?'街づくりAIは予測利用者数・交通・人口構成を参考に駅前を推奨しました。承認したのはあなたです。ただ、住民から届いた通院の相談をどの程度重く扱ったかは、まだ確かめられていません。'
-    :'あなたは「'+clinicReasonLabel()+'」を優先して'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選びました。理由は伝えられますが、別の場所を必要とする人の事情も残ります。';
+    :'あなたは「'+clinicReasonLabel()+'」を優先して'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選びました。場所と理由は街の指標に反映されています。別の場所を必要とする人の事情に、次の対応を選べます。';
    document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.checked=false);
    $('confirmClinicResponse').disabled=true;
    document.querySelector('[name="clinicResponse"]').focus();
@@ -63,6 +56,13 @@
   shell.dataset.stage='city';
   show('cityBeat',true);
   scene.resetView();scene.layout();
+ }
+ function renderCityBeatDeltas(game){
+  const prev=game.history.length>1?game.history[game.history.length-2].visible:MachiEngine.INITIAL_PUBLIC;
+  const diffs=[['prosperity','にぎわい'],['convenience','便利さ'],['appeal','住み心地']];
+  const nodes=document.createDocumentFragment();
+  for(const [key,label] of diffs){const chip=document.createElement('span'),delta=game.public[key]-prev[key];chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);}
+  $('cityBeatDeltas').replaceChildren(nodes);
  }
  function clearCityBeat(){
   if(!storyBeatUntil)return;
@@ -88,7 +88,7 @@
   const place=clinicRecord.kind==='ai'?'AI提案・駅前':clinicRecord.place==='station'?'人が判断・駅前':'人が判断・郊外';
   const reason=clinicReasonLabel();
   const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response]||(clinicRecord.kind==='ai'?'追加選択せず次の議題へ':'対応未選択');
-  return `診療所：${place}。優先理由：${reason}。次の対応：${response}。これは物語上の記録で、街の指標や投票結果には加算されません。`;
+  return `診療所：${place}。優先理由：${reason}。次の対応：${response}。街の指標に反映しました。`;
  }
  const hiddenNames={trust:'市への信頼',fairness:'公平さ',resilience:'未来への備え'};
  const allMetricNames={prosperity:'にぎわい',convenience:'便利さ',appeal:'住み心地',...hiddenNames};
@@ -181,7 +181,7 @@
   renderImpact('aiImpact',e.impactPreview?.ai);
   $('impactNote').textContent=view==='group'
    ?'表3指標の変化目安は投票割合で変わります。裏の指標は非表示。'
-   :'この街の表3指標の変化目安。裏の指標には別の影響もあります。';
+   :'決定後の表3指標。選択が街の状態に反映されています。';
   for(const b of document.querySelectorAll('[data-vote]')){
    b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
   }
@@ -472,7 +472,7 @@
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
-  for(const b of document.querySelectorAll('[data-strategy]'))b.onclick=()=>{if(view!=='solo'||!soloGame||soloGame.round<1||soloGame.round>3||soloGame.votes.solo)return;const plan=DecisionUX.record(soloGame.round+1,b.dataset.strategy);if(!plan)return;soloHumanPlans.push(plan);submitSoloVote('human');};
+  for(const b of document.querySelectorAll('[data-strategy]'))b.onclick=()=>{if(view!=='solo'||!soloGame||soloGame.round<1||soloGame.round>3||soloGame.votes.solo)return;const plan=DecisionUX.record(soloGame.round+1,b.dataset.strategy);if(!plan||!MachiEngine.chooseSoloDetail(soloGame,'solo',{kind:'strategy',strategy:plan.strategy}))return;soloHumanPlans.push(plan);submitSoloVote('human');};
   $('cancelStrategy').onclick=()=>{show('strategyChoice',false);show('decisionOptions',true);$('humanDecision').focus();};
   const updateHumanClinic=()=>{$('confirmHumanClinic').disabled=!document.querySelector('[name="clinicPlace"]:checked')||!document.querySelector('[name="clinicReason"]:checked');};
   document.querySelectorAll('[name="clinicPlace"],[name="clinicReason"]').forEach(x=>x.onchange=updateHumanClinic);
@@ -480,15 +480,18 @@
    if(clinicPending!=='human')return;
    clinicRecord={kind:'human',place:document.querySelector('[name="clinicPlace"]:checked')?.value,reason:document.querySelector('[name="clinicReason"]:checked')?.value};
    if(!clinicRecord.place||!clinicRecord.reason)return;
+   if(!MachiEngine.chooseSoloDetail(soloGame,'solo',{kind:'clinic',place:clinicRecord.place,reason:clinicRecord.reason}))return;
    clinicPending=null;submitSoloVote('human');
   };
 
   document.querySelectorAll('[name="clinicResponse"]').forEach(x=>x.onchange=()=>{$('confirmClinicResponse').disabled=!document.querySelector('[name="clinicResponse"]:checked');});
   $('confirmClinicResponse').onclick=()=>{
    if(!clinicRecord||!clinicFollowupPending)return;
-   clinicRecord.response=document.querySelector('[name="clinicResponse"]:checked')?.value;
-   if(!clinicRecord.response)return;
-   clinicFollowupPending=false;clearCityBeat();if(state)render(state);
+   const response=document.querySelector('[name="clinicResponse"]:checked')?.value;
+   if(!response||!MachiEngine.clinicResponse(soloGame,'solo',response,Date.now()))return;
+   clinicRecord.response=response;clinicFollowupPending=false;show('clinicFollowup',false);storyBeatUntil=Date.now()+1800;
+   $('cityBeatHeading').textContent=soloGame.lastEvent.result;renderCityBeatDeltas(soloGame);
+   state=MachiEngine.publicState(soloGame,'solo');render(state);
   };
   $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
   $('startShared').onclick=startShared;$('readyShared').onclick=readyShared;

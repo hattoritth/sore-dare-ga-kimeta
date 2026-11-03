@@ -26,10 +26,10 @@
     else if(clinicRecord.kind==='ai')lines.push('  診療所：AIの駅前案を確認して採用。');
     const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response];
     if(response)lines.push(`  その後の対応：${response}。`);
-    lines.push('  これはブラウザー内の物語上の選択で、実際の診療所運営や指標計算への影響を示しません。');
+    lines.push('  選択の影響は、この展示内の街の指標に反映されています。実際の診療所運営を示すものではありません。');
    }
    const plan=humanPlans.find(item=>item?.round===(Number(event.round)||index+1));
-   if(mode==='solo'&&event.chosen==='human'&&plan){lines.push(`  人間側の検討方針：${plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する'}。ブラウザー内の物語上の選択で、実際の行動や追加効果を示しません。`);}
+   if(mode==='solo'&&event.chosen==='human'&&plan){lines.push(`  人間側の方針：${plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する'}。選択の影響は、この展示内の街の指標に反映されています。`);}
   });
   lines.push('','振り返り','・AIに任せる方針を選んだのは誰でしょうか。','・その方針から具体策を選び、結果を説明するのは誰でしょうか。','・保留した判断を、次に何を確かめてから決めますか。','',mode==='group'?'共有プレイの票数は議題ごとの集計です。特定の個人が賛成・承認したとは示しません。':'このソロ記録は、このブラウザー内の選択をまとめたものです。','この記録は展示上のシナリオです。実際の行政判断、診療所の運営、利用者の心理を示すものではありません。','個人の心理は推測していません。');
   return lines.join('\n');

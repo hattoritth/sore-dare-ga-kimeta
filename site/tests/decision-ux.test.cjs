@@ -3,11 +3,11 @@ const assert=require('node:assert/strict');
 const DecisionUX=require('../public/decision-ux.js');
 const Conference=require('../public/conference.js');
 
-test('solo human strategy is a browser-only presentation record, never a vote value',()=>{
+test('solo human strategy label stays separate from binary vote values and explains its engine effect',()=>{
  for(const strategy of ['voices','balance']){
   const plan=DecisionUX.record(2,strategy);
   assert.deepEqual(plan,{round:2,strategy});
-  assert.equal(DecisionUX.explanation(plan).includes('追加効果を示すものではありません'),true);
+  assert.match(DecisionUX.explanation(plan),/街の指標が変化します/);
   assert.equal(DecisionUX.explanation(plan).includes('再読み込みで失われます'),true);
  }
  assert.equal(DecisionUX.record(1,'voices'),null);
@@ -15,15 +15,15 @@ test('solo human strategy is a browser-only presentation record, never a vote va
  assert.equal(DecisionUX.record(2,'unknown'),null);
 });
 
-test('human strategy has no scoring hook and only the selected stance appears in conference',()=>{
+test('selected human strategy is reflected in the conference without inventing extra outcomes',()=>{
  const state={ending:{kind:'stable'},public:{},shadow:{},history:[
   {round:2,heading:'交通',chosen:'human',result:'交通の判断が記録されました。'},
   {round:3,heading:'海辺',chosen:'human',result:'海辺の判断が記録されました。'}
  ]};
  const conference=Conference.build(state,null,[DecisionUX.record(2,'voices'),DecisionUX.record(3,'balance')]);
- assert.match(conference.answers[0],/現地の声を確かめる方針が選ばれました/);
- assert.match(conference.answers[1],/複数地区の希望を調整する方針が選ばれました/);
- assert.match(conference.answers[0],/実際の行動や追加効果を示すものではありません/);
+ assert.match(conference.answers[0],/現地の声を確かめる.*方針を実施/);
+ assert.match(conference.answers[1],/複数地区の希望を調整する.*方針を実施/);
+ assert.match(conference.answers[0],/影響を街の指標に反映しました/);
  assert.equal(DecisionUX.record(2,'voices').score,undefined);
 });
 

@@ -13,6 +13,14 @@
  const INITIAL_PUBLIC={prosperity:61,convenience:63,appeal:67};
  const INITIAL_SHADOW={trust:82,fairness:78,resilience:77};
  const SOLO_STORY=[0,4,2,3];
+ // Small, deterministic solo-only follow-through. Each option moves distinct metrics;
+ // these apply after the normal episode proposal and never alter shared votes.
+ const SOLO_DETAIL_IMPACT={
+  clinicPlace:{station:{prosperity:2,convenience:4,fairness:-3},suburb:{prosperity:-1,convenience:1,appeal:2,fairness:4}},
+  clinicReason:{total:{prosperity:2,convenience:1},access:{convenience:1,trust:1,fairness:2}},
+  strategy:{voices:{prosperity:-2,convenience:1,appeal:1,trust:3},balance:{prosperity:-1,convenience:-1,trust:1,fairness:3,resilience:2}},
+  response:{review:{convenience:-1,trust:4,fairness:2},support:{prosperity:-1,convenience:3,appeal:1,fairness:1},revise:{prosperity:-1,convenience:-2,trust:1,fairness:3}}
+ };
  const episodeFor=game=>EPISODES[game.storyMode==='solo'?SOLO_STORY[game.round]:game.round];
  const maxRounds=game=>game.storyMode==='solo'?SOLO_STORY.length:EPISODES.length;
  // These thresholds apply to both visible and hidden metrics. Strictly below, not equal.
@@ -62,7 +70,9 @@
  const copy=x=>JSON.parse(JSON.stringify(x));
  const tally=game=>Object.values(game.votes).reduce((a,v)=>(a[v]++,a),{human:0,ai:0});
  function createGame(now=Date.now(),opts={}){
-   return {phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:opts.autostart?now+ROUND_MS:0,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
+   const game={phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:opts.autostart?now+ROUND_MS:0,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
+   if(game.storyMode==='solo'){game.soloDetails={};game.awaitingClinicResponse=false;}
+   return game;
  }
  const connected=(game,now)=>Object.values(game.participants).filter(x=>now-x.lastSeen<90000);
  function canStart(game,now=Date.now()){const players=connected(game,now);return game.phase==='lobby'&&players.length>0&&players.every(x=>x.ready);}
@@ -79,8 +89,37 @@
    return true;
  }
  function vote(game,id,choice,now=Date.now()){
-   if(game.phase!=='active'||!['human','ai'].includes(choice)||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||now>=game.roundEndsAt)return false;
+   if(game.phase!=='active'||game.awaitingClinicResponse||!['human','ai'].includes(choice)||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||now>=game.roundEndsAt)return false;
    game.votes[id]=choice;game.participants[id].lastSeen=now;return true;
+ }
+ function chooseSoloDetail(game,id,detail){
+  if(game.storyMode!=='solo'||game.phase!=='active'||game.awaitingClinicResponse||game.votes[id]||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||!detail||typeof detail!=='object')return false;
+  if(game.round===0){
+   if(detail.kind!=='clinic'||!['station','suburb'].includes(detail.place)||!['total','access'].includes(detail.reason)||game.soloDetails[0])return false;
+  }else{
+   if(detail.kind!=='strategy'||!['voices','balance'].includes(detail.strategy)||game.soloDetails[game.round])return false;
+  }
+  game.soloDetails[game.round]=copy(detail);return true;
+ }
+ function applySoloImpact(game,impact){
+  for(const [key,delta] of Object.entries(impact||{})){
+   const pool=Object.hasOwn(game.public,key)?game.public:game.shadow;
+   pool[key]=clamp(pool[key]+delta);
+  }
+ }
+ function clinicResponse(game,id,response,now=Date.now()){
+  if(game.storyMode!=='solo'||game.phase!=='active'||game.round!==1||!game.awaitingClinicResponse||!game.participants[id]||Object.keys(game.participants).length!==1||!Object.hasOwn(SOLO_DETAIL_IMPACT.response,response))return false;
+  const event=game.history[0];if(!event||event.chosen!=='human'||event.clinicResponseApplied)return false;
+  const before={...game.public};applySoloImpact(game,SOLO_DETAIL_IMPACT.response[response]);
+  const lines={review:'住民の評価を調べ直し、根拠の説明と地区間の公平さを補いました。',support:'通院支援を先に進め、利用のしやすさを補いました。',revise:'計画を見直し、地区間の公平さを優先しました。'};
+  const responseDelta=Object.fromEntries(Object.keys(game.public).map(k=>[k,game.public[k]-before[k]]));
+  event.result+=' '+lines[response];event.clinicResponse=response;event.clinicResponseApplied=true;event.responseDelta=responseDelta;event.visible=copy(game.public);event.hidden=copy(game.shadow);
+  if(game.lastEvent){game.lastEvent.result=event.result;game.lastEvent.clinicResponseApplied=true;game.lastEvent.responseDelta=responseDelta;}
+  game.awaitingClinicResponse=false;
+  const lost=criticalRisks(game,END_THRESHOLD)[0];
+  if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':game.history.every(x=>x.deferred)?'undecided':'survived';game.revealEndsAt=now+REVEAL_MS;}
+  else{game.roundStartedAt=now;game.roundEndsAt=Number.MAX_SAFE_INTEGER;}
+  return {public:{...game.public},delta:responseDelta,phase:game.phase};
  }
  function resolve(game,now){
    const n=tally(game),total=n.human+n.ai,noVotes=total===0,aiShare=noVotes?0:n.ai/total;
@@ -107,6 +146,11 @@
       game.shadow[key]=clamp(game.shadow[key]+delta);
     }
    }
+   const soloDetail=game.storyMode==='solo'&&chosen==='human'?game.soloDetails[game.round]:null;
+   if(soloDetail?.kind==='clinic'){
+    applySoloImpact(game,SOLO_DETAIL_IMPACT.clinicPlace[soloDetail.place]);
+    applySoloImpact(game,SOLO_DETAIL_IMPACT.clinicReason[soloDetail.reason]);
+   }else if(soloDetail?.kind==='strategy')applySoloImpact(game,SOLO_DETAIL_IMPACT.strategy[soloDetail.strategy]);
    // Recurring dependence on one decision method accumulates real operational debt.
    // Every episode has a different neglected dimension; penalty is vote-share weighted.
    const priorSame=game.history.filter(x=>x.chosen===chosen).length;
@@ -128,18 +172,22 @@
     const built=chosen==='ai'?e.aiBuild:e.humanBuild;
     game.built[e.site]=built;
    }
-   const message=noVotes?'投票がなかったため、この議題は判断を保留しました。街の状態を維持して次の議題へ進みます。':chosen==='mixed'?'人とAIの票が同数のため、両案の実施を保留しました。施設も指標も変えず、次の議題へ進みます。':(chosen==='ai'?e.resultAI:e.resultHuman)
+   const detailLine=soloDetail?.kind==='clinic'?`${soloDetail.place==='station'?'駅前':'郊外'}を選び、${soloDetail.reason==='total'?'利用者数':'通院の届きやすさ'}を優先した。`:soloDetail?.kind==='strategy'?(soloDetail.strategy==='voices'?'現地の声を確かめる方針を実施した。':'複数地区の希望を調整する方針を実施した。'):'';
+   const message=noVotes?'投票がなかったため、この議題は判断を保留しました。街の状態を維持して次の議題へ進みます。':chosen==='mixed'?'人とAIの票が同数のため、両案の実施を保留しました。施設も指標も変えず、次の議題へ進みます。':(chosen==='ai'?e.resultAI:e.resultHuman)+(detailLine?' '+detailLine:'')
     +(pressure?chosen==='human'?' 人だけで決め続け、調整と整備の遅れが街に積み重なっている。':' AIに任せ続け、現場で確かめなかった影響が現れ始めた。':'')
     +(intervened?' 異変に気づき、足りなかった視点から対策を進めた。':'');
    game.lastEvent={round:game.round+1,heading:e.heading,agent:e.agent,result:message,chosen,human:n.human,ai:n.ai,time:now,intervened,interventionAttempted:intervened,crisisAverted,warningRecovered,noVotes,deferred};
    game.history.push({...game.lastEvent,visible:copy(game.public),hidden:copy(game.shadow)});
    game.votes={};game.round++;
-   const lost=criticalRisks(game,END_THRESHOLD)[0];
+   const awaitClinic=game.storyMode==='solo'&&game.round===1&&chosen==='human'&&soloDetail?.kind==='clinic';
+   if(game.storyMode==='solo')game.awaitingClinicResponse=awaitClinic;
+   const lost=awaitClinic?null:criticalRisks(game,END_THRESHOLD)[0];
    if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':game.history.every(x=>x.deferred)?'undecided':'survived';game.revealEndsAt=now+REVEAL_MS;}
+   else if(awaitClinic)game.roundEndsAt=Number.MAX_SAFE_INTEGER;
    else {game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;}
  }
  function advance(game,now=Date.now()){
-   if(game.phase==='active'&&now>=game.roundEndsAt){resolve(game,now);return true;}
+  if(game.phase==='active'&&!game.awaitingClinicResponse&&now>=game.roundEndsAt){resolve(game,now);return true;}
    if(game.phase==='reveal'&&now>=game.revealEndsAt)return 'restart';
    return false;
  }
@@ -186,7 +234,7 @@
    return data;
  }
  const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint,human:e.human,ai:e.ai,humanNow:e.humanNow,humanLater:e.humanLater,aiNow:e.aiNow,aiLater:e.aiLater});
- const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,createGame,start,ready,join,vote,advance,publicState};
+ const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;
  global.MachiEngine=API;
 })(typeof window!=='undefined'?window:globalThis);

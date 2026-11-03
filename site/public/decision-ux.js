@@ -3,6 +3,6 @@
  const strategies=Object.freeze({voices:'現地の声を確かめる',balance:'複数地区の希望を調整する'});
  function label(id){return strategies[id]||null;}
  function record(round,id){if(!Number.isInteger(round)||round<2||round>4||!label(id))return null;return {round,strategy:id};}
- function explanation(item){const text=item&&label(item.strategy);return text?`${text}方針が選ばれました。これは検討方針の記録で、実際の行動や追加効果を示すものではありません。記録はこのタブ内だけにあり、再読み込みで失われます。`:null;}
+ function explanation(item){const text=item&&label(item.strategy);return text?`${text}方針を実施しました。選択に応じて街の指標が変化します。記録はこのタブ内だけにあり、再読み込みで失われます。`:null;}
  return {strategies,label,record,explanation};
 });

@@ -7,10 +7,10 @@ function state(history,extra={}){return {phase:'reveal',ending:{kind:'warning',h
 test('active phase and incomplete reveal never produce report or hidden metric values',()=>{
  const hidden=state([]);hidden.phase='active';assert.equal(build(hidden),null);assert.equal(build({...state([]),shadow:{trust:1,fairness:2}}),null);assert.equal(build({...state([]),ending:null}),null);
 });
-test('solo report records four decisions and clinic and strategy only as narrative',()=>{
+test('solo report records four decisions and the actual clinic and strategy effects',()=>{
  const history=['human','ai','mixed','none'].map((chosen,i)=>({round:i+1,heading:`議題${i+1}`,chosen,result:`結果${i+1}`,human:1,ai:1}));
  const report=build(state(history),{mode:'solo',clinicRecord:{kind:'human',place:'suburb',reason:'access',response:'support'},humanPlans:[{round:1,strategy:'voices'}]});
- assert.ok(report);for(const text of ['郊外を選択','通院が難しい人への届きやすさ','先に通院を支援','ブラウザー内の物語上の選択','実際の行動や追加効果を示しません','第4回「議題4」','同数で保留','投票なしで保留'])assert.ok(report.includes(text),text);
+ assert.ok(report);for(const text of ['郊外を選択','通院が難しい人への届きやすさ','先に通院を支援','選択の影響は、この展示内の街の指標に反映されています','現地の声を確かめる','第4回「議題4」','同数で保留','投票なしで保留'])assert.ok(report.includes(text),text);
  assert.match(report,/にぎわい：61/);assert.match(report,/未来への備え：16/);
 });
 test('group report includes seven collective tallies without individual attribution or identifiers',()=>{
