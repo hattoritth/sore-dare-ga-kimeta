@@ -6,7 +6,7 @@ Source of Truth: hattoritth/sore-dare-ga-kimeta Draft PR #17。起点HEAD 7b182e
 検証対象はTRUE／NORMAL／BAD、5段階結末、実際の2.5D街画像と6軸レーダー、共有5人・全7判断。GitHub main、公開中Sites・既存D1・Worker API・DB migration・hosting manifestを変更しない。
 
 ## 実施結果
-- Mac通常環境 Node 24: npm test **138/138成功**。Worker ESM成果物検証、エンジンの配信元ファイル一致、Git差分チェック成功。
+- Mac通常環境 Node 24: npm test **139/139成功**。Worker ESM成果物検証、エンジンの配信元ファイル一致、Git差分チェック成功。
 - Role TRUE: ソロの16人／AI配分経路中1通り（別途通院アクセス理由・事後対応が必要）、共有128配分経路中2通り。これは経路列挙の値であり実際の来場者成功率ではない。
 - 共有7判断: Chromeで独立した5 BrowserContextから参加、準備、開始、投票を実行。画面390×844、430×932、820×1180、1024×768、1440×900。別の1920×1080モニターから観戦。
 - 本番コードのSites互換Worker fetchを127.0.0.1の試験サーバーで動かし、一時インメモリSQLite製D1アダプターに接続。実際の投票API、CookieとCAS更新を利用。
@@ -23,7 +23,7 @@ Source of Truth: hattoritth/sore-dare-ga-kimeta Draft PR #17。起点HEAD 7b182e
 ## 独立Codexレビュー指摘・修正
 1. P1: 新しいプレイでも前回の街の画像を表示する。cityStartedAt切替時にhero、印刷カード、レーダー、6指標、集計DOMをクリア。実ブラウザー再試遊で修復を確認。
 2. P2: canvasが取得できないときSVG代替画像の結果別テーマが消失する。共通themeラッパーを使用し、代替SVGをaria-hiddenにしたうえで読み上げ文言を中立化。
-3. P2: PNG/PDFのTRUEとNORMAL、WARNINGと未決の色調が同じ。TRUEのみ暖色、NORMALの緑、WARNINGの琥珀、未決の灰色とし、6種危機のテーマを維持。4種類のoverlayが異なることを新しい自動テストで確認。
+3. P2: PNG/PDFのTRUEとNORMAL、WARNINGと未決の色調が同じ。TRUEのみ暖色、NORMALの緑、WARNINGの琥珀、未決の灰色とし、6種危機のテーマを維持。4種類のoverlayが異なることを新しい自動テストで確認。さらに保存用SVG内の画像欠落時にも4種類のoverlayを適用して区別する。 実際のChromeで画像欠落時のPNGラスタライズを行い、TRUE/NORMAL/WARNING/未決の4種類が異なるRGB値で描画されることを確認。
 
 ## 未検証・公開ゲート
 - 実機iPhone/iPad Safari、物理5端末での会場Wi-Fi、Cloudflareの実D1接続・遅延・排他、公式Sitesの非公開プレビューは未検証。ローカル5人5ブラウザーを実機5台と混同しない。

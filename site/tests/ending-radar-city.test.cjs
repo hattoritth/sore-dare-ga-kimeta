@@ -89,3 +89,16 @@ test('exported city cards have four genuinely distinct visible overlays',()=>{
  assert.equal(new Set(overlays).size,4);
  assert.match(css,/\.ending-scene-visual>svg\{display:block;width:100%/);
 });
+
+
+test('saved SVG fallback also keeps four visually distinct ending themes',()=>{
+ const formats=[['true','true'],['stable','stable'],['warning','neutral'],['undecided','neutral']];
+ const overlays=formats.map(([kind,scene])=>{
+  const svg=Card.buildSvg({kind,scene,sceneImage:'',metrics,title:'same',description:'same',endingLabel:'same'});
+  assert.doesNotMatch(svg,/<image href=/,'fallback should not contain a missing data image');
+  const m=svg.match(/<rect x="96" y="416" width="390" height="310" rx="14" fill="(#[0-9a-f]{6})" opacity="([.0-9]+)"\/>/);
+  assert.ok(m,'missing exported SVG fallback theme '+kind);
+  return m[1]+':'+m[2];
+ });
+ assert.equal(new Set(overlays).size,4);
+});
