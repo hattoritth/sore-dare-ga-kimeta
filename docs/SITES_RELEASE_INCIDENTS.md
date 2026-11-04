@@ -18,7 +18,7 @@ The procedure did not front-load a bounded capability check for official Sites t
 - `docs/SITES_RELEASE_PLAYBOOK.md` is the single release SOP. It defines tool capability checks first, R0/R1/R2 gates, fail-closed behavior, backup policy, postpublish verification, and rollback.
 - `site/scripts/sites-release-preflight.mjs` provides conservative path-based classification. It cannot certify a backup, runtime behavior, platform state, or publish approval.
 - `site/scripts/verify-d1-chunks.mjs` validates byte coverage and reconstructs a private JSON row when an authorized Work tool can actually provide stable-version chunks. It cannot recover bytes omitted by a truncated export.
-- A risk-based relaxation for R0 is recorded as a **proposal only**: previously verified restorable backup, no DB-impacting source diff, pre/post row count and version/checksum where available, and a separate explicit user approval. Until that approval, fresh complete backup remains mandatory for R0. R1/R2 never use this relaxation.
+- A risk-based relaxation for R0 was initially a proposal and became **expressly approved on 2026-11-04** after the user instructed the v19 release. It requires previously verified complete restorable backup, no DB-impacting source diff, and pre/post row count plus version/checksum where available. [Policy decision](SITES_RELEASE_POLICY_DECISION_20261104.md) records its scope and remaining risks. R1/R2 never use the relaxation; individual release publication still needs approval.
 - Google authentication is not requested unless a specific required official operation proves it depends on that login.
 
 ## Evidence and remaining limit

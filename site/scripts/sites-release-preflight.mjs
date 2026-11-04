@@ -105,7 +105,7 @@ const result = {
   artifact,
   codeOnlyGreenDoesNotProve: ['a complete current restorable D1 backup exists', 'restore was verified', 'platform-side migrations are absent', 'publish is authorized'],
   nextSteps: classification === 'UI_ONLY'
-    ? ['Follow docs/SITES_RELEASE_PLAYBOOK.md; current mandatory full fresh backup gate still applies.', 'Verify exact target commit/artifacts and obtain release approval before publishing.']
+    ? ['Follow docs/SITES_RELEASE_PLAYBOOK.md and the 2026-11-04 approved R0-only backup fallback policy.', 'Prefer a new complete backup; when unsupported, require a verified full baseline backup plus all scoped R0 gates before publishing.', 'Confirm exact target commit/artifacts and separate per-release publication authorization.']
     : ['Stop before release and follow the applicable DB review and backup/restore gates in docs/SITES_RELEASE_PLAYBOOK.md.'],
   limitations: ['Classification is conservative path-based triage, not proof of runtime behavior or platform state.', 'No production DB, credentials, or external service is accessed.']
 };

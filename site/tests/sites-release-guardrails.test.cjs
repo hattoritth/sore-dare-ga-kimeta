@@ -164,3 +164,13 @@ test('chunk verifier optionally round-trips reconstructed data in built-in in-me
     assert.equal(JSON.parse(result.stdout).sqliteRestored, true);
   }
 }));
+
+test('UI-only preflight advertises approved scoped R0 fallback but not authorization to publish', () => temporary((dir) => {
+  const refs = makeRepo(dir, { 'site/public/index.html': '<main>updated</main>' });
+  const result = classify(dir, refs);
+  assert.equal(result.code, 0);
+  assert.equal(result.json.classification, 'UI_ONLY');
+  assert.ok(result.json.nextSteps.some(x => x.includes('approved R0-only backup fallback')));
+  assert.ok(result.json.nextSteps.some(x => x.includes('separate per-release publication authorization')));
+  assert.ok(result.json.codeOnlyGreenDoesNotProve.includes('publish is authorized'));
+}));
