@@ -18,8 +18,9 @@ test('ending reveal follows picture, title, reason, metrics, then save with deli
 });
 
 test('decision highlight uses resolved site mapping, skips deferred outcomes, and remains idempotent by event identity',()=>{
- assert.match(app,/groupOrder=\['clinic','office','waterfront','energy','transit','parkA','school'\]/);
- assert.match(app,/soloOrder=\['clinic','parkA','waterfront','energy'\]/);
+ assert.match(app,/decisionSiteForEvent=event=>window\.MachiEngine\.EPISODES\.find/);
+ assert.match(app,/const id=decisionSiteForEvent\(event\),site=artModel\.site\(id\)/);
+ assert.doesNotMatch(app,/soloOrder=/,'keep no duplicate solo episode map');
  for(const id of ['clinic','office','waterfront','energy','transit','parkA','school'])assert.match(app,new RegExp(`\\b${id}:`));
  assert.match(app,/event\.chosen!=='mixed'&&!event\.noVotes&&!event\.deferred/);
  assert.match(app,/s\.built\?\.\[id\]/);

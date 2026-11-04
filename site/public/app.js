@@ -1,6 +1,7 @@
 /* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
+ const decisionSiteForEvent=event=>window.MachiEngine.EPISODES.find(episode=>episode.heading===event?.heading)?.site;
  const groupEntryUX=Object.freeze({
   shouldShowRevealNotice:(currentView,s)=>currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant,
   navigateToSolo:(currentView,s,navigate)=>{if(currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant)navigate('/?mode=solo');}
@@ -124,9 +125,9 @@
   let shouldBuild=false;
   Object.entries(s.built||{}).forEach(([id,current])=>{const site=artModel.site(id);if(site&&site.current!==current){site.current=current;site.state='done';site.from=current;site.choice=current;site.level=3;shouldBuild=true;}});
   if(shouldBuild)scene.buildCache();
-  const event=s.lastEvent,groupOrder=['clinic','office','waterfront','energy','transit','parkA','school'],soloOrder=['clinic','parkA','waterfront','energy'];
+  const event=s.lastEvent;
   const decisionKey=event?`${s.cityStartedAt}:${event.round}:${event.time}`:null;
-  if(observedCityState&&decisionKey&&decisionKey!==observedDecisionKey&&event.chosen!=='mixed'&&!event.noVotes&&!event.deferred){const id=(view==='solo'?soloOrder:groupOrder)[Math.max(0,event.round-1)],site=artModel.site(id);if(site&&s.built?.[id]&&decisionKey!==highlightEventKey){highlightEventKey=decisionKey;const facilityLabels={clinic:'診療所',market:'商業施設',dc:'情報施設',floodgate:'高潮対策施設',transit:'交通拠点',mixed:'公園と施設',park:'公園',solar:'発電設備',homes:'住宅',school:'学校'};scene.setDecisionHighlight(id,facilityLabels[s.built[id]]||site.name);}}
+  if(observedCityState&&decisionKey&&decisionKey!==observedDecisionKey&&event.chosen!=='mixed'&&!event.noVotes&&!event.deferred){const id=decisionSiteForEvent(event),site=artModel.site(id);if(site&&s.built?.[id]&&decisionKey!==highlightEventKey){highlightEventKey=decisionKey;const facilityLabels={clinic:'診療所',market:'商業施設',dc:'情報施設',floodgate:'高潮対策施設',transit:'交通拠点',mixed:'公園と施設',park:'公園',solar:'発電設備',homes:'住宅',school:'学校'};scene.setDecisionHighlight(id,facilityLabels[s.built[id]]||site.name);}}
   observedDecisionKey=decisionKey;observedCityState=true;
   artModel.serviceState=s.incident?.visual==='flood'?'rain':s.incident?.visual==='transit'?'demand':'normal';
   artModel.crisisVisual=s.incident?.visual||'';
