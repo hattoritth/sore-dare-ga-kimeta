@@ -49,6 +49,7 @@ const backendPaths = changedPaths.filter((p) =>
 const allowedUiPaths = changedPaths.filter((p) =>
   /^(?:README|AGENTS)\.md$/i.test(p) || /^docs\/.*\.md$/i.test(p) || /^site\/tests\//.test(p) ||
   /^site\/public\/.*\.(?:html|css|js|svg|png|jpe?g|webp|woff2?)$/i.test(p) ||
+  /^site\/scripts\/qa-[^/]+\.cjs$/i.test(p) || // Browser QA only; build/server scripts stay REVIEW_REQUIRED.
   /^standalone\/.*\.html$/i.test(p)
 );
 const unclassifiedPaths = changedPaths.filter((p) => !allowedUiPaths.includes(p) && !protectedPaths.includes(p) && !backendPaths.includes(p));

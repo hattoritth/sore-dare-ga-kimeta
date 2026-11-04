@@ -70,6 +70,21 @@ test('preflight requires the approved manifest and reviews other backend/unknown
   });
 });
 
+test('preflight permits isolated QA scripts but reviews build scripts', () => {
+  temporary((dir) => {
+    const refs = makeRepo(dir, { 'site/scripts/qa-v20-public-ux.cjs': 'const pass=true' });
+    const result = classify(dir, refs);
+    assert.equal(result.code, 0);
+    assert.equal(result.json.classification, 'UI_ONLY');
+  });
+  temporary((dir) => {
+    const refs = makeRepo(dir, { 'site/scripts/build.mjs': 'unsafe build change' });
+    const result = classify(dir, refs);
+    assert.equal(result.code, 2);
+    assert.equal(result.json.classification, 'REVIEW_REQUIRED');
+  });
+});
+
 test('preflight classifies the pinned v18 to v19 commit pair as UI_ONLY', () => {
   const result = spawnSync(process.execPath, [preflight, '--base', 'e593e691957c29840d3aff168a83843aebc18518', '--target', '3b977ea22019046559e1c7304b0d2d0a99ffe7c2'], { cwd: repoRoot, encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
