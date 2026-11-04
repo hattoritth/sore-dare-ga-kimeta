@@ -9,7 +9,7 @@
  window.GroupEntryUX=groupEntryUX;
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressGeneration=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
  const staffSpeeches={
   clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
@@ -142,6 +142,11 @@
   $('groupAccountability').hidden=rows.length===0;
  }
  function clearEndingResultDom(){
+  // Invalidate any in-flight typewriter callback before erasing old result data.
+  pressGeneration++;
+  if(pressFrame){cancelAnimationFrame(pressFrame);pressFrame=0;}
+  pressTyped=true;
+  $('pressAnswer').hidden=true;$('pressQuestion').hidden=true;
   for(const id of ['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList'])$(id).replaceChildren();
   for(const id of ['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'])$(id).textContent='';
   $('endingCityPicture').setAttribute('aria-label','判断後の街の風景');
@@ -458,5 +463,5 @@
   setInterval(tick,250);
  }
  init();
- function typePressLine(line){const target=$('pressAnswer');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressFrame=0;pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
+ function typePressLine(line){const target=$('pressAnswer'),generation=++pressGeneration;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(generation!==pressGeneration)return;if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressFrame=0;pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
 })();

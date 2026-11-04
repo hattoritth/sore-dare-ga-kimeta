@@ -48,6 +48,14 @@ test('new city and replay clear previously revealed shadow values from the DOM',
  assert.match(app,/clearEndingResultDom\(\);endingFlowCityStartedAt=null/);
 });
 
+test('replay cancels in-flight conference frames and invalidates late typing callbacks',()=>{
+ assert.match(app,/function clearEndingResultDom\(\)\{\s*\/\/[^\n]*\n\s*pressGeneration\+\+;/);
+ assert.match(app,/if\(pressFrame\)\{cancelAnimationFrame\(pressFrame\);pressFrame=0;\}/);
+ assert.match(app,/\$\('pressAnswer'\)\.hidden=true;\$\('pressQuestion'\)\.hidden=true/);
+ assert.match(app,/function typePressLine\(line\)\{const target=\$\('pressAnswer'\),generation=\+\+pressGeneration/);
+ assert.match(app,/if\(generation!==pressGeneration\)return/);
+});
+
 test('skip-to-full-results is hidden once stage 4 reveal is already visible',()=>{
  assert.match(app,/endingShowAll'\)\.hidden=endingFlowStage>=3/);
  assert.match(app,/endingShowAll'\)\.addEventListener\('click',\(\)=>\{endingFlowStage=3/);
