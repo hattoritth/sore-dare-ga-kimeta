@@ -484,6 +484,7 @@
 .decision-stamp{display:inline-block;padding:3px 9px;border-radius:999px;background:#326b50;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;vertical-align:middle}.decision-teaser{display:block;margin-top:5px;color:#536d5d;font-size:13px}.vote-feedback.is-confirmed{animation:decision-arrive .32s ease-out}.decision-stamp{animation:stamp-arrive .36s cubic-bezier(.2,.8,.2,1)}@keyframes decision-arrive{from{transform:translateY(3px);opacity:.65}to{transform:translateY(0);opacity:1}}@keyframes stamp-arrive{from{transform:scale(.94)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.vote-feedback.is-confirmed,.decision-stamp{animation:none!important}}
 
 .ending-flow{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid #dce3d5}.ending-progress{grid-column:1/-1;margin:0;color:#526d5d;font-size:13px;font-weight:800}.ending-city-picture{grid-column:1/-1;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;background:#d5d8cf}.ending-city-picture svg{display:block;width:100%;height:auto}.ending-flow button{min-height:48px}.ending-flow .primary-action{margin:0}.ending-flow .text-action{min-height:44px;padding:10px 14px}
+.group-reveal-notice{display:flex;grid-column:1/-1;align-items:center;justify-content:space-between;gap:8px 12px;margin:0 0 2px;padding:8px 10px;border:1px solid #cbd9c7;border-radius:8px;background:#f2f6eb}.group-reveal-notice p{min-width:0;color:#385c4a;font-size:13px;font-weight:750;line-height:1.4}.group-reveal-notice button{flex:none;min-height:44px;padding:8px 10px;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.ending-flow *{scroll-behavior:auto!important}}
 button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):active{transform:scale(.985)}@media(prefers-reduced-motion:reduce){button:not(:disabled){transition:none}button:not(:disabled):active{transform:none}}
 
@@ -592,6 +593,7 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
  .landing-actions .mode-card strong{font-size:clamp(15px,4.2vw,18px);white-space:nowrap}
  .landing-actions .mode-card span{font-size:11px;line-height:1.3}
  .ending-flow{gap:7px 10px;margin-bottom:14px;padding-bottom:12px}
+ .group-reveal-notice{align-items:flex-start;gap:5px 8px;padding:7px 8px}.group-reveal-notice p{font-size:12px}.group-reveal-notice button{padding:6px 8px;font-size:12px}
  .shadow-spotlight{padding:9px 11px}
  .shadow-spotlight h3{font-size:14px;margin-bottom:4px}
  .shadow-spotlight-row{grid-template-columns:82px 28px minmax(0,1fr);gap:6px;padding:5px 0}

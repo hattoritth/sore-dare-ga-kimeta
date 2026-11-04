@@ -1,6 +1,11 @@
 /* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
+ const groupEntryUX=Object.freeze({
+  shouldShowRevealNotice:(currentView,s)=>currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant,
+  navigateToSolo:(currentView,s,navigate)=>{if(currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant)navigate('/?mode=solo');}
+ });
+ window.GroupEntryUX=groupEntryUX;
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
  let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,clinicPending=null,clinicRecord=null,clinicFollowupPending=false,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
@@ -241,6 +246,7 @@
   const takeaway=endingFlowStage>=4?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]}):null;
   $('takeawayReport').hidden=!takeaway;
   const endingFlowLabels=['変わった街','結末','理由','6つの指標','保存'];
+  $('groupRevealNotice').hidden=!groupEntryUX.shouldShowRevealNotice(view,s);
   $('endingProgress').textContent=`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
   $('endingCityPicture').hidden=endingFlowStage!==0;
   $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2||endingFlowStage===3;
@@ -531,6 +537,7 @@
    state=MachiEngine.publicState(soloGame,'solo');render(state);
   };
   $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
+  $('groupRevealSolo').onclick=()=>groupEntryUX.navigateToSolo(view,state,goto);
   $('startShared').onclick=startShared;$('readyShared').onclick=readyShared;
   $('switchButton').onclick=()=>goto('/');
   setInterval(tick,250);
