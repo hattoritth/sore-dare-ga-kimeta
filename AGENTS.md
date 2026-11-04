@@ -3,6 +3,14 @@
 ## Source of Truth
 本リポジトリ `hattoritth/sore-dare-ga-kimeta` は、社用アカウント上での展示物制作・検証のSource of Truth。個人アカウントの元プロジェクトは移行元として区別し、同期は差分・権利・検証結果を確認してから実施。
 
+## 共同編集（Codex / Claude Code 共通）
+- 開発者ごとに **Git worktree**（独立した作業フォルダとブランチ）を使う。ゲームソースを人別に複製して分岐させない。
+- `talessh1120-lab` の専用作業フォルダは、リポジトリの隣の `sore-dare-ga-kimeta-talessh1120-lab/`。ブランチは `collab/talessh1120-lab/<task>`。
+- 初回の準備は `bash scripts/setup-talessh1120-lab-worktree.sh <task>`。詳細は `docs/collaboration/talessh1120-lab.md`。
+- `talessh1120-lab` として編集を依頼されたエージェントは、編集前に現在のGitルートとブランチを確認する。上記worktree以外にいる場合は移動し、無ければ準備を案内する。他人のworktreeを変更しない。
+- `hattoritth` 側は自分のworktreeを使用し、`talessh1120-lab` の作業領域を流用しない。依頼された担当者は明示されたユーザーで判断し、`git config user.name` だけで本人確認しない。
+- worktreeは作業衝突を抑える仕組みでありアクセス制御ではない。各自でブランチ・変更を管理し、統合はPRを通す。
+
 ## Workflow
 1. `main` を直接変更せず、目的ごとのブランチを作る。
 2. 2036年の導入、2.5D街、ヒカリ/ソラ/ナギ/ミドリ、判断後の街の変化と住民の反応を維持。

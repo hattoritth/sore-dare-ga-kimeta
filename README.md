@@ -10,6 +10,13 @@ AIに任せるうちに、誰が決めたのかわからなくなる未来を、
 - `site/tests/` と `site/scripts/` — 動作テスト・ビルド検証・単体HTMLの自動再生成
 - `site/vendor/LICENSE-notice.txt` — QRコードライブラリのライセンス情報
 
+## 共同編集：talessh1120-lab
+
+作業の衝突を防ぐため開発者ごとに独立したGit worktreeとブランチを使用します。
+初回は `bash scripts/setup-talessh1120-lab-worktree.sh first-change`。
+Codex / Claude Codeの起動とPR運用は [共同編集ガイド](docs/collaboration/talessh1120-lab.md) を参照してください。
+共通のAI指示は `AGENTS.md`、Claude Code用の入口は `CLAUDE.md` です。
+
 ## ローカル実行と検証
 Node.js 20以降を使用。
 
