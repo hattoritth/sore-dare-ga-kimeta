@@ -51,6 +51,18 @@ WHERE id = 1;
 
 1行のサイズとrow countを記録し、1-based byte offsetで全範囲を重複なく読み取る。チャンクごとにversionが同一であることを確認する。Workがchunk query/exportに対応する場合、結果を保護されたJSON入力としてMacへ渡し、`node site/scripts/verify-d1-chunks.mjs --input <private.json> --output <private-restored.json>` で検証する。入力は `expectedBytes`, `finalBytes`, `expectedVersion`, `finalVersion`, `expectedRowId`, `chunks:[{id,offset,version,hex}]` を含む。最後に再度SELECTでid/version/bytesを確認して開始時の値と一致させる。テーブル行のid/versionはJSON本体の項目とは別に取得する。検証器は完全coverage、UTF-8、JSON、行ID/versionを確認し、出力を新規ファイル・0600で作成する。切り詰めたテキストだけから欠落データは復元できない。SQL機能がない場合、架空のtool支持を示唆せず `CAPABILITY_BLOCKED` と記録する。R0かつ承認済み代替GO条件がすべて揃う場合は既存バックアップを使い、他は停止する。
 
+## 公開直後の匿名・初見来場者UXスモークテスト
+
+デプロイ succeeded と静的SHA一致は配信・基盤の確認に過ぎない。**ユーザーの明示指示により、毎回、公式公開URLでゼロ知識の初見プレイを別途行う。** 実際の来場者が認証なしで開けるか、トップ/app.js/healthの匿名HTTP応答とChrome等の新規セッションの表示を確認する。Workの認証付き検証が通っただけでは匿名公開成功を保証しない。
+
+- 初見の導入4シーン→モード選択→ソロ4判断→結果1/5～5/5を通過。TRUE/NORMAL/BADの少なくとも代表経路を検証。4/5の隠し3指標が初期viewportに表示されることを確認。
+- 390×844スマホ、1024×768 iPad、1920×1080モニター（必要に応じ320幅も）で横スクロール、タップ領域、文言の重なり、長いフォームと戻るボタンを確認。画面撮影の一時黒化はCanvas画素など別手段で切り分け。
+- **「PNGで保存」は必ず実クリックして出力ファイルを検査**。PDFも印刷結果のページ数を確認。公開環境のCSP、特に blob:/data: 画像の許可差分とブラウザーconsoleの失敗を監視。ローカル動作だけで成功判定しない。
+- 「もう一度遊ぶ」で新しいゲームの初期状態に戻り、前ゲームの秘密指標がDOMに残らないことを確認。共有側は匿名参加前まで確認し、本番D1へのjoin/ready/voteなど書込みを伴うテストを無断で実行しない。
+- 実物理iPhone/iPad Safariや5端末Wi-Fiは実施できなければ未検証と明記。公開デプロイ成功とUX不具合を区別し、P0/P1は再現手順・影響・原因・修正案とともに記録。**公開完了とリリース受入完了は同義ではない。**
+
+2026-11-04のv19初見テストでは、CSPが blob:画像を拒否して本番PNG保存が失敗し、AI案の公開3指標チップがCSSで非表示だった。再現証跡：[PR19_PUBLIC_GUEST_UX_FINDINGS_20261104.md](PR19_PUBLIC_GUEST_UX_FINDINGS_20261104.md)。
+
 ## GO / NO-GO
 
 **GO** は次のすべてが揃った場合のみ: 正確なtarget commitと成果物SHAを照合、preflight分類を確認、リスク分類を確定、適用中のバックアップ要件（新規完全バックアップ、または承認済みR0代替GOの全条件）を満たし過去バックアップの復元可能性を確認、D1の公開前baselineを記録、既存Site ID・URL・binding・公開範囲を固定、依頼者の今回の公開承認を確認。これらを一つでも確認できなければ**NO-GO**。

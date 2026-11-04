@@ -24,3 +24,7 @@ The procedure did not front-load a bounded capability check for official Sites t
 ## Evidence and remaining limit
 
 The v18→v19 source comparison and current manifest can be checked locally without production access. No production D1 was read or changed in creating these guardrails. Whether the official Work interface supports full exports, SQL chunk reads, or postpublish D1 checks is an environment capability to confirm at the start of a release; if no supported complete backup path exists, report `CAPABILITY_BLOCKED` and stop under the active policy.
+
+## Post-release v19 usability regression (2026-11-04)
+
+The official Work report confirmed v19 publication (deployment appgdep_6aea7b5bbe7c8191b7983bb97fbe5e43). A separate anonymous Chrome live-site first-time test confirmed HTTP 200 / published app.js SHA, completed NORMAL/TRUE/BAD solo paths, and identified a live-only PNG export failure: the deployed CSP allows img-src 'self' data: but the PNG renderer loads an SVG via blob: URL, which the browser blocks. The AI decision's visible-metric chips were also hidden by an older CSS rule. These are runtime/UX defects, not a failed Sites deployment. See [PR19_PUBLIC_GUEST_UX_FINDINGS_20261104.md](PR19_PUBLIC_GUEST_UX_FINDINGS_20261104.md). No game code or production D1 was changed while auditing.
