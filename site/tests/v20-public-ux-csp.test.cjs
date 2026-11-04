@@ -24,25 +24,11 @@ test('result-card rasterization uses CSP-approved data SVG and retains PNG canva
  assert.doesNotMatch(card.buildSvg({sceneImage:'data:image/svg+xml,<svg onload=alert(1)>'}),/onload=alert/);
 });
 
-test('AI and human choices both retain three public impact chips without exposing shadow metrics early',()=>{
- assert.doesNotMatch(css,/\.decision\[data-vote=ai\][^{]*\.impact-row\s*\{\s*display:\s*none/);
- assert.match(css,/\.impact-row\{display:flex/);
- const app=fs.readFileSync(path.join(root,'public/app.js'),'utf8');
- assert.match(app,/aiImpact/);
- assert.match(app,/humanImpact/);
- assert.match(app,/strategyChoice'\)\.dataset\.site=e\.site/);
- assert.match(html,/id="shadowSpotlight"[^>]*hidden/);
- assert.match(app,/shadowSpotlight'\)\.hidden=endingFlowStage!==3/);
+test('happiness HUD and four direct choices have no per-indicator delta markup',()=>{
+ assert.match(html,/data-stat="happiness"/);assert.doesNotMatch(html,/data-stat="prosperity"|data-stat="convenience"|data-stat="appeal"|impact-chip|humanImpact|aiImpact/);
+ const app=fs.readFileSync(path.join(root,'public/app.js'),'utf8');assert.match(app,/button\.dataset\.vote=option\.id/);assert.doesNotMatch(app,/impactPreview|aiImpact|humanImpact|data-strategy/);assert.match(html,/id="shadowSpotlight"[^>]*hidden/);
 });
 
-test('waterfront detail gets a shorter mobile city while preserving three 44px choices',()=>{
- assert.match(css,/\.shell\[data-view=solo\]:has\(#strategyChoice\[data-site=waterfront\]:not\(\[hidden\]\)\) \.skyline\{height:clamp\(160px,22dvh,210px\);min-height:0\}/);
- assert.match(css,/\.strategy-choice button\[data-strategy\]\{[^}]*min-height:48px/);
- assert.match(css,/\.strategy-choice #cancelStrategy\{min-height:44px\}/);
- assert.match(css,/@media\(max-width:360px\) and \(max-height:740px\)/);
- assert.match(html,/id="cancelStrategy" class="text-action"/);
- const qa=fs.readFileSync(path.join(__dirname,'..','scripts','qa-v20-public-ux.cjs'),'utf8');
- assert.match(qa,/\[390,375,320\]/);
- assert.match(qa,/bottom<=layout\.viewportHeight/);
- assert.match(qa,/scrollWidth/);
+test('waterfront topic uses the common four-action responsive decision grid',()=>{
+ assert.match(css,/\.decision-options/);assert.match(css,/\.decision\{min-height:64px/);assert.match(css,/@media\(max-width:750px\)/);assert.match(html,/id="decisionOptions"/);assert.doesNotMatch(html,/cancelStrategy|strategyChoice/);
 });

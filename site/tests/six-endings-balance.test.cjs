@@ -139,65 +139,17 @@ test('3-person majorities accumulate smaller unattended costs than unanimous del
 });
 
 
-test('qualitative choice previews exactly match visible deltas from the engine, including pressure and clamps',()=>{
- const keys=['prosperity','convenience','appeal'];
- const mark=delta=>delta===0?'±0':(delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
- for(const solo of [true,false]){
-  for(const choices of ['HHHHHHH','AAAAAAA','AHAAAHH','HAHHAHA','AAAHHAH']){
-   const game=Engine.createGame(0,{autostart:true,...(solo?{storyMode:'solo'}:{})});
-   Engine.join(game,'p','P',0);
-   for(const previous of choices){
-    if(game.phase!=='active')break;
-    const before=JSON.stringify(game);
-    const displayed=Engine.publicState(game,'p');
-    const episode=displayed.episode;
-    assert.deepEqual(Object.keys(episode.impactPreview),['human','ai']);
-    for(const choice of ['human','ai']){
-     assert.deepEqual(Object.keys(episode.impactPreview[choice]),keys);
-     const expectedGame=JSON.parse(before);
-     Engine.vote(expectedGame,'p',choice,expectedGame.roundStartedAt+1);
-     Engine.advance(expectedGame,expectedGame.roundEndsAt);
-     for(const key of keys){
-      const diff=expectedGame.public[key]-game.public[key];
-      if(solo&&choice==='human')assert.ok(['±','±0','+','−'].includes(episode.impactPreview[choice][key]));
-      else assert.equal(episode.impactPreview[choice][key],mark(diff),key+' at '+choices+' / '+(solo?'solo':'group'));
-     }
-    }
-    assert.equal(JSON.stringify(game),before,'forecast is non-mutating');
-    Engine.vote(game,'p',previous==='H'?'human':'ai',game.roundStartedAt+1);
-    Engine.advance(game,game.roundEndsAt);
-   }
-  }
- }
+test('active state provides only happiness and no per-action indicator preview',()=>{
+ const g=Engine.createGame(0,{autostart:true});Engine.join(g,'p','P',0);const state=Engine.publicState(g,'p');
+ assert.deepEqual(state.public,{happiness:71});assert.equal(state.shadow,undefined);assert.equal(state.episode.impactPreview,undefined);assert.ok(!JSON.stringify(state).includes('trust'));
 });
-
-test('a 2-player unanimous shared vote matches categorical preview without exposing hidden scores',()=>{
- const game=Engine.createGame(0,{autostart:true});
- Engine.join(game,'a','A',0);Engine.join(game,'b','B',0);
- const projected=Engine.publicState(game,'a');
- const old={...game.public};
- assert.equal(projected.shadow,undefined);
- assert.equal(projected.episode.impact,undefined);
- for(const choice of ['human','ai']){
-  const local=JSON.parse(JSON.stringify(game));
-  Engine.vote(local,'a',choice,1);Engine.vote(local,'b',choice,1);
-  Engine.advance(local,local.roundEndsAt);
-  const mark=delta=>delta===0?'±0':(delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
-  for(const key of ['prosperity','convenience','appeal']){
-   assert.equal(projected.episode.impactPreview[choice][key],mark(local.public[key]-old[key]));
-  }
- }
- for(const secret of ['trust','fairness','resilience'])assert.ok(!JSON.stringify(projected).includes('"'+secret+'"'));
+test('a unanimous exact action vote applies its real six-metric outcome without exposing it before reveal',()=>{
+ const g=Engine.createGame(0,{autostart:true});Engine.join(g,'a','A',0);Engine.join(g,'b','B',0);const state=Engine.publicState(g,'a'),option=state.episode.options[2],before={...g.public,...g.shadow};
+ assert.deepEqual(state.public,{happiness:71});assert.equal(state.episode.impact,undefined);assert.equal(state.episode.impactPreview,undefined);
+ Engine.vote(g,'a',option.id,1);Engine.vote(g,'b',option.id,1);const during=Engine.publicState(g,'a');assert.ok(!JSON.stringify(during).includes('fairness'));
+ Engine.advance(g,g.roundEndsAt);assert.equal(g.history[0].winningOption,option.id);assert.notDeepEqual({...g.public,...g.shadow},before);
 });
-
-test('impact legend is in each real choice and no hidden parameters appear in choice markup',()=>{
- const fs=require('node:fs'),path=require('node:path'),dir=path.join(__dirname,'../public');
- const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
- const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
- for(const id of ['humanImpact','aiImpact','impactNote'])assert.ok(html.includes('id="'+id+'"'));
- assert.doesNotMatch(html.match(/id="aiDecision"[\s\S]*?<\/button>/)?.[0]||'',/trust|fairness|resilience|impactPreview/);
- assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
- assert.match(app,/e\.aiNow,e\.aiLater/);
- assert.match(app,/投票割合で変わります/);
- assert.match(app,/裏の指標/);
+test('choice markup has no public or shadow indicator deltas',()=>{
+ const fs=require('node:fs'),path=require('node:path'),html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
+ assert.match(html,/id="decisionOptions"/);assert.doesNotMatch(html,/impactPreview|impact-chip|humanImpact|aiImpact|trust|fairness|resilience/);
 });

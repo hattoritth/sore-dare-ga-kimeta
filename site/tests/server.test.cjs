@@ -70,7 +70,7 @@ test('Node server records zero votes as a deferred decision with no city change'
   if(state.round===0){await new Promise(r=>setTimeout(r,450));state=await(await fetch(host+'/api/state')).json();}
   assert.equal(state.phase,'active');assert.equal(state.round,1);assert.equal(state.voteCount,0);
   assert.equal(state.history[0].chosen,'none');assert.equal(state.history[0].noVotes,true);
-  assert.deepEqual(state.public,Engine.INITIAL_PUBLIC);assert.deepEqual(state.built,{});
+  assert.deepEqual(state.public,{happiness:Engine.happiness(game)});assert.deepEqual(state.built,{});
   assert.ok(!('shadow' in state));assert.equal(state.lastEvent.crisisAverted,undefined);
  }finally{if(server.exitCode===null){server.kill();await new Promise(resolve=>server.once('exit',resolve));}rmSync(temp,{recursive:true,force:true});}
 });

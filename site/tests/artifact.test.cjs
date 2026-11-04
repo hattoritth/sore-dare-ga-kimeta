@@ -50,6 +50,7 @@ test('built Worker aggregates simultaneous votes and discloses hidden values onl
   assert.equal(state.participantCount, 5);
   assert.equal(state.voteCount, 5);
   assert.equal(state.shadow, undefined);
+  assert.deepEqual(state.public,{happiness:71});
   assert.ok(!JSON.stringify(state).includes('resilience'));
   const reconnected = await (await call('/api/state', 'GET', undefined, cookies[0])).json();
   assert.equal(reconnected.myVote, 'human');
@@ -68,7 +69,7 @@ test('built Worker aggregates simultaneous votes and discloses hidden values onl
   const ending = await (await call('/api/state')).json();
   assert.equal(ending.phase, 'reveal');
   assert.equal(ending.outcome, 'collapse');
-  assert.equal(ending.shadow.trust,8);
+  assert.equal(ending.shadow.trust,5);
 });
 
 test('built Worker treats zero votes as a deferred episode with unchanged values',async()=>{
@@ -80,5 +81,5 @@ test('built Worker treats zero votes as a deferred episode with unchanged values
  const response=await worker.fetch(new Request(origin+'/api/state'),env),state=await response.json();
  assert.equal(response.status,200);assert.equal(state.phase,'active');assert.equal(state.round,1);
  assert.equal(state.voteCount,0);assert.equal(state.history[0].chosen,'none');assert.equal(state.history[0].noVotes,true);
- assert.deepEqual(state.public,Engine.INITIAL_PUBLIC);assert.deepEqual(state.built,{});assert.equal(state.shadow,undefined);
+ assert.deepEqual(state.public,{happiness:Engine.happiness(game)});assert.deepEqual(state.built,{});assert.equal(state.shadow,undefined);
 });

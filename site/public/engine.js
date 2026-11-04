@@ -22,6 +22,38 @@
   response:{review:{convenience:-1,trust:4,fairness:2},support:{prosperity:-1,convenience:3,appeal:1,fairness:1},revise:{prosperity:-1,convenience:-2,trust:1,fairness:3}}
  };
  const episodeFor=game=>EPISODES[game.storyMode==='solo'?SOLO_STORY[game.round]:game.round];
+ const ALL_KEYS=['prosperity','convenience','appeal','trust','fairness','resilience'];
+ const ACTIONS=[
+  {suffix:'listen',label:'地区を回って住民の声を聞く',kind:'human',extra:{trust:3,fairness:2}},
+  {suffix:'audit',label:'影響を調べて段階的に進める',kind:'human',extra:{convenience:-2,resilience:3,trust:2}},
+  {suffix:'community',label:'地元の事業者と共同で整える',kind:'human',extra:{prosperity:-2,appeal:3,fairness:3}},
+  {suffix:'ai',label:'AIに任せて予測どおり一括で進める',kind:'ai',extra:{prosperity:3,convenience:2,trust:-3,fairness:-2}}
+ ];
+ // Only use land-use outcomes supported by the city model for each district.
+ // Some districts have fewer than four physical choices, so their actions also
+ // have distinct, concrete six-metric effects; no synthetic building IDs are used.
+ const OPTION_BUILDS=[
+  ['clinic','lot','clinic','clinic'],
+  ['market','solar','market','dc'],
+  ['floodgate','lot','market','market'],
+  ['solar','lot','solar','dc'],
+  ['transit','lot','market','market'],
+  ['mixed','park','mixed','dc'],
+  ['school','lot','school','homes']
+ ];
+ const BUILD_RESULTS={clinic:'診療所を整えた。',lot:'今回は施設の整備を見送り、空き地を残した。',market:'商業施設を整えた。',solar:'発電設備を整えた。',dc:'情報施設を整えた。',floodgate:'大雨への備えを整えた。',transit:'移動の拠点を整えた。',mixed:'公園と施設を両立させた。',park:'中央公園の緑を残した。',school:'学びの場を整えた。',homes:'住宅を整えた。'};
+ const ACTION_COPY=[
+  ['診療所を郊外にも届くよう住民と場所を決める','診療需要を確かめ、診療所の整備をいったん見送る','診療所を地元の診療所や交通事業者と共同運営する','AIに診療所の場所を予測させ一括整備する'],
+  ['駅前の使い道を近隣住民と話し合って決める','駅前への影響を調べ、空き地に発電設備を段階整備する','地元店舗と小さな市場を共同でつくる','AIに収益予測をさせて企業拠点を整備する'],
+  ['海辺の避難路と防潮設備を住民と整える','高潮リスクを調べ、海辺の開発をいったん見送る','沿岸の店と協力して海辺に商業施設をつくる','AIの集客予測を優先して海辺を開発する'],
+  ['地域の声を聞いて長く使える発電設備を選ぶ','電力需要を調べ、発電設備の整備をいったん見送る','地元の電力会社と小規模電源を共同整備する','AIの需要予測で情報施設を一括整備する'],
+  ['遠い地区の声を聞いて交通拠点をつなぐ','移動データを調べ、交通拠点の整備をいったん見送る','地域交通の担い手と駅前に商業施設を共同整備する','AIに利用予測をさせて駅前に商業施設を整備する'],
+  ['公園を残しながら住民と必要な施設を選ぶ','緑地への影響を調べ、中央公園の緑を残す','地域団体と公園の中に交流施設を共同でつくる','AIの利用予測で公園を情報施設へ転用する'],
+  ['子どもや保護者の声を聞いて学びの場を増やす','将来人口を調べ、学校の整備をいったん見送る','地域の学校と事業者で放課後の学び場をつくる','AIの住宅需要予測を優先して住まいを増やす']
+ ];
+ function optionsFor(ep,index){return ACTIONS.map((a,i)=>{const label=ACTION_COPY[index]?.[i]||a.label,build=OPTION_BUILDS[index]?.[i]||ep.humanBuild;return {id:`e${index}-${a.suffix}`,label,kind:a.kind,build,impact:Object.fromEntries(ALL_KEYS.map(k=>[k,(ep.impact[a.kind][k]||0)+(a.extra[k]||0)])),result:`${label}。${BUILD_RESULTS[build]||'計画を実施した。'}`};});}
+ const episodeIndex=game=>game.storyMode==='solo'?SOLO_STORY[game.round]:game.round;
+ function happiness(game){return Math.round(ALL_KEYS.reduce((sum,k)=>sum+(game.public[k]??game.shadow[k]),0)/6);}
  const maxRounds=game=>game.storyMode==='solo'?SOLO_STORY.length:EPISODES.length;
  // These thresholds apply to both visible and hidden metrics. Strictly below, not equal.
  const MAX_ROUNDS=EPISODES.length,ROUND_MS=23000,REVEAL_MS=50000,WARN_THRESHOLD=30,END_THRESHOLD=10;
@@ -56,9 +88,7 @@
   if(!risks.length)return null;
   const x=SIGNALS[risks[0][0]];
   // Signals describe lived experiences; they deliberately never expose hidden keys/values.
-  return {title:x.warning,detail:x.detail,action:['prosperity','convenience'].includes(risks[0][0])
-   ?'現場の声に加えてAIの分析も活用し、実行が遅れない方法を探しましょう。'
-   :'AIの提案だけに任せず、人が見落としや説明責任を確かめましょう。',count:risks.length};
+  return {title:'街の暮らしに小さな異変が現れています',detail:'見えている街の変化だけでは、気づきにくい影響が残っているかもしれません。',action:'現場の声と分析の両方を確かめ、次の一手を選びましょう。'};
  }
  function publicIncident(game){
   const risks=criticalRisks(game,END_THRESHOLD);
@@ -70,7 +100,7 @@
  const copy=x=>JSON.parse(JSON.stringify(x));
  const tally=game=>Object.values(game.votes).reduce((a,v)=>(a[v]++,a),{human:0,ai:0});
  function createGame(now=Date.now(),opts={}){
-   const game={phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:opts.autostart?now+ROUND_MS:0,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
+   const game={phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:opts.autostart?now+ROUND_MS:0,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},optionVotes:{},participants:{},outcome:null,lastEvent:null};
    if(game.storyMode==='solo'){game.soloDetails={};game.awaitingClinicResponse=false;}
    return game;
  }
@@ -89,8 +119,11 @@
    return true;
  }
  function vote(game,id,choice,now=Date.now()){
-   if(game.phase!=='active'||game.awaitingClinicResponse||!['human','ai'].includes(choice)||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||now>=game.roundEndsAt)return false;
-   game.votes[id]=choice;game.participants[id].lastSeen=now;return true;
+   const ep=episodeFor(game);if(!ep)return false;
+   const options=optionsFor(ep,episodeIndex(game));
+   const option=options.find(x=>x.id===choice)||(['human','ai'].includes(choice)?options.find(x=>x.kind===choice):null);
+   if(game.phase!=='active'||game.awaitingClinicResponse||!option||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||now>=game.roundEndsAt)return false;
+   game.optionVotes=game.optionVotes||{};game.optionVotes[id]=option.id;game.votes[id]=option.kind;game.participants[id].lastSeen=now;return true;
  }
  function chooseSoloDetail(game,id,detail){
   if(game.storyMode!=='solo'||game.phase!=='active'||game.awaitingClinicResponse||game.votes[id]||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||!detail||typeof detail!=='object')return false;
@@ -122,9 +155,13 @@
   return {public:{...game.public},delta:responseDelta,phase:game.phase};
  }
  function resolve(game,now){
-   const n=tally(game),total=n.human+n.ai,noVotes=total===0,aiShare=noVotes?0:n.ai/total;
-   const e=episodeFor(game);
-   const chosen=noVotes?'none':aiShare>0.5?'ai':aiShare<0.5?'human':'mixed';
+   const n=tally(game),total=n.human+n.ai,noVotes=total===0;
+   const e=episodeFor(game),opts=optionsFor(e,episodeIndex(game)),counts=Object.fromEntries(opts.map(o=>[o.id,0]));
+   for(const id of Object.values(game.optionVotes||{}))if(Object.hasOwn(counts,id))counts[id]++;
+   // Old persisted rows only have human/ai votes. Keep them meaningful by mapping to a concrete action.
+   for(const [participant,v] of Object.entries(game.votes))if(!Object.hasOwn(counts,game.optionVotes?.[participant])){const o=opts.find(x=>x.kind===v);if(o)counts[o.id]++;}
+   const maxVotes=Math.max(0,...Object.values(counts)),winners=opts.filter(o=>counts[o.id]===maxVotes&&maxVotes>0),winner=winners.length===1?winners[0]:null;
+   const chosen=noVotes?'none':!winner?'mixed':winner.kind,aiShare=noVotes?0:n.ai/total;
    // Without a majority, neither proposal is implemented. Both metrics and buildings stay put.
    const deferred=noVotes||chosen==='mixed';
    // Capture a warning before applying the next decision: a human-led choice can intervene.
@@ -135,17 +172,7 @@
     chosen==='ai'?['prosperity','convenience']:[];
   const interventions=risksBefore.filter(([metric])=>repairable.includes(metric));
   const intervened=interventions.length>0;
-   // Each proposal has a distinct trade-off; group decisions blend the two options by vote share.
-   if(!deferred){
-    for(const key of Object.keys(game.public)){
-      const delta=Math.round(e.impact.human[key]*(1-aiShare)+e.impact.ai[key]*aiShare);
-      game.public[key]=clamp(game.public[key]+delta);
-    }
-    for(const key of Object.keys(game.shadow)){
-      const delta=Math.round(e.impact.human[key]*(1-aiShare)+e.impact.ai[key]*aiShare);
-      game.shadow[key]=clamp(game.shadow[key]+delta);
-    }
-   }
+   if(!deferred)for(const [key,delta] of Object.entries(winner.impact)){const pool=Object.hasOwn(game.public,key)?game.public:game.shadow;pool[key]=clamp(pool[key]+delta);}
    const soloDetail=game.storyMode==='solo'&&chosen==='human'?game.soloDetails[game.round]:null;
    if(soloDetail?.kind==='clinic'){
     applySoloImpact(game,SOLO_DETAIL_IMPACT.clinicPlace[soloDetail.place]);
@@ -169,16 +196,15 @@
    const crisisAverted=intervened?interventions.filter(([metric])=>beforeIntervention[metric]<END_THRESHOLD&&((Object.hasOwn(game.public,metric)?game.public:game.shadow)[metric]>=END_THRESHOLD)).map(([metric])=>metric):[];
    const warningRecovered=intervened?interventions.filter(([metric])=>((Object.hasOwn(game.public,metric)?game.public:game.shadow)[metric]>=WARN_THRESHOLD)).map(([metric])=>metric):[];
    if(!deferred){
-    const built=chosen==='ai'?e.aiBuild:e.humanBuild;
-    game.built[e.site]=built;
+     game.built[e.site]=winner.build==='ai'?e.aiBuild:winner.build==='human'?e.humanBuild:winner.build;
    }
    const detailLine=soloDetail?.kind==='clinic'?`${soloDetail.place==='station'?'駅前':'郊外'}を選び、${soloDetail.reason==='total'?'利用者数':'通院の届きやすさ'}を優先した。`:soloDetail?.kind==='strategy'?(soloDetail.strategy==='voices'?'現地の声を確かめる方針を実施した。':'複数地区の希望を調整する方針を実施した。'):'';
-   const message=noVotes?'投票がなかったため、この議題は判断を保留しました。街の状態を維持して次の議題へ進みます。':chosen==='mixed'?'人とAIの票が同数のため、両案の実施を保留しました。施設も指標も変えず、次の議題へ進みます。':(chosen==='ai'?e.resultAI:e.resultHuman)+(detailLine?' '+detailLine:'')
+   const message=noVotes?'投票がなかったため、この議題は判断を保留しました。街の状態を維持して次の議題へ進みます。':chosen==='mixed'?'最多票が同数のため、計画を保留しました。施設も指標も変えず、次の議題へ進みます。':winner.result+(detailLine?' '+detailLine:'')
     +(pressure?chosen==='human'?' 人だけで決め続け、調整と整備の遅れが街に積み重なっている。':' AIに任せ続け、現場で確かめなかった影響が現れ始めた。':'')
     +(intervened?' 異変に気づき、足りなかった視点から対策を進めた。':'');
-   game.lastEvent={round:game.round+1,heading:e.heading,agent:e.agent,result:message,chosen,human:n.human,ai:n.ai,time:now,intervened,interventionAttempted:intervened,crisisAverted,warningRecovered,noVotes,deferred};
+   game.lastEvent={round:game.round+1,heading:e.heading,agent:e.agent,result:message,chosen,human:n.human,ai:n.ai,winningOption:winner?.id||null,winningLabel:winner?.label||null,winningEffect:deferred?null:copy(winner.impact),optionCounts:counts,optionLabels:Object.fromEntries(opts.map(o=>[o.id,o.label])),participantVotes:Object.values(game.optionVotes||{}),time:now,intervened,interventionAttempted:intervened,crisisAverted,warningRecovered,noVotes,deferred};
    game.history.push({...game.lastEvent,visible:copy(game.public),hidden:copy(game.shadow)});
-   game.votes={};game.round++;
+   game.votes={};game.optionVotes={};game.round++;
    const awaitClinic=game.storyMode==='solo'&&game.round===1&&chosen==='human'&&soloDetail?.kind==='clinic';
    if(game.storyMode==='solo')game.awaitingClinicResponse=awaitClinic;
    const lost=awaitClinic?null:criticalRisks(game,END_THRESHOLD)[0];
@@ -198,10 +224,7 @@
    if(game.phase!=='reveal'||game.outcome!=='survived'||criticalRisks(game,WARN_THRESHOLD).length||game.history.length!==maxRounds(game))return false;
    const choices=game.history.map(x=>x.chosen);
    if(game.storyMode==='solo'){
-     const clinic=game.soloDetails?.[0],event=game.history[0];
-     return choices.join(',')==='human,human,human,ai'&&clinic?.kind==='clinic'&&
-       ['station','suburb'].includes(clinic.place)&&clinic.reason==='access'&&
-       event?.clinicResponseApplied===true&&['review','support','revise'].includes(event.clinicResponse)&&
+     return choices.join(',')==='human,human,human,ai'&&game.history.map(x=>x.winningOption?.split('-').at(-1)).join(',')==='listen,listen,listen,ai'&&
        Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
    }
    if(game.storyMode!==null)return false;
@@ -211,7 +234,8 @@
    if(choices[0]!=='human'||choices[2]!=='human'||choices[3]!=='ai'||choices[5]!=='human'||choices[6]!=='human')return false;
    if(choices[1]!=='ai'&&choices[4]!=='ai')return false;
    if(game.history.some((event,i)=>event.round!==i+1||event.noVotes||event.deferred||!['human','ai'].includes(event.chosen)||
-       game.built[EPISODES[i].site]!==EPISODES[i][event.chosen==='ai'?'aiBuild':'humanBuild']))return false;
+       game.built[EPISODES[i].site]!==EPISODES[i][event.chosen==='ai'?'aiBuild':'humanBuild']||
+       (event.chosen==='human'&&!event.winningOption?.endsWith('-listen'))||(event.chosen==='ai'&&!event.winningOption?.endsWith('-ai'))))return false;
    return Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
  }
  function endingFor(game){
@@ -227,51 +251,17 @@
    if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
    if(trueRoleRoute(game))return {kind:'true',heading:'街を託す先を、考え抜いた。',
      description:game.storyMode==='solo'
-       ?'診療所の通いやすさ・緑・防災を人が確かめ、電力の需要分析にAIを活用した。診療所の対応まで責任を持って実行し、6つの指標も守った。'
+       ?'診療所・交通・海辺の暮らしを人が確かめ、電力の需要分析にはAIを活用した。街の6つの状態も守った。'
        :'住民の通院・防災・緑・学びを人が守り、電力と交通・仕事のデータ分析にはAIを活用した。案の実施だけでなく、街の6つの状態も守った。',
      risks};
    return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
- }
- // Generate a categorical three-metric forecast using exactly the real rules.
- // Never send numeric hidden deltas or hidden metric keys during play.
- const IMPACT_KEYS=['prosperity','convenience','appeal'];
- const impactMark=delta=>delta===0?'±0':
-   (delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
- function publicImpactPreview(game){
-   const preview={};
-   for(const choice of ['human','ai']){
-     if(game.storyMode==='solo'&&choice==='human'){
-       const variants=game.round===0
-         ?['station','suburb'].flatMap(place=>['total','access'].map(reason=>({kind:'clinic',place,reason})))
-         :game.round>0&&game.round<maxRounds(game)
-           ?['voices','balance'].map(strategy=>({kind:'strategy',strategy}))
-           :[];
-       const outcomes=variants.map(detail=>{
-         const simulated=copy(game);
-         simulated.votes={forecast:choice};
-         simulated.soloDetails[game.round]=detail;
-         resolve(simulated,game.roundEndsAt);
-         return IMPACT_KEYS.map(key=>simulated.public[key]-game.public[key]);
-       });
-       preview[choice]=Object.fromEntries(IMPACT_KEYS.map((key,i)=>{
-         const signs=new Set(outcomes.map(row=>Math.sign(row[i])));
-         return [key,signs.size===1?(signs.has(0)?'±0':signs.has(1)?'+':'−'):'±'];
-       }));
-       continue;
-     }
-     const simulated=copy(game);
-     simulated.votes={forecast:choice}; // hypothetical unanimous choice
-     resolve(simulated,game.roundEndsAt);
-     preview[choice]=Object.fromEntries(IMPACT_KEYS.map(key=>
-       [key,impactMark(simulated.public[key]-game.public[key])]));
-   }
-   return preview;
  }
  function publicState(game,token='',now=Date.now()){
    const n=tally(game);
    const online=Object.values(game.participants).filter(x=>now-x.lastSeen<90000).length;
    const safeLastEvent=game.lastEvent?{...game.lastEvent,crisisAverted:undefined,warningRecovered:undefined}:null;
-   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:safeLastEvent,outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:game.phase==='reveal'&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?{...publicEpisode(episodeFor(game)),impactPreview:publicImpactPreview(game)}:null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
+   const revealed=game.phase==='reveal';
+   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:revealed?copy(game.public):{happiness:happiness(game)},built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,myOptionVote:game.optionVotes?.[token]||null,lastEvent:revealed?safeLastEvent:(safeLastEvent?{round:safeLastEvent.round,heading:safeLastEvent.heading,agent:safeLastEvent.agent,result:safeLastEvent.result,chosen:safeLastEvent.chosen,time:safeLastEvent.time}:null),outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:revealed&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?{...publicEpisode(episodeFor(game)),options:optionsFor(episodeFor(game),episodeIndex(game)).map(({id,label})=>({id,label}))}:null,history:revealed?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
    const players=connected(game,now),player=game.participants[token];
    data.readyCount=players.filter(x=>x.ready).length;data.myReady=!!player?.ready;
    data.canStart=!!player&&canStart(game,now);
@@ -280,8 +270,8 @@
    if(game.phase==='reveal'){data.shadow=copy(game.shadow);data.ending=endingFor(game);}
    return data;
  }
- const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint,human:e.human,ai:e.ai,humanNow:e.humanNow,humanLater:e.humanLater,aiNow:e.aiNow,aiLater:e.aiLater});
- const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,TRUE_METRIC_FLOOR,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState};
+ const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint});
+ const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,TRUE_METRIC_FLOOR,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState,happiness};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;
  global.MachiEngine=API;
 })(typeof window!=='undefined'?window:globalThis);

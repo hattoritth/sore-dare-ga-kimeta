@@ -2,17 +2,9 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const E=require('../engine.js');
 
-function runSolo(mask,{reason='access',response='review',strategies=[]}={}){
+function runSolo(actions=['listen','listen','listen','ai']){
  const g=E.createGame(0,{autostart:true,storyMode:'solo'});E.join(g,'solo','市長',0);
- for(let round=0;round<4;round++){
-  const choice=(mask>>round)&1?'ai':'human';
-  if(choice==='human')assert.equal(E.chooseSoloDetail(g,'solo',round===0?{kind:'clinic',place:'suburb',reason}:{kind:'strategy',strategy:strategies[round]||'voices'}),true);
-  assert.equal(E.vote(g,'solo',choice,g.roundStartedAt+1),true);E.advance(g,g.roundEndsAt);
-  if(round===0&&choice==='human'){
-   assert.equal(E.clinicResponse(g,'solo',response,g.roundStartedAt+2)!==false,true);
-   assert.equal(E.clinicResponse(g,'solo',response,g.roundStartedAt+3),false,'a second clinic response must not apply');
-  }
- }
+ for(const suffix of actions){const option=E.publicState(g,'solo').episode.options.find(x=>x.id.endsWith('-'+suffix));assert.ok(option);assert.equal(E.vote(g,'solo',option.id,g.roundStartedAt+1),true);E.advance(g,g.roundEndsAt);if(g.phase==='reveal')break;}
  return g;
 }
 function runGroup(mask){
@@ -24,31 +16,14 @@ function runGroup(mask){
  return g;
 }
 
-test('solo TRUE is reachable only for the accountable H-H-H-A route with access rationale and applied response',()=>{
- const counts=[];
- for(let mask=0;mask<16;mask++){
-  const g=runSolo(mask),ending=E.publicState(g).ending;
-  if(ending.kind==='true')counts.push(mask);
-  if(mask===0b1000)assert.equal(ending.kind,'true');
-  else assert.notEqual(ending.kind,'true',`route ${mask.toString(2).padStart(4,'0')}`);
- }
- assert.deepEqual(counts,[0b1000]);
- assert.equal(runSolo(8).outcome,'survived','TRUE keeps the existing survived outcome value');
- assert.notEqual(E.publicState(runSolo(0)).ending.kind,'true','all-human is not TRUE');
- assert.notEqual(E.publicState(runSolo(15)).ending.kind,'true','all-AI is not TRUE');
- assert.notEqual(E.publicState(runSolo(8,{reason:'total'})).ending.kind,'true','volume alone is not an accessibility rationale');
+test('solo TRUE remains a hard accountable route with all six values above the floor',()=>{
+ const route=['listen','listen','listen','ai'];assert.equal(E.publicState(runSolo(route)).ending.kind,'true');
+ for(const altered of [['ai','listen','listen','ai'],['listen','audit','listen','ai'],['listen','listen','community','ai'],['listen','listen','listen','listen']])assert.notEqual(E.publicState(runSolo(altered)).ending.kind,'true');
+ const weak=runSolo(route);weak.shadow.trust=E.TRUE_METRIC_FLOOR-1;assert.notEqual(E.publicState(weak).ending.kind,'true');
 });
-
-test('the requested clinic access, balanced park and waterfront strategies, then AI energy route remains TRUE',()=>{
- const g=runSolo(0b1000,{reason:'access',response:'support',strategies:{1:'balance',2:'balance'}});
- const state=E.publicState(g);
- assert.equal(state.ending.kind,'true');
- assert.equal(g.history.length,4);
- assert.equal(g.history[0].chosen,'human');assert.equal(g.history[3].chosen,'ai');
- assert.deepEqual(g.soloDetails[0],{kind:'clinic',place:'suburb',reason:'access'});
- assert.equal(g.history[0].clinicResponse,'support');
- assert.deepEqual(g.soloDetails[1],{kind:'strategy',strategy:'balance'});
- assert.deepEqual(g.soloDetails[2],{kind:'strategy',strategy:'balance'});
+test('solo TRUE records the winning action IDs and only reveals its six metrics at the end',()=>{
+ const g=runSolo(),state=E.publicState(g);assert.equal(state.ending.kind,'true');assert.deepEqual(g.history.map(x=>x.winningOption),['e0-listen','e4-listen','e2-listen','e3-ai']);assert.equal(g.history.length,4);assert.deepEqual(Object.keys(state.shadow).sort(),['fairness','resilience','trust']);
+ const active=E.createGame(0,{autostart:true,storyMode:'solo'});E.join(active,'p','P',0);assert.equal(E.publicState(active,'p').ending,undefined);assert.deepEqual(E.publicState(active,'p').public,{happiness:71});
 });
 
 test('all 128 group routes yield a narrow reachable TRUE set and exclude ties/no-votes',()=>{

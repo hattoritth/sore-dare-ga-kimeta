@@ -27,8 +27,8 @@ test('hidden half remains unavailable during decisions, labels are only final re
  assert.deepEqual(build(inProgress).metrics,[]);
  assert.equal(ReflectionReport.build(inProgress,{mode:'solo'}),null);
  const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
- for(const name of names.slice(0,3))assert.ok(html.includes('class="stat-label">'+name+'</span>'));
- for(const name of names.slice(3))assert.ok(!html.includes('class="stat-label">'+name+'</span>'));
+ assert.match(html,/class="stat-label">街の幸福度<\/span>/);
+ for(const name of names)assert.ok(!html.includes('class="stat-label">'+name+'</span>'));
  const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
  assert.match(app,/allMetricNames\[s\.ending\.metric\]/);
 });

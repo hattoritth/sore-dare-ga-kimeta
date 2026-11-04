@@ -15,7 +15,7 @@ test('warning is strict <30 for every public and hidden metric, with no hidden n
   group[key]=29;
   const state=Engine.publicState(g,'visitor',0);
   assert.equal(typeof state.alert.title,'string',`${key} at 29`);
-  assert.match(state.alert.action,/人|AI/);
+  assert.equal(state.alert.count,undefined);assert.doesNotMatch(JSON.stringify(state.alert),/繁栄|便利さ|街の魅力|信頼|公正|持続性/);
   assert.equal(state.shadow,undefined);
   assert.equal(state.incident,null);
   for(const hidden of ['trust','fairness','resilience'])assert.ok(!JSON.stringify(state).includes('"'+hidden+'"'));
@@ -24,9 +24,9 @@ test('warning is strict <30 for every public and hidden metric, with no hidden n
 
 test('human-led follow-up mitigates warned metrics and leaves a decision record',()=>{
  const g=game();g.shadow.trust=25;g.public.appeal=25;
- assert.equal(Engine.publicState(g,'visitor',0).alert.count,2);
+ assert.equal(Engine.publicState(g,'visitor',0).alert.count,undefined);
  Engine.vote(g,'visitor','human',10);Engine.advance(g,g.roundEndsAt);
- assert.equal(g.shadow.trust,37);
+ assert.equal(g.shadow.trust,40);
  assert.equal(g.public.appeal,34);
  assert.equal(g.lastEvent.intervened,true);
  assert.equal(Engine.publicState(g,'visitor').alert,null);
@@ -35,13 +35,13 @@ test('human-led follow-up mitigates warned metrics and leaves a decision record'
 test('shared human majority (not AI majority) is the warning intervention',()=>{
  const g=Engine.createGame(0,{autostart:true});g.shadow.trust=25;
  for(const id of ['a','b','c'])Engine.join(g,id,id,0);
- Engine.vote(g,'a','human',10);Engine.vote(g,'b','human',10);Engine.vote(g,'c','ai',10);
+ const op=Engine.publicState(g,'a').episode.options;Engine.vote(g,'a',op[0].id,10);Engine.vote(g,'b',op[0].id,10);Engine.vote(g,'c',op[1].id,10);
  Engine.advance(g,g.roundEndsAt);
  assert.equal(g.lastEvent.chosen,'human');assert.equal(g.lastEvent.intervened,true);
  assert.ok(g.shadow.trust>20);
  const h=Engine.createGame(0,{autostart:true});h.shadow.trust=25;
  for(const id of ['a','b','c'])Engine.join(h,id,id,0);
- Engine.vote(h,'a','ai',10);Engine.vote(h,'b','ai',10);Engine.vote(h,'c','human',10);
+ const hp=Engine.publicState(h,'a').episode.options;Engine.vote(h,'a',hp[3].id,10);Engine.vote(h,'b',hp[3].id,10);Engine.vote(h,'c',hp[0].id,10);
  Engine.advance(h,h.roundEndsAt);
  assert.equal(h.lastEvent.intervened,false);
  assert.ok(g.shadow.trust>h.shadow.trust);
@@ -62,8 +62,8 @@ test('strict <10 ends the game for all six metrics and provides specific consequ
   assert.equal(typeof state.incident.description,'string');
   assert.equal(typeof state.incident.visual,'string');
  }
- const strict=game();strict.shadow.trust=8;
- Engine.vote(strict,'visitor','ai',10);Engine.advance(strict,strict.roundEndsAt);
+ const strict=game();strict.shadow.trust=10;
+ Engine.advance(strict,strict.roundEndsAt);
  assert.equal(strict.shadow.trust,10);
  assert.equal(strict.phase,'active','at 10 must not end');
 });

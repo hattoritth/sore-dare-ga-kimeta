@@ -31,7 +31,7 @@ test('browser capture is transient, round-keyed, confirmed only for active parti
  const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
  assert.match(app,/groupPersonalVotes=new Map\(\)/);
  assert.match(app,/if\(groupVoteCityStartedAt!==s\.cityStartedAt\)\{groupVoteCityStartedAt=s\.cityStartedAt;groupPersonalVotes=new Map\(\);\}/);
- assert.match(app,/s\.phase==='active'&&s\.isParticipant&&\['human','ai'\]\.includes\(s\.myVote\)/);
- assert.match(app,/groupPersonalVotes\.set\(s\.round\+1,s\.myVote\)/);
+ assert.match(app,/s\.phase==='active'&&s\.isParticipant&&s\.hasVoted/);
+ assert.match(app,/groupPersonalVotes\.set\(s\.round\+1,s\.myOptionVote\|\|s\.myVote\)/);
  assert.doesNotMatch(app,/localStorage|sessionStorage/);
 });

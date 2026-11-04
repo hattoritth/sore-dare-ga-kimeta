@@ -94,10 +94,10 @@ export default {
     const data=await body(req),k=cookie(req);
     const {game,result}=await transaction(env.DB,(g,now)=>{
      if(!Number.isInteger(data.round)||data.round!==g.round)return {changed:false,error:'議題が変わりました。もう一度選んでください。'};
-     if(g.phase!=='active'||!['human','ai'].includes(data.choice))return {changed:false,error:'投票を受け付けられませんでした。'};
+     if(g.phase!=='active'||typeof data.choice!=='string'||data.choice.length>40)return {changed:false,error:'投票を受け付けられませんでした。'};
      const participant=k&&g.participants[k];
      if(!participant)return {changed:false,error:'投票を受け付けられませんでした。'};
-     if(g.votes[k]===data.choice)return {changed:false};
+     if((g.optionVotes?.[k]||g.votes[k])===data.choice||(['human','ai'].includes(data.choice)&&g.votes[k]===data.choice))return {changed:false};
      if(participant.lastVoteAt&&now-participant.lastVoteAt<750)return {changed:false,error:'少し待ってから選び直してください。'};
      if(!Engine.vote(g,k,data.choice,now))return {changed:false,error:'投票を受け付けられませんでした。'};
      participant.lastVoteAt=now;

@@ -603,3 +603,18 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
  .ending-flow #replayButton{grid-column:1/-1}
 }
 @media(max-width:370px){.clinic-form-actions{grid-template-columns:minmax(0,1.1fr) minmax(96px,.9fr);gap:5px}.clinic-form-actions .primary-action{font-size:12px;padding:8px}.clinic-form-actions .text-action{font-size:12px;padding:8px 4px}}
+/* v23 happiness meter and persistent official-site QR access */
+.happiness-hud{grid-template-columns:minmax(0,1fr)!important;max-width:420px;margin-inline:auto}
+.happiness-hud .stat{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+.happiness-hud .stat-label{font-size:14px;font-weight:850}.happiness-hud .stat-track{grid-column:1/-1;height:9px}.happiness-hud .stat strong{grid-column:2;grid-row:1;font-size:22px}.happiness-hud .happiness-scale{grid-column:1/-1;justify-self:end;font-size:10px;color:#557165}
+.site-qr-thumb{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 68px);z-index:30;width:48px;height:48px;min-width:44px;min-height:44px;border:2px solid #fff;border-radius:12px;background:#214e40;color:#fff;font-weight:900;box-shadow:0 2px 12px #102e2950}
+.site-qr-panel{position:fixed;inset:0;z-index:40;background:#102e29b8;display:grid;place-content:center;justify-items:center;gap:12px;padding:24px;}
+.site-qr-panel[hidden]{display:none!important}.site-qr-panel h2{margin:0;color:white}.site-qr-panel img{display:block;width:min(68vw,250px);height:auto;background:white;padding:10px;border-radius:10px}.site-qr-panel a{color:#fff;font-weight:800;text-decoration:underline}.site-qr-close{position:absolute;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));width:48px;height:48px;border:1px solid white;border-radius:50%;background:#214e40;color:white;font-size:28px}
+.display-qr{display:none!important}
+.decision-options{gap:8px;padding-top:14px}.decision{min-height:70px;padding:12px 14px;gap:5px}.decision strong{font-size:15px;line-height:1.35}.decision-tradeoff{font-size:12px;line-height:1.35}
+@media(max-width:750px){.happiness-hud{padding:7px 12px}.site-qr-thumb{right:8px;bottom:calc(env(safe-area-inset-bottom) + 58px);width:46px;height:46px}.decision{min-height:64px}}
+@media(max-width:350px){.decision strong{font-size:13px}.decision-tradeoff{font-size:11px}}
+.shell[data-view=solo] .site-qr-thumb,.shell[data-view=group] .site-qr-thumb{left:12px;right:auto;top:230px;bottom:auto}
+@media(max-width:750px){.shell[data-view=solo] .site-qr-thumb,.shell[data-view=group] .site-qr-thumb{left:8px;right:auto;top:calc(env(safe-area-inset-top) + 220px);bottom:auto}}
+
+.site-qr-thumb{padding:3px;background:#fff}.site-qr-thumb img{display:block;width:100%;height:100%;object-fit:contain}

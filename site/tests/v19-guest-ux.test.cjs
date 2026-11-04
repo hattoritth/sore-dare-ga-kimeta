@@ -33,18 +33,9 @@ test('show all routes to the reveal screen and requires a second action to save'
  assert.match(app,/endingCardTools'\)\.hidden=endingFlowStage<4/);
 });
 
-test('clinic form has a noncommitting return and keeps confirm and return together',()=>{
- assert.match(html,/id="confirmHumanClinic"/);assert.match(html,/id="cancelHumanClinic"[^>]*>選択に戻る/);
- assert.ok(app.includes("$('cancelHumanClinic').onclick=()=>{if(clinicPending!=='human'||view!=='solo')return;clinicPending=null;show('clinicChoice',false);show('decisionOptions',true);$('humanDecision').focus();}"));
- assert.match(css,/\.clinic-form-actions\{display:grid;grid-template-columns/);
- assert.match(css,/\.clinic-form-actions button\{min-height:48px/);
- assert.match(app,/if\(!soloGame\|\|soloGame\.phase!=='active'\|\|soloGame\.votes\.solo\)return/);
- const Engine=require('../engine.js');
- const game=Engine.createGame(1000,{autostart:true,storyMode:'solo'});Engine.join(game,'solo','',1000);const before={...game.public};
- assert.equal(game.votes.solo,undefined);assert.deepEqual(game.public,before);
- assert.equal(Engine.vote(game,'solo','ai',game.roundEndsAt-1),true);assert.deepEqual(game.public,before);
- assert.equal(Object.keys(game.votes).length,1);
- assert.equal(Engine.advance(game,game.roundEndsAt),true);assert.equal(game.history.length,1);
+test('solo uses direct option IDs without clinic forms or a second confirmation step',()=>{
+ assert.doesNotMatch(html,/confirmHumanClinic|cancelHumanClinic|clinicChoice|strategyChoice|clinicFollowup/);assert.doesNotMatch(app,/chooseSoloDetail|clinicResponse\(/);
+ const Engine=require('../engine.js'),g=Engine.createGame(1000,{autostart:true,storyMode:'solo'});Engine.join(g,'solo','',1000);const option=Engine.publicState(g,'solo').episode.options[0];assert.equal(Engine.vote(g,'solo',option.id,g.roundEndsAt-1),true);assert.equal(g.public.prosperity,61);assert.equal(Object.keys(g.votes).length,1);assert.equal(Engine.advance(g,g.roundEndsAt),true);assert.equal(g.history[0].winningOption,option.id);
 });
 
 test('new city and replay clear previously revealed shadow values from the DOM',()=>{
@@ -80,13 +71,9 @@ test('unjoined group preview gets neutral ticker while reveal and participant sc
  assert.match(app,/s\.alert\?'【街の異変】'/);
 });
 
-test('AI and human decisions both show the same public-only three metric preview',()=>{
- assert.match(html,/id="humanImpact"/);assert.match(html,/id="aiImpact"/);
- assert.doesNotMatch(html.match(/id="aiDecision"[\s\S]*?<\/button>/)?.[0]||'',/hidden|aria-hidden/);
- assert.match(app,/renderImpact\('humanImpact',e\.impactPreview\?\.human\)/);
- assert.match(app,/renderImpact\('aiImpact',e\.impactPreview\?\.ai\)/);
- assert.match(app,/const impactNames=\{prosperity:'にぎわい',convenience:'便利さ',appeal:'住み心地'\}/);
- assert.doesNotMatch(app.match(/function renderImpact[\s\S]*?function renderQuestion/)?.[0]||'',/trust|fairness|resilience/);
+test('live choices expose no metric deltas and reveal all six values after the ending',()=>{
+ assert.doesNotMatch(html,/humanImpact|aiImpact|impact-row|impact-chip/);assert.doesNotMatch(app,/impactPreview|renderImpact/);
+ const Engine=require('../engine.js'),g=Engine.createGame(0,{autostart:true});Engine.join(g,'p','P',0);const live=Engine.publicState(g,'p');assert.deepEqual(live.public,{happiness:71});assert.equal(live.shadow,undefined);g.phase='reveal';const result=Engine.publicState(g,'p');assert.equal(Object.keys(result.public).length+Object.keys(result.shadow).length,6);
 });
 
 test('BAD reflection names the actual prosperity outcome and limits causal claims to recorded evidence',()=>{

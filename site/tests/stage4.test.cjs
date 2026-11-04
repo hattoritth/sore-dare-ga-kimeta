@@ -21,7 +21,7 @@ test('all seven tied proposals preserve existing facilities and all metrics, wit
  for(let i=0;i<7;i++){
   E.vote(g,'a','human',g.roundStartedAt+1);E.vote(g,'b','ai',g.roundStartedAt+1);E.advance(g,g.roundEndsAt);
   assert.deepEqual(g.built,original.built,`episode ${i+1}`);assert.deepEqual(g.public,original.public);assert.deepEqual(g.shadow,original.shadow);
-  assert.equal(g.lastEvent.chosen,'mixed');assert.equal(g.lastEvent.noVotes,false);assert.equal(g.lastEvent.deferred,true);assert.match(g.lastEvent.result,/両案の実施を保留/);
+  assert.equal(g.lastEvent.chosen,'mixed');assert.equal(g.lastEvent.noVotes,false);assert.equal(g.lastEvent.deferred,true);assert.match(g.lastEvent.result,/最多票が同数のため、計画を保留/);
  }
  assert.equal(g.outcome,'undecided');assert.match(E.publicState(g).ending.heading,/決めきれなかった/);
 });

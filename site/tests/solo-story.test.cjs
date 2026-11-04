@@ -110,65 +110,20 @@ test('later solo human strategies have distinct, non-dominant tradeoffs and hidd
  for(const g of [voices,balance]){const s=Engine.publicState(g,'solo');assert.equal(s.shadow,undefined);assert.ok(!JSON.stringify(s).includes('"resilience"'));assert.match(g.history[0].result,/方針を実施した/);}
 });
 
-test('solo human preview guarantees only directions shared by every clinic detail and strategy',()=>{
- const expectedSign=deltas=>{
-  const signs=new Set(deltas.map(Math.sign));
-  return signs.size===1?(signs.has(0)?'±0':signs.has(1)?'+':'−'):'±';
- };
- for(const [round,details] of [[0,[
-  {kind:'clinic',place:'station',reason:'total'},
-  {kind:'clinic',place:'station',reason:'access'},
-  {kind:'clinic',place:'suburb',reason:'total'},
-  {kind:'clinic',place:'suburb',reason:'access'}
- ]],...[1,2,3].map(round=>[round,[{kind:'strategy',strategy:'voices'},{kind:'strategy',strategy:'balance'}]])]){
-  const g=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(g,'solo','あなた',0);g.round=round;
-  const before={...g.public};
-  const preview=Engine.publicState(g,'solo',1).episode.impactPreview.human;
-  const actual=details.map(detail=>{
-   const sim=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(sim,'solo','あなた',0);sim.round=round;
-   assert.equal(Engine.chooseSoloDetail(sim,'solo',detail),true);
-   Engine.vote(sim,'solo','human',1);Engine.advance(sim,sim.roundEndsAt);
-   return Object.keys(before).map(key=>sim.public[key]-before[key]);
-  });
-  for(const [i,key] of ['prosperity','convenience','appeal'].entries()){
-   const mark=preview[key],deltas=actual.map(row=>row[i]);
-   assert.equal(mark,expectedSign(deltas),`round ${round+1} ${key}: ${deltas}`);
-   if(mark==='+')assert.ok(deltas.every(x=>x>0));
-   if(mark==='−')assert.ok(deltas.every(x=>x<0));
-   if(mark==='±')assert.ok(deltas.some(x=>x<=0)&&deltas.some(x=>x>=0));
-  }
- }
+test('solo action IDs are agenda-scoped and include no numeric previews',()=>{
+ const sequence=[0,4,2,3];for(let round=0;round<4;round++){const g=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(g,'solo','あなた',0);g.round=round;const state=Engine.publicState(g,'solo');assert.equal(state.episode.options.length,4);assert.ok(state.episode.options.every(o=>o.id.startsWith(`e${sequence[round]}-`)));assert.equal(state.episode.impactPreview,undefined);assert.deepEqual(Object.keys(state.public),['happiness']);}
 });
 
-test('solo clinic response and strategy in-play copy hide ending-only metric names',()=>{
- const hidden=/市への信頼|公平さ|信頼|備え/;
- const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8');
- const strategy=html.match(/<section class="strategy-choice"[\s\S]*?<\/section>/)?.[0]||'';
- assert.ok(strategy);assert.doesNotMatch(strategy,hidden);
- for(const response of ['review','support','revise']){
-  const g=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(g,'solo','あなた',0);
-  Engine.chooseSoloDetail(g,'solo',{kind:'clinic',place:'station',reason:'total'});
-  Engine.vote(g,'solo','human',1);Engine.advance(g,g.roundEndsAt);
-  assert.ok(Engine.clinicResponse(g,'solo',response,2));
-  const state=Engine.publicState(g,'solo',3);
-  assert.doesNotMatch(state.lastEvent.result,hidden,response);
-  assert.doesNotMatch(state.history[0].result,hidden,response);
- }
- const ending=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(ending,'solo','あなた',0);
- ending.phase='reveal';ending.shadow.trust=0;ending.outcome='collapse';
- assert.match(JSON.stringify(Engine.publicState(ending,'solo',1)),/信頼/);
+test('old clinic and strategy forms are removed while ending-only values remain available',()=>{
+ const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'../public/index.html'),'utf8'),Engine=require('../engine.js');
+ assert.doesNotMatch(html,/clinicFollowup|clinicChoice|clinicResponse|strategyChoice|data-strategy/);
+ const g=Engine.createGame(0,{autostart:true,storyMode:'solo'});Engine.join(g,'p','P',0);const active=Engine.publicState(g,'p');assert.deepEqual(active.public,{happiness:71});assert.equal(active.shadow,undefined);
+ g.phase='reveal';const ending=Engine.publicState(g,'p');assert.deepEqual(Object.keys(ending.shadow).sort(),['fairness','resilience','trust']);
 });
 
-test('shared human and AI forecast retains the exact existing categorical values',()=>{
- const impactMark=delta=>delta===0?'±0':(delta>0?'+':'−').repeat(Math.abs(delta)>=12?3:Math.abs(delta)>=5?2:1);
- const g=Engine.createGame(0,{autostart:true});Engine.join(g,'p','参加者',0);
- const state=Engine.publicState(g,'p',1),expected={};
- for(const choice of ['human','ai']){
-  const sim=Engine.createGame(0,{autostart:true});Engine.join(sim,'p','参加者',0);
-  sim.votes={forecast:choice};sim.roundEndsAt=g.roundEndsAt;Engine.advance(sim,sim.roundEndsAt);
-  expected[choice]=Object.fromEntries(['prosperity','convenience','appeal'].map(key=>[key,impactMark(sim.public[key]-g.public[key])]));
- }
- assert.deepEqual(state.episode.impactPreview,expected);
+test('shared state offers four concrete choices and exposes only aggregate happiness',()=>{
+ const g=Engine.createGame(0,{autostart:true});Engine.join(g,'p','参加者',0);const state=Engine.publicState(g,'p',1);
+ assert.equal(state.episode.options.length,4);assert.equal(state.episode.options.filter(x=>x.id.endsWith('-ai')).length,1);assert.equal(state.episode.impactPreview,undefined);assert.deepEqual(state.public,{happiness:71});
 });
 
 test('round one waits for the human clinic response before reveal and then checks ending thresholds',()=>{
