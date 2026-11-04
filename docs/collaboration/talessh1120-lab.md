@@ -5,12 +5,18 @@
 ## 初回セットアップ（作業する本人のPCで）
 1. GitHubからの共同編集招待を承諾する。
 2. 未取得なら `git clone https://github.com/hattoritth/sore-dare-ga-kimeta.git` する。
-3. リポジトリで次を実行する。
+3. **PR #25 がまだmainにマージされていない場合**、以下の専用bootstrapブランチ経由で準備する。
 
 ```sh
 cd sore-dare-ga-kimeta
-bash scripts/setup-talessh1120-lab-worktree.sh first-change
+git fetch origin
+git switch -c local-collab-setup --track origin/collab/talessh1120-lab/bootstrap
+COLLAB_BASE_REF=origin/collab/talessh1120-lab/bootstrap bash scripts/setup-talessh1120-lab-worktree.sh first-change
 ```
+
+PR #25 がmainにマージされた後は、通常の `main` チェックアウトから
+`bash scripts/setup-talessh1120-lab-worktree.sh first-change` を実行してもよい
+（ただしゲーム改修時の基点ブランチは事前に確認）。
 
 リポジトリの**隣**に `sore-dare-ga-kimeta-talessh1120-lab/` が作られ、そこで `collab/talessh1120-lab/first-change` ブランチが有効になる。フォルダは各PCのローカルにあり、GitHubにフォルダ自体は同期されない。
 
