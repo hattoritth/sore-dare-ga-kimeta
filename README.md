@@ -10,6 +10,13 @@ AIに任せるうちに、誰が決めたのかわからなくなる未来を、
 - `site/tests/` と `site/scripts/` — 動作テスト・ビルド検証
 - `site/vendor/LICENSE-notice.txt` — QRコードライブラリのライセンス情報
 
+## 共同編集：talessh1120-lab
+
+作業の衝突を防ぐため開発者ごとに独立したGit worktreeとブランチを使用します。
+初回は `bash scripts/setup-talessh1120-lab-worktree.sh first-change`。
+Codex / Claude Codeの起動とPR運用は [共同編集ガイド](docs/collaboration/talessh1120-lab.md) を参照してください。
+共通のAI指示は `AGENTS.md`、Claude Code用の入口は `CLAUDE.md` です。
+
 ## ローカル実行と検証
 Node.js 20以降を使用。
 
@@ -23,7 +30,7 @@ npm test
 ローカルサーバーで確認する場合は `cd site && node server.mjs`。ローカルサーバーの状態は本番D1とは別です。
 
 ## 重要：権限・公開境界
-- このリポジトリは **Private**。会社環境での利用範囲や共有・素材の権利は、所属組織のルールを確認してください。
+- このリポジトリは現在 **Public**（2026-11-04にGitHubで確認）。会社環境での利用範囲や共有・素材の権利は、所属組織のルールを確認してください。
 - GitHub Pages・外部共有・本番デプロイ・会社側のD1構築は、個別の承認なしに行わないでください。
 - APIキー・Cookie・実際のプレイヤーデータ・社内機密・個人情報をコミットしないでください。
 - 個人GitHub側の履歴を直接ミラーせず、展示用の確認済みソースを初期登録しています。
