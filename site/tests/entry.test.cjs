@@ -121,7 +121,8 @@ test('offline mode keeps group choice visible and routes to published online pla
  const app=fs.readFileSync(path.join(dir,'app.js'),'utf8');
  assert.match(html,/id="openShared"/);
  assert.match(html,/id="standaloneGroupNote" hidden/);
- assert.match(html,/最新改修は未反映/);
+ assert.match(html,/みんなで遊ぶと公開サイトが開きます。/);
+ assert.doesNotMatch(html,/最新改修は未反映/);
  assert.doesNotMatch(app,/show\('openShared',false\)/);
  assert.match(app,/show\('standaloneGroupNote',true\)/);
  assert.match(app,/location\.protocol==='file:'\?window\.location\.assign\('https:\/\/machi-no-tsuzuki-20261031\.tthkpba\.chatgpt\.site\/\?mode=group'\)/);
