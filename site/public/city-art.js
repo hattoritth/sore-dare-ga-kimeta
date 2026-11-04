@@ -720,33 +720,6 @@ class F5Primitives {
       this.rect(x-9,y-20,4,4,'#3d4754');this.rect(x+5,y-20,4,4,'#3d4754');
       this.rect(x-9,y+4,6,5,'#526976');this.rect(x+3,y+4,6,5,'#526976');
     }
-    drawAgent(x,y,agent,focus,slot,selected) {
-      const t=this.time, bob=focus>0?Math.sin(t*5+slot*2)*1.5:0,xx=Math.round(x),yy=Math.round(y+bob);
-      if(selected){
-        this.ellipse(xx,yy+13,28+2*Math.sin(t*4),12,'rgba(65,196,218,.21)');
-        this.ellipse(xx,yy+13,21,8,'rgba(26,129,179,.21)');
-      }
-      this.ellipse(xx,yy+13,18,6,'rgba(66,65,64,.20)');
-      if(focus===0){
-        this.ellipse(xx-13,yy-39,8,6,'#f4e9d7');
-        this.text('Z',xx-13,yy-39,10,'#78a1a5','center','800');
-      }
-      const h=agent.hair||'#4d779b';
-      this.rect(xx-10,yy-12,9,23,'#415e72');this.rect(xx+1,yy-12,9,23,'#415e72');
-      this.rect(xx-12,yy-34,25,26,agent.skin||'#f4c5a4');
-      this.rect(xx-16,yy-39,30,12,h);this.rect(xx-15,yy-27,5,12,h);
-      this.rect(xx+9,yy-28,5,8,h);
-      this.rect(xx-8,yy-24,4,4,'#354357');this.rect(xx+4,yy-24,4,4,'#354357');
-      this.rect(xx-10,yy-8,21,17,agent.color);
-      this.rect(xx-16,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx+10,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx-9,yy+8,8,7,'#3f5067');this.rect(xx+2,yy+8,8,7,'#3f5067');
-      if(focus>0){
-        const period=1.2+slot*.2;
-        const spark=Math.sin(t*2*Math.PI/period+slot);
-        if(spark>.6){this.rect(xx+18,yy-42,5,5,'#f4f1b2');this.rect(xx+25,yy-49,3,3,'#fff9d4');}
-      }
-    }
     drawRobot(x,y) {
       this.ellipse(x,y+7,16,6,'rgba(13,74,87,.25)');
       this.rect(x-15,y-23,30,27,'#e4ece5');
@@ -765,7 +738,7 @@ class F5Primitives {
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  class TownScene extends F5Primitives {
   constructor(canvas,model){
-   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;
+   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;this.decisionHighlight=null;
    this.W=2900;this.H=1600;this.scale=1;this.ox=0;this.oy=0;this.dpr=1;this.running=true;this.mobile=false;this.lastLayout='';this.zoom=1;this.zoomTarget=1;this.panX=0;this.panY=0;this.selectedAgentId=null;
    this.sites=root.F5City.SITES;
    this.roadsI=[-7,1,8,11,16,22,28,35];this.roadsJ=[-6,1,8,15,20];
@@ -1502,7 +1475,7 @@ class F5Primitives {
    const m=this.model,entities=[],add=(p,draw)=>entities.push({depth:p.depth??p.i+p.j,draw});
    const walks=this.walkPaths;
    // A busier residential and learning district brings more pedestrians.
-   const people=42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
+   const people=m.crisisVisual==='departure'?10:42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
    for(let k=0;k<people;k++){
     const p=this.atPath(walks[(k*7+Math.floor(k/7))%walks.length],this.walkerPhases[k]??((this.time*.018+k*.129)%1));
     add(p,()=>this.person(p.x,p.y,k));
@@ -1558,39 +1531,73 @@ class F5Primitives {
    this.coastObjects(add);
    // Editable sites are depth-sorted tree-by-tree and building-by-building.
    for(const site of m.sites)this.addSiteObjects(site,add);
-   root.F5City.AGENTS.forEach((a,k)=>{
-    const working=this.agentWork(a.id),p=this.agentPoint(a.id);
-    if(!p)return;
-    const selected=this.selectedAgentId===a.id;
-    add(p,()=>{
-     this.ctx.save();
-     if(selected){this.ellipse(p.x,p.y+6,35,15,'rgba(250,244,206,.90)');this.ellipse(p.x,p.y+6,27,10,'rgba(50,127,110,.48)');}
-     this.ctx.translate(p.x,p.y);this.ctx.scale(.64,.64);
-     this.drawAgent(0,0,a,80,k,selected||!!working);
-     this.ctx.restore();
-     if(selected){this.round(p.x-36,p.y-86,72,25,8,'#fffdf4','#80a38c');this.text(a.name,p.x,p.y-73,15,'#204f44','center','800');}
-    });
-   });
    return entities;
   }
   render(dt=0){
-   if(!this.reduced&&!this.model.paused)this.time+=dt;
-   this.advanceActors(dt);
+   if(!this.reduced&&!this.model.paused&&this.model.crisisVisual!=='transit')this.time+=dt;
+   this.advanceActors(this.model.crisisVisual==='transit'?0:dt);
    if(this.reduced){this.zoom=this.zoomTarget;}else if(Math.abs(this.zoomTarget-this.zoom)>.001){this.zoom+= (this.zoomTarget-this.zoom)*Math.min(1,dt*8);}
    else this.zoom=this.zoomTarget;this.layout();const c=this.ctx,r=this.canvas.getBoundingClientRect();
    c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#e4e9dd';c.fillRect(0,0,r.width,r.height);
-   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();
+   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();this.drawDecisionHighlight();
+  }
+  setDecisionHighlight(id,label){const site=this.model.site(id);if(!site)return false;this.decisionHighlight={id,label,startedAt:performance.now()};return true;}
+  clearDecisionHighlight(){this.decisionHighlight=null;}
+  drawDecisionHighlight(){
+   const beat=this.decisionHighlight;if(!beat)return;
+   const site=this.model.site(beat.id);if(!site){this.decisionHighlight=null;return;}
+   const elapsed=performance.now()-beat.startedAt;if(!this.reduced&&elapsed>850){this.decisionHighlight=null;return;}
+   // Convert the iso-space district center to the *viewport* before drawing.
+   // Canvas world scale can be ~0.2 on iPhone: world-space text would become unreadable.
+   const p=this.project([site.cell[0]+site.w*.52,site.cell[1]+site.d*.55],0,-16);
+   const c=this.ctx,r=this.canvas.getBoundingClientRect(),t=this.reduced?1:Math.min(1,elapsed/850);
+   const ease=1-Math.pow(1-t,3),radius=this.reduced?37:24+ease*30,alpha=this.reduced?.82:1-t*.6;
+   c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=alpha;
+   c.strokeStyle='#fff5b8';c.lineWidth=4;c.beginPath();c.ellipse(p.x,p.y,radius,radius*.52,0,0,Math.PI*2);c.stroke();
+   c.strokeStyle='#257657';c.lineWidth=2.5;c.beginPath();c.ellipse(p.x,p.y,radius+8,(radius+8)*.52,0,0,Math.PI*2);c.stroke();
+   if(!this.reduced&&elapsed<650){
+    for(let k=0;k<5;k++){const a=k*Math.PI*2/5+Math.PI/5,dist=radius+16;
+     c.fillStyle=k%2?'#fff5b8':'#8fcda1';c.beginPath();c.arc(p.x+Math.cos(a)*dist,p.y+Math.sin(a)*dist*.54,3.5,0,Math.PI*2);c.fill();}
+   }
+   if(elapsed<650||this.reduced){
+    const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';
+    const w=c.measureText(label).width+24,h=30;
+    const x=Math.max(8,Math.min(r.width-w-8,p.x-w/2)),y=Math.max(45,Math.min(r.height-h-8,p.y-79));
+    c.fillStyle='rgba(255,253,239,.97)';c.beginPath();c.roundRect(x,y,w,h,8);c.fill();
+    c.strokeStyle='#2f7454';c.lineWidth=1.5;c.stroke();
+    c.fillStyle='#245642';c.textAlign='center';c.textBaseline='middle';c.fillText(label,x+w/2,y+h/2);
+   }
+   c.restore();
   }
   drawServices(){
    const m=this.model,c=this.ctx,spot=this.iso(25,10);
    // Operational trouble is derived from completed decisions, not random decoration.
    if(m.serviceState==='rain'){
-    for(let k=0;k<5;k++){const p=this.iso(22.5+k*1.1,9+(k%2)*1.5);this.ellipse(p.x,p.y+6,20,8,'rgba(62,147,174,.5)');}
-    this.round(spot.x-37,spot.y-49,74,25,5,'#fff4df');this.text('路面に水',spot.x,spot.y-36,15,'#7b5a31','center');
+    // Broad inundation follows the coastal roads; static water keeps reduced-motion readable.
+    for(const corners of [[[2,14],[31,14],[31,20],[2,20]],[[19,6],[32,6],[32,20],[19,20]]]){
+     this.poly(corners.map(p=>this.pt(p)),'rgba(46,136,173,.52)','#4b9ab5',2);
+    }
+    for(let k=0;k<18;k++){const p=this.iso(3+k*1.6,15+(k%3));this.line(p.x-20,p.y,p.x+20,p.y,'rgba(222,247,255,.72)',3);}
+    for(const cell of [[8,15],[22,10],[28,15]]){const p=this.iso(...cell);this.round(p.x-58,p.y-35,116,30,5,'#fff1df','#a14c3f');this.text('浸水・通行止め',p.x,p.y-19,14,'#8b352c','center','800');}
+    for(let k=0;k<34;k++){const x=450+(k*103)%1850,y=210+(k*79)%780;this.line(x,y,x-10,y+25,'rgba(72,118,151,.55)',2);}
    }
    if(m.serviceState==='demand'){
     for(const s of m.sites.filter(x=>x.current==='dc')){const p=this.iso(s.cell[0]+s.w*.5,s.cell[1]+s.d*.5);this.round(p.x-24,p.y-99,48,23,5,'#fff0d7');this.text('節電',p.x,p.y-87,14,'#825b2d','center');}
    }
+   if(m.crisisVisual==='transit')for(const cell of [[1,15],[16,8],[28,15]]){const p=this.iso(...cell);this.round(p.x-45,p.y-24,90,24,4,'#fff1dd','#a34d3a');this.text('交通停止',p.x,p.y-11,14,'#8b352c','center','800');this.line(p.x-34,p.y+5,p.x+34,p.y+5,'#b24c3c',6);}
+   if(m.crisisVisual==='economy')for(const cell of [[22,7],[28,7],[24,12]]){const p=this.iso(...cell);this.round(p.x-35,p.y-58,70,27,4,'#e2dfd7','#84796e');this.text('休業',p.x,p.y-44,15,'#65584c','center','800');}
+   if(m.crisisVisual==='departure'){const p=this.iso(13,12);this.round(p.x-70,p.y-40,140,29,5,'#f5eddf','#9b8061');this.text('人通りが途切れた',p.x,p.y-24,15,'#795c43','center','800');}
+   if(m.crisisVisual==='divide'){
+    const west=this.iso(8,10),east=this.iso(23,10);
+    this.round(west.x-86,west.y-67,172,28,5,'#fff3d6','#ad7f4a');
+    this.text('施設が充実した地区',west.x,west.y-49,13,'#795b32','center','800');
+    this.round(east.x-85,east.y-66,170,28,5,'#e2e4e2','#7a8184');
+    this.text('取り残された地区',east.x,east.y-48,13,'#62676b','center','800');
+    const divider=this.iso(15.5,10);
+    this.line(divider.x-12,divider.y-70,divider.x+12,divider.y+55,'#bb7452',7);
+   }
+   if(m.crisisVisual==='protest')for(let k=0;k<7;k++){const p=this.iso(13+k*.7,9);this.person(p.x,p.y,k,false);this.line(p.x+6,p.y-8,p.x+6,p.y-40,'#796147',2);this.round(p.x-20,p.y-54,54,22,3,'#fff6da','#936d49');this.text('説明を',p.x+6,p.y-42,12,'#794d32','center','800');}
+   if(m.finalWarning){const p=this.iso(m.warningVisual==='flood'?25:13,m.warningVisual==='flood'?12:9);this.ellipse(p.x,p.y+6,90,28,'rgba(211,156,58,.30)');this.round(p.x-75,p.y-70,150,30,5,'#fff3d6','#b1853c');this.text('残った課題を点検中',p.x,p.y-54,15,'#785321','center','800');}
    if(m.shadePrepared){const p=this.iso(8.3,12.2);for(let k=0;k<3;k++){const x=p.x+k*32;this.line(x,p.y-30,x,p.y+2,'#806d52',3);this.poly([[x-23,p.y-30],[x,p.y-43],[x+23,p.y-30]],'#d8cbb0');}}
 
   }

@@ -1,0 +1,80 @@
+;(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EndingCard=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const scenes={
+  prosperity:{label:'にぎわいが消えた街',sky:'#edc8a7',ground:'#b77d61',detail:'<g fill="#554f4a"><path d="M91 174h85v72H91zM106 190h19v33h-19zM143 190h20v9h-20z"/><path d="M105 170h55v8h-55z"/><path d="M115 182h8v5h-8zm15 0h8v5h-8zm15 0h8v5h-8z"/></g><path d="M92 184h82" stroke="#e8c79b" stroke-width="3"/><path d="M118 247h28" stroke="#393c3a" stroke-width="4"/>'},
+  convenience:{label:'便利さが失われた街',sky:'#c4d6cf',ground:'#91a89a',detail:'<path d="M48 241h246" stroke="#4b5f58" stroke-width="10"/><path d="M63 250h33m20 0h33m20 0h33m20 0h33" stroke="#f6e3a9" stroke-width="3"/><path d="M143 225h91l-9-26h-66z" fill="#ac5d4b"/><path d="M156 201h53v17h-53z" fill="#f2d9b5"/><path d="M176 201v17m18-17v17" stroke="#9d7263" stroke-width="3"/><path d="M236 225l19-17m-18 0 18 17" stroke="#853f36" stroke-width="5"/>'},
+  appeal:{label:'住み心地が失われた街',sky:'#cbdad2',ground:'#8b9b89',detail:'<path d="M103 241h126v-34H103z" fill="#a98255"/><path d="M93 207h146l-18-18H111z" fill="#b99d70"/><path d="M151 189v-30h28v30" fill="#967651"/><path d="M165 158c-12-15 8-21 0-33 22 14 17 26 0 33" fill="#a95e48"/><path d="M112 237l-12-19m122 19 13-19" stroke="#555a4c" stroke-width="4"/><path d="M84 243h165" stroke="#4a5b4b" stroke-width="4"/>'},
+  trust:{label:'市への信頼が失われた街',sky:'#d4c7bd',ground:'#a7a18f',detail:'<path d="M126 174h106v74H126z" fill="#d9c39c"/><path d="M116 174h126l-63-31z" fill="#9a7356"/><path d="M141 184h76v9h-76zm0 15h76v9h-76z" fill="#786f62"/><path d="M100 218h20m-15-7-8 8 8 8m165-9h-20m15-8 8 8-8 8" stroke="#9c4d40" stroke-width="4"/><circle cx="81" cy="218" r="7" fill="#354f49"/><circle cx="260" cy="218" r="7" fill="#354f49"/><path d="M80 226v20m-7-12 7 6 8-6m174-8v20m-7-12 7 6 8-6" stroke="#354f49" stroke-width="3"/>'},
+  fairness:{label:'公平さが失われた街',sky:'#d1d9d0',ground:'#9caa99',detail:'<path d="M174 154v94" stroke="#635a50" stroke-width="4"/><path d="M173 171l-38 13m39-13 41-13" stroke="#635a50" stroke-width="3"/><path d="M112 184h48l-7 19h-34z" fill="#ceaa6f"/><path d="M190 158h50l-7 20h-35z" fill="#71947a"/><path d="M61 248v-33h43v33z" fill="#85745f"/><path d="M65 221h12v27H65z" fill="#d1b18a"/><path d="M226 248v-58h70v58z" fill="#b89469"/><path d="M236 201h18v20h-18z" fill="#f2d8a2"/><path d="M268 200h17v7h-17z" fill="#f2d8a2"/><path d="M134 221h12" stroke="#805b4b" stroke-width="4"/>'},
+  resilience:{label:'未来への備えを失った街',sky:'#8fb7c2',ground:'#769a9b',detail:'<path d="M43 224q25-16 49 0t50 0 50 0 50 0 50 0 50 0v37H43z" fill="#428da0"/><path d="M120 193h95v-42h-95z" fill="#c4aa83"/><path d="M111 151h113l-56-30z" fill="#896d56"/><path d="M158 166l-13 12 12 9-14 13" fill="none" stroke="#684c42" stroke-width="5"/><path d="M77 215l7 12m23-12 6 12m128-13 8 12m21-11 6 12" stroke="#e4d7ae" stroke-width="3"/><path d="M52 238q12-8 24 0m190 0q12-8 24 0" fill="none" stroke="#d8edf0" stroke-width="3"/>'},
+  stable:{label:'健やかに続く街',sky:'#b5d7d4',ground:'#95b887',detail:'<path d="M86 243h58v-54H86z" fill="#d5b684"/><path d="M77 189h76l-38-26z" fill="#a26e55"/><path d="M168 243h66v-74h-66z" fill="#d3bd92"/><path d="M159 169h84l-42-30z" fill="#8d725a"/><path d="M95 202h17v18H95zm39 0h-17v18h17zm47-16h18v18h-18zm37 0h-18v18h18z" fill="#f3e3ba"/><path d="M53 243q0-20 15-20t15 20m152 0q0-26 18-26t18 26" fill="#49805c"/><path d="M62 224v-24m165 17v-35" stroke="#715b45" stroke-width="5"/><path d="M267 243v-36m-13 12 13-13 14 13" stroke="#4d8060" stroke-width="5" fill="none"/><path d="M120 248h53" stroke="#e8dfbe" stroke-width="5"/>'},
+  neutral:{label:'課題の残る街',sky:'#d5d8cf',ground:'#aeb49f',detail:'<path d="M102 243h79v-58h-79z" fill="#c8b38d"/><path d="M95 185h93l-46-29z" fill="#967a5d"/><path d="M200 243h50v-43h-50z" fill="#c2aa82"/><path d="M194 200h63l-32-21z" fill="#8e745c"/><path d="M117 204h14v16h-14zm34 0h14v16h-14z" fill="#ede0bb"/><path d="M66 243q0-18 14-18t14 18m180 0q0-18 14-18t14 18" fill="#788a67"/><path d="M54 247h256" stroke="#777a68" stroke-width="4"/><path d="M249 160l9 12 15-3-8 13 8 12-15-4-9 12-1-15-14-7 14-5z" fill="#d6a451"/>'}
+ };
+ scenes.true={...scenes.stable,label:'TRUE END · 役割と備えを確かめた街'};
+ const metricKeys=['prosperity','convenience','appeal','trust','fairness','resilience'];
+ const labels=['にぎわい','便利さ','住み心地','市への信頼','公平さ','未来への備え'];
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const clamp=n=>Math.max(0,Math.min(100,Number.isFinite(Number(n))?Number(n):0));
+ function sceneSvg(metricOrStable='stable'){
+  const scene=scenes[scenes[metricOrStable]?metricOrStable:'neutral'];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="${scene.label}"><rect width="360" height="280" fill="${scene.sky}"/><circle cx="292" cy="48" r="23" fill="#f2dbab" opacity=".9"/><path d="M0 194 52 154l42 32 47-54 47 43 45-61 52 49 36-32 39 35v90H0z" fill="#92aa9a" opacity=".55"/><path d="M0 237h360v43H0z" fill="${scene.ground}"/><g stroke="#6d6a58" stroke-width="2"><path d="M28 237v-69h48v69zM22 168h60l-30-24zM257 237v-86h54v86zM250 151h68l-34-28z" fill="#d1b68b"/><path d="M39 184h10v12H39zm18 0h10v12H57zm-18 22h10v12H39zm18 0h10v12H57zm210-4h11v14h-11zm19 0h11v14h-11zm-19 24h11v11h-11zm19 0h11v11h-11z" fill="#f4e5bd"/></g><path d="M0 247h360" stroke="#eee1bf" stroke-width="3"/>${scene.detail}<g fill="#455e4e"><circle cx="22" cy="234" r="9"/><circle cx="339" cy="233" r="11"/></g><path d="M22 243v21m317-21v21" stroke="#705741" stroke-width="5"/></svg>`;
+ }
+ function validSceneImage(value){return typeof value==='string'&&value.length<12000000&&/^data:image\/png;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value)?value:null;}
+ function createSceneSnapshotCache(){let city=null,image='';return {get(cityStartedAt,canvas){if(city!==cityStartedAt){city=cityStartedAt;image='';try{if(canvas?.width>0&&canvas?.height>0)image=validSceneImage(canvas.toDataURL('image/png'))||'';}catch(_){image='';}}return image;},clear(){city=null;image='';}};}
+ function sceneVisual(data={},className='ending-scene-visual'){
+  const key=scenes[sceneFor(data)]?sceneFor(data):'neutral',label=data.endingLabel||scenes[key].label,image=validSceneImage(data.sceneImage);
+  const theme=({prosperity:'prosperity',convenience:'convenience',appeal:'appeal',trust:'trust',fairness:'fairness',resilience:'resilience',stable:'neutral',true:'success',neutral:data.kind==='warning'?'caution':'neutral'})[key]||'neutral';
+  // Preserve the ending-specific styling even when the canvas cannot be captured.
+  // The nested SVG has no accessible title; the wrapper describes only the scene.
+  const picture=image?`<img src="${image}" alt="" decoding="async">`:sceneSvg(key).replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"');
+  return `<div class="${className}" data-theme="${theme}" role="img" aria-label="判断後の街の風景">${picture}<span aria-hidden="true"></span></div>`;
+ }
+ function radarFigure(vals){return `<figure class="ending-preview-radar" aria-label="6つの指標"><figcaption>6つの指標</figcaption>${radarSvg(vals)}</figure>`;}
+ function radarSvg(values){
+  const cx=200,cy=148,r=66,angles=metricKeys.map((_,i)=>-Math.PI/2+i*Math.PI/3),point=(v,i)=>[cx+Math.cos(angles[i])*r*v/100,cy+Math.sin(angles[i])*r*v/100],grid=[20,40,60,80,100].map(n=>`<polygon points="${angles.map((_,i)=>point(n,i).join(',')).join(' ')}" fill="none" stroke="#d1d9cc" stroke-width="1"/>`).join('');
+  const axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*r}" y2="${cy+Math.sin(a)*r}" stroke="#aab9a9"/>`).join('');
+  const pts=values.map((v,i)=>point(clamp(v),i)),poly=pts.map(p=>p.join(',')).join(' ');
+  const texts=labels.map((label,i)=>{const a=angles[i],[x,y]=[cx+Math.cos(a)*116,cy+Math.sin(a)*116];const anchor=Math.cos(a)<-.25?'end':Math.cos(a)>.25?'start':'middle';const words=[label,`${Math.round(clamp(values[i]))}`];return `<text x="${x}" y="${y-7}" text-anchor="${anchor}" dominant-baseline="middle" class="axis"><tspan x="${x}" dy="0">${words[0]}</tspan><tspan x="${x}" dy="15">${words[1]}</tspan></text>`;}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 296" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
+ }
+
+ function wrapText(value,maxChars,maxLines){
+  const chars=Array.from(String(value||'')),lines=[];
+  while(chars.length&&lines.length<maxLines)lines.push(chars.splice(0,maxChars).join(''));
+  if(chars.length&&lines.length)lines[lines.length-1]=Array.from(lines[lines.length-1]).slice(0,Math.max(1,maxChars-1)).join('')+'…';
+  return lines.length?lines:[''];
+ }
+ function svgLines(value,x,y,className,maxChars,maxLines,lineHeight){
+  return wrapText(value,maxChars,maxLines).map((line,i)=>`<text x="${x}" y="${y+i*lineHeight}" class="${className}">${esc(line)}</text>`).join('');
+ }
+ function valuesFor(data){return metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));}
+ function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='true'?'true':data.kind==='stable'?'stable':'neutral');}
+ function buildPreview(data={}){
+  const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');
+  return `<article class="ending-preview-card"><header><span class="ending-preview-eyebrow">街の記録</span><h3>${esc(heading)}</h3><p>${esc(desc)}</p></header><div class="ending-preview-layout"><figure class="ending-preview-scene">${sceneVisual(data)}<figcaption>${esc(data.endingLabel||scene.label)}</figcaption></figure><section class="ending-preview-metrics" aria-label="街の最終指標">${radarFigure(vals)}<h4>街に残った6つの状態</h4><ul>${rows}</ul></section></div></article>`;
+ }
+ function buildSvg(data={}){
+  const vals=valuesFor(data),sceneKey=sceneFor(data),scene=scenes[scenes[sceneKey]?sceneKey:'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const image=validSceneImage(data.sceneImage);
+  // Result cards distinguish accountable TRUE, ordinary survival, an unresolved
+  // decision, and warning. Crisis colors remain linked to their actual metric.
+  const themeColor=({resilience:'#4c8ca0',trust:'#9a6455',fairness:'#92745c',prosperity:'#686257',convenience:'#b87352',appeal:'#82916a'})[sceneKey]
+    ||({true:'#e5b54b',stable:'#7ea995',warning:'#cd9a48',undecided:'#9ba7a0'})[data.kind]||'#9ba7a0';
+  const themeOpacity=({true:'.12',stable:'.08',warning:'.15',undecided:'.06',collapse:'.16'})[data.kind]||'.08';
+  const sceneMarkup=image?`<defs><clipPath id="ending-city-clip"><rect x="96" y="416" width="390" height="310" rx="14"/></clipPath></defs><image href="${image}" x="96" y="416" width="390" height="310" preserveAspectRatio="xMidYMid slice" clip-path="url(#ending-city-clip)"/><rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}" clip-path="url(#ending-city-clip)"/>`:
+   sceneSvg(sceneKey).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scene.label+'">','<g transform="translate(100 420) scale(1.04 1.04)">').replace('</svg>','</g>')
+   +`<rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}"/>`;
+  const chart=radarSvg(vals).replace(/<svg[^>]*>/,'<g transform="translate(500 410) scale(.9)">').replace('</svg>','</g>');
+  const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:14px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6指標 · 最終値 / 100</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="768" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,824,'desc',32,3,36)}${chart}${valueRows}<text x="100" y="1004" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
+ }
+ function renderCard(context,canvas){
+  if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
+  // Sites permits data: images but blocks blob: in its img-src policy. buildSvg
+  // contains fixed markup, escaped text, and strictly validated PNG data.
+  const source=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildSvg(context))}`;
+  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);}catch(error){reject(error);}};img.onerror=()=>reject(new Error('結果カードをPNG画像に変換できませんでした。'));img.src=source;});
+ }
+ return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
+});

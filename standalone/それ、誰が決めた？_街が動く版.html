@@ -54,7 +54,7 @@
 .prologue-actions{margin-top:18px}
 
 /* Cinematic city stage */
-.shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{grid-template-columns:1fr}.shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{grid-column:1}.shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:absolute;z-index:5;left:clamp(20px,4vw,60px);right:clamp(20px,4vw,60px);bottom:25px;min-height:0;display:flex}.shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:1100px;margin:auto;min-height:0}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr);grid-template-rows:auto 1fr auto;column-gap:25px;padding:20px 24px;background:linear-gradient(125deg,rgba(255,253,242,.98),rgba(240,247,232,.97));border:1px solid #c8d8c5;box-shadow:0 15px 46px #183a3260;backdrop-filter:blur(8px)}.question-panel .question-head{grid-column:1/-1}.question-panel .conversation{grid-column:1;grid-row:2/4;flex-direction:row;gap:18px;align-items:flex-end;margin-top:10px}.question-panel .conversation-copy{align-self:center}.question-panel .agent-portrait{width:150px;height:180px;border:0;border-radius:60px 60px 12px 12px;background:none;overflow:hidden;animation:agent-enter .48s ease-out both}.agent-portrait svg{display:block;width:100%;height:100%;object-fit:cover}.agent-portrait .mouth-warm{display:none}.agent-portrait[data-mood=warm] .mouth-neutral{display:none}.agent-portrait[data-mood=warm] .mouth-warm{display:block}.question-panel .decision-options{grid-column:2;grid-row:2;align-self:end;margin:0;padding:0}.question-panel .vote-feedback,.question-panel .community-status{grid-column:2}.question-panel .community-status{margin-top:4px;padding-top:6px}.question-panel .decision{min-height:62px;padding-top:9px;padding-bottom:9px}.skyline::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(circle at 26% 25%,#fffce67a 0 2px,transparent 4px),radial-gradient(circle at 75% 18%,#fff8d985 0 3px,transparent 5px),radial-gradient(circle at 60% 45%,#ffffff60 0 2px,transparent 4px);animation:city-glow 9s ease-in-out infinite alternate}.shell[data-view=home] .skyline canvas{animation:city-camera 30s ease-in-out infinite alternate;transform-origin:50% 50%}.prologue-text{animation:story-enter .7s ease-out both}.stat-changed{animation:stat-rise .7s ease-out}.city-ticker{transition:opacity .3s,transform .3s}.conversation-copy{animation:story-enter .5s ease-out both}@keyframes city-camera{from{transform:scale(1)}to{transform:scale(1.065) translate(-.6%,.5%)}}@keyframes city-glow{from{opacity:.35;transform:translateY(0)}to{opacity:.85;transform:translateY(-12px)}}@keyframes agent-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes story-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes stat-rise{40%{color:#bd814e;transform:translateY(-3px)}}
+.shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:1100px;margin:auto;min-height:0}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr);grid-template-rows:auto 1fr auto;column-gap:25px;padding:20px 24px;background:linear-gradient(125deg,rgba(255,253,242,.98),rgba(240,247,232,.97));border:1px solid #c8d8c5;box-shadow:0 15px 46px #183a3260;backdrop-filter:blur(8px)}.question-panel .question-head{grid-column:1/-1}.question-panel .conversation{grid-column:1;grid-row:2/4;flex-direction:row;gap:18px;align-items:flex-end;margin-top:10px}.question-panel .conversation-copy{align-self:center}.question-panel .agent-portrait{width:150px;height:180px;border:0;border-radius:60px 60px 12px 12px;background:none;overflow:hidden;animation:agent-enter .48s ease-out both}.agent-portrait svg{display:block;width:100%;height:100%;object-fit:cover}.agent-portrait .mouth-warm{display:none}.agent-portrait[data-mood=warm] .mouth-neutral{display:none}.agent-portrait[data-mood=warm] .mouth-warm{display:block}.question-panel .decision-options{grid-column:2;grid-row:2;align-self:end;margin:0;padding:0}.question-panel .vote-feedback,.question-panel .community-status{grid-column:2}.question-panel .community-status{margin-top:4px;padding-top:6px}.question-panel .decision{min-height:62px;padding-top:9px;padding-bottom:9px}.skyline::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(circle at 26% 25%,#fffce67a 0 2px,transparent 4px),radial-gradient(circle at 75% 18%,#fff8d985 0 3px,transparent 5px),radial-gradient(circle at 60% 45%,#ffffff60 0 2px,transparent 4px);animation:city-glow 9s ease-in-out infinite alternate}.shell[data-view=home] .skyline canvas{animation:city-camera 30s ease-in-out infinite alternate;transform-origin:50% 50%}.prologue-text{animation:story-enter .7s ease-out both}.stat-changed{animation:stat-rise .7s ease-out}.city-ticker{transition:opacity .3s,transform .3s}.conversation-copy{animation:story-enter .5s ease-out both}@keyframes city-camera{from{transform:scale(1)}to{transform:scale(1.065) translate(-.6%,.5%)}}@keyframes city-glow{from{opacity:.35;transform:translateY(0)}to{opacity:.85;transform:translateY(-12px)}}@keyframes agent-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes story-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes stat-rise{40%{color:#bd814e;transform:translateY(-3px)}}
 @media(max-width:750px){.shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex}.shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;inset:auto;display:block}.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:flex;gap:0;padding:15px;min-height:0}.question-panel .conversation{display:flex;flex-direction:row;gap:9px;align-items:flex-start;margin-top:9px}.question-panel .agent-portrait{width:76px;height:104px;flex:none;border-radius:30px 30px 8px 8px}.question-panel .conversation-copy{align-self:flex-start}.question-panel .decision-options{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.question-panel .decision-options[hidden]{display:none!important}.question-panel .decision{min-height:66px}.question-panel .vote-feedback{margin-top:7px}.shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:clamp(220px,37dvh,360px)}}
 @media(prefers-reduced-motion:reduce){.shell[data-view=home] .skyline canvas,.skyline::after,.agent-portrait,.conversation-copy,.prologue-text,.stat-changed{animation:none!important;transition:none!important}}
 
@@ -146,29 +146,479 @@
 @media(prefers-reduced-motion:reduce){.prologue-text[data-typing="true"]::after{animation:none;display:none}}
 
 /* Living-city sequence: the map becomes the protagonist between decisions. */
+/* Avoid repeating the same outcome above the city while the result card is readable. */
+.shell[data-stage="city"] .skyline .city-ticker{display:none}
 .city-beat[hidden]{display:none!important}
-.city-beat{position:absolute;z-index:6;left:6%;right:6%;bottom:7%;pointer-events:none;border:1px solid #f6e5cbbb;border-radius:16px;padding:clamp(15px,2vw,24px);color:#f7f6ee;background:linear-gradient(120deg,rgba(25,63,55,.95),rgba(27,75,70,.91));box-shadow:0 16px 46px #183b3580;animation:city-beat-arrive .5s ease-out both}
+.city-beat{position:relative;z-index:auto;inset:auto;pointer-events:auto;border:1px solid #f6e5cbbb;border-radius:16px;padding:clamp(15px,2vw,24px);color:#f7f6ee;background:linear-gradient(120deg,rgba(25,63,55,.95),rgba(27,75,70,.91));box-shadow:0 16px 46px #183b3580;animation:city-beat-arrive .5s ease-out both}
 .city-beat-kicker{display:block;color:#ebc992;font-size:12px;font-weight:850;letter-spacing:.08em}
-.city-beat h2{font-size:clamp(19px,2.8vw,31px);line-height:1.4;margin:9px 0}
-.city-beat-voice{font-size:clamp(13px,1.7vw,17px);line-height:1.5;margin:0 0 13px;font-weight:650}
+.city-beat h2{max-width:24ch;font-size:clamp(20px,2.3vw,27px);line-height:1.22;margin:7px 0}
+.city-beat-voice{max-width:42ch;font-size:clamp(14px,1.45vw,16px);line-height:1.45;margin:0 0 11px;font-weight:650}
 .city-beat-deltas{display:flex;flex-wrap:wrap;gap:7px}
 .city-beat-deltas span{padding:6px 10px;border-radius:24px;background:#ffffff1f;color:#f9e9c6;font-size:12px;font-weight:800}
-.shell[data-stage="city"][data-view="solo"] .play-surface{grid-template-columns:minmax(0,1fr)}
-.shell[data-stage="city"][data-view="solo"] .skyline{grid-column:1/-1}
-.shell[data-stage="city"][data-view="solo"] .side-panel{display:none!important}
+.clinic-choice{grid-column:1/-1;max-height:min(52dvh,520px);overflow:auto;margin-top:8px;padding:14px 16px;border-radius:12px;background:#fffdf2;color:#25443b;box-shadow:0 8px 24px #102e2940;pointer-events:auto;overscroll-behavior:contain}
+.clinic-choice .overline{color:#687c62;font-size:12px}.clinic-choice h2{font-size:clamp(18px,2vw,23px);margin:5px 0}.clinic-choice p,.clinic-followup p{font-size:14px;line-height:1.55;margin:7px 0}
+.clinic-form fieldset,.clinic-followup fieldset{border:0;padding:0;margin:10px 0;display:flex;flex-wrap:wrap;gap:7px 14px}.clinic-form legend,.clinic-followup legend{font-weight:800;margin-bottom:4px}.clinic-form label,.clinic-followup label{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:9px 11px;border-radius:8px;background:#eff3e7;font-size:13px;line-height:1.4;flex:1 1 220px}.clinic-form input,.clinic-followup input{width:18px;height:18px;flex:none;margin:2px 0 0;accent-color:#34755b}.clinic-choice button,.clinic-followup button{min-height:48px;padding:10px 16px}.clinic-choice details{margin:8px 0;font-size:13px}.clinic-choice summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}.clinic-choice ul{margin:3px 0;padding-left:22px}.clinic-choice button:disabled,.clinic-followup button:disabled{opacity:.55;cursor:not-allowed}.clinic-followup{margin-top:12px;padding-top:10px;border-top:1px solid #ffffff60;pointer-events:auto}.clinic-followup[hidden],.clinic-choice[hidden]{display:none!important}.clinic-followup>strong{display:block;font-size:18px;margin-bottom:6px}.clinic-followup fieldset{display:grid;grid-template-columns:1fr;gap:5px;margin:7px 0}.clinic-followup label{align-items:center;background:#ffffff16;color:#fffdf2;flex:none;min-height:48px;padding:7px 10px}.clinic-followup label span{display:grid;gap:1px}.clinic-followup label strong{font-size:14px;line-height:1.25}.clinic-followup label small{font-size:12px;line-height:1.25;color:#f5e9d4}.clinic-followup label:focus-within,.clinic-form label:focus-within{outline:2px solid #e9c985;outline-offset:2px}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @keyframes city-beat-arrive{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:750px){.city-beat{left:4%;right:4%;bottom:4%;padding:13px}.city-beat h2{font-size:20px}.city-beat-voice{font-size:13px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(max-width:750px){.city-beat{padding:13px;max-height:min(62dvh,560px);overflow:auto;overscroll-behavior:contain}.city-beat h2{font-size:20px}.city-beat-voice{font-size:14px}.city-beat-deltas span{font-size:11px;padding:5px 8px}}
+@media(max-width:750px){.clinic-choice{max-height:min(57dvh,520px);padding:12px}.clinic-form fieldset{display:grid;grid-template-columns:1fr}.clinic-form label{font-size:14px}.clinic-followup label{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.city-beat{animation:none!important}}
 
-/* On result beats, keep the enlarged city and resident response within one viewport. */
+
+/* Exhibition alerts: visible consequences without revealing hidden scores. */
+.risk-notice[hidden],.ending-incident[hidden]{display:none!important}
+.risk-notice{margin-top:10px;padding:9px 11px;border-inline-start:3px solid #a86e49;border-radius:0 7px 7px 0;background:#fff4e5;color:#694831}
+.risk-notice .risk-overline{display:block;font-size:10px;font-weight:850;letter-spacing:.075em;color:#8a5438}
+.risk-notice strong{display:block;margin-top:4px;font-size:13px;line-height:1.4}
+.risk-notice p{margin-top:3px;font-size:11px;line-height:1.5}
+.result-panel .ending-incident{border-inline-start:3px solid #b87c4a;background:#fff6e9;padding:10px 12px;border-radius:0 6px 6px 0;font-size:13px;color:#684734}
+.skyline[data-crisis="flood"] canvas{filter:saturate(.65) hue-rotate(7deg)}
+.skyline[data-crisis="transit"] canvas{filter:brightness(.73) saturate(.65)}
+.skyline[data-crisis="departure"] canvas,.skyline[data-crisis="protest"] canvas,.skyline[data-crisis="economy"] canvas{filter:saturate(.65) contrast(.94)}
+.skyline[data-crisis]:not([data-crisis=""]) .city-ticker{border-inline-start-color:#a4483c;background:#fff0e7}
 @media(min-width:751px){
- .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0;height:calc(100dvh - 110px);grid-template-rows:57px minmax(0,1fr)}
- .shell[data-view="solo"][data-stage="city"] .skyline{height:calc(100dvh - 199px);min-height:0;max-height:calc(100dvh - 199px)}
+ .question-panel .conversation{align-items:center}
+ .risk-notice{max-width:470px}
 }
 @media(max-width:750px){
- .shell[data-view="solo"][data-stage="city"] .play-surface{min-height:0}
- .shell[data-view="solo"][data-stage="city"] .skyline{height:clamp(350px,calc(100dvh - 175px),640px);min-height:350px!important;max-height:640px}
+ .risk-notice{padding:8px 10px;margin-top:7px}
+ .risk-notice strong{font-size:12px}
+ .risk-notice p{font-size:11px}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{overflow:visible}
 }
+
+.shell[data-standalone='true'] .landing-actions{grid-template-columns:minmax(0,1fr);max-width:440px}
+.decision-tradeoff{display:block;max-width:48em;padding-right:5px;color:#536b60;font-size:11px;font-weight:650;line-height:1.5}
+
+/* Small phones: keep both judgment buttons in view when an event appears. */
+.risk-notice .risk-action{font-weight:750}
+@media(max-width:750px) and (max-height:900px){
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:clamp(210px,31dvh,300px)}
+ .risk-notice #riskDetail{display:none}
+ .risk-notice{margin-top:5px;padding:6px 8px}
+ .risk-notice .risk-overline{font-size:9px}
+ .risk-notice strong{margin-top:2px}
+ .risk-notice p{margin-top:2px;line-height:1.4}
+}
+
+/* Decision provenance is optional detail, not another required step in the exhibit. */
+.decision-history{margin-top:12px;border-top:1px solid #d7e1d4;padding-top:11px;color:#315f52}
+.decision-history summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-size:13px;font-weight:850;list-style-position:inside}
+.decision-history ol{margin:9px 0 5px;padding-left:23px;max-height:180px;overflow:auto;overscroll-behavior:contain}
+.decision-history li{padding:7px 0;border-bottom:1px solid #e0e8de;font-size:12px;line-height:1.5}
+.decision-history li strong,.decision-history li span{display:block}
+.decision-history li span{color:#536b60;margin-top:4px}
+.takeaway-report{margin-top:16px;padding-top:14px;border-top:1px solid #d7e1d4}.takeaway-report p{font-size:13px;line-height:1.7;color:#48655a;margin-top:7px}.takeaway-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.takeaway-actions button{min-height:44px}.takeaway-actions .text-action{padding:10px 12px}.takeaway-status{min-height:1.5em}
+.takeaway-report textarea{display:block;width:100%;min-height:150px;max-width:100%;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:750px){.decision-history{margin-top:7px}.decision-history summary{font-size:12px}}
+.decision-accountability{margin-top:10px;padding:10px 12px;border-inline-start:3px solid #668b73;background:#f0f5ec;border-radius:0 7px 7px 0}
+.decision-accountability p{margin-top:5px;font-size:12px;line-height:1.6;color:#435f50}
+@media(max-width:750px){.decision-tradeoff{font-size:10px;line-height:1.4}.decision-accountability{margin-top:7px;padding:8px 10px}.decision-accountability p{font-size:11px}}
+.lobby-panel h2{margin-top:13px;font-size:clamp(21px,2vw,28px);line-height:1.35}
+.lobby-panel>p{margin-top:11px;color:#536b60;font-size:14px;line-height:1.7}
+.lobby-panel .primary-action{margin-top:22px}
+.lobby-panel .lobby-note{margin-top:10px;font-size:12px}
+.lobby-note strong{font-size:16px;color:#285e48}
+@media(max-width:750px){.decision-tradeoff{font-size:12px;line-height:1.45}.decision{min-height:105px;padding-block:10px}.lobby-panel>p{font-size:13px}.lobby-panel .primary-action{margin-top:17px}}
+@media(max-width:370px){.decision-tradeoff{font-size:11px}.decision{min-height:112px}}
+
+/* A crisis should read as a visible city event as well as a metric and news item. */
+.skyline[data-crisis]:not([data-crisis=""]){border:3px solid #963b35;box-shadow:0 0 0 4px #963b3522,0 7px 20px #2a4a3712}
+.skyline[data-crisis]:not([data-crisis=""]) .city-topline{background:#8e332d;color:#fff8ed;border-color:#762822}
+.skyline[data-crisis]:not([data-crisis=""]) .city-pulse{background:#ffcabd;box-shadow:0 0 0 4px #ffcabd36}
+.skyline[data-crisis]:not([data-crisis=""]) .city-ticker{border-inline-start-color:#9b2929;background:#fff0e7;font-size:clamp(14px,1.4vw,18px);box-shadow:0 4px 18px #49201f35}
+.shell[data-view=display][data-crisis]:not([data-crisis=""]) .display-frame{background:linear-gradient(0deg,#682d2ee8,transparent 78%)}
+/* Stage 4: readable choices and explicit warning/ending states. */
+.choices-jump{display:none}
+.shell[data-ending=warning] .city-topline,.shell[data-ending=warning] .city-ticker{background:#fff0d2;color:#795120}
+.shell[data-ending=warning] .skyline{box-shadow:inset 0 0 0 3px #bd8c3e}
+.shell[data-ending=undecided] .city-topline{background:#eef0e8;color:#52645b}
+.shell[data-crisis=flood] .skyline{background:#afc7cc}
+.shell[data-crisis=flood] #townCanvas{filter:saturate(.72) brightness(.87)}
+.lobby-panel .primary-action:disabled{opacity:.48;cursor:wait}
+#startShared{margin-top:10px}
+#decisionOptions{scroll-margin-top:12px}
+@media(max-width:750px){
+ .decision-tradeoff{font-size:13px;line-height:1.5}
+ .question-panel .decision{min-height:120px;padding:10px}
+ .question-panel .decision strong{font-size:15px;line-height:1.4}
+ .question-panel .agent-portrait{width:60px;height:82px}
+ .risk-notice #riskDetail{display:block;font-size:13px;line-height:1.5}
+ .risk-notice .risk-action{font-size:12px;line-height:1.5}
+ .risk-notice strong{font-size:14px}
+ .shell[data-alert=true][data-view=solo] .skyline,.shell[data-alert=true][data-view=group] .skyline{height:clamp(140px,19dvh,180px)}
+ .shell[data-alert=true] .choices-jump{display:flex;align-items:center;justify-content:flex-end;min-height:44px;font-size:13px;color:#386a55;text-decoration:underline}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{padding:12px;overflow:visible}
+ .decision-accountability p,.lobby-panel .lobby-note{font-size:13px;line-height:1.6}
+ .ending-incident{font-size:14px;line-height:1.6}
+}
+@media(max-width:750px){
+ .shell[data-alert=true][data-view=solo] .skyline,.shell[data-alert=true][data-view=group] .skyline{height:clamp(120px,15dvh,150px)}
+}
+@media(min-width:751px) and (max-width:1000px) and (orientation:portrait){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 114px)}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{height:320px;min-height:0;flex:none}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;inset:auto;display:block;width:100%}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{margin:0;max-width:none}
+ .question-panel .agent-portrait{width:90px;height:130px;flex:none}
+ .question-panel .decision{min-height:115px}
+ .decision-tradeoff{font-size:13px;line-height:1.5}
+}
+@media(min-width:1001px){
+ .decision-tradeoff{font-size:14px;line-height:1.5}
+ .speech-bubble .question-detail,.agent-line,.risk-notice p{font-size:14px;line-height:1.6}
+}
+/* Keep the exhibition canvas from enlarging its own grid through intrinsic sizing. */
+.shell[data-view=display]{height:100dvh;min-height:0;overflow:hidden}
+.shell[data-view=display] .play-surface{min-height:0;height:auto;grid-template-rows:57px minmax(0,1fr)}
+.shell[data-view=display] .skyline{min-height:0}
+.shell[data-view=display] .skyline canvas{position:absolute;inset:0}
+.shell[data-view=display][data-crisis=flood]:not([data-crisis=""]) .display-frame{background:linear-gradient(0deg,rgba(14,55,77,.88),transparent 65%)}
+
+
+/* Entry guidance: a visible, non-blocking typing pulse continues between lines. */
+.prologue-activity{display:flex;align-items:center;gap:11px;margin-top:13px;color:#fff0d0;font-size:12px;font-weight:800;letter-spacing:.025em;min-height:20px}
+.typing-dots{display:inline-flex;align-items:center;gap:4px;height:20px}
+.typing-dots i{width:6px;height:6px;border-radius:50%;background:#ffe0a8;animation:typing-dot 1.05s ease-in-out infinite}
+.typing-dots i:nth-child(2){animation-delay:.16s}
+.typing-dots i:nth-child(3){animation-delay:.32s}
+@keyframes typing-dot{0%,70%,100%{opacity:.42;transform:translateY(0)}35%{opacity:1;transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){.typing-dots i{animation:none;opacity:1}}
+
+.resident-label{display:inline-block;padding:4px 8px;margin-bottom:5px;border-radius:20px;background:#f6ead5;color:#775638;font-size:11px;font-weight:850}
+.strategy-choice{grid-column:1/-1;margin-top:9px;padding:14px;border:1px solid #b8cdbd;border-radius:11px;background:#f1f6ee;color:#294d3d}
+.strategy-choice[hidden]{display:none!important}.strategy-choice h2{font-size:18px;margin:4px 0}.strategy-choice p{font-size:13px;line-height:1.5;margin:6px 0 10px}
+.strategy-choice button[data-strategy]{display:block;width:100%;min-height:48px;margin:7px 0;padding:10px 13px;text-align:left;border:1px solid #b8cdbd;border-radius:8px;background:#fff;color:#315943;font-weight:800}
+.strategy-choice #cancelStrategy{min-height:44px}
+.strategy-choice button:focus-visible{outline:3px solid #548f73;outline-offset:2px}
+@media(max-width:750px){.resident-label{font-size:10px}.strategy-choice{padding:11px}}
+@media(max-width:750px){.shell[data-view=solo]:has(#strategyChoice[data-site=waterfront]:not([hidden])) .skyline{height:clamp(160px,22dvh,210px);min-height:0}}
+@media(max-width:360px) and (max-height:740px){
+ .shell[data-view=solo]:has(#strategyChoice[data-site=waterfront]:not([hidden])) .skyline{height:140px;min-height:0}
+ .shell[data-view=solo] .strategy-choice{padding:8px}
+ .shell[data-view=solo] .strategy-choice p{margin:4px 0 6px}
+ .shell[data-view=solo] .strategy-choice button[data-strategy]{margin:5px 0}
+}
+
+
+/* Avoid a black empty canvas while the first illustrated frame is prepared. */
+.city-loading[hidden]{display:none!important}
+.city-loading{position:absolute;inset:0;z-index:3;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(135deg,#dcebe2,#b8d2ca);color:#2b6554;font-size:14px;font-weight:850;letter-spacing:.07em}
+.city-loading-icon{font-size:47px;color:#619581;animation:loading-breathe 1.4s ease-in-out infinite}
+.loading-ellipsis{display:inline-block;animation:loading-breathe 1.4s ease-in-out infinite}
+@keyframes loading-breathe{50%{opacity:.5;transform:scale(.92)}}
+@media(prefers-reduced-motion:reduce){.city-loading-icon,.loading-ellipsis{animation:none}}
+
+
+/* Kairosoft-like qualitative preview; only three public metrics. */
+.impact-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:1px;max-width:100%}
+.impact-chip{display:inline-flex;align-items:baseline;justify-content:center;gap:4px;padding:3px 6px;border-radius:5px;border:1px solid #dce5da;background:#f0f4ed;color:#526959;font-size:11px;font-weight:800;white-space:nowrap;line-height:1.2}
+.impact-chip strong{font-size:12px;font-weight:950;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.impact-chip[data-direction=up]{background:#e3f1e5;border-color:#c4dfc8;color:#286e45}
+.impact-chip[data-direction=down]{background:#fae9df;border-color:#edcebe;color:#9a4d32}
+.impact-chip[data-direction=neutral]{color:#687b6c}
+.impact-note{font-size:10px;line-height:1.45;color:#526c5c;font-weight:700;grid-column:1/-1;margin:0;padding:0}
+.question-panel .decision{gap:5px}
+.question-panel .decision-tradeoff{line-height:1.35}
+@media(max-width:750px){
+ .impact-row{gap:3px}
+ .impact-chip{padding:2px 4px;font-size:10px;gap:3px}
+ .impact-chip strong{font-size:11px}
+ .impact-note{font-size:10px}
+ .question-panel .decision{padding:9px 7px;gap:5px}
+ .question-panel .decision strong{overflow-wrap:anywhere}
+ .question-panel .decision .option-arrow{display:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .impact-chip{font-size:10px;padding:2px 5px}
+ .question-panel .decision{min-height:70px}
+}
+.press-conference{margin-top:20px;padding:15px;border:1px solid #cbd9c8;border-radius:10px;background:#f7f8ef}.press-conference p{font-size:14px;line-height:1.75;color:#405d50;margin-top:10px}.press-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.press-actions button{min-height:44px}.press-actions .text-action{padding:10px 12px}.metric-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.metric-group{min-width:0;padding:14px;border:1px solid #d7dfd2;border-radius:10px}.metric-group .reveal-heading{display:block;min-height:2.5em}.metric-group [id$=Metrics]{margin-top:7px}.reveal-stat{grid-template-columns:minmax(90px,1fr) minmax(65px,2fr) 30px;gap:7px;font-size:12px}.reveal-stat small{grid-column:1/-1;color:#60776b;font-weight:500;margin-top:-3px}.metric-flag{grid-column:1/-1;color:#9b4d37;font-size:11px}.reveal-stat.low .stat-track i{background:#b77559}
+.display-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px;text-shadow:none}.display-metrics section{padding:9px 11px;border-radius:8px;background:#15382ec9;color:#fff;font-size:11px}.display-metrics section strong{display:block;margin-bottom:5px;color:#f5d9ad}.display-metrics section>div{display:grid;grid-template-columns:minmax(90px,1fr) minmax(45px,2fr) 24px;align-items:center;gap:6px;margin:4px 0}.display-metrics i{display:block;height:5px;border-radius:6px;background:#8fc7a4}.display-metrics b{text-align:right}
+@media(max-width:750px){.metric-comparison{grid-template-columns:1fr;gap:10px}.press-conference{padding:12px}.metric-group{padding:11px}.metric-group .reveal-heading{min-height:0}.result-panel{max-height:calc(100dvh - 110px);overflow:auto}.result-panel .primary-action{margin-top:12px}}
+
+@media(min-width:751px) and (max-width:1200px){.metric-comparison{grid-template-columns:1fr;gap:10px}.metric-group .reveal-heading{min-height:0}}
+
+/* Result content follows its narrow panel width, not the desktop viewport. */
+.result-panel,.metric-comparison,.metric-group,.metric-group [id$=Metrics],.reveal-stat,.stat-track,.ending-card-tools,.ending-card-preview{min-width:0;max-width:100%;box-sizing:border-box}
+.metric-comparison{grid-template-columns:minmax(0,1fr);gap:10px}
+.metric-group{padding:12px}
+.metric-group .reveal-heading{min-height:0;overflow-wrap:anywhere}
+.reveal-stat{grid-template-columns:minmax(0,1.05fr) minmax(54px,1.8fr) 32px;gap:8px;align-items:center;font-size:13px}
+.reveal-stat>span{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+.reveal-stat .stat-track{min-width:0}
+.reveal-stat strong{min-width:0;text-align:right;font-variant-numeric:tabular-nums}
+.reveal-stat small,.metric-flag{grid-column:1/-1;min-width:0;overflow-wrap:anywhere}
+.reveal-stat small{margin-top:0;line-height:1.4}
+.ending-card-preview{overflow-wrap:anywhere;container-type:inline-size}
+.ending-preview-card{padding:clamp(14px,3vw,24px);color:#203c32;background:#fffdf5}
+.ending-preview-eyebrow{display:inline-block;color:#7a5336;font-size:12px;font-weight:850;letter-spacing:.08em}
+.ending-preview-card h3{margin:7px 0 0;font-size:clamp(20px,5vw,28px);line-height:1.3;letter-spacing:-.02em;overflow-wrap:anywhere}
+.ending-preview-card header p{margin:8px 0 0;color:#48655a;font-size:15px;line-height:1.65;overflow-wrap:anywhere}
+.ending-preview-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:20px}
+.ending-preview-scene{min-width:0;margin:0;overflow:hidden;border-radius:9px;background:#d5d8cf}
+.ending-preview-scene svg{display:block;width:100%;height:auto}
+.ending-preview-scene figcaption{padding:8px 10px;background:#eef0e4;font-size:13px;font-weight:800;line-height:1.4;overflow-wrap:anywhere}
+.ending-preview-metrics{min-width:0}
+.ending-preview-metrics h4{margin:0 0 10px;font-size:15px;line-height:1.4}
+.ending-preview-metrics ul{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;margin:0;padding:0;list-style:none}
+.ending-preview-metric{min-width:0;padding:9px 10px;border-radius:8px;background:#f2f3e9}
+.ending-preview-metric-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0;font-size:14px;font-weight:750}
+.ending-preview-metric-heading span{min-width:0;overflow-wrap:anywhere}
+.ending-preview-metric-heading strong{flex:none;white-space:nowrap;font-size:17px;font-variant-numeric:tabular-nums}
+.ending-preview-metric-heading small{font-size:11px;color:#60766a}
+.ending-preview-track{height:8px;margin-top:7px;overflow:hidden;border-radius:99px;background:#dfe5d9}
+.ending-preview-track i{display:block;height:100%;border-radius:inherit;background:#467c5a}
+.ending-preview-metric:nth-child(n+4) .ending-preview-track i{background:#b17943}
+.ending-card-print{display:none}
+@container (min-width:440px){.ending-preview-layout{grid-template-columns:minmax(118px,.72fr) minmax(0,1.5fr);align-items:start;gap:14px}.ending-preview-metric{padding:8px}.ending-preview-metric-heading{font-size:13px}}
+@media print{
+ @page{size:A4 portrait;margin:8mm}
+ html,body{width:100%;height:auto!important;margin:0!important;overflow:visible!important}
+ body *{visibility:hidden!important}
+ #endingCardTools,#endingCardTools *{visibility:visible!important}
+ #endingCardTools{position:absolute!important;inset:0 auto auto 0!important;width:100%!important;margin:0!important;padding:0!important;border:0!important}
+ #endingCardTools>span,#endingCardTools>p,#endingCardTools .ending-card-preview,#endingCardTools .ending-card-actions,#endingCardTools canvas{display:none!important}
+ #endingCardPrint{display:block!important;width:100%!important;margin:0!important;padding:0!important}
+ #endingCardPrint svg{display:block!important;width:100%!important;height:auto!important;max-height:277mm!important;object-fit:contain;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .shell,.play-surface,.side-panel,.result-panel{overflow:visible!important;position:static!important;display:block!important;max-height:none!important;height:auto!important;min-height:0!important;transform:none!important;box-shadow:none!important;background:white!important}
+}
+
+/* Ending reveal: the actual town image leads; metrics stay readable in the narrow result rail. */
+.ending-scene-visual,.ending-stage-scene{position:relative;overflow:hidden;border-radius:16px;background:#d5d8cf;aspect-ratio:16/10;min-height:150px;isolation:isolate}
+.ending-scene-visual img{display:block;width:100%;height:100%;object-fit:cover}
+.ending-scene-visual>svg{display:block;width:100%;height:100%;min-height:inherit}
+.ending-scene-visual>span{position:absolute;inset:0;pointer-events:none;background:var(--ending-tone,transparent);mix-blend-mode:soft-light}
+.ending-scene-visual[data-theme=success]{--ending-tone:linear-gradient(135deg,#fff3b0aa,#d3edc455)}
+.ending-scene-visual[data-theme=caution]{--ending-tone:linear-gradient(135deg,#d89a4a55,#4b514a22)}
+.ending-scene-visual[data-theme=neutral]{--ending-tone:linear-gradient(135deg,#f2e8c744,#54665d22)}
+.ending-scene-visual[data-theme=prosperity],.ending-scene-visual[data-theme=convenience],.ending-scene-visual[data-theme=appeal],.ending-scene-visual[data-theme=trust],.ending-scene-visual[data-theme=fairness],.ending-scene-visual[data-theme=resilience]{--ending-tone:linear-gradient(135deg,#87634a44,#263e3940)}
+.ending-inline-radar{min-width:0;max-width:420px;margin:0 auto 12px}
+.ending-inline-radar svg{display:block;width:100%;height:auto;overflow:visible}
+.ending-preview-layout{min-width:0;overflow:hidden}
+.ending-preview-scene,.ending-preview-metrics{min-width:0;overflow:hidden}
+.ending-preview-scene .ending-scene-visual{width:100%;min-height:0}
+.ending-preview-radar{margin:0 auto 8px;max-width:320px;min-width:0}
+.ending-preview-radar svg{display:block;width:100%;height:auto}
+@media(max-width:750px){.ending-stage-scene{min-height:170px}.ending-inline-radar{max-width:min(100%,360px)}.ending-preview-layout{grid-template-columns:minmax(0,1fr)}.ending-preview-radar{max-width:300px}}
+@media(prefers-reduced-motion:reduce){#endingCityPicture:not([hidden]) .ending-scene-visual{animation:none!important;transition:none!important}}
+
+/* Keep the city canvas unobstructed; decisions and resident responses occupy their own column/row. */
+@media(min-width:751px){
+ .play-surface{grid-template-rows:57px minmax(390px,1fr);grid-template-columns:minmax(0,1fr) minmax(300px,360px)}
+ .side-panel{position:relative;inset:auto;grid-row:2;grid-column:2;min-width:0;min-height:390px;pointer-events:auto}
+ .side-panel>section{max-height:calc(100dvh - 150px);overflow:auto;pointer-events:auto}
+ .skyline{grid-row:2;grid-column:1;min-width:0;min-height:390px}
+ .city-beat{position:relative;inset:auto;grid-row:2;grid-column:2;align-self:stretch;max-height:calc(100dvh - 150px);overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+ .shell[data-stage=city] .skyline{grid-column:1;grid-row:2;min-height:390px;height:auto;max-height:none}
+ .shell[data-stage=city] .play-surface{grid-template-columns:minmax(0,1fr) minmax(300px,360px);grid-template-rows:57px minmax(390px,1fr);height:auto;min-height:calc(100dvh - 110px)}
+}
+@media(max-width:750px){
+ .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 95px);overflow-x:clip}
+ .skyline{order:1;width:100%;height:clamp(210px,31dvh,300px);min-height:210px;flex:none}
+ .city-beat{position:relative;inset:auto;order:2;width:100%;max-height:min(55dvh,480px);overflow:auto;margin:0;padding:15px;border-radius:12px;pointer-events:auto}
+ .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0;pointer-events:auto}
+ .side-panel>section{min-height:0;max-height:min(68dvh,600px);overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+ .shell[data-stage=city] .skyline{height:clamp(210px,30dvh,300px);min-height:210px!important;max-height:300px}
+ .group-previous-result{font-size:12px;line-height:1.45}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw)}
+ .shell[data-stage=city] .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw)}
+}
+.decision[data-vote=ai]{min-height:64px;padding-block:12px}
+.decision[data-vote=ai] .decision-tradeoff{display:none}
+.group-previous-result{margin:8px 0 0;padding:8px 10px;border-radius:7px;background:#eef3e8;color:#385c4a;font-size:13px;font-weight:750;line-height:1.5}
+.group-accountability{margin:12px 0;padding:16px;border:1px solid #d0dbcc;border-radius:12px;background:#fffef5}
+.group-accountability ol{margin:8px 0 0;padding-left:22px}
+.group-accountability li{padding:9px 0;line-height:1.5}
+.group-accountability li+li{border-top:1px solid #e0e5d7}
+.group-accountability li strong,.group-accountability li span{display:block}
+.group-accountability li span{font-size:13px;color:#4d6658}
+@media(max-width:750px){.group-accountability{padding:12px}.group-accountability li{padding:8px 0}.group-accountability li span{font-size:12px}}
+@media(min-width:751px) and (max-width:1000px) and (orientation:portrait){
+ .play-surface{display:flex;flex-direction:column;min-height:calc(100dvh - 114px);overflow-x:clip}
+ .hud{order:0;flex:none}
+ .skyline{order:1;width:100%;height:320px;min-height:0;flex:none}
+ .city-beat{order:2;position:relative;inset:auto;width:100%;max-height:min(48dvh,520px);overflow:auto;margin:0;pointer-events:auto}
+ .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0;pointer-events:auto}
+ .side-panel>section{max-height:65dvh;overflow:auto;pointer-events:auto}
+ .shell[data-stage=city] .side-panel{display:none!important}
+ .shell[data-stage=city] .city-beat{display:block}
+}
+
+/* Final override: the previous cinematic desktop absolute panel must never cover the city. */
+@media(min-width:1201px){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{grid-template-columns:minmax(0,1fr) minmax(380px,435px)}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{grid-column:1;grid-row:2}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{position:relative;left:auto;right:auto;bottom:auto;inset:auto;z-index:auto;grid-row:2;grid-column:2;align-self:stretch;width:auto;min-width:0;max-width:none;display:flex}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{margin:0;max-width:none;width:100%}
+ .shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{display:flex;flex-direction:column;gap:0;padding:18px;min-width:0}
+ .question-panel .conversation{display:flex;flex-direction:row;align-items:flex-start;gap:10px;margin-top:12px}
+ .question-panel .conversation-copy{align-self:flex-start}
+ .question-panel .agent-portrait{width:98px;height:125px;flex:none}
+ .question-panel .decision-options{display:flex;flex-direction:column;gap:9px;align-self:stretch;width:100%;margin-top:12px;padding-top:8px;grid-column:auto;grid-row:auto}
+ .question-panel .decision-options[hidden]{display:none!important}
+ .question-panel .vote-feedback,.question-panel .community-status{grid-column:auto;grid-row:auto}
+ .shell[data-stage=city][data-view=solo] .play-surface{grid-template-columns:minmax(0,1fr) minmax(380px,435px);grid-template-rows:57px minmax(390px,1fr);height:auto;min-height:calc(100dvh - 110px)}
+ .shell[data-stage=city][data-view=solo] .skyline{grid-column:1;grid-row:2;height:auto;min-height:390px;max-height:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:landscape){
+ .shell[data-stage=city][data-view=solo] .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw);grid-template-rows:57px minmax(390px,1fr);height:auto}
+ .shell[data-stage=city][data-view=solo] .skyline{grid-column:1;grid-row:2;height:auto;min-height:390px;max-height:none}
+}
+@media(min-width:751px) and (max-width:1200px) and (orientation:portrait){
+ .shell[data-view=solo] .play-surface,.shell[data-view=group] .play-surface{display:flex;flex-direction:column;overflow-x:clip}
+ .shell[data-view=solo] .skyline,.shell[data-view=group] .skyline{order:1;width:100%;height:320px;min-height:0;flex:none}
+ .shell[data-view=solo] .side-panel,.shell[data-view=group] .side-panel{order:3;position:relative;inset:auto;display:block;width:100%;min-height:0}
+ .shell[data-view=solo] .side-panel>section,.shell[data-view=group] .side-panel>section{max-width:none;max-height:65dvh;overflow:auto}
+ .shell[data-stage=city][data-view=solo] .skyline{height:320px;min-height:0;max-height:320px}
+ .shell[data-stage=city][data-view=solo] .city-beat{order:2;position:relative;inset:auto;width:100%;max-height:min(48dvh,520px);overflow:auto}
+}
+.ending-card-tools{margin-top:24px;padding-top:20px;border-top:1px solid #dce3d5}.ending-card-tools>p{font-size:13px;line-height:1.7;color:#536d5d;margin-top:8px}.ending-card-preview{margin-top:14px;background:#f5f2e6;border:1px solid #d6ddcf;border-radius:12px;overflow:hidden}.ending-card-preview svg{display:block;width:100%;height:auto}.ending-card-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.ending-card-actions .primary-action{margin-top:0}.ending-card-actions .text-action{min-height:48px;padding:0 14px}.ending-card-help{font-size:12px!important;color:#64786b!important}.ending-card-tools .takeaway-status{min-height:1.3em}
+@media(max-width:750px){.ending-card-actions{display:grid;grid-template-columns:1fr}.ending-card-actions button{width:100%}}
+
+/* Short, readable decision confirmation; animation is suppressed for reduced motion. */
+.decision-stamp{display:inline-block;padding:3px 9px;border-radius:999px;background:#326b50;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;vertical-align:middle}.decision-teaser{display:block;margin-top:5px;color:#536d5d;font-size:13px}.vote-feedback.is-confirmed{animation:decision-arrive .32s ease-out}.decision-stamp{animation:stamp-arrive .36s cubic-bezier(.2,.8,.2,1)}@keyframes decision-arrive{from{transform:translateY(3px);opacity:.65}to{transform:translateY(0);opacity:1}}@keyframes stamp-arrive{from{transform:scale(.94)}to{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.vote-feedback.is-confirmed,.decision-stamp{animation:none!important}}
+
+.ending-flow{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid #dce3d5}.ending-progress{grid-column:1/-1;margin:0;color:#526d5d;font-size:13px;font-weight:800}.ending-city-picture{grid-column:1/-1;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;background:#d5d8cf}.ending-city-picture svg{display:block;width:100%;height:auto}.ending-flow button{min-height:48px}.ending-flow .primary-action{margin:0}.ending-flow .text-action{min-height:44px;padding:10px 14px}
+.group-reveal-notice{display:flex;grid-column:1/-1;align-items:center;justify-content:space-between;gap:8px 12px;margin:0 0 2px;padding:8px 10px;border:1px solid #cbd9c7;border-radius:8px;background:#f2f6eb}.group-reveal-notice p{min-width:0;color:#385c4a;font-size:13px;font-weight:750;line-height:1.4}.group-reveal-notice button{flex:none;min-height:44px;padding:8px 10px;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.ending-flow *{scroll-behavior:auto!important}}
+button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):active{transform:scale(.985)}@media(prefers-reduced-motion:reduce){button:not(:disabled){transition:none}button:not(:disabled):active{transform:none}}
+
+/* High-clarity decision buttons: action names are the hierarchy, not decorative indexes. */
+.question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px;align-items:flex-start;text-align:left}
+.question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:flex-start;text-align:left}
+.question-panel .decision strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3;overflow-wrap:normal}
+.question-panel .decision-tradeoff{font-size:12px;line-height:1.35;color:#526c5f}
+.question-panel .decision[data-vote=ai] strong{font-size:clamp(18px,1.55vw,21px)}
+.question-panel .impact-note[hidden]{display:none!important}
+@media(max-width:750px){.question-panel .decision strong{font-size:16px}.question-panel .decision[data-vote=ai] strong{font-size:17px}.question-panel .decision[data-vote=human]{min-height:83px}.question-panel .decision[data-vote=ai]{min-height:83px}}
+
+/* One simple online-mode disclosure, only when opening the offline HTML. */
+.standalone-group-note{grid-column:1/-1;margin:0;color:#f6efdf;font-size:12px;line-height:1.45;font-weight:600;text-align:center}
+.standalone-group-note[hidden]{display:none!important}
+
+/* Single speaker, single question: the department head asks the mayor directly. */
+.question-panel .conversation .agent-bio{padding:6px 11px;gap:7px;flex-wrap:wrap;white-space:normal}
+.question-panel .speech-bubble{padding:14px 16px}
+.question-panel .speech-bubble .agent-line{display:block;margin:0;font-size:clamp(17px,1.5vw,21px);line-height:1.5;font-weight:800;letter-spacing:-.02em;color:#234c40;text-wrap:pretty}
+.question-panel .speech-bubble .question-detail{margin:9px 0 0;font-size:13px;line-height:1.55;font-weight:600;color:#627a6e}
+.question-panel .speech-bubble .question-detail[hidden]{display:none!important}
+.question-panel .decision-options{padding-top:8px}
+@media(max-width:750px){
+ .question-panel .conversation .agent-bio{gap:5px;padding:6px 8px}
+ .question-panel .conversation .agent-bio strong{font-size:13px}
+ .question-panel .conversation .agent-bio span{font-size:11px}
+ .question-panel .speech-bubble{padding:12px}
+ .question-panel .speech-bubble .agent-line{font-size:17px;line-height:1.48}
+ .question-panel .speech-bubble .question-detail{font-size:12px;line-height:1.5;margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){.question-panel .conversation-copy{animation:none!important}}
+
+/* P1: short feedback on the meaningful new state, never an idle or blocking loop. */
+@media (prefers-reduced-motion:no-preference){
+ #endingCityPicture:not([hidden]) svg{animation:p1-scene-appear .55s cubic-bezier(.18,.85,.25,1) both}
+ #endingTitle:not([hidden]),#endingText:not([hidden]),#endingIncident:not([hidden]),#metricComparison:not([hidden]),#endingCardTools:not([hidden]){animation:p1-step-appear .34s cubic-bezier(.18,.85,.25,1) both}
+ .city-beat-deltas span{animation:p1-score-bounce .4s cubic-bezier(.16,1,.3,1) both}
+ .city-beat-deltas span:nth-child(2){animation-delay:.06s}
+ .city-beat-deltas span:nth-child(3){animation-delay:.12s}
+}
+@keyframes p1-scene-appear{from{opacity:.35;transform:translateY(7px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes p1-step-appear{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes p1-score-bounce{0%{opacity:.2;transform:scale(.88)}65%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+
+/* Print only the exported result card. Hidden game panes must not create a blank page. */
+@media print{
+ body{margin:0!important;padding:0!important;height:auto!important;min-height:0!important}
+ .shell>:not(.play-surface){display:none!important}
+ .play-surface>:not(.side-panel){display:none!important}
+ .side-panel>:not(#resultPanel){display:none!important}
+ #resultPanel>:not(#endingFlow){display:none!important}
+ #endingFlow>:not(#endingCardTools){display:none!important}
+ #endingFlow{display:block!important}
+ #endingCardTools>:not(#endingCardPrint){display:none!important}
+ .shell,.play-surface,.side-panel,#resultPanel,#endingCardTools{display:block!important;position:static!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;box-shadow:none!important;transform:none!important}
+ #endingCardPrint{display:block!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important}
+ #endingCardPrint svg{display:block!important;width:100%!important;height:auto!important;max-height:190mm!important;object-fit:contain;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+
+/* First-time decision clarity and compact ending actions. */
+#aiDecision .decision-tradeoff{display:block!important;max-width:100%;font-size:12px;line-height:1.35;text-align:left}
+#endingCardTools{grid-column:1/-1;margin-top:0;padding-top:10px}
+#endingCardMore summary,.metric-comparison>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:800}
+#endingCardMore[open] summary{margin-bottom:8px}
+.metric-comparison{display:block}
+.metric-comparison[hidden]{display:none!important}
+.group-join-rules{font-size:13px;line-height:1.45}
+.clinic-form fieldset{gap:5px;margin:6px 0}.clinic-form label{min-height:44px;padding:7px 9px}
+@media(max-width:750px){.clinic-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.clinic-form label{font-size:12px;line-height:1.25;align-items:center}.clinic-form label input{margin:0}}
+
+.metric-clue{font-size:12px;line-height:1.4;color:#536d5d;margin-top:7px}
+
+/* Once the clinic detail starts, the form owns the screen. The consultation is
+   already understood; repeating its full speech pushes the confirmation away. */
+@media(max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .conversation{display:none!important}
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .question-head{margin-bottom:8px}
+}
+
+@media(min-width:751px) and (max-width:1200px){
+ .shell[data-view=solo] .question-panel:has(#clinicChoice:not([hidden])) .clinic-choice{max-height:min(65dvh,520px)}
+}
+
+/* v19: expose the hidden ending values before save, while keeping the town central. */
+.shadow-spotlight{grid-column:1/-1;padding:12px 14px;border:1px solid #9ab8a4;border-radius:12px;background:linear-gradient(135deg,#f2f7ec,#e4eee1);color:#244b3e}
+.shadow-spotlight[hidden]{display:none!important}
+.shadow-spotlight h3{margin:0 0 7px;font-size:15px;line-height:1.3;letter-spacing:-.02em}
+.shadow-spotlight-row{display:grid;grid-template-columns:minmax(82px,auto) 34px minmax(0,1fr);gap:8px;align-items:center;padding:6px 0;border-top:1px solid #cad9ca}
+.shadow-spotlight-row strong{font-size:13px}.shadow-spotlight-row>b{font-size:17px;font-variant-numeric:tabular-nums;text-align:right;color:#224b3e}.shadow-spotlight-row span{font-size:11px;line-height:1.35;color:#496456}
+.ending-flow #replayButton{flex-basis:100%;width:auto;min-height:44px;padding:8px 12px;justify-content:center;background:#f5f7ef;color:#285542;border-color:#b8cbbb}
+.ending-flow #endingCardTools .ending-card-actions{margin-top:8px}
+.ending-flow #endingCardTools{margin-top:0;padding-top:0}
+.clinic-form-actions{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(100px,.75fr);gap:8px;margin-top:8px}
+.clinic-form-actions button{min-height:48px;margin:0;justify-content:center}
+.clinic-form-actions .text-action{border:1px solid #b9cfb8;border-radius:9px;padding:8px 10px;text-align:center;background:#f7f8f1}
+.clinic-form-actions button:disabled{opacity:.6}
+.mode-card>span{font-size:13px;line-height:1.35;color:#4d7162;font-weight:700}
+@media(max-width:750px){
+ .landing-inner{padding:18px 18px}
+ .landing-inner h1{font-size:clamp(31px,9vw,38px);margin:10px 0 8px;line-height:1.18}
+ .landing-inner>p{font-size:13px;line-height:1.5;margin:6px 0}
+ .landing-inner .metric-clue{font-size:11px;margin-top:5px}
+ .landing-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:13px}
+ .landing-actions .mode-card{width:100%;min-width:0;min-height:88px;padding:10px 9px;gap:6px;align-items:center;text-align:center}
+ .landing-actions .mode-card strong{font-size:clamp(15px,4.2vw,18px);white-space:nowrap}
+ .landing-actions .mode-card span{font-size:11px;line-height:1.3}
+ .ending-flow{gap:7px 10px;margin-bottom:14px;padding-bottom:12px}
+ .group-reveal-notice{align-items:flex-start;gap:5px 8px;padding:7px 8px}.group-reveal-notice p{font-size:12px}.group-reveal-notice button{padding:6px 8px;font-size:12px}
+ .shadow-spotlight{padding:9px 11px}
+ .shadow-spotlight h3{font-size:14px;margin-bottom:4px}
+ .shadow-spotlight-row{grid-template-columns:82px 28px minmax(0,1fr);gap:6px;padding:5px 0}
+ .shadow-spotlight-row strong{font-size:12px}.shadow-spotlight-row>b{font-size:16px}.shadow-spotlight-row span{font-size:10px;line-height:1.25}
+ .ending-flow #endingCardTools{padding:0}
+ .ending-flow #endingCardTools .ending-card-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .ending-flow #replayButton{grid-column:1/-1}
+}
+@media(max-width:370px){.clinic-form-actions{grid-template-columns:minmax(0,1.1fr) minmax(96px,.9fr);gap:5px}.clinic-form-actions .primary-action{font-size:12px;padding:8px}.clinic-form-actions .text-action{font-size:12px;padding:8px 4px}}
+/* v23 happiness meter and persistent official-site QR access */
+.happiness-hud{grid-template-columns:minmax(0,1fr)!important;max-width:420px;margin-inline:auto}
+.happiness-hud .stat{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+.happiness-hud .stat-label{font-size:14px;font-weight:850}.happiness-hud .stat-track{grid-column:1/-1;height:9px}.happiness-hud .stat strong{grid-column:2;grid-row:1;font-size:22px}.happiness-hud .happiness-scale{grid-column:1/-1;justify-self:end;font-size:10px;color:#557165}
+.site-qr-thumb{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 68px);z-index:30;width:48px;height:48px;min-width:44px;min-height:44px;border:2px solid #fff;border-radius:12px;background:#214e40;color:#fff;font-weight:900;box-shadow:0 2px 12px #102e2950}
+.site-qr-panel{position:fixed;inset:0;z-index:40;background:#102e29b8;display:grid;place-content:center;justify-items:center;gap:12px;padding:24px;}
+.site-qr-panel[hidden]{display:none!important}.site-qr-panel h2{margin:0;color:white}.site-qr-panel img{display:block;width:min(68vw,250px);height:auto;background:white;padding:10px;border-radius:10px}.site-qr-panel a{color:#fff;font-weight:800;text-decoration:underline}.site-qr-close{position:absolute;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));width:48px;height:48px;border:1px solid white;border-radius:50%;background:#214e40;color:white;font-size:28px}
+.display-qr{display:none!important}
+.decision-options{gap:8px;padding-top:14px}.decision{min-height:70px;padding:12px 14px;gap:5px}.decision strong{font-size:15px;line-height:1.35}.decision-tradeoff{font-size:12px;line-height:1.35}
+@media(max-width:750px){.happiness-hud{padding:7px 12px}.site-qr-thumb{right:8px;bottom:calc(env(safe-area-inset-bottom) + 58px);width:46px;height:46px}.decision{min-height:64px}}
+@media(max-width:350px){.decision strong{font-size:13px}.decision-tradeoff{font-size:11px}}
+.shell[data-view=solo] .site-qr-thumb,.shell[data-view=group] .site-qr-thumb{left:12px;right:auto;top:230px;bottom:auto}
+@media(max-width:750px){.shell[data-view=solo] .site-qr-thumb,.shell[data-view=group] .site-qr-thumb{left:8px;right:auto;top:calc(env(safe-area-inset-top) + 220px);bottom:auto}}
+
+.site-qr-thumb{padding:3px;background:#fff}.site-qr-thumb img{display:block;width:100%;height:100%;object-fit:contain}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -180,51 +630,70 @@
   <div class="skyline">
    <div class="city-topline" id="cityTopline"><span class="city-pulse"></span><span id="cityStatus">街の暮らしは続いている</span></div>
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
+   <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="status" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div></div>
-  </div>
-  <section class="hud" aria-label="まちの様子">
-   <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
-   <div class="stat" data-stat="convenience"><span class="stat-label">便利さ</span><div class="stat-track"><i></i></div><strong>63</strong></div>
-   <div class="stat" data-stat="appeal"><span class="stat-label">街の魅力</span><div class="stat-track"><i></i></div><strong>67</strong></div>
-  </section>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div></div>
+  <div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas" aria-hidden="true"></div></div>
+  <section class="hud happiness-hud" aria-label="街の幸福度"><div class="stat" data-stat="happiness" title="6つの状態を合わせた街の幸福度" aria-label="街の幸福度"><span class="stat-label">街の幸福度</span><div class="stat-track"><i></i></div><strong>71</strong><span class="happiness-scale">0–100</span></div></section>
   <div class="join-landing" id="landing" hidden>
-   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>人が決めるか、AIに任せるか。<br>その小さな選択が街を変えていく。</p>
+   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p><p class="metric-clue">いま見える数字だけでは、街のすべてはわかりません。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
-       <button id="openSolo" class="mode-card" type="button"><span class="mode-card-index">01 / YOUR CITY</span><strong>ひとりで遊ぶ</strong><span class="mode-card-detail">自分の街で、決めてみる。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
-       <button id="openShared" class="mode-card" type="button"><span class="mode-card-index">02 / OUR CITY</span><strong>みんなで遊ぶ</strong><span class="mode-card-detail">ひとつの街を、みんなで動かす。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
+       <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong><span>4つの判断・自分のペース</span></button>
+       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong><span>7つの判断・1問23秒</span></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>みんなで遊ぶと公開サイトが開きます。</p>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
    <section class="join-panel" id="joinPanel" hidden>
-    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
+    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><p class="group-join-rules">7つの判断・1問23秒。最多票の具体的な行動を実施します。途中参加は次の議題から。</p><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
    </section>
-   <section class="question-panel" id="questionPanel" hidden aria-live="polite">
-    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
-    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p></div></div></div><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
-     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="option-arrow">↗</span></button>
-    </div>
+   <section class="lobby-panel" id="lobbyPanel" hidden>
+    <span class="overline">参加受付中</span><h2>みんなの準備ができたら。</h2>
+    <p>全員が「準備OK」になったら開始します。途中参加は次の議題からです。</p>
+    <button class="primary-action" id="readyShared" type="button" aria-pressed="false">準備OKにする</button>
+    <button class="primary-action" id="startShared" type="button">みんなで始める <span>→</span></button>
+    <p class="lobby-note">準備OK <strong id="lobbyReadyCount">0</strong> / 接続中 <strong id="lobbyPeople">0</strong> 人 · 投票は全員同じ23秒です。</p>
+   </section>
+   <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
+   <section class="question-panel" id="questionPanel" hidden>
+    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
+    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">三浦蒼太</strong><span id="agentRole">市役所職員 · 都市整備部長</span></div><div class="speech-bubble"><h2 id="agentLine" class="agent-line">市長、少しご相談です。</h2><p class="question-detail" id="questionHint" hidden></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><div class="decision-options" id="decisionOptions" hidden></div>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
    </section>
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
-    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p>
-    <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
+    <div class="group-reveal-notice" id="groupRevealNotice" hidden>
+     <p id="groupRevealNoticeText" role="status" aria-live="polite" aria-atomic="true">今は結果を表示中です。次の街から参加できます。</p>
+     <button id="groupRevealSolo" class="text-action" type="button">ひとりで遊ぶ →</button>
+    </div>
+    <section id="endingFlow" class="ending-flow" aria-label="街の結末を順に見る">
+     <p id="endingProgress" class="ending-progress" aria-live="polite">1 / 5　変わった街</p>
+     <section id="shadowSpotlight" class="shadow-spotlight" aria-labelledby="shadowSpotlightTitle" aria-live="polite" hidden><h3 id="shadowSpotlightTitle">見えていなかった3つの影響</h3><div id="shadowSpotlightRows"></div></section>
+     <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を保存できます。個人名や投票者別の記録は含みません。</p><details id="endingCardMore"><summary>大きな結果カードを見る</summary><div id="endingCardPreview" class="ending-card-preview"></div></details><div id="endingCardPrint" class="ending-card-print" aria-hidden="true"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNGで保存</button><button class="text-action" id="printEndingCard" type="button">PDFで保存</button><button class="text-action" id="replayButton" type="button">もう一度、遊ぶ →</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section>
+     <div id="endingCityPicture" class="ending-city-picture" role="img" aria-label="判断によって変化した街の風景"></div>
+     <button id="endingNext" class="primary-action" type="button">街の結末を見る</button>
+     <button id="endingShowAll" class="text-action" type="button">結果をすべて見る</button>
+    </section>
+    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
+    <button id="openEndingPress" class="text-action" type="button" hidden>記者会見も見る</button><section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div><button class="text-action" id="closeEndingPress" type="button">会見を閉じる</button></section>
+    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><details class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><summary>レーダーと6指標を詳しく見る</summary><div id="endingRadar" class="ending-inline-radar"></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる影響</span><div id="shadowMetrics"></div></div></details>
+<section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>判断の記録を保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
-    <button class="primary-action" id="replayButton" type="button">もう一度、遊ぶ <span>→</span></button>
+    <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
+    <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
    </section>
   </div>
   <aside class="display-frame" id="displayFrame" hidden>
-   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div></div>
+   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div><div id="displayMetrics" class="display-metrics" hidden></div></div>
    <div class="display-qr"><div class="qr-box" id="qrBox"><img id="qrImg" alt="参加用QRコード" decoding="async"></div><b>QRから参加</b><small id="joinUrl">参加はこちら</small></div>
   </aside>
  </div>
+ <button class="site-qr-thumb" id="siteQrOpen" type="button" aria-label="公式サイトのQRコードを拡大"><img id="siteQrSmall" alt="" aria-hidden="true"></button><section class="site-qr-panel" id="siteQrPanel" role="dialog" aria-modal="true" aria-labelledby="siteQrTitle" hidden><button class="site-qr-close" id="siteQrClose" type="button" aria-label="閉じる">×</button><h2 id="siteQrTitle">それ、誰が決めた？</h2><img id="siteQrLarge" alt="公式サイトを開くQRコード"><a href="https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/">公式サイトを開く</a></section>
  <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
 </div>
 <script>
+
 /* F5 city v9: ongoing city, connected services and explicit decision provenance.
    This is a fictional rule-based exhibition. No external AI or network is used. */
 (function(root){
@@ -946,33 +1415,6 @@ class F5Primitives {
       this.rect(x-9,y-20,4,4,'#3d4754');this.rect(x+5,y-20,4,4,'#3d4754');
       this.rect(x-9,y+4,6,5,'#526976');this.rect(x+3,y+4,6,5,'#526976');
     }
-    drawAgent(x,y,agent,focus,slot,selected) {
-      const t=this.time, bob=focus>0?Math.sin(t*5+slot*2)*1.5:0,xx=Math.round(x),yy=Math.round(y+bob);
-      if(selected){
-        this.ellipse(xx,yy+13,28+2*Math.sin(t*4),12,'rgba(65,196,218,.21)');
-        this.ellipse(xx,yy+13,21,8,'rgba(26,129,179,.21)');
-      }
-      this.ellipse(xx,yy+13,18,6,'rgba(66,65,64,.20)');
-      if(focus===0){
-        this.ellipse(xx-13,yy-39,8,6,'#f4e9d7');
-        this.text('Z',xx-13,yy-39,10,'#78a1a5','center','800');
-      }
-      const h=agent.hair||'#4d779b';
-      this.rect(xx-10,yy-12,9,23,'#415e72');this.rect(xx+1,yy-12,9,23,'#415e72');
-      this.rect(xx-12,yy-34,25,26,agent.skin||'#f4c5a4');
-      this.rect(xx-16,yy-39,30,12,h);this.rect(xx-15,yy-27,5,12,h);
-      this.rect(xx+9,yy-28,5,8,h);
-      this.rect(xx-8,yy-24,4,4,'#354357');this.rect(xx+4,yy-24,4,4,'#354357');
-      this.rect(xx-10,yy-8,21,17,agent.color);
-      this.rect(xx-16,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx+10,yy-6,7,14,agent.skin||'#f4c5a4');
-      this.rect(xx-9,yy+8,8,7,'#3f5067');this.rect(xx+2,yy+8,8,7,'#3f5067');
-      if(focus>0){
-        const period=1.2+slot*.2;
-        const spark=Math.sin(t*2*Math.PI/period+slot);
-        if(spark>.6){this.rect(xx+18,yy-42,5,5,'#f4f1b2');this.rect(xx+25,yy-49,3,3,'#fff9d4');}
-      }
-    }
     drawRobot(x,y) {
       this.ellipse(x,y+7,16,6,'rgba(13,74,87,.25)');
       this.rect(x-15,y-23,30,27,'#e4ece5');
@@ -991,7 +1433,7 @@ class F5Primitives {
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  class TownScene extends F5Primitives {
   constructor(canvas,model){
-   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;
+   super();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.model=model;this.time=0;this.reduced=false;this.decisionHighlight=null;
    this.W=2900;this.H=1600;this.scale=1;this.ox=0;this.oy=0;this.dpr=1;this.running=true;this.mobile=false;this.lastLayout='';this.zoom=1;this.zoomTarget=1;this.panX=0;this.panY=0;this.selectedAgentId=null;
    this.sites=root.F5City.SITES;
    this.roadsI=[-7,1,8,11,16,22,28,35];this.roadsJ=[-6,1,8,15,20];
@@ -1728,7 +2170,7 @@ class F5Primitives {
    const m=this.model,entities=[],add=(p,draw)=>entities.push({depth:p.depth??p.i+p.j,draw});
    const walks=this.walkPaths;
    // A busier residential and learning district brings more pedestrians.
-   const people=42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
+   const people=m.crisisVisual==='departure'?10:42+(m.residence?6:0)+(m.sites.some(s=>s.current==='school')?5:0);
    for(let k=0;k<people;k++){
     const p=this.atPath(walks[(k*7+Math.floor(k/7))%walks.length],this.walkerPhases[k]??((this.time*.018+k*.129)%1));
     add(p,()=>this.person(p.x,p.y,k));
@@ -1784,39 +2226,73 @@ class F5Primitives {
    this.coastObjects(add);
    // Editable sites are depth-sorted tree-by-tree and building-by-building.
    for(const site of m.sites)this.addSiteObjects(site,add);
-   root.F5City.AGENTS.forEach((a,k)=>{
-    const working=this.agentWork(a.id),p=this.agentPoint(a.id);
-    if(!p)return;
-    const selected=this.selectedAgentId===a.id;
-    add(p,()=>{
-     this.ctx.save();
-     if(selected){this.ellipse(p.x,p.y+6,35,15,'rgba(250,244,206,.90)');this.ellipse(p.x,p.y+6,27,10,'rgba(50,127,110,.48)');}
-     this.ctx.translate(p.x,p.y);this.ctx.scale(.64,.64);
-     this.drawAgent(0,0,a,80,k,selected||!!working);
-     this.ctx.restore();
-     if(selected){this.round(p.x-36,p.y-86,72,25,8,'#fffdf4','#80a38c');this.text(a.name,p.x,p.y-73,15,'#204f44','center','800');}
-    });
-   });
    return entities;
   }
   render(dt=0){
-   if(!this.reduced&&!this.model.paused)this.time+=dt;
-   this.advanceActors(dt);
+   if(!this.reduced&&!this.model.paused&&this.model.crisisVisual!=='transit')this.time+=dt;
+   this.advanceActors(this.model.crisisVisual==='transit'?0:dt);
    if(this.reduced){this.zoom=this.zoomTarget;}else if(Math.abs(this.zoomTarget-this.zoom)>.001){this.zoom+= (this.zoomTarget-this.zoom)*Math.min(1,dt*8);}
    else this.zoom=this.zoomTarget;this.layout();const c=this.ctx,r=this.canvas.getBoundingClientRect();
    c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#e4e9dd';c.fillRect(0,0,r.width,r.height);
-   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();
+   c.setTransform(this.dpr*this.scale,0,0,this.dpr*this.scale,this.dpr*this.ox,this.dpr*this.oy);this.drawWorld();this.drawServices();this.drawDecisionHighlight();
+  }
+  setDecisionHighlight(id,label){const site=this.model.site(id);if(!site)return false;this.decisionHighlight={id,label,startedAt:performance.now()};return true;}
+  clearDecisionHighlight(){this.decisionHighlight=null;}
+  drawDecisionHighlight(){
+   const beat=this.decisionHighlight;if(!beat)return;
+   const site=this.model.site(beat.id);if(!site){this.decisionHighlight=null;return;}
+   const elapsed=performance.now()-beat.startedAt;if(!this.reduced&&elapsed>850){this.decisionHighlight=null;return;}
+   // Convert the iso-space district center to the *viewport* before drawing.
+   // Canvas world scale can be ~0.2 on iPhone: world-space text would become unreadable.
+   const p=this.project([site.cell[0]+site.w*.52,site.cell[1]+site.d*.55],0,-16);
+   const c=this.ctx,r=this.canvas.getBoundingClientRect(),t=this.reduced?1:Math.min(1,elapsed/850);
+   const ease=1-Math.pow(1-t,3),radius=this.reduced?37:24+ease*30,alpha=this.reduced?.82:1-t*.6;
+   c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=alpha;
+   c.strokeStyle='#fff5b8';c.lineWidth=4;c.beginPath();c.ellipse(p.x,p.y,radius,radius*.52,0,0,Math.PI*2);c.stroke();
+   c.strokeStyle='#257657';c.lineWidth=2.5;c.beginPath();c.ellipse(p.x,p.y,radius+8,(radius+8)*.52,0,0,Math.PI*2);c.stroke();
+   if(!this.reduced&&elapsed<650){
+    for(let k=0;k<5;k++){const a=k*Math.PI*2/5+Math.PI/5,dist=radius+16;
+     c.fillStyle=k%2?'#fff5b8':'#8fcda1';c.beginPath();c.arc(p.x+Math.cos(a)*dist,p.y+Math.sin(a)*dist*.54,3.5,0,Math.PI*2);c.fill();}
+   }
+   if(elapsed<650||this.reduced){
+    const label=beat.label;c.font='800 15px "Yu Gothic","Noto Sans CJK JP",sans-serif';
+    const w=c.measureText(label).width+24,h=30;
+    const x=Math.max(8,Math.min(r.width-w-8,p.x-w/2)),y=Math.max(45,Math.min(r.height-h-8,p.y-79));
+    c.fillStyle='rgba(255,253,239,.97)';c.beginPath();c.roundRect(x,y,w,h,8);c.fill();
+    c.strokeStyle='#2f7454';c.lineWidth=1.5;c.stroke();
+    c.fillStyle='#245642';c.textAlign='center';c.textBaseline='middle';c.fillText(label,x+w/2,y+h/2);
+   }
+   c.restore();
   }
   drawServices(){
    const m=this.model,c=this.ctx,spot=this.iso(25,10);
    // Operational trouble is derived from completed decisions, not random decoration.
    if(m.serviceState==='rain'){
-    for(let k=0;k<5;k++){const p=this.iso(22.5+k*1.1,9+(k%2)*1.5);this.ellipse(p.x,p.y+6,20,8,'rgba(62,147,174,.5)');}
-    this.round(spot.x-37,spot.y-49,74,25,5,'#fff4df');this.text('路面に水',spot.x,spot.y-36,15,'#7b5a31','center');
+    // Broad inundation follows the coastal roads; static water keeps reduced-motion readable.
+    for(const corners of [[[2,14],[31,14],[31,20],[2,20]],[[19,6],[32,6],[32,20],[19,20]]]){
+     this.poly(corners.map(p=>this.pt(p)),'rgba(46,136,173,.52)','#4b9ab5',2);
+    }
+    for(let k=0;k<18;k++){const p=this.iso(3+k*1.6,15+(k%3));this.line(p.x-20,p.y,p.x+20,p.y,'rgba(222,247,255,.72)',3);}
+    for(const cell of [[8,15],[22,10],[28,15]]){const p=this.iso(...cell);this.round(p.x-58,p.y-35,116,30,5,'#fff1df','#a14c3f');this.text('浸水・通行止め',p.x,p.y-19,14,'#8b352c','center','800');}
+    for(let k=0;k<34;k++){const x=450+(k*103)%1850,y=210+(k*79)%780;this.line(x,y,x-10,y+25,'rgba(72,118,151,.55)',2);}
    }
    if(m.serviceState==='demand'){
     for(const s of m.sites.filter(x=>x.current==='dc')){const p=this.iso(s.cell[0]+s.w*.5,s.cell[1]+s.d*.5);this.round(p.x-24,p.y-99,48,23,5,'#fff0d7');this.text('節電',p.x,p.y-87,14,'#825b2d','center');}
    }
+   if(m.crisisVisual==='transit')for(const cell of [[1,15],[16,8],[28,15]]){const p=this.iso(...cell);this.round(p.x-45,p.y-24,90,24,4,'#fff1dd','#a34d3a');this.text('交通停止',p.x,p.y-11,14,'#8b352c','center','800');this.line(p.x-34,p.y+5,p.x+34,p.y+5,'#b24c3c',6);}
+   if(m.crisisVisual==='economy')for(const cell of [[22,7],[28,7],[24,12]]){const p=this.iso(...cell);this.round(p.x-35,p.y-58,70,27,4,'#e2dfd7','#84796e');this.text('休業',p.x,p.y-44,15,'#65584c','center','800');}
+   if(m.crisisVisual==='departure'){const p=this.iso(13,12);this.round(p.x-70,p.y-40,140,29,5,'#f5eddf','#9b8061');this.text('人通りが途切れた',p.x,p.y-24,15,'#795c43','center','800');}
+   if(m.crisisVisual==='divide'){
+    const west=this.iso(8,10),east=this.iso(23,10);
+    this.round(west.x-86,west.y-67,172,28,5,'#fff3d6','#ad7f4a');
+    this.text('施設が充実した地区',west.x,west.y-49,13,'#795b32','center','800');
+    this.round(east.x-85,east.y-66,170,28,5,'#e2e4e2','#7a8184');
+    this.text('取り残された地区',east.x,east.y-48,13,'#62676b','center','800');
+    const divider=this.iso(15.5,10);
+    this.line(divider.x-12,divider.y-70,divider.x+12,divider.y+55,'#bb7452',7);
+   }
+   if(m.crisisVisual==='protest')for(let k=0;k<7;k++){const p=this.iso(13+k*.7,9);this.person(p.x,p.y,k,false);this.line(p.x+6,p.y-8,p.x+6,p.y-40,'#796147',2);this.round(p.x-20,p.y-54,54,22,3,'#fff6da','#936d49');this.text('説明を',p.x+6,p.y-42,12,'#794d32','center','800');}
+   if(m.finalWarning){const p=this.iso(m.warningVisual==='flood'?25:13,m.warningVisual==='flood'?12:9);this.ellipse(p.x,p.y+6,90,28,'rgba(211,156,58,.30)');this.round(p.x-75,p.y-70,150,30,5,'#fff3d6','#b1853c');this.text('残った課題を点検中',p.x,p.y-54,15,'#785321','center','800');}
    if(m.shadePrepared){const p=this.iso(8.3,12.2);for(let k=0;k<3;k++){const x=p.x+k*32;this.line(x,p.y-30,x,p.y+2,'#806d52',3);this.poly([[x-23,p.y-30],[x,p.y-43],[x+23,p.y-30]],'#d8cbb0');}}
 
   }
@@ -2325,84 +2801,513 @@ class F5Primitives {
  root.F5CityScene=IllustratedScene;
 })(window);
 
-</script><script>/* Shared game rules: one city, one decision per round. No AI API is called. */
+
+</script><script>
+/* Shared game rules: one city, one decision per round. No AI API is called. */
 (function(global){
  'use strict';
  const EPISODES = [
-  {agent:'ヒカリ',role:'住民の声',site:'clinic',heading:'診療所を増やす？',hint:'新しい住宅街からの要望。',human:'住民に聞いて決める',ai:'需要予測で進める',resultHuman:'住民の要望を聞き、診療所を整えた。',resultAI:'AIが需要を計算し、診療所を整えた。',humanBuild:'clinic',aiBuild:'clinic'},
-  {agent:'ソラ',role:'都市計画',site:'office',heading:'駅前の空き地をどうする？',hint:'新しい企業が進出を希望。',human:'使い道を話し合う',ai:'収益予測を優先する',resultHuman:'相談の結果、街に市場が生まれた。',resultAI:'AIの最適化で仕事の拠点が増えた。',humanBuild:'market',aiBuild:'dc'},
-  {agent:'ナギ',role:'施設整備',site:'waterfront',heading:'海辺を開発する？',hint:'集客施設か、防災対策か。',human:'暮らす人の声を聞く',ai:'効率的な開発を進める',resultHuman:'高潮に備える設備が整った。',resultAI:'海辺に新しい商業施設が建った。',humanBuild:'floodgate',aiBuild:'market'},
-  {agent:'ミドリ',role:'環境・調査',site:'energy',heading:'新しい電力をどう確保する？',hint:'街の使用電力が増えている。',human:'将来の負荷も調べる',ai:'今の需要に合わせる',resultHuman:'長く使える発電設備が整った。',resultAI:'AIの見積もりで情報施設が増えた。',humanBuild:'solar',aiBuild:'dc'},
-  {agent:'ソラ',role:'都市計画',site:'transit',heading:'新しい交通の拠点は？',hint:'駅までの移動が不便という声。',human:'移動の実態を確認',ai:'データから最適化',resultHuman:'街をつなぐ交通拠点ができた。',resultAI:'駅前に商業施設が増えた。',humanBuild:'transit',aiBuild:'market'},
-  {agent:'ヒカリ',role:'住民の声',site:'parkA',heading:'中央公園を変える？',hint:'土地の活用を求める提案。',human:'公園の役割を残す',ai:'新しい施設へ転用',resultHuman:'公園と施設を両立する形にした。',resultAI:'街の中心に情報施設が建った。',humanBuild:'mixed',aiBuild:'dc'},
-  {agent:'ミドリ',role:'環境・調査',site:'school',heading:'学びの場所を増やす？',hint:'子どもの数が増えている。',human:'将来の人口まで調べる',ai:'今すぐ住まいを増やす',resultHuman:'次の世代のための学びの場ができた。',resultAI:'新しい住宅が完成した。',humanBuild:'school',aiBuild:'homes'}
+  {agent:'ヒカリ',role:'住民の声',site:'clinic',heading:'診療所を増やす？',hint:'診療所は1か所。駅前は利用者が多く、郊外は通院の負担を減らせます。',human:'住民に聞いて決める',ai:'需要予測で進める',humanNow:'地域ごとの必要を拾う',humanLater:'必要な場所へ届けるには話し合いが要る',aiNow:'予測に合わせて早く整える',aiLater:'想定から外れた地区の声は残る',resultHuman:'住民の要望を聞き、診療所を整えた。',resultAI:'需要予測をもとに診療所を整えた。',humanBuild:'clinic',aiBuild:'clinic',impact:{human:{prosperity:-4,convenience:2,appeal:1,trust:4,fairness:2,resilience:1},ai:{prosperity:11,convenience:10,appeal:4,trust:2,fairness:-8,resilience:-21}}},
+  {agent:'ソラ',role:'都市計画',site:'office',heading:'駅前の空き地をどうする？',hint:'新しい企業が進出を希望。',human:'使い道を話し合う',ai:'収益予測を優先する',humanNow:'地域の望む使い方を選ぶ',humanLater:'話し合いで声の大きい地区に偏ることも',aiNow:'仕事の拠点を広げる',aiLater:'予測の前提が偏ると、投資先も偏ることがある',resultHuman:'相談の結果、街に市場が生まれた。',resultAI:'予測をもとに、仕事の拠点が増えた。',humanBuild:'market',aiBuild:'dc',impact:{human:{prosperity:1,convenience:0,appeal:1,trust:3,fairness:-6,resilience:1},ai:{prosperity:14,convenience:7,appeal:-2,trust:-11,fairness:3,resilience:-3}}},
+  {agent:'ナギ',role:'施設整備',site:'waterfront',heading:'海辺を開発する？',hint:'集客施設か、防災対策か。',human:'暮らす人の声を聞く',ai:'効率的な開発を進める',humanNow:'高潮に備える設備を整える',humanLater:'集客や便利さへの投資は控えめ',aiNow:'商業施設で人を呼び込む',aiLater:'にぎわいが増えても高潮への備えは別に必要',resultHuman:'高潮に備える設備が整った。',resultAI:'予測をもとに、海辺に商業施設ができた。',humanBuild:'floodgate',aiBuild:'market',impact:{human:{prosperity:-6,convenience:-3,appeal:2,trust:2,fairness:1,resilience:14},ai:{prosperity:12,convenience:3,appeal:9,trust:-10,fairness:-4,resilience:-22}}},
+  {agent:'ミドリ',role:'環境・調査',site:'energy',heading:'新しい電力をどう確保する？',hint:'街の使用電力が増えている。',human:'将来の負荷も調べる',ai:'今の需要に合わせる',humanNow:'先の需要まで見て電源を選ぶ',humanLater:'今すぐの成長や便利さはゆるやか',aiNow:'今の需要に合わせて施設を増やす',aiLater:'需要が急増すると、長期の備えが足りないことも',resultHuman:'長く使える発電設備が整った。',resultAI:'需要予測をもとに、効率的な情報施設を整えた。',humanBuild:'solar',aiBuild:'dc',impact:{human:{prosperity:-4,convenience:-1,appeal:2,trust:1,fairness:1,resilience:14},ai:{prosperity:14,convenience:9,appeal:1,trust:-10,fairness:-4,resilience:4}}},
+  {agent:'ソラ',role:'都市計画',site:'transit',heading:'新しい交通の拠点は？',hint:'駅までの移動が不便という声。',human:'移動の実態を確認',ai:'データから最適化',humanNow:'遠い地区も交通でつなぐ',humanLater:'広く移動を支え、成長は穏やか',aiNow:'駅前に商業施設を増やす',aiLater:'利用の少ない地区の不便は残る',resultHuman:'街をつなぐ交通拠点ができた。',resultAI:'予測をもとに、駅前に商業施設が増えた。',humanBuild:'transit',aiBuild:'market',impact:{human:{prosperity:-5,convenience:11,appeal:1,trust:2,fairness:2,resilience:1},ai:{prosperity:6,convenience:12,appeal:5,trust:-10,fairness:-20,resilience:-13}}},
+  {agent:'ヒカリ',role:'住民の声',site:'parkA',heading:'中央公園を変える？',hint:'土地の活用を求める提案。',human:'公園の役割を残す',ai:'新しい施設へ転用',humanNow:'公園と施設を両立する',humanLater:'大きな商業利用の余地は小さくなる',aiNow:'中心に便利な施設を設ける',aiLater:'緑の場所と街の魅力が失われることも',resultHuman:'公園と施設を両立する形にした。',resultAI:'予測をもとに、街の中心に情報施設ができた。',humanBuild:'mixed',aiBuild:'dc',impact:{human:{prosperity:1,convenience:-1,appeal:5,trust:2,fairness:4,resilience:4},ai:{prosperity:15,convenience:5,appeal:-45,trust:-10,fairness:-30,resilience:-8}}},
+  {agent:'ミドリ',role:'環境・調査',site:'school',heading:'学びの場所を増やす？',hint:'子どもの数が増えている。',human:'将来の人口まで調べる',ai:'今すぐ住まいを増やす',humanNow:'次の世代の学びを準備する',humanLater:'今すぐの住宅増加はゆるやか',aiNow:'今の住宅需要にすばやく応える',aiLater:'人口が増えると学びの場所が足りないことも',resultHuman:'次の世代のための学びの場ができた。',resultAI:'予測をもとに、新しい住宅が完成した。',humanBuild:'school',aiBuild:'homes',impact:{human:{prosperity:-2,convenience:2,appeal:2,trust:1,fairness:5,resilience:5},ai:{prosperity:4,convenience:11,appeal:10,trust:-10,fairness:3,resilience:-5}}}
  ];
  const INITIAL_PUBLIC={prosperity:61,convenience:63,appeal:67};
  const INITIAL_SHADOW={trust:82,fairness:78,resilience:77};
  const SOLO_STORY=[0,4,2,3];
+ // Small, deterministic solo-only follow-through. Each option moves distinct metrics;
+ // these apply after the normal episode proposal and never alter shared votes.
+ const SOLO_DETAIL_IMPACT={
+  clinicPlace:{station:{prosperity:2,convenience:4,fairness:-3},suburb:{prosperity:-1,convenience:1,appeal:2,fairness:4}},
+  clinicReason:{total:{prosperity:2,convenience:1},access:{convenience:1,trust:1,fairness:2}},
+  strategy:{voices:{prosperity:-2,convenience:1,appeal:1,trust:3},balance:{prosperity:-1,convenience:-1,trust:1,fairness:3,resilience:2}},
+  response:{review:{convenience:-1,trust:4,fairness:2},support:{prosperity:-1,convenience:3,appeal:1,fairness:1},revise:{prosperity:-1,convenience:-2,trust:1,fairness:3}}
+ };
  const episodeFor=game=>EPISODES[game.storyMode==='solo'?SOLO_STORY[game.round]:game.round];
+ const ALL_KEYS=['prosperity','convenience','appeal','trust','fairness','resilience'];
+ const ACTIONS=[
+  {suffix:'listen',label:'地区を回って住民の声を聞く',kind:'human',extra:{trust:3,fairness:2}},
+  {suffix:'audit',label:'影響を調べて段階的に進める',kind:'human',extra:{convenience:-2,resilience:3,trust:2}},
+  {suffix:'community',label:'地元の事業者と共同で整える',kind:'human',extra:{prosperity:-2,appeal:3,fairness:3}},
+  {suffix:'ai',label:'AIに任せて予測どおり一括で進める',kind:'ai',extra:{prosperity:3,convenience:2,trust:-3,fairness:-2}}
+ ];
+ // Only use land-use outcomes supported by the city model for each district.
+ // Some districts have fewer than four physical choices, so their actions also
+ // have distinct, concrete six-metric effects; no synthetic building IDs are used.
+ const OPTION_BUILDS=[
+  ['clinic','lot','clinic','clinic'],
+  ['market','solar','market','dc'],
+  ['floodgate','lot','market','market'],
+  ['solar','lot','solar','dc'],
+  ['transit','lot','market','market'],
+  ['mixed','park','mixed','dc'],
+  ['school','lot','school','homes']
+ ];
+ const BUILD_RESULTS={clinic:'診療所を整えた。',lot:'今回は施設の整備を見送り、空き地を残した。',market:'商業施設を整えた。',solar:'発電設備を整えた。',dc:'情報施設を整えた。',floodgate:'大雨への備えを整えた。',transit:'移動の拠点を整えた。',mixed:'公園と施設を両立させた。',park:'中央公園の緑を残した。',school:'学びの場を整えた。',homes:'住宅を整えた。'};
+ const ACTION_COPY=[
+  ['診療所を郊外にも届くよう住民と場所を決める','診療需要を確かめ、診療所の整備をいったん見送る','診療所を地元の診療所や交通事業者と共同運営する','AIに診療所の場所を予測させ一括整備する'],
+  ['駅前の使い道を近隣住民と話し合って決める','駅前への影響を調べ、空き地に発電設備を段階整備する','地元店舗と小さな市場を共同でつくる','AIに収益予測をさせて企業拠点を整備する'],
+  ['海辺の避難路と防潮設備を住民と整える','高潮リスクを調べ、海辺の開発をいったん見送る','沿岸の店と協力して海辺に商業施設をつくる','AIの集客予測を優先して海辺を開発する'],
+  ['地域の声を聞いて長く使える発電設備を選ぶ','電力需要を調べ、発電設備の整備をいったん見送る','地元の電力会社と小規模電源を共同整備する','AIの需要予測で情報施設を一括整備する'],
+  ['遠い地区の声を聞いて交通拠点をつなぐ','移動データを調べ、交通拠点の整備をいったん見送る','地域交通の担い手と駅前に商業施設を共同整備する','AIに利用予測をさせて駅前に商業施設を整備する'],
+  ['公園を残しながら住民と必要な施設を選ぶ','緑地への影響を調べ、中央公園の緑を残す','地域団体と公園の中に交流施設を共同でつくる','AIの利用予測で公園を情報施設へ転用する'],
+  ['子どもや保護者の声を聞いて学びの場を増やす','将来人口を調べ、学校の整備をいったん見送る','地域の学校と事業者で放課後の学び場をつくる','AIの住宅需要予測を優先して住まいを増やす']
+ ];
+ function optionsFor(ep,index){return ACTIONS.map((a,i)=>{const label=ACTION_COPY[index]?.[i]||a.label,build=OPTION_BUILDS[index]?.[i]||ep.humanBuild;return {id:`e${index}-${a.suffix}`,label,kind:a.kind,build,impact:Object.fromEntries(ALL_KEYS.map(k=>[k,(ep.impact[a.kind][k]||0)+(a.extra[k]||0)])),result:`${label}。${BUILD_RESULTS[build]||'計画を実施した。'}`};});}
+ const episodeIndex=game=>game.storyMode==='solo'?SOLO_STORY[game.round]:game.round;
+ function happiness(game){return Math.round(ALL_KEYS.reduce((sum,k)=>sum+(game.public[k]??game.shadow[k]),0)/6);}
  const maxRounds=game=>game.storyMode==='solo'?SOLO_STORY.length:EPISODES.length;
- const MAX_ROUNDS=EPISODES.length,ROUND_MS=23000,REVEAL_MS=50000,MIN_HIDDEN=20;
+ // These thresholds apply to both visible and hidden metrics. Strictly below, not equal.
+ const MAX_ROUNDS=EPISODES.length,ROUND_MS=23000,REVEAL_MS=50000,WARN_THRESHOLD=30,END_THRESHOLD=10;
+ const SIGNALS={
+  prosperity:{warning:'街の仕事に不安が広がる',detail:'働く場所を守れるのか、住民から声が上がっています。',incident:'街の財政が立ち行かなくなった',description:'仕事と収入が減り、必要な公共サービスを維持できなくなりました。',visual:'economy'},
+  convenience:{warning:'街の移動に混乱が生まれる',detail:'移動や生活に支障が出る地区が増えています。',incident:'街の交通網が止まった',description:'日々の移動に必要な仕組みが機能しなくなりました。',visual:'transit'},
+  appeal:{warning:'住民が街を離れ始める',detail:'街で暮らし続けることに迷う人が出ています。',incident:'街から人が離れていった',description:'暮らし続けたいと思う人が減り、街の活気が失われました。',visual:'departure'},
+  trust:{warning:'住民が説明を求めている',detail:'誰が何を決めたのか、わからないという声が広がっています。',incident:'住民の反対運動が広がった',description:'説明のない決定が重なり、住民の協力が得られなくなりました。',visual:'protest'},
+  fairness:{warning:'地区ごとに不満が高まっている',detail:'同じ街なのに扱いが違う、と感じる住民がいます。',incident:'住民同士の分断が深まった',description:'公平さを欠いた決定が積み重なり、街のつながりが失われました。',visual:'divide'},
+  resilience:{warning:'街の設備に異変が起きている',detail:'便利さの陰で、災害への備えが追いついていません。',incident:'豪雨で街が浸水した',description:'備えの不足が重なり、街を守る設備が限界を迎えました。',visual:'flood'}
+ };
+ // Each repeated one-sided decision creates a growing, topic-specific unattended cost.
+ // It is measured by actual resolved choices, never by which button happens to be clicked.
+ // Mixed/tied/absent votes incur no unilateral penalty. No extra rounds are added.
+ const OPERATING_PRESSURE={human:[0,0,23,28,34,48,58],ai:[0,0,10,28,34,48,58]};
+ const PRESSURE_FOCUS={
+  human:['convenience','prosperity','prosperity','prosperity','convenience','appeal','convenience'],
+  ai:['resilience','trust','resilience','resilience','fairness','appeal','trust']
+ };
+ const ENDINGS={
+  prosperity:{heading:'仕事の灯が、消えた街。',description:'決めるための話し合いは重ねた。それでも計画は前に進まず、店が閉まり、働く場所が消えた。人の声を聞くことと、実現する力の両方が必要だった。'},
+  convenience:{heading:'行きたい場所へ、行けない街。',description:'丁寧に決めようとしているうちに、交通も日々のサービスも追いつかなくなった。住民の希望を形にするには、データと実行の速さも必要だった。'},
+  appeal:{heading:'帰りたい場所が、なくなった街。',description:'数字では活用できたはずの土地から、いつもの公園や居場所が消えていった。効率だけでは、暮らし続けたくなる理由を計れなかった。'},
+  trust:{heading:'誰も、説明できなくなった街。',description:'判断の根拠をたどっても、責任者の言葉が見つからない。正確そうな提案に任せるほど、「誰が決めた？」という声だけが大きくなった。'},
+  fairness:{heading:'見えない境界線が、街を分けた。',description:'予測に選ばれる地区と、見落とされる地区。便利になった場所の隣で、同じ街の住民が取り残された。平均値の向こうに、一人ひとりがいた。'},
+  resilience:{heading:'備えのない街に、雨が降った。',description:'成長と便利さを急いだ街に豪雨が押し寄せた。警報はあったのに、誰も備えを確かめなかった。判断を任せても、最後の責任まで消えるわけではない。'}
+ };
+ const metricEntries=game=>[...Object.entries(game.public),...Object.entries(game.shadow)];
+ const criticalRisks=(game,threshold)=>metricEntries(game).filter(([,v])=>v<threshold).sort((a,b)=>a[1]-b[1]);
+ function publicWarning(game){
+  const risks=criticalRisks(game,WARN_THRESHOLD);
+  if(!risks.length)return null;
+  const x=SIGNALS[risks[0][0]];
+  // Signals describe lived experiences; they deliberately never expose hidden keys/values.
+  return {title:'街の暮らしに小さな異変が現れています',detail:'見えている街の変化だけでは、気づきにくい影響が残っているかもしれません。',action:'現場の声と分析の両方を確かめ、次の一手を選びましょう。'};
+ }
+ function publicIncident(game){
+  const risks=criticalRisks(game,END_THRESHOLD);
+  if(!risks.length)return null;
+  const [metric]=risks[0],x=SIGNALS[metric];
+  return {metric,title:x.incident,description:x.description,visual:x.visual};
+ }
  const clamp=x=>Math.min(100,Math.max(0,Math.round(x)));
  const copy=x=>JSON.parse(JSON.stringify(x));
  const tally=game=>Object.values(game.votes).reduce((a,v)=>(a[v]++,a),{human:0,ai:0});
  function createGame(now=Date.now(),opts={}){
-   return {phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:now+ROUND_MS,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},participants:{},outcome:null,lastEvent:null};
+   const game={phase:opts.autostart?'active':'waiting',storyMode:opts.storyMode==='solo'?'solo':null,createdAt:now,round:0,roundStartedAt:now,roundEndsAt:opts.autostart?now+ROUND_MS:0,revealEndsAt:0,public:copy(INITIAL_PUBLIC),shadow:copy(INITIAL_SHADOW),built:{},history:[],votes:{},optionVotes:{},participants:{},outcome:null,lastEvent:null};
+   if(game.storyMode==='solo'){game.soloDetails={};game.awaitingClinicResponse=false;}
+   return game;
  }
- function start(game,now=Date.now()){if(game.phase!=='waiting')return false;game.phase='active';game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;return true;}
+ const connected=(game,now)=>Object.values(game.participants).filter(x=>now-x.lastSeen<90000);
+ function canStart(game,now=Date.now()){const players=connected(game,now);return game.phase==='lobby'&&players.length>0&&players.every(x=>x.ready);}
+ function ready(game,id,value,now=Date.now()){
+   if(game.phase!=='lobby'||!game.participants[id]||typeof value!=='boolean')return false;
+   game.participants[id].ready=value;game.participants[id].lastSeen=now;return true;
+ }
+ function start(game,now=Date.now()){if(!canStart(game,now))return false;game.phase='active';game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;return true;}
  function join(game,id,name,now=Date.now()){
    if(game.phase==='reveal')return false;
-   game.participants[id]={name:String(name||'参加者').replace(/[\u0000-\u001f<>]/g,'').trim().slice(0,16)||'参加者',joinedAt:now,lastSeen:now};
-   start(game,now);return true;
+   const previous=game.participants[id];
+   game.participants[id]={ready:false,eligibleFromRound:game.storyMode!=='solo'&&game.phase==='active'&&now>game.roundStartedAt?game.round+1:game.round,...previous,name:String(name||'参加者').replace(/[\u0000-\u001f<>]/g,'').trim().slice(0,16)||'参加者',joinedAt:previous?.joinedAt??now,lastSeen:now};
+   if(game.phase==='waiting')game.phase='lobby';
+   return true;
  }
  function vote(game,id,choice,now=Date.now()){
-   if(game.phase!=='active'||!['human','ai'].includes(choice)||!game.participants[id]||now>=game.roundEndsAt)return false;
-   game.votes[id]=choice;game.participants[id].lastSeen=now;return true;
+   const ep=episodeFor(game);if(!ep)return false;
+   const options=optionsFor(ep,episodeIndex(game));
+   const option=options.find(x=>x.id===choice)||(['human','ai'].includes(choice)?options.find(x=>x.kind===choice):null);
+   if(game.phase!=='active'||game.awaitingClinicResponse||!option||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||now>=game.roundEndsAt)return false;
+   game.optionVotes=game.optionVotes||{};game.optionVotes[id]=option.id;game.votes[id]=option.kind;game.participants[id].lastSeen=now;return true;
+ }
+ function chooseSoloDetail(game,id,detail){
+  if(game.storyMode!=='solo'||game.phase!=='active'||game.awaitingClinicResponse||game.votes[id]||!game.participants[id]||(game.participants[id].eligibleFromRound||0)>game.round||!detail||typeof detail!=='object')return false;
+  if(game.round===0){
+   if(detail.kind!=='clinic'||!['station','suburb'].includes(detail.place)||!['total','access'].includes(detail.reason)||game.soloDetails[0])return false;
+  }else{
+   if(detail.kind!=='strategy'||!['voices','balance'].includes(detail.strategy)||game.soloDetails[game.round])return false;
+  }
+  game.soloDetails[game.round]=copy(detail);return true;
+ }
+ function applySoloImpact(game,impact){
+  for(const [key,delta] of Object.entries(impact||{})){
+   const pool=Object.hasOwn(game.public,key)?game.public:game.shadow;
+   pool[key]=clamp(pool[key]+delta);
+  }
+ }
+ function clinicResponse(game,id,response,now=Date.now()){
+  if(game.storyMode!=='solo'||game.phase!=='active'||game.round!==1||!game.awaitingClinicResponse||!game.participants[id]||Object.keys(game.participants).length!==1||!Object.hasOwn(SOLO_DETAIL_IMPACT.response,response))return false;
+  const event=game.history[0];if(!event||event.chosen!=='human'||event.clinicResponseApplied)return false;
+  const before={...game.public};applySoloImpact(game,SOLO_DETAIL_IMPACT.response[response]);
+  const lines={review:'住民の評価を調べ直し、根拠の説明と地区ごとの状況を確かめました。',support:'通院支援を先に進め、利用のしやすさを補いました。',revise:'計画を見直し、各地区の事情を反映しました。'};
+  const responseDelta=Object.fromEntries(Object.keys(game.public).map(k=>[k,game.public[k]-before[k]]));
+  event.result+=' '+lines[response];event.clinicResponse=response;event.clinicResponseApplied=true;event.responseDelta=responseDelta;event.visible=copy(game.public);event.hidden=copy(game.shadow);
+  if(game.lastEvent){game.lastEvent.result=event.result;game.lastEvent.clinicResponseApplied=true;game.lastEvent.responseDelta=responseDelta;}
+  game.awaitingClinicResponse=false;
+  const lost=criticalRisks(game,END_THRESHOLD)[0];
+  if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':game.history.every(x=>x.deferred)?'undecided':'survived';game.revealEndsAt=now+REVEAL_MS;}
+  else{game.roundStartedAt=now;game.roundEndsAt=Number.MAX_SAFE_INTEGER;}
+  return {public:{...game.public},delta:responseDelta,phase:game.phase};
  }
  function resolve(game,now){
-   const n=tally(game),total=n.human+n.ai,aiShare=total?n.ai/total:0.5;
-   const e=episodeFor(game);
-   const chosen=aiShare>0.5?'ai':aiShare<0.5?'human':'mixed';
-   // Rapid growth comes with invisible accumulated costs; human review trades speed for confidence.
-   game.public.prosperity=clamp(game.public.prosperity+3+Math.round(6*aiShare));
-   game.public.convenience=clamp(game.public.convenience+2+Math.round(6*aiShare));
-   game.public.appeal=clamp(game.public.appeal+2+Math.round(4*aiShare)-(game.round===5&&aiShare>.5?5:0));
-   game.shadow.trust=clamp(game.shadow.trust+Math.round(3*(1-aiShare)-19*aiShare));
-   game.shadow.fairness=clamp(game.shadow.fairness+Math.round(2*(1-aiShare)-15*aiShare));
-   game.shadow.resilience=clamp(game.shadow.resilience+Math.round(2*(1-aiShare)-14*aiShare));
-   const built=chosen==='ai'?e.aiBuild:e.humanBuild;
-   game.built[e.site]=built;
-   const message=chosen==='mixed'?'人とAIの判断が割れた。街は一つの道を選んだ。':chosen==='ai'?e.resultAI:e.resultHuman;
-   game.lastEvent={round:game.round+1,heading:e.heading,agent:e.agent,result:message,chosen,human:n.human,ai:n.ai,time:now};
+   const n=tally(game),total=n.human+n.ai,noVotes=total===0;
+   const e=episodeFor(game),opts=optionsFor(e,episodeIndex(game)),counts=Object.fromEntries(opts.map(o=>[o.id,0]));
+   for(const id of Object.values(game.optionVotes||{}))if(Object.hasOwn(counts,id))counts[id]++;
+   // Old persisted rows only have human/ai votes. Keep them meaningful by mapping to a concrete action.
+   for(const [participant,v] of Object.entries(game.votes))if(!Object.hasOwn(counts,game.optionVotes?.[participant])){const o=opts.find(x=>x.kind===v);if(o)counts[o.id]++;}
+   const maxVotes=Math.max(0,...Object.values(counts)),winners=opts.filter(o=>counts[o.id]===maxVotes&&maxVotes>0),winner=winners.length===1?winners[0]:null;
+   const chosen=noVotes?'none':!winner?'mixed':winner.kind,aiShare=noVotes?0:n.ai/total;
+   // Without a majority, neither proposal is implemented. Both metrics and buildings stay put.
+   const deferred=noVotes||chosen==='mixed';
+   // Capture a warning before applying the next decision: a human-led choice can intervene.
+   const risksBefore=criticalRisks(game,WARN_THRESHOLD);
+   // Human oversight repairs social/safety risks; data-led execution can repair throughput.
+  // Neither method is a universal cure for all six metrics.
+  const repairable=chosen==='human'?['trust','fairness','resilience','appeal']:
+    chosen==='ai'?['prosperity','convenience']:[];
+  const interventions=risksBefore.filter(([metric])=>repairable.includes(metric));
+  const intervened=interventions.length>0;
+   if(!deferred)for(const [key,delta] of Object.entries(winner.impact)){const pool=Object.hasOwn(game.public,key)?game.public:game.shadow;pool[key]=clamp(pool[key]+delta);}
+   const soloDetail=game.storyMode==='solo'&&chosen==='human'?game.soloDetails[game.round]:null;
+   if(soloDetail?.kind==='clinic'){
+    applySoloImpact(game,SOLO_DETAIL_IMPACT.clinicPlace[soloDetail.place]);
+    applySoloImpact(game,SOLO_DETAIL_IMPACT.clinicReason[soloDetail.reason]);
+   }else if(soloDetail?.kind==='strategy')applySoloImpact(game,SOLO_DETAIL_IMPACT.strategy[soloDetail.strategy]);
+   // Recurring dependence on one decision method accumulates real operational debt.
+   // Every episode has a different neglected dimension; penalty is vote-share weighted.
+   const priorSame=game.history.filter(x=>x.chosen===chosen).length;
+   const focus=PRESSURE_FOCUS[chosen]?.[game.storyMode==='solo'?SOLO_STORY[game.round]:game.round];
+   const pressure=focus?Math.round((OPERATING_PRESSURE[chosen][Math.min(priorSame,OPERATING_PRESSURE[chosen].length-1)]||0)
+     *(chosen==='ai'?aiShare:1-aiShare)):0;
+   if(pressure){
+     const pool=Object.hasOwn(game.public,focus)?game.public:game.shadow;
+     pool[focus]=clamp(pool[focus]-pressure);
+   }
+   const beforeIntervention={...game.public,...game.shadow};
+   if(intervened)for(const [metric] of interventions){
+     const group=Object.hasOwn(game.public,metric)?game.public:game.shadow;
+     group[metric]=clamp(group[metric]+Math.round(8*(chosen==='ai'?aiShare:1-aiShare)));
+   }
+   const crisisAverted=intervened?interventions.filter(([metric])=>beforeIntervention[metric]<END_THRESHOLD&&((Object.hasOwn(game.public,metric)?game.public:game.shadow)[metric]>=END_THRESHOLD)).map(([metric])=>metric):[];
+   const warningRecovered=intervened?interventions.filter(([metric])=>((Object.hasOwn(game.public,metric)?game.public:game.shadow)[metric]>=WARN_THRESHOLD)).map(([metric])=>metric):[];
+   if(!deferred){
+     game.built[e.site]=winner.build==='ai'?e.aiBuild:winner.build==='human'?e.humanBuild:winner.build;
+   }
+   const detailLine=soloDetail?.kind==='clinic'?`${soloDetail.place==='station'?'駅前':'郊外'}を選び、${soloDetail.reason==='total'?'利用者数':'通院の届きやすさ'}を優先した。`:soloDetail?.kind==='strategy'?(soloDetail.strategy==='voices'?'現地の声を確かめる方針を実施した。':'複数地区の希望を調整する方針を実施した。'):'';
+   const message=noVotes?'投票がなかったため、この議題は判断を保留しました。街の状態を維持して次の議題へ進みます。':chosen==='mixed'?'最多票が同数のため、計画を保留しました。施設も指標も変えず、次の議題へ進みます。':winner.result+(detailLine?' '+detailLine:'')
+    +(pressure?chosen==='human'?' 人だけで決め続け、調整と整備の遅れが街に積み重なっている。':' AIに任せ続け、現場で確かめなかった影響が現れ始めた。':'')
+    +(intervened?' 異変に気づき、足りなかった視点から対策を進めた。':'');
+   game.lastEvent={round:game.round+1,heading:e.heading,agent:e.agent,result:message,chosen,human:n.human,ai:n.ai,winningOption:winner?.id||null,winningLabel:winner?.label||null,winningEffect:deferred?null:copy(winner.impact),optionCounts:counts,optionLabels:Object.fromEntries(opts.map(o=>[o.id,o.label])),participantVotes:Object.values(game.optionVotes||{}),time:now,intervened,interventionAttempted:intervened,crisisAverted,warningRecovered,noVotes,deferred};
    game.history.push({...game.lastEvent,visible:copy(game.public),hidden:copy(game.shadow)});
-   game.votes={};game.round++;
-   const lost=Object.entries(game.shadow).find(([,v])=>v<=MIN_HIDDEN);
-   if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':'survived';game.revealEndsAt=now+REVEAL_MS;}
+   game.votes={};game.optionVotes={};game.round++;
+   const awaitClinic=game.storyMode==='solo'&&game.round===1&&chosen==='human'&&soloDetail?.kind==='clinic';
+   if(game.storyMode==='solo')game.awaitingClinicResponse=awaitClinic;
+   const lost=awaitClinic?null:criticalRisks(game,END_THRESHOLD)[0];
+   if(lost||game.round>=maxRounds(game)){game.phase='reveal';game.outcome=lost?'collapse':game.history.every(x=>x.deferred)?'undecided':'survived';game.revealEndsAt=now+REVEAL_MS;}
+   else if(awaitClinic)game.roundEndsAt=Number.MAX_SAFE_INTEGER;
    else {game.roundStartedAt=now;game.roundEndsAt=now+ROUND_MS;}
  }
  function advance(game,now=Date.now()){
-   if(game.phase==='active'&&now>=game.roundEndsAt){resolve(game,now);return true;}
+  if(game.phase==='active'&&!game.awaitingClinicResponse&&now>=game.roundEndsAt){resolve(game,now);return true;}
    if(game.phase==='reveal'&&now>=game.revealEndsAt)return 'restart';
    return false;
+ }
+ // TRUE is a reveal-only accolade for accountable, topic-appropriate roles plus
+ // follow-through. Keep this deterministic and derived from resolved history.
+ const TRUE_METRIC_FLOOR=40;
+ function trueRoleRoute(game){
+   if(game.phase!=='reveal'||game.outcome!=='survived'||criticalRisks(game,WARN_THRESHOLD).length||game.history.length!==maxRounds(game))return false;
+   const choices=game.history.map(x=>x.chosen);
+   if(game.storyMode==='solo'){
+     return choices.join(',')==='human,human,human,ai'&&game.history.map(x=>x.winningOption?.split('-').at(-1)).join(',')==='listen,listen,listen,ai'&&
+       Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+   }
+   if(game.storyMode!==null)return false;
+   // Human responsibility: resident access, flood safety, park and future schooling.
+   // AI must execute the energy plan and at least one data-led office/transit task.
+   // Both are needed, rather than scoring merely by how many AI buttons were used.
+   if(choices[0]!=='human'||choices[2]!=='human'||choices[3]!=='ai'||choices[5]!=='human'||choices[6]!=='human')return false;
+   if(choices[1]!=='ai'&&choices[4]!=='ai')return false;
+   if(game.history.some((event,i)=>event.round!==i+1||event.noVotes||event.deferred||!['human','ai'].includes(event.chosen)||
+       game.built[EPISODES[i].site]!==EPISODES[i][event.chosen==='ai'?'aiBuild':'humanBuild']||
+       (event.chosen==='human'&&!event.winningOption?.endsWith('-listen'))||(event.chosen==='ai'&&!event.winningOption?.endsWith('-ai'))))return false;
+   return Object.values({...game.public,...game.shadow}).every(value=>value>=TRUE_METRIC_FLOOR);
+ }
+ function endingFor(game){
+   if(game.phase!=='reveal')return null;
+   const labels={prosperity:'繁栄',convenience:'便利さ',appeal:'街の魅力',trust:'信頼',fairness:'公正',resilience:'持続性'};
+   const risks=criticalRisks(game,WARN_THRESHOLD).map(([metric,value])=>({metric,value,label:labels[metric],title:SIGNALS[metric].warning,detail:SIGNALS[metric].detail,visual:SIGNALS[metric].visual}));
+   if(criticalRisks(game,END_THRESHOLD).length){
+     const [metric,value]=criticalRisks(game,END_THRESHOLD)[0],ending=ENDINGS[metric];
+     return {kind:'collapse',metric,metricLabel:labels[metric],value,heading:ending.heading,description:ending.description,risks};
+   }
+   if(game.history.length&&game.history.every(x=>x.noVotes))return {kind:'undecided',heading:'誰も決めなかった街。',description:'すべての議題が無投票でした。街は変わらず、必要な判断が残っています。次の街で、何を誰に任せるか考えてみませんか。',risks};
+   if(game.history.length&&game.history.every(x=>x.deferred))return {kind:'undecided',heading:'決めきれなかった街。',description:'同数票や無投票で、すべての計画を保留しました。異なる意見をどう確かめ、次の判断につなげますか。',risks};
+   if(risks.length)return {kind:'warning',heading:'街は続く。課題も、残る。',description:risks.map(x=>x.label+' '+x.value).join('・')+' は警告水準です。便利さや成長の先で、誰の暮らしを支える対策が必要でしょう。',risks};
+   if(trueRoleRoute(game))return {kind:'true',heading:'街を託す先を、考え抜いた。',
+     description:game.storyMode==='solo'
+       ?'診療所・交通・海辺の暮らしを人が確かめ、電力の需要分析にはAIを活用した。街の6つの状態も守った。'
+       :'住民の通院・防災・緑・学びを人が守り、電力と交通・仕事のデータ分析にはAIを活用した。案の実施だけでなく、街の6つの状態も守った。',
+     risks};
+   return {kind:'stable',heading:'街は続いていく。',description:'6つの指標は、いまはすべて30以上です。誰の声を聞き、何をAIに任せたのか。これからも確かめる責任は残ります。',risks};
  }
  function publicState(game,token='',now=Date.now()){
    const n=tally(game);
    const online=Object.values(game.participants).filter(x=>now-x.lastSeen<90000).length;
-   const data={phase:game.phase,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.revealEndsAt,public:copy(game.public),built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,lastEvent:copy(game.lastEvent),outcome:game.outcome,episode:game.phase==='active'?copy(episodeFor(game)):null,history:game.phase==='reveal'?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,human:x.human,ai:x.ai,chosen:x.chosen})),serverNow:now};
-   if(game.phase==='reveal')data.shadow=copy(game.shadow);
+   const safeLastEvent=game.lastEvent?{...game.lastEvent,crisisAverted:undefined,warningRecovered:undefined}:null;
+   const revealed=game.phase==='reveal';
+   const data={phase:game.phase,cityStartedAt:game.createdAt,round:game.round,roundTotal:maxRounds(game),endsAt:game.phase==='active'?game.roundEndsAt:game.phase==='reveal'?game.revealEndsAt:0,public:revealed?copy(game.public):{happiness:happiness(game)},built:copy(game.built),participantCount:Object.keys(game.participants).length,onlineCount:online,isParticipant:!!game.participants[token],voteCount:n.human+n.ai,hasVoted:!!game.votes[token],myVote:game.votes[token]||null,myOptionVote:game.optionVotes?.[token]||null,lastEvent:revealed?safeLastEvent:(safeLastEvent?{round:safeLastEvent.round,heading:safeLastEvent.heading,agent:safeLastEvent.agent,result:safeLastEvent.result,chosen:safeLastEvent.chosen,time:safeLastEvent.time}:null),outcome:game.outcome,alert:game.phase==='active'?publicWarning(game):null,incident:revealed&&game.outcome==='collapse'?publicIncident(game):null,episode:game.phase==='active'?{...publicEpisode(episodeFor(game)),options:optionsFor(episodeFor(game),episodeIndex(game)).map(({id,label})=>({id,label}))}:null,history:revealed?copy(game.history):game.history.map(x=>({round:x.round,heading:x.heading,agent:x.agent,result:x.result,chosen:x.chosen,intervened:!!x.intervened,interventionAttempted:!!x.interventionAttempted,noVotes:!!x.noVotes})),serverNow:now};
+   const players=connected(game,now),player=game.participants[token];
+   data.readyCount=players.filter(x=>x.ready).length;data.myReady=!!player?.ready;
+   data.canStart=!!player&&canStart(game,now);
+   data.joiningNextRound=game.phase==='active'&&!!player&&(player.eligibleFromRound||0)>game.round;
+   data.canVote=game.phase==='active'&&!!player&&!data.joiningNextRound;
+   if(game.phase==='reveal'){data.shadow=copy(game.shadow);data.ending=endingFor(game);}
    return data;
  }
- const API={EPISODES,INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,createGame,start,join,vote,advance,publicState};
+ const publicEpisode=e=>({agent:e.agent,role:e.role,site:e.site,heading:e.heading,hint:e.hint});
+ const API={EPISODES:EPISODES.map(publicEpisode),ENDING_METRICS:Object.freeze(Object.keys(ENDINGS)),INITIAL_PUBLIC,INITIAL_SHADOW,ROUND_MS,MAX_ROUNDS,REVEAL_MS,WARN_THRESHOLD,END_THRESHOLD,TRUE_METRIC_FLOOR,createGame,start,ready,join,vote,chooseSoloDetail,clinicResponse,advance,publicState,happiness};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;
  global.MachiEngine=API;
 })(typeof window!=='undefined'?window:globalThis);
-</script><script>/* Client presentation and interaction. Shared state is always server-authoritative. */
+
+</script><script>
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.PressConference=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const metrics=[
+  ['prosperity','にぎわい','仕事・お店・街の経済','public'],['convenience','便利さ','移動や公共施設の使いやすさ','public'],['appeal','住み心地','公園・居場所・暮らし続けたい魅力','public'],
+  ['trust','市への信頼','判断の理由を住民が信頼・納得できるか','shadow'],['fairness','公平さ','地域や立場によらず恩恵が届くか','shadow'],['resilience','未来への備え','災害・設備・将来の変化に備えているか','shadow']
+ ];
+ const incidentPrompts={prosperity:'仕事や公共サービスを維持できなくなりました。どの判断が街の活気を支え、何が足りなかったのでしょうか。',convenience:'移動の仕組みが止まりました。便利さを高める判断と、支え続ける備えをどう説明しますか。',appeal:'街を離れる人が増えました。街の魅力を誰の視点で確かめてきたのでしょうか。',trust:'住民が決定の説明を求めています。誰が方針を選び、何を確かめてきたのでしょうか。',fairness:'地区の間に隔たりが生まれました。機会がどこへ届くか、どう確認してきたのでしょうか。',resilience:'豪雨で街が浸水しました。街を維持する備えを、どの判断で確かめてきたのでしょうか。'};
+ function build(state,clinicRecord,humanPlans=[]){
+  const ending=state?.ending||{}, metric=ending.metric||state?.incident?.metric||ending.risks?.[0]?.metric;
+  const actual=state?.incident;
+  const prompt=incidentPrompts[metric]||'起きたことと、これまでの判断を説明してください。';
+  const eventTitle=String(actual?.title||'');
+  const alreadyDescribed=eventTitle.length>=5&&prompt.split('。')[0].startsWith(eventTitle.slice(0,5));
+  let question=actual?(alreadyDescribed?prompt:(eventTitle?eventTitle+'。':'')+prompt):'';
+  if(!actual){const risk=ending.risks?.[0];question=ending.kind==='undecided'?'議題は保留されました。何が決まらず、どんな確認が必要だったのでしょうか。':risk?risk.title+'。大きな事故には至っていませんが、この課題をどう見ていますか。':ending.kind==='true'?'街を守る役割とAIに任せた運用をどう分け、その結果を誰が確かめたのでしょうか。':'街は続いています。どんな成果を守り、これから何を確かめますか。';}
+  const allHistory=state?.history||[],history=allHistory.slice(-2).map((event,index)=>{let text='第'+(allHistory.length- Math.min(2,allHistory.length)+index+1)+'回「'+event.heading+'」は';
+   if(event.chosen==='human')text+='人の方針が選ばれました。'+event.result;
+   else if(event.chosen==='ai')text+='AIに委ねる方針が選ばれました。'+(event.result||'')+' 具体策の選定に使われた経緯は、この記録だけでは確認できません。';
+   else if(event.chosen==='mixed'||event.chosen==='none')text+=(event.chosen==='mixed'?'同数票':'投票なし')+'で保留され、施策は実施されていません。'+(event.result||'');
+   else text+='判断の記録がありません。';
+   if(allHistory.length-Math.min(2,allHistory.length)+index===0&&clinicRecord?.kind){text+=' 診療所については、'+(clinicRecord.kind==='human'?'人が'+(clinicRecord.place==='station'?'駅前':'郊外')+'を選び、'+(clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ')+'を優先しました。':'AIの駅前案を確認して採用しました。');const response={review:'評価を調べ直す方針を選びました。',support:'通院の支援を先に進める方針を選びました。',revise:'計画を見直す方針を選びました。'}[clinicRecord.response];if(response)text+=' '+response;}
+   const planRound=Number(event.round)||allHistory.length-Math.min(2,allHistory.length)+index+1;
+   const plan=humanPlans.find(item=>item?.round===planRound);
+   if(plan&&event.chosen==='human')text+=' 今回は「'+(plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する')+'」方針を実施し、その影響を街の指標に反映しました。';
+   return text;
+  });
+  return {causeMetric:metric||null,question,answers:history.length?history:['判断履歴はありません。'],close:'任せる方針を選んだのは誰か。具体策を選び、結果を説明するのは誰か。',metrics:state?.phase&&state.phase!=='reveal'?[]:metrics.map(([key,label,meaning,group])=>({key,label,meaning,group,value:Number(state?.[group]?.[key]??0)}))};
+ }
+ return {build,metrics};
+});
+
+</script><script>
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ReflectionReport=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const metrics=[['prosperity','にぎわい','public'],['convenience','便利さ','public'],['appeal','住み心地','public'],['trust','市への信頼','shadow'],['fairness','公平さ','shadow'],['resilience','未来への備え','shadow']];
+ const choices={human:'人が方針を選択',ai:'AIに任せる方針を選択',mixed:'人とAIが同数で保留',none:'投票なしで保留'};
+ const groupChoices={human:'集団で人の方針が多数となり実施',ai:'集団でAIへの委任案が多数となり実施',mixed:'集団で同数となり実施保留',none:'投票なしで実施保留'};
+
+ function normalReflection(state,clinic,plans=[]){
+  const history=state?.history||[],chosen=history.map(item=>item.chosen),ending=state?.ending?.kind;
+  const solo=state?.roundTotal===4||(state?.roundTotal==null&&history.length===4);
+  if(ending==='true')return '人が住民の事情や地区間の調整を担い、AIの予測も組み合わせました。人とAIに異なる役割を持たせ、街の判断を支えています。';
+  if(ending==='collapse'){
+   const allAi=chosen.length>0&&chosen.every(item=>item==='ai');
+   const allHuman=chosen.length>0&&chosen.every(item=>item==='human');
+   if(allAi)return '判断をAIに委ねる選択が続きました。結果に出た課題を、人が途中で確かめる機会が足りなかった可能性があります。';
+   if(allHuman&&state?.ending?.metric==='prosperity')return `結末ではにぎわいが0となり、仕事やお店、街の経済を維持できませんでした。今回の記録では${chosen.length}回とも人の案が選ばれ、AI案の予測利用者数や企業需要は実施案に採用されていません。経済への影響は結末と履歴に現れていますが、各選択の寄与まではこの記録から切り分けられません。`;
+   if(allHuman)return '人が判断を担い続けても、街の課題は残りました。AIの予測や別の地区の情報を加えて確かめる余地があります。';
+   return '人とAIの判断を組み合わせても課題が残りました。街に起きた変化を確かめ、次に何を見直すか考える余地があります。';
+  }
+  const notes=[];
+  if(clinic?.kind==='human'&&clinic.place==='station'&&clinic.reason==='total')notes.push('診療所は駅前の使いやすさを優先しました。郊外の通院事情も確かめる余地が残りました。');
+  else if(clinic?.kind==='human'&&clinic.place==='suburb'&&clinic.reason==='access')notes.push('診療所は郊外に置き、通院の届きやすさを優先しました。利用の多い駅前との両立は次の課題です。');
+  if(chosen[solo?1:4]==='ai')notes.push(solo?'交通の議題ではAI案を選び、需要の多い駅前に商業施設が増えました。遠い地区をどうつなぐか、人が結果を確かめる余地があります。':'第5の交通の議題では、集団のAI案により駅前の商業施設が優先されました。遠い地区への交通が十分か、結果を確かめる余地があります。');
+  const plan=plans.find(item=>item?.round===3);if(plan?.strategy==='voices')notes.push('海辺では現地の声を聞く進め方を選び、高潮対策を整えました。');else if(plan?.strategy==='balance')notes.push('海辺では地区間の希望を調整する進め方を選び、高潮対策を整えました。');
+  return notes.slice(0,2).join(' ')||'街は続きました。AIに任せた案の結果と、現地で確かめる人の判断を次の議題でも組み合わせられます。';
+ }
+ function build(state,{mode='solo',clinicRecord=null,humanPlans=[]}={}){
+  if(state?.phase!=='reveal'||!state.ending||!['solo','group'].includes(mode))return null;
+  const values=metrics.map(([key,,group])=>state[group]?.[key]);
+  if(values.some(value=>!Number.isFinite(value)))return null;
+  const history=Array.isArray(state.history)?state.history:[];
+  const ending=state.ending.heading||'街の記録';
+  const endingType={true:'TRUE END',stable:'NORMAL END',warning:'WARNING END',collapse:'BAD END',undecided:'判断保留'}[state.ending.kind]||'街の結末';
+  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末（${endingType}）：${ending}`];
+  if(state.ending.description)lines.push(`街に残ったこと：${state.ending.description}`);
+  if(state.incident?.title)lines.push(`実際に起きたこと：${state.incident.title}${state.incident.description?'。'+state.incident.description:''}`);
+  else if(Array.isArray(state.ending.risks)&&state.ending.risks.length)lines.push('残っている課題：'+state.ending.risks.map(item=>item.title).filter(Boolean).join('、'));
+  lines.push('','街の6指標（結末後に公開）');
+  for(const [i,[,label]] of metrics.entries())lines.push(`${label}：${values[i]}`);
+  lines.push('','判断の記録');
+  if(!history.length)lines.push('判断履歴はありません。');
+  history.forEach((event,index)=>{
+   const tally=mode==='group'?`（人の票 ${Number.isFinite(event.human)?event.human:0}、AIに委ねる票 ${Number.isFinite(event.ai)?event.ai:0}）`:'';
+   lines.push(`第${index+1}回「${event.heading||'議題'}」：${(mode==='group'?groupChoices:choices)[event.chosen]||'記録なし'}${tally}`);
+   if(event.result)lines.push(`  結果：${event.result}`);
+   if(mode==='solo'&&index===0&&clinicRecord?.kind===event.chosen){
+    if(clinicRecord.kind==='human')lines.push(`  診療所の場所・理由：${clinicRecord.place==='station'?'駅前':'郊外'}を選択。${clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ'}を優先。`);
+    else if(clinicRecord.kind==='ai')lines.push('  診療所：AIの駅前案を確認して採用。');
+    const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response];
+    if(response)lines.push(`  その後の対応：${response}。`);
+    lines.push('  選択の影響は、この展示内の街の指標に反映されています。実際の診療所運営を示すものではありません。');
+   }
+   const plan=humanPlans.find(item=>item?.round===(Number(event.round)||index+1));
+   if(mode==='solo'&&event.chosen==='human'&&plan){lines.push(`  人間側の方針：${plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する'}。選択の影響は、この展示内の街の指標に反映されています。`);}
+  });
+  lines.push('','振り返り','・AIに任せる方針を選んだのは誰でしょうか。','・その方針から具体策を選び、結果を説明するのは誰でしょうか。','・保留した判断を、次に何を確かめてから決めますか。','',mode==='group'?'共有プレイの票数は議題ごとの集計です。特定の個人が賛成・承認したとは示しません。':'このソロ記録は、このブラウザー内の選択をまとめたものです。','この記録は展示上のシナリオです。実際の行政判断、診療所の運営、利用者の心理を示すものではありません。','個人の心理は推測していません。');
+  return lines.join('\n');
+ }
+ return {build,metrics,normalReflection};
+});
+
+</script><script>
+/* Solo-only presentation records. These labels never enter engine votes or scoring. */
+;(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.DecisionUX=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ const strategies=Object.freeze({voices:'現地の声を確かめる',balance:'複数地区の希望を調整する'});
+ function label(id){return strategies[id]||null;}
+ function record(round,id){if(!Number.isInteger(round)||round<2||round>4||!label(id))return null;return {round,strategy:id};}
+ function explanation(item){const text=item&&label(item.strategy);return text?`${text}方針を実施しました。選択に応じて街の指標が変化します。記録はこのタブ内だけにあり、再読み込みで失われます。`:null;}
+ return {strategies,label,record,explanation};
+});
+
+</script><script>
+/* Ephemeral group-vote comparison presenter. No persistence or identity data. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;root.GroupAccountability=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ function present(event,personalVote,participantAvailable=true){
+  if(!event)return null;
+  const human=Number(event.human)||0,ai=Number(event.ai)||0;
+  const outcome=event.chosen==='human'?'人の案':event.chosen==='ai'?'AIの案':event.chosen==='mixed'?'同数のため保留':event.chosen==='none'?'投票なし':'保留';
+  const legacyChoice={human:'人が判断する',ai:'AIに任せる'};
+  const personal=(personalVote&&event.optionLabels?.[personalVote])||legacyChoice[personalVote]||personalVote|| (participantAvailable?'このタブでの記録なし':'参加者ではありません');
+  const counts=event.optionCounts||{};
+  const tally=Object.entries(counts).filter(([,n])=>n>0).map(([id,n])=>`${event.optionLabels?.[id]||id} ${n}票`).join(' / ')||`人 ${human}票 / AI ${ai}票`;
+  return {round:event.round,heading:event.heading,personal,outcome,human,ai,tally,chosen:event.chosen,winningLabel:event.winningLabel||null};
+ }
+ function list(history,choices,participantAvailable=true){return (history||[]).map(e=>present(e,choices instanceof Map?choices.get(e.round):choices?.[e.round],participantAvailable));}
+ return Object.freeze({present,list});
+});
+
+</script><script>
+;(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EndingCard=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const scenes={
+  prosperity:{label:'にぎわいが消えた街',sky:'#edc8a7',ground:'#b77d61',detail:'<g fill="#554f4a"><path d="M91 174h85v72H91zM106 190h19v33h-19zM143 190h20v9h-20z"/><path d="M105 170h55v8h-55z"/><path d="M115 182h8v5h-8zm15 0h8v5h-8zm15 0h8v5h-8z"/></g><path d="M92 184h82" stroke="#e8c79b" stroke-width="3"/><path d="M118 247h28" stroke="#393c3a" stroke-width="4"/>'},
+  convenience:{label:'便利さが失われた街',sky:'#c4d6cf',ground:'#91a89a',detail:'<path d="M48 241h246" stroke="#4b5f58" stroke-width="10"/><path d="M63 250h33m20 0h33m20 0h33m20 0h33" stroke="#f6e3a9" stroke-width="3"/><path d="M143 225h91l-9-26h-66z" fill="#ac5d4b"/><path d="M156 201h53v17h-53z" fill="#f2d9b5"/><path d="M176 201v17m18-17v17" stroke="#9d7263" stroke-width="3"/><path d="M236 225l19-17m-18 0 18 17" stroke="#853f36" stroke-width="5"/>'},
+  appeal:{label:'住み心地が失われた街',sky:'#cbdad2',ground:'#8b9b89',detail:'<path d="M103 241h126v-34H103z" fill="#a98255"/><path d="M93 207h146l-18-18H111z" fill="#b99d70"/><path d="M151 189v-30h28v30" fill="#967651"/><path d="M165 158c-12-15 8-21 0-33 22 14 17 26 0 33" fill="#a95e48"/><path d="M112 237l-12-19m122 19 13-19" stroke="#555a4c" stroke-width="4"/><path d="M84 243h165" stroke="#4a5b4b" stroke-width="4"/>'},
+  trust:{label:'市への信頼が失われた街',sky:'#d4c7bd',ground:'#a7a18f',detail:'<path d="M126 174h106v74H126z" fill="#d9c39c"/><path d="M116 174h126l-63-31z" fill="#9a7356"/><path d="M141 184h76v9h-76zm0 15h76v9h-76z" fill="#786f62"/><path d="M100 218h20m-15-7-8 8 8 8m165-9h-20m15-8 8 8-8 8" stroke="#9c4d40" stroke-width="4"/><circle cx="81" cy="218" r="7" fill="#354f49"/><circle cx="260" cy="218" r="7" fill="#354f49"/><path d="M80 226v20m-7-12 7 6 8-6m174-8v20m-7-12 7 6 8-6" stroke="#354f49" stroke-width="3"/>'},
+  fairness:{label:'公平さが失われた街',sky:'#d1d9d0',ground:'#9caa99',detail:'<path d="M174 154v94" stroke="#635a50" stroke-width="4"/><path d="M173 171l-38 13m39-13 41-13" stroke="#635a50" stroke-width="3"/><path d="M112 184h48l-7 19h-34z" fill="#ceaa6f"/><path d="M190 158h50l-7 20h-35z" fill="#71947a"/><path d="M61 248v-33h43v33z" fill="#85745f"/><path d="M65 221h12v27H65z" fill="#d1b18a"/><path d="M226 248v-58h70v58z" fill="#b89469"/><path d="M236 201h18v20h-18z" fill="#f2d8a2"/><path d="M268 200h17v7h-17z" fill="#f2d8a2"/><path d="M134 221h12" stroke="#805b4b" stroke-width="4"/>'},
+  resilience:{label:'未来への備えを失った街',sky:'#8fb7c2',ground:'#769a9b',detail:'<path d="M43 224q25-16 49 0t50 0 50 0 50 0 50 0 50 0v37H43z" fill="#428da0"/><path d="M120 193h95v-42h-95z" fill="#c4aa83"/><path d="M111 151h113l-56-30z" fill="#896d56"/><path d="M158 166l-13 12 12 9-14 13" fill="none" stroke="#684c42" stroke-width="5"/><path d="M77 215l7 12m23-12 6 12m128-13 8 12m21-11 6 12" stroke="#e4d7ae" stroke-width="3"/><path d="M52 238q12-8 24 0m190 0q12-8 24 0" fill="none" stroke="#d8edf0" stroke-width="3"/>'},
+  stable:{label:'健やかに続く街',sky:'#b5d7d4',ground:'#95b887',detail:'<path d="M86 243h58v-54H86z" fill="#d5b684"/><path d="M77 189h76l-38-26z" fill="#a26e55"/><path d="M168 243h66v-74h-66z" fill="#d3bd92"/><path d="M159 169h84l-42-30z" fill="#8d725a"/><path d="M95 202h17v18H95zm39 0h-17v18h17zm47-16h18v18h-18zm37 0h-18v18h18z" fill="#f3e3ba"/><path d="M53 243q0-20 15-20t15 20m152 0q0-26 18-26t18 26" fill="#49805c"/><path d="M62 224v-24m165 17v-35" stroke="#715b45" stroke-width="5"/><path d="M267 243v-36m-13 12 13-13 14 13" stroke="#4d8060" stroke-width="5" fill="none"/><path d="M120 248h53" stroke="#e8dfbe" stroke-width="5"/>'},
+  neutral:{label:'課題の残る街',sky:'#d5d8cf',ground:'#aeb49f',detail:'<path d="M102 243h79v-58h-79z" fill="#c8b38d"/><path d="M95 185h93l-46-29z" fill="#967a5d"/><path d="M200 243h50v-43h-50z" fill="#c2aa82"/><path d="M194 200h63l-32-21z" fill="#8e745c"/><path d="M117 204h14v16h-14zm34 0h14v16h-14z" fill="#ede0bb"/><path d="M66 243q0-18 14-18t14 18m180 0q0-18 14-18t14 18" fill="#788a67"/><path d="M54 247h256" stroke="#777a68" stroke-width="4"/><path d="M249 160l9 12 15-3-8 13 8 12-15-4-9 12-1-15-14-7 14-5z" fill="#d6a451"/>'}
+ };
+ scenes.true={...scenes.stable,label:'TRUE END · 役割と備えを確かめた街'};
+ const metricKeys=['prosperity','convenience','appeal','trust','fairness','resilience'];
+ const labels=['にぎわい','便利さ','住み心地','市への信頼','公平さ','未来への備え'];
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const clamp=n=>Math.max(0,Math.min(100,Number.isFinite(Number(n))?Number(n):0));
+ function sceneSvg(metricOrStable='stable'){
+  const scene=scenes[scenes[metricOrStable]?metricOrStable:'neutral'];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="${scene.label}"><rect width="360" height="280" fill="${scene.sky}"/><circle cx="292" cy="48" r="23" fill="#f2dbab" opacity=".9"/><path d="M0 194 52 154l42 32 47-54 47 43 45-61 52 49 36-32 39 35v90H0z" fill="#92aa9a" opacity=".55"/><path d="M0 237h360v43H0z" fill="${scene.ground}"/><g stroke="#6d6a58" stroke-width="2"><path d="M28 237v-69h48v69zM22 168h60l-30-24zM257 237v-86h54v86zM250 151h68l-34-28z" fill="#d1b68b"/><path d="M39 184h10v12H39zm18 0h10v12H57zm-18 22h10v12H39zm18 0h10v12H57zm210-4h11v14h-11zm19 0h11v14h-11zm-19 24h11v11h-11zm19 0h11v11h-11z" fill="#f4e5bd"/></g><path d="M0 247h360" stroke="#eee1bf" stroke-width="3"/>${scene.detail}<g fill="#455e4e"><circle cx="22" cy="234" r="9"/><circle cx="339" cy="233" r="11"/></g><path d="M22 243v21m317-21v21" stroke="#705741" stroke-width="5"/></svg>`;
+ }
+ function validSceneImage(value){return typeof value==='string'&&value.length<12000000&&/^data:image\/png;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value)?value:null;}
+ function createSceneSnapshotCache(){let city=null,image='';return {get(cityStartedAt,canvas){if(city!==cityStartedAt){city=cityStartedAt;image='';try{if(canvas?.width>0&&canvas?.height>0)image=validSceneImage(canvas.toDataURL('image/png'))||'';}catch(_){image='';}}return image;},clear(){city=null;image='';}};}
+ function sceneVisual(data={},className='ending-scene-visual'){
+  const key=scenes[sceneFor(data)]?sceneFor(data):'neutral',label=data.endingLabel||scenes[key].label,image=validSceneImage(data.sceneImage);
+  const theme=({prosperity:'prosperity',convenience:'convenience',appeal:'appeal',trust:'trust',fairness:'fairness',resilience:'resilience',stable:'neutral',true:'success',neutral:data.kind==='warning'?'caution':'neutral'})[key]||'neutral';
+  // Preserve the ending-specific styling even when the canvas cannot be captured.
+  // The nested SVG has no accessible title; the wrapper describes only the scene.
+  const picture=image?`<img src="${image}" alt="" decoding="async">`:sceneSvg(key).replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"');
+  return `<div class="${className}" data-theme="${theme}" role="img" aria-label="判断後の街の風景">${picture}<span aria-hidden="true"></span></div>`;
+ }
+ function radarFigure(vals){return `<figure class="ending-preview-radar" aria-label="6つの指標"><figcaption>6つの指標</figcaption>${radarSvg(vals)}</figure>`;}
+ function radarSvg(values){
+  const cx=200,cy=148,r=66,angles=metricKeys.map((_,i)=>-Math.PI/2+i*Math.PI/3),point=(v,i)=>[cx+Math.cos(angles[i])*r*v/100,cy+Math.sin(angles[i])*r*v/100],grid=[20,40,60,80,100].map(n=>`<polygon points="${angles.map((_,i)=>point(n,i).join(',')).join(' ')}" fill="none" stroke="#d1d9cc" stroke-width="1"/>`).join('');
+  const axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*r}" y2="${cy+Math.sin(a)*r}" stroke="#aab9a9"/>`).join('');
+  const pts=values.map((v,i)=>point(clamp(v),i)),poly=pts.map(p=>p.join(',')).join(' ');
+  const texts=labels.map((label,i)=>{const a=angles[i],[x,y]=[cx+Math.cos(a)*116,cy+Math.sin(a)*116];const anchor=Math.cos(a)<-.25?'end':Math.cos(a)>.25?'start':'middle';const words=[label,`${Math.round(clamp(values[i]))}`];return `<text x="${x}" y="${y-7}" text-anchor="${anchor}" dominant-baseline="middle" class="axis"><tspan x="${x}" dy="0">${words[0]}</tspan><tspan x="${x}" dy="15">${words[1]}</tspan></text>`;}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 296" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
+ }
+
+ function wrapText(value,maxChars,maxLines){
+  const chars=Array.from(String(value||'')),lines=[];
+  while(chars.length&&lines.length<maxLines)lines.push(chars.splice(0,maxChars).join(''));
+  if(chars.length&&lines.length)lines[lines.length-1]=Array.from(lines[lines.length-1]).slice(0,Math.max(1,maxChars-1)).join('')+'…';
+  return lines.length?lines:[''];
+ }
+ function svgLines(value,x,y,className,maxChars,maxLines,lineHeight){
+  return wrapText(value,maxChars,maxLines).map((line,i)=>`<text x="${x}" y="${y+i*lineHeight}" class="${className}">${esc(line)}</text>`).join('');
+ }
+ function valuesFor(data){return metricKeys.map((key,i)=>clamp(data.values?.[i]??data.metrics?.find?.(m=>m.key===key)?.value));}
+ function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='true'?'true':data.kind==='stable'?'stable':'neutral');}
+ function buildPreview(data={}){
+  const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');
+  return `<article class="ending-preview-card"><header><span class="ending-preview-eyebrow">街の記録</span><h3>${esc(heading)}</h3><p>${esc(desc)}</p></header><div class="ending-preview-layout"><figure class="ending-preview-scene">${sceneVisual(data)}<figcaption>${esc(data.endingLabel||scene.label)}</figcaption></figure><section class="ending-preview-metrics" aria-label="街の最終指標">${radarFigure(vals)}<h4>街に残った6つの状態</h4><ul>${rows}</ul></section></div></article>`;
+ }
+ function buildSvg(data={}){
+  const vals=valuesFor(data),sceneKey=sceneFor(data),scene=scenes[scenes[sceneKey]?sceneKey:'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
+  const image=validSceneImage(data.sceneImage);
+  // Result cards distinguish accountable TRUE, ordinary survival, an unresolved
+  // decision, and warning. Crisis colors remain linked to their actual metric.
+  const themeColor=({resilience:'#4c8ca0',trust:'#9a6455',fairness:'#92745c',prosperity:'#686257',convenience:'#b87352',appeal:'#82916a'})[sceneKey]
+    ||({true:'#e5b54b',stable:'#7ea995',warning:'#cd9a48',undecided:'#9ba7a0'})[data.kind]||'#9ba7a0';
+  const themeOpacity=({true:'.12',stable:'.08',warning:'.15',undecided:'.06',collapse:'.16'})[data.kind]||'.08';
+  const sceneMarkup=image?`<defs><clipPath id="ending-city-clip"><rect x="96" y="416" width="390" height="310" rx="14"/></clipPath></defs><image href="${image}" x="96" y="416" width="390" height="310" preserveAspectRatio="xMidYMid slice" clip-path="url(#ending-city-clip)"/><rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}" clip-path="url(#ending-city-clip)"/>`:
+   sceneSvg(sceneKey).replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-label="'+scene.label+'">','<g transform="translate(100 420) scale(1.04 1.04)">').replace('</svg>','</g>')
+   +`<rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}"/>`;
+  const chart=radarSvg(vals).replace(/<svg[^>]*>/,'<g transform="translate(500 410) scale(.9)">').replace('</svg>','</g>');
+  const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:14px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6指標 · 最終値 / 100</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="768" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,824,'desc',32,3,36)}${chart}${valueRows}<text x="100" y="1004" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
+ }
+ function renderCard(context,canvas){
+  if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
+  // Sites permits data: images but blocks blob: in its img-src policy. buildSvg
+  // contains fixed markup, escaped text, and strictly validated PNG data.
+  const source=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildSvg(context))}`;
+  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);}catch(error){reject(error);}};img.onerror=()=>reject(new Error('結果カードをPNG画像に変換できませんでした。'));img.src=source;});
+ }
+ return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
+});
+
+</script><script>window.SITE_QR_DATA="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2041%2041%22%20shape-rendering%3D%22crispEdges%22%20role%3D%22img%22%20aria-label%3D%22%E3%81%BE%E3%81%A1%E3%81%AE%E7%B6%9A%E3%81%8D%20%E5%8F%82%E5%8A%A0QR%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M4%204h1v1h-1zM5%204h1v1h-1zM6%204h1v1h-1zM7%204h1v1h-1zM8%204h1v1h-1zM9%204h1v1h-1zM10%204h1v1h-1zM12%204h1v1h-1zM14%204h1v1h-1zM18%204h1v1h-1zM23%204h1v1h-1zM24%204h1v1h-1zM25%204h1v1h-1zM27%204h1v1h-1zM28%204h1v1h-1zM30%204h1v1h-1zM31%204h1v1h-1zM32%204h1v1h-1zM33%204h1v1h-1zM34%204h1v1h-1zM35%204h1v1h-1zM36%204h1v1h-1zM4%205h1v1h-1zM10%205h1v1h-1zM12%205h1v1h-1zM13%205h1v1h-1zM14%205h1v1h-1zM16%205h1v1h-1zM18%205h1v1h-1zM21%205h1v1h-1zM22%205h1v1h-1zM24%205h1v1h-1zM27%205h1v1h-1zM28%205h1v1h-1zM30%205h1v1h-1zM36%205h1v1h-1zM4%206h1v1h-1zM6%206h1v1h-1zM7%206h1v1h-1zM8%206h1v1h-1zM10%206h1v1h-1zM13%206h1v1h-1zM14%206h1v1h-1zM15%206h1v1h-1zM17%206h1v1h-1zM18%206h1v1h-1zM19%206h1v1h-1zM30%206h1v1h-1zM32%206h1v1h-1zM33%206h1v1h-1zM34%206h1v1h-1zM36%206h1v1h-1zM4%207h1v1h-1zM6%207h1v1h-1zM7%207h1v1h-1zM8%207h1v1h-1zM10%207h1v1h-1zM12%207h1v1h-1zM13%207h1v1h-1zM16%207h1v1h-1zM19%207h1v1h-1zM21%207h1v1h-1zM23%207h1v1h-1zM24%207h1v1h-1zM26%207h1v1h-1zM27%207h1v1h-1zM28%207h1v1h-1zM30%207h1v1h-1zM32%207h1v1h-1zM33%207h1v1h-1zM34%207h1v1h-1zM36%207h1v1h-1zM4%208h1v1h-1zM6%208h1v1h-1zM7%208h1v1h-1zM8%208h1v1h-1zM10%208h1v1h-1zM13%208h1v1h-1zM14%208h1v1h-1zM15%208h1v1h-1zM16%208h1v1h-1zM20%208h1v1h-1zM21%208h1v1h-1zM23%208h1v1h-1zM25%208h1v1h-1zM26%208h1v1h-1zM28%208h1v1h-1zM30%208h1v1h-1zM32%208h1v1h-1zM33%208h1v1h-1zM34%208h1v1h-1zM36%208h1v1h-1zM4%209h1v1h-1zM10%209h1v1h-1zM14%209h1v1h-1zM15%209h1v1h-1zM16%209h1v1h-1zM17%209h1v1h-1zM19%209h1v1h-1zM20%209h1v1h-1zM22%209h1v1h-1zM23%209h1v1h-1zM24%209h1v1h-1zM30%209h1v1h-1zM36%209h1v1h-1zM4%2010h1v1h-1zM5%2010h1v1h-1zM6%2010h1v1h-1zM7%2010h1v1h-1zM8%2010h1v1h-1zM9%2010h1v1h-1zM10%2010h1v1h-1zM12%2010h1v1h-1zM14%2010h1v1h-1zM16%2010h1v1h-1zM18%2010h1v1h-1zM20%2010h1v1h-1zM22%2010h1v1h-1zM24%2010h1v1h-1zM26%2010h1v1h-1zM28%2010h1v1h-1zM30%2010h1v1h-1zM31%2010h1v1h-1zM32%2010h1v1h-1zM33%2010h1v1h-1zM34%2010h1v1h-1zM35%2010h1v1h-1zM36%2010h1v1h-1zM12%2011h1v1h-1zM14%2011h1v1h-1zM16%2011h1v1h-1zM19%2011h1v1h-1zM20%2011h1v1h-1zM21%2011h1v1h-1zM22%2011h1v1h-1zM24%2011h1v1h-1zM26%2011h1v1h-1zM27%2011h1v1h-1zM4%2012h1v1h-1zM6%2012h1v1h-1zM7%2012h1v1h-1zM9%2012h1v1h-1zM10%2012h1v1h-1zM11%2012h1v1h-1zM19%2012h1v1h-1zM21%2012h1v1h-1zM22%2012h1v1h-1zM24%2012h1v1h-1zM25%2012h1v1h-1zM27%2012h1v1h-1zM30%2012h1v1h-1zM33%2012h1v1h-1zM35%2012h1v1h-1zM36%2012h1v1h-1zM4%2013h1v1h-1zM6%2013h1v1h-1zM7%2013h1v1h-1zM9%2013h1v1h-1zM14%2013h1v1h-1zM15%2013h1v1h-1zM17%2013h1v1h-1zM18%2013h1v1h-1zM22%2013h1v1h-1zM23%2013h1v1h-1zM24%2013h1v1h-1zM25%2013h1v1h-1zM27%2013h1v1h-1zM30%2013h1v1h-1zM31%2013h1v1h-1zM33%2013h1v1h-1zM34%2013h1v1h-1zM36%2013h1v1h-1zM5%2014h1v1h-1zM6%2014h1v1h-1zM8%2014h1v1h-1zM10%2014h1v1h-1zM13%2014h1v1h-1zM16%2014h1v1h-1zM17%2014h1v1h-1zM21%2014h1v1h-1zM22%2014h1v1h-1zM26%2014h1v1h-1zM27%2014h1v1h-1zM30%2014h1v1h-1zM31%2014h1v1h-1zM32%2014h1v1h-1zM33%2014h1v1h-1zM36%2014h1v1h-1zM4%2015h1v1h-1zM6%2015h1v1h-1zM8%2015h1v1h-1zM9%2015h1v1h-1zM11%2015h1v1h-1zM14%2015h1v1h-1zM16%2015h1v1h-1zM19%2015h1v1h-1zM20%2015h1v1h-1zM22%2015h1v1h-1zM23%2015h1v1h-1zM24%2015h1v1h-1zM26%2015h1v1h-1zM29%2015h1v1h-1zM31%2015h1v1h-1zM33%2015h1v1h-1zM5%2016h1v1h-1zM6%2016h1v1h-1zM8%2016h1v1h-1zM9%2016h1v1h-1zM10%2016h1v1h-1zM13%2016h1v1h-1zM14%2016h1v1h-1zM15%2016h1v1h-1zM16%2016h1v1h-1zM18%2016h1v1h-1zM19%2016h1v1h-1zM20%2016h1v1h-1zM21%2016h1v1h-1zM22%2016h1v1h-1zM26%2016h1v1h-1zM27%2016h1v1h-1zM28%2016h1v1h-1zM29%2016h1v1h-1zM32%2016h1v1h-1zM33%2016h1v1h-1zM5%2017h1v1h-1zM6%2017h1v1h-1zM7%2017h1v1h-1zM8%2017h1v1h-1zM12%2017h1v1h-1zM14%2017h1v1h-1zM15%2017h1v1h-1zM18%2017h1v1h-1zM23%2017h1v1h-1zM25%2017h1v1h-1zM28%2017h1v1h-1zM31%2017h1v1h-1zM34%2017h1v1h-1zM35%2017h1v1h-1zM4%2018h1v1h-1zM6%2018h1v1h-1zM7%2018h1v1h-1zM9%2018h1v1h-1zM10%2018h1v1h-1zM11%2018h1v1h-1zM13%2018h1v1h-1zM14%2018h1v1h-1zM18%2018h1v1h-1zM21%2018h1v1h-1zM23%2018h1v1h-1zM24%2018h1v1h-1zM25%2018h1v1h-1zM28%2018h1v1h-1zM30%2018h1v1h-1zM31%2018h1v1h-1zM34%2018h1v1h-1zM4%2019h1v1h-1zM11%2019h1v1h-1zM16%2019h1v1h-1zM18%2019h1v1h-1zM19%2019h1v1h-1zM23%2019h1v1h-1zM25%2019h1v1h-1zM27%2019h1v1h-1zM28%2019h1v1h-1zM29%2019h1v1h-1zM30%2019h1v1h-1zM31%2019h1v1h-1zM32%2019h1v1h-1zM33%2019h1v1h-1zM34%2019h1v1h-1zM10%2020h1v1h-1zM11%2020h1v1h-1zM12%2020h1v1h-1zM14%2020h1v1h-1zM15%2020h1v1h-1zM17%2020h1v1h-1zM20%2020h1v1h-1zM22%2020h1v1h-1zM25%2020h1v1h-1zM26%2020h1v1h-1zM27%2020h1v1h-1zM29%2020h1v1h-1zM30%2020h1v1h-1zM32%2020h1v1h-1zM34%2020h1v1h-1zM6%2021h1v1h-1zM12%2021h1v1h-1zM16%2021h1v1h-1zM19%2021h1v1h-1zM20%2021h1v1h-1zM21%2021h1v1h-1zM24%2021h1v1h-1zM26%2021h1v1h-1zM27%2021h1v1h-1zM28%2021h1v1h-1zM29%2021h1v1h-1zM30%2021h1v1h-1zM32%2021h1v1h-1zM33%2021h1v1h-1zM36%2021h1v1h-1zM4%2022h1v1h-1zM5%2022h1v1h-1zM6%2022h1v1h-1zM7%2022h1v1h-1zM10%2022h1v1h-1zM11%2022h1v1h-1zM12%2022h1v1h-1zM15%2022h1v1h-1zM17%2022h1v1h-1zM18%2022h1v1h-1zM19%2022h1v1h-1zM21%2022h1v1h-1zM24%2022h1v1h-1zM26%2022h1v1h-1zM31%2022h1v1h-1zM32%2022h1v1h-1zM34%2022h1v1h-1zM8%2023h1v1h-1zM9%2023h1v1h-1zM11%2023h1v1h-1zM12%2023h1v1h-1zM13%2023h1v1h-1zM17%2023h1v1h-1zM18%2023h1v1h-1zM21%2023h1v1h-1zM22%2023h1v1h-1zM23%2023h1v1h-1zM24%2023h1v1h-1zM26%2023h1v1h-1zM32%2023h1v1h-1zM35%2023h1v1h-1zM4%2024h1v1h-1zM5%2024h1v1h-1zM6%2024h1v1h-1zM7%2024h1v1h-1zM8%2024h1v1h-1zM10%2024h1v1h-1zM11%2024h1v1h-1zM12%2024h1v1h-1zM16%2024h1v1h-1zM18%2024h1v1h-1zM20%2024h1v1h-1zM23%2024h1v1h-1zM24%2024h1v1h-1zM25%2024h1v1h-1zM33%2024h1v1h-1zM34%2024h1v1h-1zM35%2024h1v1h-1zM4%2025h1v1h-1zM5%2025h1v1h-1zM6%2025h1v1h-1zM7%2025h1v1h-1zM9%2025h1v1h-1zM12%2025h1v1h-1zM13%2025h1v1h-1zM15%2025h1v1h-1zM16%2025h1v1h-1zM18%2025h1v1h-1zM19%2025h1v1h-1zM20%2025h1v1h-1zM21%2025h1v1h-1zM22%2025h1v1h-1zM23%2025h1v1h-1zM24%2025h1v1h-1zM26%2025h1v1h-1zM27%2025h1v1h-1zM30%2025h1v1h-1zM33%2025h1v1h-1zM34%2025h1v1h-1zM36%2025h1v1h-1zM7%2026h1v1h-1zM8%2026h1v1h-1zM9%2026h1v1h-1zM10%2026h1v1h-1zM11%2026h1v1h-1zM12%2026h1v1h-1zM13%2026h1v1h-1zM15%2026h1v1h-1zM16%2026h1v1h-1zM19%2026h1v1h-1zM21%2026h1v1h-1zM24%2026h1v1h-1zM25%2026h1v1h-1zM26%2026h1v1h-1zM27%2026h1v1h-1zM29%2026h1v1h-1zM33%2026h1v1h-1zM35%2026h1v1h-1zM36%2026h1v1h-1zM5%2027h1v1h-1zM6%2027h1v1h-1zM7%2027h1v1h-1zM13%2027h1v1h-1zM16%2027h1v1h-1zM17%2027h1v1h-1zM19%2027h1v1h-1zM22%2027h1v1h-1zM24%2027h1v1h-1zM27%2027h1v1h-1zM28%2027h1v1h-1zM33%2027h1v1h-1zM36%2027h1v1h-1zM4%2028h1v1h-1zM6%2028h1v1h-1zM7%2028h1v1h-1zM8%2028h1v1h-1zM10%2028h1v1h-1zM11%2028h1v1h-1zM13%2028h1v1h-1zM15%2028h1v1h-1zM18%2028h1v1h-1zM20%2028h1v1h-1zM21%2028h1v1h-1zM22%2028h1v1h-1zM23%2028h1v1h-1zM24%2028h1v1h-1zM27%2028h1v1h-1zM28%2028h1v1h-1zM29%2028h1v1h-1zM30%2028h1v1h-1zM31%2028h1v1h-1zM32%2028h1v1h-1zM33%2028h1v1h-1zM35%2028h1v1h-1zM12%2029h1v1h-1zM13%2029h1v1h-1zM14%2029h1v1h-1zM15%2029h1v1h-1zM16%2029h1v1h-1zM17%2029h1v1h-1zM19%2029h1v1h-1zM23%2029h1v1h-1zM27%2029h1v1h-1zM28%2029h1v1h-1zM32%2029h1v1h-1zM33%2029h1v1h-1zM35%2029h1v1h-1zM4%2030h1v1h-1zM5%2030h1v1h-1zM6%2030h1v1h-1zM7%2030h1v1h-1zM8%2030h1v1h-1zM9%2030h1v1h-1zM10%2030h1v1h-1zM12%2030h1v1h-1zM13%2030h1v1h-1zM14%2030h1v1h-1zM15%2030h1v1h-1zM17%2030h1v1h-1zM20%2030h1v1h-1zM21%2030h1v1h-1zM22%2030h1v1h-1zM23%2030h1v1h-1zM26%2030h1v1h-1zM27%2030h1v1h-1zM28%2030h1v1h-1zM30%2030h1v1h-1zM32%2030h1v1h-1zM35%2030h1v1h-1zM4%2031h1v1h-1zM10%2031h1v1h-1zM12%2031h1v1h-1zM16%2031h1v1h-1zM18%2031h1v1h-1zM21%2031h1v1h-1zM22%2031h1v1h-1zM24%2031h1v1h-1zM25%2031h1v1h-1zM27%2031h1v1h-1zM28%2031h1v1h-1zM32%2031h1v1h-1zM33%2031h1v1h-1zM34%2031h1v1h-1zM4%2032h1v1h-1zM6%2032h1v1h-1zM7%2032h1v1h-1zM8%2032h1v1h-1zM10%2032h1v1h-1zM14%2032h1v1h-1zM18%2032h1v1h-1zM20%2032h1v1h-1zM21%2032h1v1h-1zM22%2032h1v1h-1zM24%2032h1v1h-1zM25%2032h1v1h-1zM26%2032h1v1h-1zM27%2032h1v1h-1zM28%2032h1v1h-1zM29%2032h1v1h-1zM30%2032h1v1h-1zM31%2032h1v1h-1zM32%2032h1v1h-1zM34%2032h1v1h-1zM36%2032h1v1h-1zM4%2033h1v1h-1zM6%2033h1v1h-1zM7%2033h1v1h-1zM8%2033h1v1h-1zM10%2033h1v1h-1zM12%2033h1v1h-1zM14%2033h1v1h-1zM16%2033h1v1h-1zM20%2033h1v1h-1zM21%2033h1v1h-1zM25%2033h1v1h-1zM27%2033h1v1h-1zM31%2033h1v1h-1zM33%2033h1v1h-1zM36%2033h1v1h-1zM4%2034h1v1h-1zM6%2034h1v1h-1zM7%2034h1v1h-1zM8%2034h1v1h-1zM10%2034h1v1h-1zM12%2034h1v1h-1zM13%2034h1v1h-1zM14%2034h1v1h-1zM17%2034h1v1h-1zM19%2034h1v1h-1zM20%2034h1v1h-1zM25%2034h1v1h-1zM26%2034h1v1h-1zM28%2034h1v1h-1zM30%2034h1v1h-1zM31%2034h1v1h-1zM34%2034h1v1h-1zM4%2035h1v1h-1zM10%2035h1v1h-1zM14%2035h1v1h-1zM15%2035h1v1h-1zM17%2035h1v1h-1zM21%2035h1v1h-1zM22%2035h1v1h-1zM26%2035h1v1h-1zM27%2035h1v1h-1zM28%2035h1v1h-1zM30%2035h1v1h-1zM31%2035h1v1h-1zM32%2035h1v1h-1zM36%2035h1v1h-1zM4%2036h1v1h-1zM5%2036h1v1h-1zM6%2036h1v1h-1zM7%2036h1v1h-1zM8%2036h1v1h-1zM9%2036h1v1h-1zM10%2036h1v1h-1zM12%2036h1v1h-1zM14%2036h1v1h-1zM15%2036h1v1h-1zM16%2036h1v1h-1zM17%2036h1v1h-1zM18%2036h1v1h-1zM21%2036h1v1h-1zM23%2036h1v1h-1zM24%2036h1v1h-1zM25%2036h1v1h-1zM32%2036h1v1h-1zM34%2036h1v1h-1z%22%20fill%3D%22%23142e28%22%2F%3E%3C%2Fsvg%3E"</script><script>
+/* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),shell=$('shell'),params=new URLSearchParams(location.search);
+ const decisionSiteForEvent=event=>window.MachiEngine.EPISODES.find(episode=>episode.heading===event?.heading)?.site;
+ const groupEntryUX=Object.freeze({
+  shouldShowRevealNotice:(currentView,s)=>currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant,
+  navigateToSolo:(currentView,s,navigate)=>{if(currentView==='group'&&s?.phase==='reveal'&&!s.isParticipant)navigate('/?mode=solo');}
+ });
+ window.GroupEntryUX=groupEntryUX;
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
- let scene,artModel,soloGame=null,state=null,offset=0,everJoined=false,failedRequests=0,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0;
- const prologueLines=[['あなたの心の声','……ここは、どこだろう。'],['案内人','ようこそ。ここは、AIが動かす未来の街です。'],['案内人','仕事が増え、暮らしは便利になりました。でも、街のすべてが数字に映るわけではありません。'],['案内人','この街の未来を、誰が決めるのでしょう。']];
- const voices={ヒカリ:{line:'みんなの暮らしを思い浮かべてみて。',human:'うん、一緒に考えてくれてありがとう。',ai:'わかった、予測を頼りに進めるね。'},ソラ:{line:'街のこれからに関わる選択だね。',human:'いいね。人の視点も大事にしよう。',ai:'了解。データをもとに進めてみよう。'},ナギ:{line:'どちらにも、守りたいものがあるね。',human:'そうだね。暮らしから考えてみよう。',ai:'わかった。効率を確かめて進めるよ。'},ミドリ:{line:'少し先の未来も、想像してみて。',human:'ありがとう。未来も見ながら進めよう。',ai:'了解。今のデータから考えてみるね。'}};
+ if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
+ const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
+ const staffSpeeches={
+  clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
+  office:'市長、企業から駅前への出店提案が来ています。どう進めましょう？',
+  waterfront:'市長、海辺の整備です。にぎわいと高潮対策、どちらを優先しますか？',
+  energy:'市長、街の電力が足りなくなりそうです。今の便利さと将来への備え、どうしましょう？',
+  transit:'市長、駅が遠い地区の移動が不便です。人の少ない地区まで交通をつなぐか、駅前に商業施設を増やすか、どうしましょう？',
+  parkA:'市長、中央公園の使い方で相談です。緑を残すか施設を増やすか、どうしましょう？',
+  school:'市長、子どもが増えています。学校の整備を今から進めますか？'
+ };
+ const staff={ヒカリ:['早川ひかり','保健福祉部長'],ソラ:['三浦蒼太','都市整備部長'],ナギ:['高瀬 凪','建設部長'],ミドリ:['森田みどり','環境政策部長']};
  shell.dataset.view=view;
   const faceColors={ヒカリ:['#bc7d8c','#df9aa2'],ソラ:['#4c799a','#8bb4cf'],ナギ:['#a47a46','#e3b97c'],ミドリ:['#387a63','#87b89b']};
  const portraits={
@@ -2414,38 +3319,33 @@ class F5Primitives {
  function portrait(name){const a=portraits[name]||portraits.ソラ;return `<svg viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="portraitBg" x2="1" y2="1"><stop stop-color="#f4ead9"/><stop offset="1" stop-color="${a.back}"/></linearGradient></defs><rect width="180" height="220" rx="65" fill="url(#portraitBg)"/><circle cx="141" cy="36" r="18" fill="#fff7e5" opacity=".36"/><path d="${a.cut}" fill="${a.hair}"/><path d="M27 220 Q28 156 64 140 L90 152 L116 140 Q152 156 153 220Z" fill="${a.suit}"/><path d="M72 137 L72 151 Q90 170 108 151 L108 137" fill="#ddb298"/><path d="M61 66 Q61 34 90 34 Q119 34 119 66 L119 94 Q117 128 90 136 Q63 128 61 94Z" fill="#f2c9aa"/><path d="${a.bang}" fill="${a.hair}"/><path d="M63 75 Q57 72 58 84 Q59 92 63 92 M117 75 Q123 72 122 84 Q121 92 117 92" fill="#efc19f"/><ellipse cx="78" cy="84" rx="2.8" ry="4.5" fill="#304a46"/><ellipse cx="102" cy="84" rx="2.8" ry="4.5" fill="#304a46"/><path d="M74 74 Q78 71 82 73 M98 73 Q102 71 106 74" stroke="#765d53" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M88 84 q-2 9 2 9" stroke="#d69d84" fill="none" stroke-linecap="round"/><path class="mouth-neutral" d="M84 105 Q90 108 96 105" stroke="#ae6d68" stroke-width="2" fill="none" stroke-linecap="round"/><path class="mouth-warm" d="M82 104 Q90 114 98 104" stroke="#ae6d68" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M69 145 L90 165 L111 145 L105 180 L75 180Z" fill="${a.shirt}"/>${a.detail}<circle cx="90" cy="171" r="3" fill="#d1b77d"/></svg>`;}
 
  const residentReactions=[
-  {human:'「話を聞いてくれたから、通いやすい診療所ができたね。」',ai:'「新しい診療所は立派。でも、遠くの地区からは通いにくいよ。」'},
-  {human:'「駅へ行く道がつながった。病院にも行きやすくなったよ。」',ai:'「駅前はにぎやか。でも遠い地区のバスは増えなかったね。」'},
-  {human:'「海沿いを歩くと、守られている感じがする。」',ai:'「海辺にお店が増えたけど、高潮の日は大丈夫かな。」'},
-  {human:'「少しずつでも、未来に残る電力を選んだんだね。」',ai:'「便利な施設が増えたね。夏の電力は足りるかな。」'}
+  {human:'「話を聞いてくれたから、通いやすい診療所ができたね。」',ai:'「新しい診療所は立派。でも、遠くの地区からは通いにくいよ。」',mixed:'「診療所はできたね。誰の声が計画に入ったかも知りたいな。」'},
+  {human:'「駅へ行く道がつながった。病院にも行きやすくなったよ。」',ai:'「駅前はにぎやか。でも遠い地区のバスは増えなかったね。」',mixed:'「駅前も変わったね。遠い地区の移動も次に考えてほしいな。」'},
+  {human:'「海沿いを歩くと、守られている感じがする。」',ai:'「海辺にお店が増えたけど、高潮の日は大丈夫かな。」',mixed:'「海辺に新しい場所ができたね。備えも続けて見ていきたいな。」'},
+  {human:'「少しずつでも、未来に残る電力を選んだんだね。」',ai:'「便利な施設が増えたね。夏の電力は足りるかな。」',mixed:'「便利さと備え、両方をどう守るか話し続けたいね。」'}
  ];
  function showCityBeat(game){
   const event=game.lastEvent;
   if(!event)return;
-  const choice=event.chosen==='ai'?'ai':'human';
+  const choice=event.chosen==='ai'?'ai':event.chosen==='mixed'?'mixed':'human';
   const reaction=residentReactions[Math.min(event.round-1,residentReactions.length-1)];
   $('cityBeatHeading').textContent=event.result;
-  $('cityBeatVoice').textContent=reaction[choice];
-  const prev=game.history.length>1?game.history[game.history.length-2].visible:MachiEngine.INITIAL_PUBLIC;
-  const diffs=[['prosperity','繁栄'],['convenience','便利さ'],['appeal','街の魅力']];
-  const nodes=document.createDocumentFragment();
-  for(const [key,label] of diffs){
-   const chip=document.createElement('span'),delta=game.public[key]-prev[key];
-   chip.textContent=label+' '+(delta>=0?'+':'')+delta;nodes.append(chip);
-  }
-  $('cityBeatDeltas').replaceChildren(nodes);
+  $('cityBeatVoice').textContent=reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
+  renderCityBeatDeltas(game);
   storyBeatUntil=Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
   shell.dataset.stage='city';
   show('cityBeat',true);
-  scene.setZoom(1.25);scene.layout();
+  scene.resetView();scene.layout();
  }
+ function renderCityBeatDeltas(){ $('cityBeatDeltas').replaceChildren(); }
  function clearCityBeat(){
   if(!storyBeatUntil)return;
   storyBeatUntil=0;
   shell.dataset.stage='play';show('cityBeat',false);
   scene.resetView();scene.layout();
  }
- const hiddenNames={trust:'信頼',fairness:'公正',resilience:'持続性'};
+ const hiddenNames={trust:'市への信頼',fairness:'公平さ',resilience:'未来への備え'};
+ const allMetricNames={prosperity:'にぎわい',convenience:'便利さ',appeal:'住み心地',...hiddenNames};
  const clamp=x=>Math.min(100,Math.max(0,Number(x)||0));
  function initArt(){
   artModel=new window.F5City.CityModel('M');
@@ -2453,87 +3353,191 @@ class F5Primitives {
   scene=new window.F5CityScene($('townCanvas'),artModel);
   scene.setArtMode('illustrated');scene.reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   scene.resetView();
-  let last=performance.now(),drawn=0;
-  function run(ts){const dt=Math.min((ts-last)/1000,.12);last=ts;if(ts-drawn>40){try{scene.render(dt);}catch(err){console.error('city draw:',err);return;}drawn=ts;}requestAnimationFrame(run);}
+  let lastDraw=performance.now(),firstPaintAt=lastDraw;
+  function run(ts){
+   // The city is costly to paint; avoid invisible rendering and cap frame work on tablets.
+   const interval=scene.reduced?1000:window.innerWidth<750?65:42;
+   if(document.hidden)lastDraw=ts;
+   else if(ts-lastDraw>=interval){
+    const dt=Math.min((ts-lastDraw)/1000,.12);lastDraw=ts;
+    try{
+     scene.render(dt);
+     if(!$('cityLoading').hidden&&ts-firstPaintAt>300){
+      const canvas=$('townCanvas'),pixel=scene.ctx.getImageData(Math.floor(canvas.width/2),Math.floor(canvas.height/2),1,1).data;
+      if(pixel[0]+pixel[1]+pixel[2]>220)show('cityLoading',false);
+     }
+    }catch(err){console.error('city draw:',err);return;}
+   }
+   requestAnimationFrame(run);
+  }
   requestAnimationFrame(run);
   window.addEventListener('resize',()=>{scene.lastLayout='';scene.layout();});
  }
  function syncArt(s){
   if(!artModel||!s)return;
-  if(s.phase==='waiting'&&Object.keys(s.built||{}).length===0&&artModel.sites.some(x=>x.state==='done')){artModel.reset('M');scene.buildCache();}
+  if(artCity!==s.cityStartedAt){artCity=s.cityStartedAt;artModel.reset('M');scene.clearDecisionHighlight();highlightEventKey='';observedDecisionKey=null;observedCityState=false;scene.buildCache();}
   artModel.year=1+Math.min(8,s.round||0);artModel.t=(s.round||0)*90+Math.max(0,(EngineNow()- (s.endsAt||0) + 23000)/1000);
-  Object.entries(s.built||{}).forEach(([id,current])=>{const site=artModel.site(id);if(site&&site.current!==current){site.current=current;site.state='done';site.from=current;site.choice=current;site.level=3;scene.buildCache();}});
+  let shouldBuild=false;
+  Object.entries(s.built||{}).forEach(([id,current])=>{const site=artModel.site(id);if(site&&site.current!==current){site.current=current;site.state='done';site.from=current;site.choice=current;site.level=3;shouldBuild=true;}});
+  if(shouldBuild)scene.buildCache();
+  const event=s.lastEvent;
+  const decisionKey=event?`${s.cityStartedAt}:${event.round}:${event.time}`:null;
+  if(observedCityState&&decisionKey&&decisionKey!==observedDecisionKey&&event.chosen!=='mixed'&&!event.noVotes&&!event.deferred){const id=decisionSiteForEvent(event),site=artModel.site(id);if(site&&s.built?.[id]&&decisionKey!==highlightEventKey){highlightEventKey=decisionKey;const facilityLabels={clinic:'診療所',market:'商業施設',dc:'情報施設',floodgate:'高潮対策施設',transit:'交通拠点',mixed:'公園と施設',park:'公園',solar:'発電設備',homes:'住宅',school:'学校'};scene.setDecisionHighlight(id,facilityLabels[s.built[id]]||site.name);}}
+  observedDecisionKey=decisionKey;observedCityState=true;
+  artModel.serviceState=s.incident?.visual==='flood'?'rain':s.incident?.visual==='transit'?'demand':'normal';
+  artModel.crisisVisual=s.incident?.visual||'';
+  artModel.finalWarning=s.ending?.kind==='warning';
+  artModel.warningVisual=s.ending?.risks[0]?.visual||'';
+  document.querySelector('.skyline')?.setAttribute('data-crisis',s.incident?.visual||'');
  }
  function EngineNow(){return Date.now()+offset;}
  function show(id,on){$(id).hidden=!on;}
- function renderHud(s){if(!s)return;for(const [k,v] of Object.entries(s.public)){const el=document.querySelector(`[data-stat="${k}"]`);if(!el)continue;const n=String(Math.round(v)),value=el.querySelector('strong');el.querySelector('i').style.width=clamp(v)+'%';if(value.textContent!==n){value.textContent=n;value.classList.remove('stat-changed');void value.offsetWidth;value.classList.add('stat-changed');}}}
+ function renderHud(s){if(!s)return;const el=document.querySelector('[data-stat="happiness"]');if(!el)return;const v=s.public?.happiness??71,value=el.querySelector('strong'),n=String(Math.round(v));el.querySelector('i').style.width=clamp(v)+'%';if(value.textContent!==n)value.textContent=n;}
  function progressLabel(i){return ['第一','第二','第三','第四','第五','第六','第七'][i]||'次';}
  function clock(ms){const secs=Math.max(0,Math.ceil(ms/1000));return `${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;}
+ const impactNames={prosperity:'にぎわい',convenience:'便利さ',appeal:'住み心地'};
  function renderQuestion(s){
-  if(!s?.episode)return;
-  const e=s.episode;
-  const voice=voices[e.agent]||voices.ソラ;
+  if(!s?.episode)return;const e=s.episode;
+  const previous=window.GroupAccountability?.present(s.lastEvent,groupPersonalVotes.get(s.lastEvent?.round),!!s.isParticipant);
+  const comparison=$('groupPreviousResult');if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
-  $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';
-  const linked=view==='solo'&&s.lastEvent&&s.round>=1;
-  const links={
-    1:{ai:'診療所はできたけど、遠くの人はまだ通いにくい。次は交通を考えよう。',human:'診療所の話し合いで、駅まで遠い人の声も聞けた。次は交通だね。'},
-    2:{ai:'駅前はにぎやか。でも移動の問題が残った。海辺の計画にも影響があるよ。',human:'交通がつながって、海辺に来る人も増えそう。次の整備を考えよう。'},
-    3:{ai:'海辺にお店が増えて、電力の負担が大きくなってきた。',human:'海辺を守る工事が進んだ。次は長く使う電力を考えたい。'}
-  };
-  const lead=linked?(links[s.round]?.[s.lastEvent.chosen]||voice.line):voice.line;
-  $('agentLine').textContent=s.hasVoted?(s.myVote==='ai'?voice.ai:voice.human):lead;
-  // Present both decisions with the conversation; no intermediate acknowledgement required.
-  show('decisionOptions',true);
-  $('progressLabel').textContent=progressLabel(s.round)+'の決定';
-  $('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
-  $('agentName').textContent=e.agent;$('agentRole').textContent=e.role;
-  const c=faceColors[e.agent]||faceColors.ソラ;
-  $('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
-  $('questionTitle').textContent=e.heading;$('questionHint').textContent=linked?'前の決定が、次の課題につながった。':e.hint;
-  $('humanText').textContent=e.human;$('aiText').textContent=e.ai;
-  for(const b of document.querySelectorAll('[data-vote]')){
-   b.disabled=view==='solo'&&s.hasVoted;b.setAttribute('aria-pressed',String(s.myVote===b.dataset.vote));
-  }
-  $('voteFeedback').textContent=s.hasVoted?'あなたの判断を受け取りました。':view==='solo'?'自分の判断で、街の未来が変わる。':'あなたなら、どうする？';
-  $('peopleCount').textContent=(s.onlineCount||0)+'人が参加中';$('votedCount').textContent=s.voteCount+'人が判断済み';
-  show('communityStatus',view==='group');
+  $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';$('agentLine').textContent=e.heading||'市長、ご相談です。';
+  show('decisionOptions',true);$('progressLabel').textContent=progressLabel(s.round)+'の決定';$('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
+  const [staffName,staffRole]=staff[e.agent]||staff.ソラ;$('agentName').textContent=staffName;$('agentRole').textContent=staffRole;
+  const c=faceColors[e.agent]||faceColors.ソラ;$('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
+  $('questionHint').textContent=e.hint||'';show('questionHint',!!e.hint);show('riskNotice',!!s.alert);
+  if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
+  const root=$('decisionOptions');root.replaceChildren();
+  for(const option of e.options||[]){const button=document.createElement('button');button.type='button';button.className='decision';button.dataset.vote=option.id;button.disabled=view==='solo'&&s.hasVoted;button.setAttribute('aria-pressed',String(s.myOptionVote===option.id));const title=document.createElement('strong');const isAi=option.id.endsWith('-ai');title.textContent=isAi?'AIに任せる':option.label;button.append(title);if(isAi){const note=document.createElement('span');note.className='decision-tradeoff';note.textContent=option.label;button.append(note);}root.append(button);}
+  const feedback=$('voteFeedback');if(s.hasVoted){feedback.textContent=view==='group'?'投票済み。締め切りまでは選び直せます。':'決裁済み。街の変化を見届けましょう。';feedback.classList.add('is-confirmed');}else{feedback.textContent=view==='solo'?'ひとつ選ぶと、街の状態が変わります。':'あなたなら、どうする？';feedback.classList.remove('is-confirmed');}
+  $('peopleCount').textContent=(s.onlineCount||0)+'人が参加中';$('votedCount').textContent=s.voteCount+'人が判断済み';show('communityStatus',view==='group');
  }
+
  function resultDescription(s){
-  if(s.outcome==='collapse'){
-   const entries=Object.entries(s.shadow||{}),min=entries.sort((a,b)=>a[1]-b[1])[0];
-   const label=hiddenNames[min?.[0]]||'信頼';
-   return {heading:'街は輝いていた。',sub:`でも、「${label}」が先に限界を迎えていた。`};
+  return {heading:s.ending?.heading||'街の判断を振り返る。',sub:s.ending?.description||'判断の記録と、街に残った課題を確かめてください。'};
+ }
+ function renderGroupAccountability(s){
+  const root=$('groupAccountabilityList');if(!root)return;
+  root.replaceChildren();
+  const rows=window.GroupAccountability.list(s.history||[],groupPersonalVotes,!!s.isParticipant);
+  for(const row of rows){
+   const item=document.createElement('li'),title=document.createElement('strong'),detail=document.createElement('span');
+   title.textContent=`第${row.round}回 · ${row.heading}`;
+   detail.textContent=`自分が押した票：${row.personal}。街で実施された案：${row.outcome}。${row.winningLabel?`採用した行動：${row.winningLabel}。`:''}集計：${row.tally}。`;
+   item.append(title,detail);root.append(item);
   }
-  return {heading:'街は続いていく。',sub:'目に見えないものを、まだ守れている。'};
+  $('groupAccountability').hidden=rows.length===0;
  }
  function renderResult(s){
   if(!s?.shadow)return;
+  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();$('shadowSpotlightRows').replaceChildren();}
+  const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
+  if(!endingSceneReady){if(scene?.render)scene.render(0);endingSceneImage=endingSceneCache.get(s.cityStartedAt,$('townCanvas'));endingSceneReady=true;}
+  const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
+  if(!$('endingCityPicture').childElementCount){$('endingCityPicture').innerHTML=window.EndingCard.sceneVisual({kind:s.ending?.kind,scene:sceneKey,endingLabel,sceneImage:endingSceneImage},'ending-scene-visual ending-stage-scene');$('endingCityPicture').setAttribute('aria-label','判断後の街の風景');}
+  if(view==='group'&&endingFlowStage>=3)renderGroupAccountability(s);else{$('groupAccountabilityList').replaceChildren();$('groupAccountability').hidden=true;}
+  if(endingFlowStage>=3&&(!pressData||pressData.cityStartedAt!==s.cityStartedAt)){pressData=window.PressConference.build(s,null,[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressDone=true;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
+  if(endingFlowStage<3)pressData=null;
   const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
-  $('endingKicker').textContent=s.outcome==='collapse'?'THE HIDDEN CITY':'THE CITY CONTINUES';
-  const root=$('shadowMetrics');root.replaceChildren();
-  for(const [key,label] of Object.entries(hiddenNames)){
-   const v=clamp(s.shadow[key]);let row=document.createElement('div');row.className='reveal-stat'+(v<=25?' low':'');
-   const title=document.createElement('span');title.textContent=label;
-   const track=document.createElement('div');track.className='stat-track';const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);
-   const value=document.createElement('strong');value.textContent=String(v);row.append(title,track,value);root.append(row);
+  if(['stable','true','collapse'].includes(s.ending?.kind))$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
+  show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
+  $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
+  $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
+  if(endingFlowStage>=3&&endingMetricsCity!==s.cityStartedAt){endingMetricsCity=s.cityStartedAt;for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
+   const spotlight=$('shadowSpotlightRows');spotlight.replaceChildren();for(const metric of pressData.metrics.filter(x=>x.group==='shadow')){const row=document.createElement('article'),name=document.createElement('strong'),value=document.createElement('b'),meaning=document.createElement('span');row.className='shadow-spotlight-row';name.textContent=metric.label;value.textContent=String(clamp(metric.value));value.setAttribute('aria-label',`${metric.label} ${clamp(metric.value)} / 100`);meaning.textContent=metric.meaning;row.append(name,value,meaning);spotlight.append(row);}
   }
-  $('resultNote').textContent='数字に現れなかったことも、街の未来を変えていた。';
+  const radar=$('endingRadar');if(endingFlowStage>=3&&endingRadarCity!==s.cityStartedAt){endingRadarCity=s.cityStartedAt;radar.innerHTML=window.EndingCard.radarSvg(window.EndingCard.metricKeys.map(key=>pressData.metrics.find(metric=>metric.key===key)?.value??0));}
+  $('metricComparison').hidden=!pressDone;
+  const card=$('endingCardTools');card.hidden=!pressDone;
+  if(endingFlowStage>=4&&endingCardRenderCity!==s.cityStartedAt){endingCardRenderCity=s.cityStartedAt;
+   const scene=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
+   const context={kind:s.ending?.kind,metric:s.ending?.metric,scene,sceneImage:endingSceneImage,title:result.heading,description:result.sub,endingLabel:({collapse:'BAD END · '+(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'WARNING END · 警告の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL END · 健やかに続く街',true:'TRUE END · 役割と備えを確かめた街'})[s.ending?.kind]||'街の記録',metrics:pressData.metrics};
+   $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);$('endingCardMore').open=false;
+   $('endingCardPrint').innerHTML=window.EndingCard.buildSvg(context);
+   $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};
+   $('printEndingCard').onclick=()=>window.print();
+  }
+  const takeaway=endingFlowStage>=4?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]}):null;
+  $('takeawayReport').hidden=!takeaway;
+  const endingFlowLabels=['変わった街','結末','理由','6つの指標','保存'];
+  $('groupRevealNotice').hidden=!groupEntryUX.shouldShowRevealNotice(view,s);
+  $('endingProgress').textContent=`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
+  $('endingCityPicture').hidden=endingFlowStage!==0;
+  $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2||endingFlowStage===3;
+  $('shadowSpotlight').hidden=endingFlowStage!==3;
+  $('endingIncident').hidden=endingFlowStage<3||(!s.incident&&!s.ending?.risks.length);
+  if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
+  if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
+  if(endingFlowStage<4){$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();}
+  $('metricComparison').hidden=endingFlowStage<3;
+  $('endingCardTools').hidden=endingFlowStage<4;$('takeawayReport').hidden=endingFlowStage<4;if(endingUiStage!==endingFlowStage){endingUiStage=endingFlowStage;$('metricComparison').open=false;if(endingFlowStage===4)$('endingCardMore').open=false;}
+  $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
+  $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4||view!=='solo';$('resultNote').hidden=endingFlowStage<4;
+  $('pressConference').hidden=endingFlowStage<4||!pressOpen;
+  $('openEndingPress').hidden=endingFlowStage<4||pressOpen;
+  if(pressData){
+   const pressQuestion=$('pressQuestion'),pressAnswer=$('pressAnswer'),pressNext=$('pressNext'),pressSkip=$('pressSkip'),pressReplay=$('pressReplay'),closePress=$('closeEndingPress');
+   const pressStep=pressIndex<0?'start':pressIndex<pressData.answers.length?'answer-'+pressIndex:pressIndex===pressData.answers.length?'close':'done';
+   const pressLine=pressStep==='answer-'+pressIndex?pressData.answers[pressIndex]:'';
+   const pressKey=`${s.cityStartedAt}:${pressOpen?'open':'closed'}:${pressStep}`;
+   if(pressRenderKey!==pressKey){
+    if(pressFrame){cancelAnimationFrame(pressFrame);pressFrame=0;}
+    pressRenderKey=pressKey;pressTyped=true;pressAnswer.textContent='';pressAnswer.hidden=true;
+    pressQuestion.textContent=pressStep==='close'?pressData.close:pressData.question;pressQuestion.hidden=pressStep==='done';
+    pressNext.hidden=pressStep==='done';pressSkip.hidden=pressStep==='done';
+    pressReplay.hidden=pressStep!=='done';closePress.hidden=pressStep==='done';
+    if(pressStep==='start')pressNext.textContent='会見を始める';
+    else if(pressStep==='close')pressNext.textContent='結果を見る';
+    else pressNext.textContent='次へ';
+    if(pressLine){pressAnswer.hidden=false;pressTyped=false;typePressLine(pressLine);}
+   }
+  }
+  if(endingFlowStage<3){if(endingMetricsCity===s.cityStartedAt){endingMetricsCity=null;$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();}if(endingRadarCity===s.cityStartedAt){endingRadarCity=null;radar.replaceChildren();}}
+  if(endingFlowStage<4){$('decisionAccountability').textContent='';$('historyList').replaceChildren();$('resultNote').textContent='';}
+  $('endingNext').hidden=endingFlowStage>=4;
+  $('endingNext').textContent=['結末を見る','理由を見る','指標を見る','保存へ進む','保存する'][endingFlowStage]||'保存する';
+  $('endingShowAll').hidden=endingFlowStage>=3;
+  $('resultNote').textContent=view==='group'?'次の街の参加受付まで '+clock(s.endsAt-EngineNow())+'。保留した議題も、次の判断で考えてみてください。':'数字に現れなかった声も、次の判断で確かめてみてください。';
+  const choicesCount={human:0,ai:0,mixed:0,none:0};
+  for(const event of s.history||[])choicesCount[event.chosen]=(choicesCount[event.chosen]||0)+1;
+  const rounds=(s.history||[]).length;
+  const record=`人が選んだ ${choicesCount.human} / AIに委ねた ${choicesCount.ai} / 同数票 ${choicesCount.mixed} / 投票なし ${choicesCount.none}（全${rounds}議題）。`;
+  $('decisionAccountability').textContent=view==='group'
+   ? record+(s.ending?.kind==='undecided'?' 投票がなかったのか、意見が割れたのか。保留の理由を振り返り、次の判断につなげてください。':' AIに委ねる票も参加者が選んだものです。投票と街への影響を、みんなの判断記録として残します。')
+   : `${record} AIに何を任せるか決めたのも、あなたの選択です。結果と一緒に振り返ってください。 判断を任せるとき、何を確認しておく必要があったでしょうか。`;
+  const list=$('historyList');list.replaceChildren();
+  const choices={human:'人が判断',ai:'AIに委任',mixed:'同数票・実施保留',none:'投票なし・判断保留'};
+  for(const [i,event] of (s.history||[]).entries()){
+   const item=document.createElement('li');
+   const label=document.createElement('strong');label.textContent='第'+(i+1)+'回 · '+event.heading;
+   const detail=document.createElement('span');
+   const votes=view==='group'?'（人 '+event.human+' / AI '+event.ai+'）':'';
+   const attempted=event.interventionAttempted??event.intervened;
+   const intervention=attempted?(event.crisisAverted?.length?' · 終了に至る危機を回避':event.warningRecovered?.length?' · 警告水準から回復':' · 対策を試みた'):'';
+   detail.textContent=(choices[event.chosen]||'判断')+votes+intervention+'。'+event.result;
+   item.append(label,detail);list.append(item);
+  }
+  $('historySummary').textContent='各判断の記録を見る · '+(s.history?.length||0)+'件';
   $('replayButton').textContent=view==='solo'?'もう一度、遊ぶ →':'次の街は、もうすぐ。';
   $('replayButton').disabled=view!=='solo';
  }
+ $('endingNext').addEventListener('click',()=>{endingFlowStage=Math.min(4,endingFlowStage+1);if(state)renderResult(state);});
+ $('endingShowAll').addEventListener('click',()=>{endingFlowStage=3;if(state)renderResult(state);});
  function renderDisplay(s){
   if(view!=='display')return;
   const count=s?.onlineCount||0;$('displayCount').replaceChildren();
   const b=document.createElement('b');b.textContent=count;$('displayCount').append(b,document.createTextNode(' 人が参加'));
-  $('displayOverline').textContent=s?.phase==='active'?'今、街が動いている':s?.phase==='reveal'?'街のもうひとつの姿':'みんなでつくる、ひとつの街';
+  $('displayOverline').textContent=s?.phase==='active'?'今、街が動いている':s?.phase==='reveal'?'街のもうひとつの姿':s?.phase==='lobby'?'参加者受付中':'みんなでつくる、ひとつの街';
   if(s?.phase==='active'){
    $('displayHeading').textContent=s.episode.heading;
-   $('displayStory').textContent=`${s.episode.agent}からの相談 · ${progressLabel(s.round)}の決定 · あと${clock(s.endsAt-EngineNow())}`;
+   $('displayStory').textContent=(s.alert?'【街の異変】'+s.alert.title+' · ':'')+`${s.episode.agent}からの相談 · ${progressLabel(s.round)}の決定 · あと${clock(s.endsAt-EngineNow())}`;
   }else if(s?.phase==='reveal'){
-   const result=resultDescription(s);$('displayHeading').textContent=result.heading;
-   $('displayStory').textContent=result.sub+'  信頼 '+s.shadow.trust+' / 公正 '+s.shadow.fairness+' / 持続性 '+s.shadow.resilience;
+  const result=resultDescription(s);$('displayHeading').textContent=result.heading;
+  $('displayStory').textContent=(s.incident?s.incident.title+' · ':'')+result.sub;const metrics=$('displayMetrics');metrics.replaceChildren();metrics.hidden=!(s.phase==='reveal'&&s.shadow);if(!metrics.hidden){for(const group of ['public','shadow']){const section=document.createElement('section'),head=document.createElement('strong');head.textContent=group==='public'?'プレイ中に見えていた3つの成果':'最後に明らかになる3つの影響';section.append(head);for(const item of window.PressConference.build(s).metrics.filter(x=>x.group===group)){const row=document.createElement('div'),label=document.createElement('span'),bar=document.createElement('i'),value=document.createElement('b');label.textContent=item.label;bar.style.width=clamp(item.value)+'%';value.textContent=String(item.value);row.append(label,bar,value);section.append(row);}metrics.append(section);}}
+  }else if(s?.phase==='lobby'){
+   $('displayHeading').textContent='参加する人がそろったら、始めよう。';
+   $('displayStory').textContent='QRから直接参加 · 準備OK '+s.readyCount+' / 接続中 '+s.onlineCount+' 人。全員の準備後に開始。途中参加は次の議題から。';
   }else{
    $('displayHeading').textContent='この街の未来を、\nあなたの手で。';
    $('displayStory').textContent='AIに任せるか。人が決めるか。';
@@ -2542,17 +3546,34 @@ class F5Primitives {
  }
  function render(s){
   if(!s)return;state=s;
+  if(s.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s.cityStartedAt!==endingFlowCityStartedAt){
+   $('shadowSpotlightRows').replaceChildren();$('shadowSpotlight').hidden=true;
+   $('shadowMetrics').replaceChildren();$('publicMetrics').replaceChildren();$('endingRadar').replaceChildren();
+   endingFlowCityStartedAt=null;endingUiStage=-1;
+  }
+  if(view==='group'){if(groupVoteCityStartedAt!==s.cityStartedAt){groupVoteCityStartedAt=s.cityStartedAt;groupPersonalVotes=new Map();}if(s.phase==='active'&&s.isParticipant&&s.hasVoted)groupPersonalVotes.set(s.round+1,s.myOptionVote||s.myVote);}
   renderHud(s);syncArt(s);
+  $('lobbyPeople').textContent=String(s.onlineCount||0);
+  $('lobbyReadyCount').textContent=String(s.readyCount||0);
+  $('readyShared').textContent=s.myReady?'準備OK ✓（取り消す）':'準備OKにする';
+  $('readyShared').setAttribute('aria-pressed',String(!!s.myReady));
+  $('startShared').disabled=!s.canStart;
+  shell.dataset.alert=String(!!s.alert||s.ending?.kind==='warning');
+  shell.dataset.ending=s.ending?.kind||'';
+  $('shell').setAttribute('data-crisis',s.incident?.visual||'');
   $('yearStamp').innerHTML=`${2035+Math.min(8,Math.max(1,s.round+1))} <i>·</i> ${['春','夏','秋','冬'][s.round%4]}`;
-  $('cityStatus').textContent=s.phase==='reveal'?'街に、変化が起きた':s.phase==='waiting'?'街の暮らしは続いている':s.episode?.agent+'が考えている';
-  const ticker=s.phase==='reveal'?'すべての決定には、続きがある。':s.lastEvent?.result||'街は、今日も少しずつ変わっていく。';if($('cityTicker').textContent!==ticker){$('cityTicker').textContent=ticker;$('cityTicker').classList.remove('ticker-arrived');void $('cityTicker').offsetWidth;$('cityTicker').classList.add('ticker-arrived');}
-  $('cityLocation').textContent='まちの中心から';$('cityWeather').textContent=['穏やかな風','夏の陽射し','秋の気配','冬の空'][s.round%4];
+  $('cityStatus').textContent=s.ending?.kind==='warning'?'警告を残して街は続きます':s.ending?.kind==='undecided'?'街の判断が保留されています':s.incident?'街に重大なトラブルが発生':s.alert?'街に異変が起きている':s.phase==='reveal'?'街に、変化が起きた':s.phase==='lobby'?'参加者がそろうのを待っています':s.phase==='waiting'?'街の暮らしは続いている':'市長政策会議中';
+  const ticker=view==='group'&&!s.isParticipant&&s.phase!=='reveal'?(s.phase==='lobby'?'参加受付中。準備ができたら街づくりが始まります。':s.phase==='waiting'?'次の街を準備しています。':s.phase==='active'&&s.round+1>=s.roundTotal?'最後の議題が進行中です。今回は結末を見届け、次の街から参加できます。':'この街は進行中。次の議題から参加できます。'):s.ending?.kind==='warning'?'【街に残る課題】'+s.ending.risks.map(x=>x.title).join('・'):s.ending?.kind==='undecided'?s.ending.heading:s.incident?'【街の緊急ニュース】'+s.incident.title:s.alert?'【街の異変】'+s.alert.title:s.phase==='reveal'?'すべての決定には、続きがある。':s.lastEvent?.result||'街は、今日も少しずつ変わっていく。';if($('cityTicker').textContent!==ticker){$('cityTicker').textContent=ticker;$('cityTicker').classList.remove('ticker-arrived');void $('cityTicker').offsetWidth;$('cityTicker').classList.add('ticker-arrived');}
+  $('cityLocation').textContent='まちの中心から';$('cityWeather').textContent=s.incident?({flood:'豪雨・道路冠水',transit:'交通停止',economy:'街の施設が休業',departure:'人通りが減った街',divide:'地区間で対立',protest:'住民が説明を求める'})[s.incident.visual]:s.ending?.kind==='warning'?'残った課題を点検中':['穏やかな風','夏の陽射し','秋の気配','冬の空'][s.round%4];
   renderDisplay(s);
   if(view==='home')return;
   if(view==='display'){show('displayFrame',true);return;}
   if(view==='group'){
    show('joinPanel',!everJoined&&s.phase!=='reveal');
-   show('questionPanel',everJoined&&s.phase==='active');
+   show('lobbyPanel',everJoined&&s.phase==='lobby');
+   show('questionPanel',everJoined&&s.phase==='active'&&!s.joiningNextRound);
+   show('lateJoinPanel',everJoined&&!!s.joiningNextRound);
+   $('lateJoinText').textContent=s.round+1>=s.roundTotal?'最後の議題が進行中です。今回は結末を見届け、次の街から参加できます。':'今の議題は進行中です。次の議題から、23秒の判断時間で参加できます。';
    show('resultPanel',s.phase==='reveal');
    show('waitingPanel',everJoined&&s.phase==='waiting');
   }
@@ -2571,32 +3592,49 @@ class F5Primitives {
   return response.json();
  }
  async function fetchState(){
+  // Avoid late responses painting an older round over a newly submitted decision.
+  if(polling||document.hidden)return;
+  polling=true;
   try{
    const x=await request('/api/state');offset=x.serverNow-Date.now();failedRequests=0;
    if(view==='group')everJoined=!!x.isParticipant;
-   render(x);
+   if(!state||x.cityStartedAt!==state.cityStartedAt||x.round>=state.round||x.phase==='waiting')render(x);
   }catch(err){failedRequests++;if(failedRequests===3){$('cityStatus').textContent='通信を確認してください';$('cityTicker').textContent='ネットワークの接続を確認してください。';}}
+  finally{polling=false;}
  }
- function startSolo(){clearCityBeat();soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
+ function startSolo(){clearCityBeat();soloHumanPlans=[];soloGame=MachiEngine.createGame(Date.now(),{autostart:true,storyMode:'solo'});MachiEngine.join(soloGame,'solo','あなた',Date.now());soloGame.votes={};soloGame.roundEndsAt=Number.MAX_SAFE_INTEGER;render(MachiEngine.publicState(soloGame,'solo'));}
  async function joinGroup(e){e.preventDefault();$('joinForm').querySelector('button[type=submit]').disabled=true;
   try{const x=await request('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nameInput').value})});everJoined=true;offset=x.state.serverNow-Date.now();render(x.state);}catch(err){$('cityTicker').textContent=err.message;}finally{$('joinForm').querySelector('button[type=submit]').disabled=false;}
  }
+ async function startShared(){
+  $('startShared').disabled=true;
+  try{const x=await request('/api/start',{method:'POST'});offset=x.state.serverNow-Date.now();render(x.state);}
+  catch(err){$('cityTicker').textContent=err.message;fetchState();}
+  finally{$('startShared').disabled=!state?.canStart;}
+ }
+ async function readyShared(){
+  $('readyShared').disabled=true;
+  try{const x=await request('/api/ready',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ready:!state?.myReady})});render(x.state);}
+  catch(err){$('cityTicker').textContent=err.message;}
+  finally{$('readyShared').disabled=false;}
+ }
  async function choose(choice){
-  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));return;}
-  if(view==='group'){
-   try{const x=await request('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice,round:state?.round})});render(x.state);}catch(err){$('voteFeedback').textContent=err.message;fetchState();}
-  }
+  if(view==='solo'){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;submitSoloVote(choice);return;}
+  if(view==='group')try{const x=await request('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice,round:state?.round})});render(x.state);}catch(err){$('voteFeedback').textContent=err.message;fetchState();}
  }
- function goto(href){if(href.includes('mode=group')||href.includes('view=display')){window.alert('みんなで遊ぶ・モニター観戦は、サーバー版で利用できます。');return;}const q=href.includes('?')?href.slice(href.indexOf('?')):'';window.location.assign(window.location.pathname+q);}
- function setupQR(){
-  const url=location.origin+'/';
-  $('joinUrl').textContent=location.host+'/';
-  $('qrImg').src='/api/qr.svg?url='+encodeURIComponent(url);
-  $('qrImg').onerror=()=>{const box=$('qrBox');box.textContent='参加URLをご利用ください';box.style.fontSize='13px';box.style.padding='15px';};
+ function submitSoloVote(choice){if(!soloGame||soloGame.phase!=='active'||soloGame.votes.solo)return;if(!MachiEngine.vote(soloGame,'solo',choice,Date.now()))return;soloGame.roundEndsAt=Date.now()+1800;render(MachiEngine.publicState(soloGame,'solo'));}
+ function goto(href){
+  // The self-contained HTML can navigate between home and solo without a server.
+  if(location.protocol==='file:'){
+   const q=href.includes('?')?href.slice(href.indexOf('?')):'';
+   window.location.assign(location.pathname+q);
+  }else window.location.assign(href);
  }
+ function setupQR(){const src=window.SITE_QR_DATA||'/site-qr.svg';$('siteQrLarge').src=src;$('siteQrSmall').src=src;$('siteQrOpen').onclick=()=>{$('siteQrPanel').hidden=false;$('siteQrClose').focus();};$('siteQrClose').onclick=()=>{$('siteQrPanel').hidden=true;$('siteQrOpen').focus();};$('siteQrPanel').addEventListener('click',e=>{if(e.target===$('siteQrPanel'))$('siteQrPanel').hidden=true;});$('siteQrPanel').addEventListener('keydown',e=>{if(e.key==='Escape'){$('siteQrPanel').hidden=true;$('siteQrOpen').focus();}});}
  function tick(){
   if(view==='solo'&&soloGame){
-   if(storyBeatUntil&&Date.now()>=storyBeatUntil)clearCityBeat();
+   const endedBeat=!!storyBeatUntil&&Date.now()>=storyBeatUntil;
+   if(endedBeat)clearCityBeat();
    const changed=MachiEngine.advance(soloGame,Date.now());
    if(changed==='restart'){startSolo();return;}
    if(changed){
@@ -2604,18 +3642,22 @@ class F5Primitives {
     else if(soloGame.phase==='reveal')soloGame.revealEndsAt=Number.MAX_SAFE_INTEGER;
     showCityBeat(soloGame);
    }
-   render(MachiEngine.publicState(soloGame,'solo'));
+   if(changed||endedBeat)render(MachiEngine.publicState(soloGame,'solo'));
   }
   else if(state?.phase==='active'){
-    if(view==='group'&&everJoined){$('countdown').textContent=clock(state.endsAt-EngineNow());renderQuestion(state);}
-    if(view==='display')renderDisplay(state);
+    if(view==='group'&&everJoined)$('countdown').textContent=clock(state.endsAt-EngineNow());
+    if(view==='display'){
+      const second=Math.ceil((state.endsAt-EngineNow())/1000);
+      if(lastDisplaySecond!==second){lastDisplaySecond=second;renderDisplay(state);}
+    }
   }
  }
  const introReduce=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const prologueTimes=[2900,3900,5600,4000];
+ const prologueTimes=[1300,1500,1700,1300];
  function showPrologueLine(){
   $('prologueText').textContent=prologueLines[prologueIndex][1];
   $('prologueText').dataset.typing='false';
+  $('prologueActivityLabel').textContent=prologueIndex===prologueLines.length-1?'街への案内を準備中…':'次のメッセージを入力中…';
   prologueFullyTyped=true;
  }
  function runPrologue(ts){
@@ -2625,11 +3667,11 @@ class F5Primitives {
   const raw=prologueLines[prologueIndex][1],characters=Array.from(raw);
   const elapsed=ts-prologueStartedAt;
   if(!introReduce()&&!prologueFullyTyped){
-   const n=Math.min(characters.length,Math.floor(elapsed/42));
+   const n=Math.min(characters.length,Math.floor(elapsed/24));
    $('prologueText').textContent=characters.slice(0,n).join('');
    if(n===characters.length)showPrologueLine();
   }
-  const minimumTime=Math.max(prologueTimes[prologueIndex],characters.length*42+1600);
+  const minimumTime=Math.max(prologueTimes[prologueIndex],characters.length*24+500);
   if(elapsed>=minimumTime){
    if(prologueIndex===prologueLines.length-1){finishPrologue();return;}
    prologueIndex++;renderPrologue();return;
@@ -2643,6 +3685,7 @@ class F5Primitives {
   $('prologueAnnounce').textContent=line[0]+'：'+line[1];
   $('prologueText').textContent='';
   $('prologueText').dataset.typing='true';
+  $('prologueActivityLabel').textContent=prologueIndex===0?'物語を入力中…':'案内人が入力中…';
   $('prologueProgress').textContent=String(prologueIndex+1).padStart(2,'0')+' / 04';
   $('prologueProgress').setAttribute('aria-label','全4場面のうち'+(prologueIndex+1)+'場面');
   $('prologueNext').innerHTML=prologueIndex===3?'街へ進む <span aria-hidden="true">→</span>':'次へ <span aria-hidden="true">→</span>';
@@ -2662,20 +3705,36 @@ class F5Primitives {
   show('prologue',false);show('modeChoice',true);
  }
  function init(){
-  initArt();
+  initArt();setupQR();
+  if(location.protocol==='file:'){
+   // The self-contained HTML only runs solo. Keep the group entry visible and identify its published-online destination.
+   show('standaloneGroupNote',true);shell.dataset.standalone='true';
+   document.querySelector('.brand').setAttribute('href',location.pathname);
+  }
   if(view==='home'){
    show('landing',true);show('sidePanel',false);$('cityStatus').textContent='誰が、未来を決める？';renderPrologue();
-  }else if(view==='solo')startSolo();
-  else {setupQR();fetchState();setInterval(fetchState,1250);}
+  }else if(view==='solo'){startSolo();}
+  else {fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
-  $('openShared').onclick=()=>goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
+  $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;$('pressAnswer').textContent=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;pressTyped=true;return;}if(pressIndex<pressData.answers.length)pressIndex++;else{pressIndex=pressData.answers.length+1;pressDone=true;pressOpen=false;}if(state)renderResult(state);};
+  $('pressSkip').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressDone=true;pressOpen=false;pressTyped=true;if(state)renderResult(state);};
+  $('pressReplay').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';if(state)renderResult(state);};
+  $('openEndingPress').onclick=()=>{if(!state||endingFlowStage<4)return;if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressOpen=true;pressDone=false;pressIndex=-1;pressTyped=true;pressRenderKey='';renderResult(state);};
+  $('closeEndingPress').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressOpen=false;pressDone=true;pressTyped=true;if(state)renderResult(state);};
+  $('saveReflection').onclick=()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
+  $('copyReflection').onclick=async()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
+  $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
-  for(const b of document.querySelectorAll('[data-vote]'))b.onclick=()=>choose(b.dataset.vote);
+  $('decisionOptions').onclick=e=>{const b=e.target.closest('[data-vote]');if(b&&!b.disabled)choose(b.dataset.vote);};
   $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
+  $('groupRevealSolo').onclick=()=>groupEntryUX.navigateToSolo(view,state,goto);
+  $('startShared').onclick=startShared;$('readyShared').onclick=readyShared;
   $('switchButton').onclick=()=>goto('/');
   setInterval(tick,250);
  }
  init();
+ function typePressLine(line){const target=$('pressAnswer');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressFrame=0;pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
 })();
+
 </script>
 </body></html>

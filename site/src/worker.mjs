@@ -6,12 +6,17 @@ const headers={'cache-control':'no-store','x-content-type-options':'nosniff','re
 const json=(data,status=200,extra={})=>new Response(JSON.stringify(data),{status,headers:{...headers,'content-type':'application/json; charset=utf-8',...extra}});
 const clone=x=>JSON.parse(JSON.stringify(x));
 const paused=ms=>new Promise(r=>setTimeout(r,ms));
+const ensuredStage4=new WeakSet();
 async function load(DB){
-  const row=await DB.prepare('SELECT version, json FROM city_state WHERE id=1').first();
+  if(!ensuredStage4.has(DB)){
+    await DB.prepare('CREATE TABLE IF NOT EXISTS city_state_stage4 (id integer PRIMARY KEY NOT NULL CHECK (id=1), version integer NOT NULL, json text NOT NULL)').run();
+    ensuredStage4.add(DB);
+  }
+  const row=await DB.prepare('SELECT version, json FROM city_state_stage4 WHERE id=1').first();
   if(row)return {version:Number(row.version),game:JSON.parse(row.json)};
   const seed=Engine.createGame();
-  await DB.prepare('INSERT OR IGNORE INTO city_state (id, version, json) VALUES (1,0,?)').bind(JSON.stringify(seed)).run();
-  const inserted=await DB.prepare('SELECT version, json FROM city_state WHERE id=1').first();
+  await DB.prepare('INSERT OR IGNORE INTO city_state_stage4 (id, version, json) VALUES (1,0,?)').bind(JSON.stringify(seed)).run();
+  const inserted=await DB.prepare('SELECT version, json FROM city_state_stage4 WHERE id=1').first();
   if(!inserted)throw Error('D1 initialization failed');
   return {version:Number(inserted.version),game:JSON.parse(inserted.json)};
 }
@@ -26,7 +31,7 @@ async function transaction(DB,transform){
     const result=transform(current,now);
     if(result?.changed)changed=true;
     if(!changed)return {game:current,result};
-    const written=await DB.prepare('UPDATE city_state SET json=?, version=version+1 WHERE id=1 AND version=?').bind(JSON.stringify(current),version).run();
+    const written=await DB.prepare('UPDATE city_state_stage4 SET json=?, version=version+1 WHERE id=1 AND version=?').bind(JSON.stringify(current),version).run();
     if(Number(written?.meta?.changes||0)===1)return {game:current,result};
     await paused(Math.min(30,retry*3));
   }
@@ -64,15 +69,35 @@ export default {
     if(result?.error)return json({error:result.error},409);
     return json({ok:true,state:Engine.publicState(game,key)},200,{'set-cookie':`machi_guest=${key}; HttpOnly; SameSite=Lax; Secure; Path=/; Max-Age=86400`});
    }
+   if(path==='/api/ready'&&req.method==='POST'){
+    if(!isSameOrigin(req))return json({error:'invalid origin'},403);
+    const data=await body(req),k=cookie(req);
+    const {game,result}=await transaction(env.DB,(g,now)=>{
+     if(!k||!Engine.ready(g,k,data.ready,now))return {changed:false,error:'参加待機中に準備状態を変更してください。'};
+     return {changed:true};
+    });
+    if(result?.error)return json({error:result.error},409);
+    return json({ok:true,state:Engine.publicState(game,k)});
+   }
+   if(path==='/api/start'&&req.method==='POST'){
+    if(!isSameOrigin(req))return json({error:'invalid origin'},403);
+    const k=cookie(req);
+    const {game,result}=await transaction(env.DB,(g,now)=>{
+     if(!k||!g.participants[k]?.ready||!Engine.start(g,now))return {changed:false,error:'接続中の参加者全員が「準備OK」にしてから開始してください。'};
+     return {changed:true};
+    });
+    if(result?.error)return json({error:result.error},409);
+    return json({ok:true,state:Engine.publicState(game,k)});
+   }
    if(path==='/api/vote'&&req.method==='POST'){
     if(!isSameOrigin(req))return json({error:'invalid origin'},403);
     const data=await body(req),k=cookie(req);
     const {game,result}=await transaction(env.DB,(g,now)=>{
      if(!Number.isInteger(data.round)||data.round!==g.round)return {changed:false,error:'議題が変わりました。もう一度選んでください。'};
-     if(g.phase!=='active'||!['human','ai'].includes(data.choice))return {changed:false,error:'投票を受け付けられませんでした。'};
+     if(g.phase!=='active'||typeof data.choice!=='string'||data.choice.length>40)return {changed:false,error:'投票を受け付けられませんでした。'};
      const participant=k&&g.participants[k];
      if(!participant)return {changed:false,error:'投票を受け付けられませんでした。'};
-     if(g.votes[k]===data.choice)return {changed:false};
+     if((g.optionVotes?.[k]||g.votes[k])===data.choice||(['human','ai'].includes(data.choice)&&g.votes[k]===data.choice))return {changed:false};
      if(participant.lastVoteAt&&now-participant.lastVoteAt<750)return {changed:false,error:'少し待ってから選び直してください。'};
      if(!Engine.vote(g,k,data.choice,now))return {changed:false,error:'投票を受け付けられませんでした。'};
      participant.lastVoteAt=now;
@@ -85,10 +110,10 @@ export default {
     const target=url.searchParams.get('url')||'';
     if(target.length>700)return json({error:'invalid URL'},400);
     const dest=new URL(target);
-    if(!['https:','http:'].includes(dest.protocol)||dest.origin!==url.origin||!['/','/index.html'].includes(dest.pathname)||dest.search||dest.hash)return json({error:'invalid URL'},400);
+    if(!['https:','http:'].includes(dest.protocol)||dest.origin!==url.origin||!['/','/index.html'].includes(dest.pathname)||!['','?mode=group'].includes(dest.search)||dest.hash)return json({error:'invalid URL'},400);
     return svg(target);
    }
    return json({error:'not found'},404);
-  }catch(err){return json({error:String(err?.message||'request error').slice(0,140)},400);}
+  }catch(err){const busy=err?.message==='simultaneous update contention';return json({error:busy?'混雑しています。少し待ってやり直してください。':'リクエストを処理できませんでした。'},busy?503:400);}
  }
 };

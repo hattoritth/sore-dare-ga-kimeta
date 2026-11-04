@@ -1,0 +1,59 @@
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ReflectionReport=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const metrics=[['prosperity','にぎわい','public'],['convenience','便利さ','public'],['appeal','住み心地','public'],['trust','市への信頼','shadow'],['fairness','公平さ','shadow'],['resilience','未来への備え','shadow']];
+ const choices={human:'人が方針を選択',ai:'AIに任せる方針を選択',mixed:'人とAIが同数で保留',none:'投票なしで保留'};
+ const groupChoices={human:'集団で人の方針が多数となり実施',ai:'集団でAIへの委任案が多数となり実施',mixed:'集団で同数となり実施保留',none:'投票なしで実施保留'};
+
+ function normalReflection(state,clinic,plans=[]){
+  const history=state?.history||[],chosen=history.map(item=>item.chosen),ending=state?.ending?.kind;
+  const solo=state?.roundTotal===4||(state?.roundTotal==null&&history.length===4);
+  if(ending==='true')return '人が住民の事情や地区間の調整を担い、AIの予測も組み合わせました。人とAIに異なる役割を持たせ、街の判断を支えています。';
+  if(ending==='collapse'){
+   const allAi=chosen.length>0&&chosen.every(item=>item==='ai');
+   const allHuman=chosen.length>0&&chosen.every(item=>item==='human');
+   if(allAi)return '判断をAIに委ねる選択が続きました。結果に出た課題を、人が途中で確かめる機会が足りなかった可能性があります。';
+   if(allHuman&&state?.ending?.metric==='prosperity')return `結末ではにぎわいが0となり、仕事やお店、街の経済を維持できませんでした。今回の記録では${chosen.length}回とも人の案が選ばれ、AI案の予測利用者数や企業需要は実施案に採用されていません。経済への影響は結末と履歴に現れていますが、各選択の寄与まではこの記録から切り分けられません。`;
+   if(allHuman)return '人が判断を担い続けても、街の課題は残りました。AIの予測や別の地区の情報を加えて確かめる余地があります。';
+   return '人とAIの判断を組み合わせても課題が残りました。街に起きた変化を確かめ、次に何を見直すか考える余地があります。';
+  }
+  const notes=[];
+  if(clinic?.kind==='human'&&clinic.place==='station'&&clinic.reason==='total')notes.push('診療所は駅前の使いやすさを優先しました。郊外の通院事情も確かめる余地が残りました。');
+  else if(clinic?.kind==='human'&&clinic.place==='suburb'&&clinic.reason==='access')notes.push('診療所は郊外に置き、通院の届きやすさを優先しました。利用の多い駅前との両立は次の課題です。');
+  if(chosen[solo?1:4]==='ai')notes.push(solo?'交通の議題ではAI案を選び、需要の多い駅前に商業施設が増えました。遠い地区をどうつなぐか、人が結果を確かめる余地があります。':'第5の交通の議題では、集団のAI案により駅前の商業施設が優先されました。遠い地区への交通が十分か、結果を確かめる余地があります。');
+  const plan=plans.find(item=>item?.round===3);if(plan?.strategy==='voices')notes.push('海辺では現地の声を聞く進め方を選び、高潮対策を整えました。');else if(plan?.strategy==='balance')notes.push('海辺では地区間の希望を調整する進め方を選び、高潮対策を整えました。');
+  return notes.slice(0,2).join(' ')||'街は続きました。AIに任せた案の結果と、現地で確かめる人の判断を次の議題でも組み合わせられます。';
+ }
+ function build(state,{mode='solo',clinicRecord=null,humanPlans=[]}={}){
+  if(state?.phase!=='reveal'||!state.ending||!['solo','group'].includes(mode))return null;
+  const values=metrics.map(([key,,group])=>state[group]?.[key]);
+  if(values.some(value=>!Number.isFinite(value)))return null;
+  const history=Array.isArray(state.history)?state.history:[];
+  const ending=state.ending.heading||'街の記録';
+  const endingType={true:'TRUE END',stable:'NORMAL END',warning:'WARNING END',collapse:'BAD END',undecided:'判断保留'}[state.ending.kind]||'街の結末';
+  const lines=['それ、誰が決めた？｜判断の記録を持ち帰る','',`結末（${endingType}）：${ending}`];
+  if(state.ending.description)lines.push(`街に残ったこと：${state.ending.description}`);
+  if(state.incident?.title)lines.push(`実際に起きたこと：${state.incident.title}${state.incident.description?'。'+state.incident.description:''}`);
+  else if(Array.isArray(state.ending.risks)&&state.ending.risks.length)lines.push('残っている課題：'+state.ending.risks.map(item=>item.title).filter(Boolean).join('、'));
+  lines.push('','街の6指標（結末後に公開）');
+  for(const [i,[,label]] of metrics.entries())lines.push(`${label}：${values[i]}`);
+  lines.push('','判断の記録');
+  if(!history.length)lines.push('判断履歴はありません。');
+  history.forEach((event,index)=>{
+   const tally=mode==='group'?`（人の票 ${Number.isFinite(event.human)?event.human:0}、AIに委ねる票 ${Number.isFinite(event.ai)?event.ai:0}）`:'';
+   lines.push(`第${index+1}回「${event.heading||'議題'}」：${(mode==='group'?groupChoices:choices)[event.chosen]||'記録なし'}${tally}`);
+   if(event.result)lines.push(`  結果：${event.result}`);
+   if(mode==='solo'&&index===0&&clinicRecord?.kind===event.chosen){
+    if(clinicRecord.kind==='human')lines.push(`  診療所の場所・理由：${clinicRecord.place==='station'?'駅前':'郊外'}を選択。${clinicRecord.reason==='access'?'通院が難しい人への届きやすさ':'総利用者数と仕事帰りの通いやすさ'}を優先。`);
+    else if(clinicRecord.kind==='ai')lines.push('  診療所：AIの駅前案を確認して採用。');
+    const response={review:'評価を調べ直す',support:'先に通院を支援する',revise:'計画を見直す'}[clinicRecord.response];
+    if(response)lines.push(`  その後の対応：${response}。`);
+    lines.push('  選択の影響は、この展示内の街の指標に反映されています。実際の診療所運営を示すものではありません。');
+   }
+   const plan=humanPlans.find(item=>item?.round===(Number(event.round)||index+1));
+   if(mode==='solo'&&event.chosen==='human'&&plan){lines.push(`  人間側の方針：${plan.strategy==='voices'?'現地の声を確かめる':'複数地区の希望を調整する'}。選択の影響は、この展示内の街の指標に反映されています。`);}
+  });
+  lines.push('','振り返り','・AIに任せる方針を選んだのは誰でしょうか。','・その方針から具体策を選び、結果を説明するのは誰でしょうか。','・保留した判断を、次に何を確かめてから決めますか。','',mode==='group'?'共有プレイの票数は議題ごとの集計です。特定の個人が賛成・承認したとは示しません。':'このソロ記録は、このブラウザー内の選択をまとめたものです。','この記録は展示上のシナリオです。実際の行政判断、診療所の運営、利用者の心理を示すものではありません。','個人の心理は推測していません。');
+  return lines.join('\n');
+ }
+ return {build,metrics,normalReflection};
+});

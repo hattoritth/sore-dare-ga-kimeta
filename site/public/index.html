@@ -10,49 +10,67 @@
   <div class="skyline">
    <div class="city-topline" id="cityTopline"><span class="city-pulse"></span><span id="cityStatus">街の暮らしは続いている</span></div>
    <canvas id="townCanvas" role="img" aria-label="建物と人、鉄道と港のあるまち"></canvas>
+   <div id="cityLoading" class="city-loading" aria-hidden="true"><span class="city-loading-icon">✳</span><span>街を描いています<span class="loading-ellipsis">…</span></span></div>
    <div class="city-caption"><span id="cityLocation">まちの中心から</span><span id="cityWeather">穏やかな風</span></div>
-   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div><div id="cityBeat" class="city-beat" role="status" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas"></div></div>
-  </div>
-  <section class="hud" aria-label="まちの様子">
-   <div class="stat" data-stat="prosperity"><span class="stat-label">繁栄</span><div class="stat-track"><i></i></div><strong>61</strong></div>
-   <div class="stat" data-stat="convenience"><span class="stat-label">便利さ</span><div class="stat-track"><i></i></div><strong>63</strong></div>
-   <div class="stat" data-stat="appeal"><span class="stat-label">街の魅力</span><div class="stat-track"><i></i></div><strong>67</strong></div>
-  </section>
+   <div class="city-ticker" id="cityTicker">この街の、次の決定。</div></div>
+  <div id="cityBeat" class="city-beat" role="region" aria-label="街の変化と住民の声" aria-live="polite" hidden><span class="city-beat-kicker">街が動き出した。</span><h2 id="cityBeatHeading"></h2><p id="cityBeatVoice" class="city-beat-voice"></p><div id="cityBeatDeltas" class="city-beat-deltas" aria-hidden="true"></div></div>
+  <section class="hud happiness-hud" aria-label="街の幸福度"><div class="stat" data-stat="happiness" title="6つの状態を合わせた街の幸福度" aria-label="街の幸福度"><span class="stat-label">街の幸福度</span><div class="stat-track"><i></i></div><strong>71</strong><span class="happiness-scale">0–100</span></div></section>
   <div class="join-landing" id="landing" hidden>
-   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>人が決めるか、AIに任せるか。<br>その小さな選択が街を変えていく。</p>
+   <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p><p class="metric-clue">いま見える数字だけでは、街のすべてはわかりません。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
-       <button id="openSolo" class="mode-card" type="button"><span class="mode-card-index">01 / YOUR CITY</span><strong>ひとりで遊ぶ</strong><span class="mode-card-detail">自分の街で、決めてみる。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
-       <button id="openShared" class="mode-card" type="button"><span class="mode-card-index">02 / OUR CITY</span><strong>みんなで遊ぶ</strong><span class="mode-card-detail">ひとつの街を、みんなで動かす。</span><span class="mode-card-arrow" aria-hidden="true">↗</span></button>
+       <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong><span>4つの判断・自分のペース</span></button>
+       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong><span>7つの判断・1問23秒</span></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>みんなで遊ぶと公開サイトが開きます。</p>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
    <section class="join-panel" id="joinPanel" hidden>
-    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
+    <span class="overline">JOIN THE CITY</span><h2>この街に、あなたも。</h2><p class="group-join-rules">7つの判断・1問23秒。最多票の具体的な行動を実施します。途中参加は次の議題から。</p><form id="joinForm"><label for="nameInput">呼ばれたい名前</label><input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="なまえ（空欄でもOK）"><button class="primary-action" type="submit">街づくりに参加 <span>→</span></button></form>
     <button class="text-action" type="button" id="trySolo">ひとりで遊ぶ ↗</button>
    </section>
-   <section class="question-panel" id="questionPanel" hidden aria-live="polite">
-    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div>
-    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">ソラ</strong><span id="agentRole">都市計画</span></div><div class="speech-bubble"><h2 class="question-title" id="questionTitle">駅前の空き地をどうする？</h2><p class="question-detail" id="questionHint"></p><p id="agentLine" class="agent-line"></p></div></div></div><div class="decision-options" id="decisionOptions" hidden><p class="decision-prompt">どうする？</p>
-     <button type="button" data-vote="human" class="decision" id="humanDecision"><span class="decision-small">01 <span>人が判断する</span></span><strong id="humanText">使い道を話し合う</strong><span class="option-arrow">↗</span></button>
-     <button type="button" data-vote="ai" class="decision" id="aiDecision"><span class="decision-small">02 <span>AIに任せる</span></span><strong id="aiText">収益予測を優先する</strong><span class="option-arrow">↗</span></button>
-    </div>
+   <section class="lobby-panel" id="lobbyPanel" hidden>
+    <span class="overline">参加受付中</span><h2>みんなの準備ができたら。</h2>
+    <p>全員が「準備OK」になったら開始します。途中参加は次の議題からです。</p>
+    <button class="primary-action" id="readyShared" type="button" aria-pressed="false">準備OKにする</button>
+    <button class="primary-action" id="startShared" type="button">みんなで始める <span>→</span></button>
+    <p class="lobby-note">準備OK <strong id="lobbyReadyCount">0</strong> / 接続中 <strong id="lobbyPeople">0</strong> 人 · 投票は全員同じ23秒です。</p>
+   </section>
+   <section class="lobby-panel" id="lateJoinPanel" hidden><span class="overline">途中参加を受け付けました</span><h2>次の判断から、一緒に。</h2><p id="lateJoinText"></p></section>
+   <section class="question-panel" id="questionPanel" hidden>
+    <div class="question-head"><span class="overline" id="progressLabel">第1の決定</span><span class="timer" id="countdown">00:23</span></div><p class="group-previous-result" id="groupPreviousResult" role="status" hidden></p>
+    <div class="conversation" id="conversation"><div class="agent-portrait" aria-hidden="true" id="agentPortrait"></div><div class="conversation-copy"><div class="agent-bio"><strong id="agentName">三浦蒼太</strong><span id="agentRole">市役所職員 · 都市整備部長</span></div><div class="speech-bubble"><h2 id="agentLine" class="agent-line">市長、少しご相談です。</h2><p class="question-detail" id="questionHint" hidden></p><div id="riskNotice" class="risk-notice" role="status" aria-live="polite" hidden><span class="risk-overline">街のニュース · 要対応</span><strong id="riskTitle"></strong><p id="riskDetail"></p><p id="riskAction" class="risk-action"></p></div></div></div></div><div class="decision-options" id="decisionOptions" hidden></div>
     <div class="vote-feedback" id="voteFeedback" aria-live="polite"></div>
     <div class="community-status" id="communityStatus" hidden><span class="tiny-live"></span><span id="peopleCount">1人が参加中</span><span id="votedCount">0人が判断済み</span></div>
    </section>
    <section class="waiting-panel" id="waitingPanel" hidden><span class="overline">THE CITY IS RESTING</span><h2>街は、次の物語へ。</h2><p>新しい季節の始まりを、お楽しみに。</p><span class="waiting-orbit" aria-hidden="true">✳</span></section>
    <section class="result-panel" id="resultPanel" hidden>
-    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p>
-    <div class="reveal-group"><span class="reveal-heading">見えなかったもの</span><div id="shadowMetrics"></div></div>
+    <div class="group-reveal-notice" id="groupRevealNotice" hidden>
+     <p id="groupRevealNoticeText" role="status" aria-live="polite" aria-atomic="true">今は結果を表示中です。次の街から参加できます。</p>
+     <button id="groupRevealSolo" class="text-action" type="button">ひとりで遊ぶ →</button>
+    </div>
+    <section id="endingFlow" class="ending-flow" aria-label="街の結末を順に見る">
+     <p id="endingProgress" class="ending-progress" aria-live="polite">1 / 5　変わった街</p>
+     <section id="shadowSpotlight" class="shadow-spotlight" aria-labelledby="shadowSpotlightTitle" aria-live="polite" hidden><h3 id="shadowSpotlightTitle">見えていなかった3つの影響</h3><div id="shadowSpotlightRows"></div></section>
+     <section class="ending-card-tools" id="endingCardTools" hidden aria-label="街の結果カード"><span class="reveal-heading">街の結果カード</span><p>街の結末と6指標を保存できます。個人名や投票者別の記録は含みません。</p><details id="endingCardMore"><summary>大きな結果カードを見る</summary><div id="endingCardPreview" class="ending-card-preview"></div></details><div id="endingCardPrint" class="ending-card-print" aria-hidden="true"></div><div class="ending-card-actions"><button class="primary-action" id="downloadEndingPng" type="button">PNGで保存</button><button class="text-action" id="printEndingCard" type="button">PDFで保存</button><button class="text-action" id="replayButton" type="button">もう一度、遊ぶ →</button></div><p class="ending-card-help">PDFは印刷画面で「PDFとして保存」を選んでください。ファイルの保存先もそこで指定します。</p><p id="endingCardStatus" class="takeaway-status" aria-live="polite"></p><canvas id="endingCardCanvas" width="1600" height="1100" hidden></canvas></section>
+     <div id="endingCityPicture" class="ending-city-picture" role="img" aria-label="判断によって変化した街の風景"></div>
+     <button id="endingNext" class="primary-action" type="button">街の結末を見る</button>
+     <button id="endingShowAll" class="text-action" type="button">結果をすべて見る</button>
+    </section>
+    <span class="overline" id="endingKicker">街の記録</span><h2 id="endingTitle">街は輝いていた。</h2><p id="endingText">けれど、目に見えないものが失われていた。</p><p id="endingIncident" class="ending-incident" hidden></p>
+    <button id="openEndingPress" class="text-action" type="button" hidden>記者会見も見る</button><section class="press-conference" id="pressConference" aria-labelledby="pressHeading"><span class="reveal-heading" id="pressHeading">記者会見</span><p id="pressQuestion" aria-live="polite"></p><p id="pressAnswer" aria-live="polite" hidden></p><div class="press-actions"><button class="primary-action" id="pressNext" type="button">会見を始める</button><button class="text-action" id="pressSkip" type="button">会見を省略して結果を見る</button><button class="text-action" id="pressReplay" type="button" hidden>会見をもう一度見る</button></div><button class="text-action" id="closeEndingPress" type="button">会見を閉じる</button></section>
+    <section class="group-accountability" id="groupAccountability" aria-labelledby="groupAccountabilityHeading" hidden><span class="reveal-heading" id="groupAccountabilityHeading">自分の票と、街で実施された案</span><ol id="groupAccountabilityList"></ol></section><details class="metric-comparison" id="metricComparison" aria-label="街の6つの状態"><summary>レーダーと6指標を詳しく見る</summary><div id="endingRadar" class="ending-inline-radar"></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる成果</span><div id="publicMetrics"></div></div><div class="metric-group"><span class="reveal-heading">最後に明らかになる影響</span><div id="shadowMetrics"></div></div></details>
+<section class="takeaway-report" id="takeawayReport" aria-labelledby="takeawayHeading" hidden><span class="reveal-heading" id="takeawayHeading">判断の記録を持ち帰る</span><p>判断の記録を保存できます。</p><div class="takeaway-actions"><button class="primary-action" id="saveReflection" type="button">判断の記録を保存</button><button class="text-action" id="copyReflection" type="button">内容をコピー</button></div><p class="takeaway-status" id="reflectionStatus" aria-live="polite"></p><textarea id="reflectionFallback" aria-label="コピーする判断の記録" hidden readonly></textarea></section>
     <p class="result-note" id="resultNote"></p>
-    <button class="primary-action" id="replayButton" type="button">もう一度、遊ぶ <span>→</span></button>
+    <section class="decision-accountability" aria-labelledby="accountabilityHeading"><span class="reveal-heading" id="accountabilityHeading">決め方と責任</span><p id="decisionAccountability"></p></section>
+    <details class="decision-history" id="decisionHistory"><summary id="historySummary">これまでの判断を見る</summary><ol id="historyList"></ol></details>
    </section>
   </div>
   <aside class="display-frame" id="displayFrame" hidden>
-   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div></div>
+   <div class="display-main"><span class="overline" id="displayOverline">みんなでつくる、ひとつの街</span><h1 id="displayHeading">この街の未来を、<br>あなたの手で。</h1><div class="display-count" id="displayCount"><b>0</b> 人が参加</div><div class="display-story" id="displayStory">AIに任せるか。人が決めるか。</div><div id="displayMetrics" class="display-metrics" hidden></div></div>
    <div class="display-qr"><div class="qr-box" id="qrBox"><img id="qrImg" alt="参加用QRコード" decoding="async"></div><b>QRから参加</b><small id="joinUrl">参加はこちら</small></div>
   </aside>
  </div>
+ <button class="site-qr-thumb" id="siteQrOpen" type="button" aria-label="公式サイトのQRコードを拡大"><img id="siteQrSmall" alt="" aria-hidden="true"></button><section class="site-qr-panel" id="siteQrPanel" role="dialog" aria-modal="true" aria-labelledby="siteQrTitle" hidden><button class="site-qr-close" id="siteQrClose" type="button" aria-label="閉じる">×</button><h2 id="siteQrTitle">それ、誰が決めた？</h2><img id="siteQrLarge" alt="公式サイトを開くQRコード"><a href="https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/">公式サイトを開く</a></section>
  <footer class="bottomline" id="bottomline"><span>THE CITY CONTINUES.</span><span id="footerMessage">選択は、小さな未来をつくる。</span></footer>
 </div>
-<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/app.js"></script>
+<script src="/city-art.js"></script><script src="/engine.js"></script><script src="/conference.js"></script><script src="/reflection-report.js"></script><script src="/decision-ux.js"></script><script src="/group-accountability.js"></script><script src="/ending-card.js"></script><script src="/app.js"></script>
 </body></html>
