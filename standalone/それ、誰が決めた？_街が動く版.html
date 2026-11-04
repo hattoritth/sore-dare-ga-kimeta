@@ -288,8 +288,16 @@
 .strategy-choice{grid-column:1/-1;margin-top:9px;padding:14px;border:1px solid #b8cdbd;border-radius:11px;background:#f1f6ee;color:#294d3d}
 .strategy-choice[hidden]{display:none!important}.strategy-choice h2{font-size:18px;margin:4px 0}.strategy-choice p{font-size:13px;line-height:1.5;margin:6px 0 10px}
 .strategy-choice button[data-strategy]{display:block;width:100%;min-height:48px;margin:7px 0;padding:10px 13px;text-align:left;border:1px solid #b8cdbd;border-radius:8px;background:#fff;color:#315943;font-weight:800}
+.strategy-choice #cancelStrategy{min-height:44px}
 .strategy-choice button:focus-visible{outline:3px solid #548f73;outline-offset:2px}
 @media(max-width:750px){.resident-label{font-size:10px}.strategy-choice{padding:11px}}
+@media(max-width:750px){.shell[data-view=solo]:has(#strategyChoice[data-site=waterfront]:not([hidden])) .skyline{height:clamp(160px,22dvh,210px);min-height:0}}
+@media(max-width:360px) and (max-height:740px){
+ .shell[data-view=solo]:has(#strategyChoice[data-site=waterfront]:not([hidden])) .skyline{height:140px;min-height:0}
+ .shell[data-view=solo] .strategy-choice{padding:8px}
+ .shell[data-view=solo] .strategy-choice p{margin:4px 0 6px}
+ .shell[data-view=solo] .strategy-choice button[data-strategy]{margin:5px 0}
+}
 
 
 /* Avoid a black empty canvas while the first illustrated frame is prepared. */
@@ -422,7 +430,7 @@
  .shell[data-stage=city] .play-surface{grid-template-columns:minmax(0,1fr) minmax(290px,34vw)}
 }
 .decision[data-vote=ai]{min-height:64px;padding-block:12px}
-.decision[data-vote=ai] .decision-tradeoff,.decision[data-vote=ai] .impact-row{display:none}
+.decision[data-vote=ai] .decision-tradeoff{display:none}
 .group-previous-result{margin:8px 0 0;padding:8px 10px;border-radius:7px;background:#eef3e8;color:#385c4a;font-size:13px;font-weight:750;line-height:1.5}
 .group-accountability{margin:12px 0;padding:16px;border:1px solid #d0dbcc;border-radius:12px;background:#fffef5}
 .group-accountability ol{margin:8px 0 0;padding-left:22px}
@@ -3278,8 +3286,10 @@ class F5Primitives {
  }
  function renderCard(context,canvas){
   if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
-  const svg=buildSvg(context),blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob);
-  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);resolve(canvas);}catch(error){URL.revokeObjectURL(url);reject(error);}};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('結果カードをPNG画像に変換できませんでした。'));};img.src=url;});
+  // Sites permits data: images but blocks blob: in its img-src policy. buildSvg
+  // contains fixed markup, escaped text, and strictly validated PNG data.
+  const source=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildSvg(context))}`;
+  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);}catch(error){reject(error);}};img.onerror=()=>reject(new Error('結果カードをPNG画像に変換できませんでした。'));img.src=source;});
  }
  return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
 });
@@ -3438,6 +3448,7 @@ class F5Primitives {
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
+  $('strategyChoice').dataset.site=e.site;
   const previous=window.GroupAccountability?.present(s.lastEvent,groupPersonalVotes.get(s.lastEvent?.round),!!s.isParticipant);
   const comparison=$('groupPreviousResult');
   if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}

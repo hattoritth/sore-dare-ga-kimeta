@@ -71,8 +71,10 @@
  }
  function renderCard(context,canvas){
   if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
-  const svg=buildSvg(context),blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob);
-  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);resolve(canvas);}catch(error){URL.revokeObjectURL(url);reject(error);}};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('結果カードをPNG画像に変換できませんでした。'));};img.src=url;});
+  // Sites permits data: images but blocks blob: in its img-src policy. buildSvg
+  // contains fixed markup, escaped text, and strictly validated PNG data.
+  const source=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildSvg(context))}`;
+  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);}catch(error){reject(error);}};img.onerror=()=>reject(new Error('結果カードをPNG画像に変換できませんでした。'));img.src=source;});
  }
  return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
 });

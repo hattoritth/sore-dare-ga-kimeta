@@ -151,6 +151,7 @@
  function renderQuestion(s){
   if(!s?.episode)return;
   const e=s.episode;
+  $('strategyChoice').dataset.site=e.site;
   const previous=window.GroupAccountability?.present(s.lastEvent,groupPersonalVotes.get(s.lastEvent?.round),!!s.isParticipant);
   const comparison=$('groupPreviousResult');
   if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}
