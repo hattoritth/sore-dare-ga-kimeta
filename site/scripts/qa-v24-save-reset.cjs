@@ -46,8 +46,18 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   assert.match(text,/\/Count 1/);assert.match(text,/\/MediaBox \[0 0 841\.89 595\.28\]/);assert.match(text,/\/Subtype \/Image/);
   const pageCount=(text.match(/\/Type \/Page\b/g)||[]).length;assert.equal(pageCount,1);
   console.log('PASS PDF actual downloaded; A4 landscape, single page, bytes='+pdf.length+'; '+pdfPath);
+  // Start a typewriter answer, replay while RAF is still pending, and check after a delay.
+  await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'no-preference'}]);
+  await page.click('#openEndingPress');
+  await page.waitForFunction(()=>!document.querySelector('#pressConference').hidden);
+  await page.click('#pressNext');
+  await page.waitForFunction(()=>document.querySelector('#pressAnswer').textContent.length>0,{timeout:10000});
+  assert.equal(await page.$eval('#pressAnswer',e=>e.hidden),false,'conference typing must be active before replay');
   await page.click('#replayButton');
   await page.waitForFunction(()=>!document.querySelector('#questionPanel').hidden&&document.querySelector('#resultPanel').hidden);
+  await sleep(1400);
+  assert.deepEqual(await page.$eval('#pressAnswer',e=>({text:e.textContent,hidden:e.hidden})),{text:'',hidden:true},'stale typewriter callback must not restore a prior answer after replay');
+  console.log('PASS in-flight conference typewriter cancelled on replay; no hidden DOM resurrection after 1.4 seconds');
   const reset=await page.evaluate(()=>{
    const containers=['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList'];
    const text=['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'];
