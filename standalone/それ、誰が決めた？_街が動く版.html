@@ -490,8 +490,8 @@
 button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):active{transform:scale(.985)}@media(prefers-reduced-motion:reduce){button:not(:disabled){transition:none}button:not(:disabled):active{transform:none}}
 
 /* High-clarity decision buttons: action names are the hierarchy, not decorative indexes. */
-.question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px}
-.question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:center;text-align:center}
+.question-panel .decision[data-vote=human]{min-height:78px;padding:12px 15px;gap:6px;align-items:flex-start;text-align:left}
+.question-panel .decision[data-vote=ai]{min-height:76px;padding:14px 15px;gap:0;align-items:flex-start;text-align:left}
 .question-panel .decision strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3;overflow-wrap:normal}
 .question-panel .decision-tradeoff{font-size:12px;line-height:1.35;color:#526c5f}
 .question-panel .decision[data-vote=ai] strong{font-size:clamp(18px,1.55vw,21px)}
@@ -3565,6 +3565,23 @@ class F5Primitives {
   $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4||view!=='solo';$('resultNote').hidden=endingFlowStage<4;
   $('pressConference').hidden=endingFlowStage<4||!pressOpen;
   $('openEndingPress').hidden=endingFlowStage<4||pressOpen;
+  if(pressData){
+   const pressQuestion=$('pressQuestion'),pressAnswer=$('pressAnswer'),pressNext=$('pressNext'),pressSkip=$('pressSkip'),pressReplay=$('pressReplay'),closePress=$('closeEndingPress');
+   const pressStep=pressIndex<0?'start':pressIndex<pressData.answers.length?'answer-'+pressIndex:pressIndex===pressData.answers.length?'close':'done';
+   const pressLine=pressStep==='answer-'+pressIndex?pressData.answers[pressIndex]:'';
+   const pressKey=`${s.cityStartedAt}:${pressOpen?'open':'closed'}:${pressStep}`;
+   if(pressRenderKey!==pressKey){
+    if(pressFrame){cancelAnimationFrame(pressFrame);pressFrame=0;}
+    pressRenderKey=pressKey;pressTyped=true;pressAnswer.textContent='';pressAnswer.hidden=true;
+    pressQuestion.textContent=pressStep==='close'?pressData.close:pressData.question;pressQuestion.hidden=pressStep==='done';
+    pressNext.hidden=pressStep==='done';pressSkip.hidden=pressStep==='done';
+    pressReplay.hidden=pressStep!=='done';closePress.hidden=pressStep==='done';
+    if(pressStep==='start')pressNext.textContent='会見を始める';
+    else if(pressStep==='close')pressNext.textContent='結果を見る';
+    else pressNext.textContent='次へ';
+    if(pressLine){pressAnswer.hidden=false;pressTyped=false;typePressLine(pressLine);}
+   }
+  }
   if(endingFlowStage<3){if(endingMetricsCity===s.cityStartedAt){endingMetricsCity=null;$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();}if(endingRadarCity===s.cityStartedAt){endingRadarCity=null;radar.replaceChildren();}}
   if(endingFlowStage<4){$('decisionAccountability').textContent='';$('historyList').replaceChildren();$('resultNote').textContent='';}
   $('endingNext').hidden=endingFlowStage>=4;
@@ -3808,11 +3825,11 @@ class F5Primitives {
   }else if(view==='solo'){startSolo();}
   else {setupQR();fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
-  $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){cancelAnimationFrame(pressFrame);const line=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;$('pressAnswer').textContent=line;pressTyped=true;if(state)renderResult(state);return;}if(pressIndex<pressData.answers.length){pressIndex++;}else{pressDone=true;}if(state)renderResult(state);};
-  $('pressSkip').onclick=()=>{cancelAnimationFrame(pressFrame);pressDone=true;pressOpen=false;if(state)renderResult(state);};
-  $('pressReplay').onclick=()=>{pressIndex=-1;pressDone=false;pressRenderKey='done';if(state)renderResult(state);};
-  $('openEndingPress').onclick=()=>{if(!state||endingFlowStage<4)return;pressOpen=true;pressDone=false;pressIndex=-1;pressRenderKey='';renderResult(state);};
-  $('closeEndingPress').onclick=()=>{cancelAnimationFrame(pressFrame);pressOpen=false;pressDone=true;if(state)renderResult(state);};
+  $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;$('pressAnswer').textContent=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;pressTyped=true;return;}if(pressIndex<pressData.answers.length)pressIndex++;else{pressIndex=pressData.answers.length+1;pressDone=true;pressOpen=false;}if(state)renderResult(state);};
+  $('pressSkip').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressDone=true;pressOpen=false;pressTyped=true;if(state)renderResult(state);};
+  $('pressReplay').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';if(state)renderResult(state);};
+  $('openEndingPress').onclick=()=>{if(!state||endingFlowStage<4)return;if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressOpen=true;pressDone=false;pressIndex=-1;pressTyped=true;pressRenderKey='';renderResult(state);};
+  $('closeEndingPress').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressOpen=false;pressDone=true;pressTyped=true;if(state)renderResult(state);};
   $('saveReflection').onclick=()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:view==='solo'?clinicRecord:null,humanPlans:view==='solo'?soloHumanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
@@ -3847,7 +3864,7 @@ class F5Primitives {
   setInterval(tick,250);
  }
  init();
- function typePressLine(line){const target=$('pressAnswer');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
+ function typePressLine(line){const target=$('pressAnswer');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=line;pressTyped=true;return;}let i=0,last=performance.now(),speed=window.innerWidth<750?65:42;const tick=now=>{if(now-last>=speed){i++;target.textContent=line.slice(0,i);last=now;}if(i<line.length)pressFrame=requestAnimationFrame(tick);else{pressFrame=0;pressTyped=true;if(state)renderResult(state);}};pressFrame=requestAnimationFrame(tick);}
 })();
 
 </script>
