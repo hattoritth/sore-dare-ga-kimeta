@@ -40,8 +40,12 @@ test('solo uses direct option IDs without clinic forms or a second confirmation 
 
 test('new city and replay clear previously revealed shadow values from the DOM',()=>{
  assert.match(app,/s\.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s\.cityStartedAt!==endingFlowCityStartedAt/);
- assert.match(app,/shadowSpotlightRows'\)\.replaceChildren\(\);\$\('shadowSpotlight'\)\.hidden=true/);
- assert.match(app,/shadowMetrics'\)\.replaceChildren\(\);\$\('publicMetrics'\)\.replaceChildren\(\);\$\('endingRadar'\)\.replaceChildren\(\)/);
+ assert.match(app,/function clearEndingResultDom\(\)/);
+ assert.match(app,/for\(const id of \['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList'\]\)\$\(id\)\.replaceChildren\(\)/);
+ assert.match(app,/for\(const id of \['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'\]\)\$\(id\)\.textContent=''/);
+ assert.match(app,/\$\('reflectionFallback'\)\.value='';\$\('reflectionFallback'\)\.hidden=true/);
+ assert.match(app,/for\(const id of \['endingCardMore','metricComparison','decisionHistory'\]\)\$\(id\)\.open=false/);
+ assert.match(app,/clearEndingResultDom\(\);endingFlowCityStartedAt=null/);
 });
 
 test('skip-to-full-results is hidden once stage 4 reveal is already visible',()=>{
@@ -53,7 +57,7 @@ test('replay appears once beside save actions and is solo-only at the final stag
  assert.equal((html.match(/id="replayButton"/g)||[]).length,1);
  const actions=html.match(/class="ending-card-actions"[\s\S]*?<\/div>/)?.[0];assert.match(actions,/id="replayButton"/);
  assert.match(app,/replayButton'\)\.hidden=endingFlowStage<4\|\|view!=='solo'/);
- assert.match(app,/replayButton'\)\.onclick=\(\)=>\{if\(view==='solo'\)startSolo\(\);\}/);
+ assert.match(app,/replayButton'\)\.onclick=\(\)=>\{if\(view==='solo'\)\{clearEndingResultDom\(\);endingFlowCityStartedAt=null;startSolo\(\);\}\}/);
 });
 
 test('mode cards disclose decision counts and pace, with full-width mobile tap targets',()=>{
@@ -90,7 +94,8 @@ test('BAD reflection names the actual prosperity outcome and limits causal claim
 test('shared seven round, print card, PNG/PDF, radar and full metrics remain present',()=>{
  const Engine=require('../engine.js');assert.equal(Engine.EPISODES.length,7);
  for(const id of ['downloadEndingPng','printEndingCard','endingCardPrint','endingCardMore','endingRadar','publicMetrics','shadowMetrics'])assert.match(html,new RegExp(`id="${id}"`));
- assert.match(app,/window\.print\(\)/);assert.match(css,/@media print/);
- assert.match(css,/#endingCardPrint svg\{display:block!important/);
+ assert.doesNotMatch(app,/window\.print\(\)/);assert.match(app,/pdfFromJpegDataUrl\(jpeg\)/);
+ assert.match(app,/link\.download='sore-dare-ga-kimeta-result\.pdf'/);
+ assert.match(css,/@media print/);
  const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);assert.equal(new Set(ids).size,ids.length,'static HTML ids must be unique');
 });

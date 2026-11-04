@@ -35,7 +35,7 @@
   const axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*r}" y2="${cy+Math.sin(a)*r}" stroke="#aab9a9"/>`).join('');
   const pts=values.map((v,i)=>point(clamp(v),i)),poly=pts.map(p=>p.join(',')).join(' ');
   const texts=labels.map((label,i)=>{const a=angles[i],[x,y]=[cx+Math.cos(a)*116,cy+Math.sin(a)*116];const anchor=Math.cos(a)<-.25?'end':Math.cos(a)>.25?'start':'middle';const words=[label,`${Math.round(clamp(values[i]))}`];return `<text x="${x}" y="${y-7}" text-anchor="${anchor}" dominant-baseline="middle" class="axis"><tspan x="${x}" dy="0">${words[0]}</tspan><tspan x="${x}" dy="15">${words[1]}</tspan></text>`;}).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 296" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。目盛りは0から100"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}<text x="14" y="18" class="scale">0</text><text x="14" y="34" class="scale">目盛り 0–100</text></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 296" role="img" aria-label="6指標のレーダーチャート。にぎわい、便利さ、住み心地、市への信頼、公平さ、未来への備えの順。各指標の値を表示"><g>${grid}${axes}<polygon points="${poly}" fill="#72a886" fill-opacity=".32" stroke="#326b50" stroke-width="3"/>${pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#326b50"/>`).join('')}</g>${texts}</svg>`;
  }
 
  function wrapText(value,maxChars,maxLines){
@@ -51,7 +51,7 @@
  function sceneFor(data){return data.scene|| (data.kind==='collapse'?data.metric:data.kind==='true'?'true':data.kind==='stable'?'stable':'neutral');}
  function buildPreview(data={}){
   const vals=valuesFor(data),scene=scenes[scenes[sceneFor(data)]?sceneFor(data):'neutral'],heading=data.title||'街の記録',desc=data.description||'街の判断の結果です。';
-  const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}<small> / 100</small></strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])} / 100"><i style="width:${vals[i]}%"></i></div></li>`).join('');
+  const rows=labels.map((label,i)=>`<li class="ending-preview-metric"><div class="ending-preview-metric-heading"><span>${esc(label)}</span><strong>${Math.round(vals[i])}</strong></div><div class="ending-preview-track" role="img" aria-label="${esc(label)} ${Math.round(vals[i])}"><i style="width:${vals[i]}%"></i></div></li>`).join('');
   return `<article class="ending-preview-card"><header><span class="ending-preview-eyebrow">街の記録</span><h3>${esc(heading)}</h3><p>${esc(desc)}</p></header><div class="ending-preview-layout"><figure class="ending-preview-scene">${sceneVisual(data)}<figcaption>${esc(data.endingLabel||scene.label)}</figcaption></figure><section class="ending-preview-metrics" aria-label="街の最終指標">${radarFigure(vals)}<h4>街に残った6つの状態</h4><ul>${rows}</ul></section></div></article>`;
  }
  function buildSvg(data={}){
@@ -67,7 +67,7 @@
    +`<rect x="96" y="416" width="390" height="310" rx="14" fill="${themeColor}" opacity="${themeOpacity}"/>`;
   const chart=radarSvg(vals).replace(/<svg[^>]*>/,'<g transform="translate(500 410) scale(.9)">').replace('</svg>','</g>');
   const valueRows=labels.map((l,i)=>{const y=446+i*91;return `<text x="1085" y="${y}" class="metriclabel">${esc(l)}</text><text x="1490" y="${y}" text-anchor="end" class="metricvalue">${Math.round(vals[i])}</text><rect x="1085" y="${y+14}" width="405" height="17" rx="8" fill="#e0e5da"/><rect x="1085" y="${y+14}" width="${405*vals[i]/100}" height="17" rx="8" fill="${i<3?'#467c5a':'#b17943'}"/>`}).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.scale{font-size:14px;fill:#60766a}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6指標 · 最終値 / 100</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="768" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,824,'desc',32,3,36)}${chart}${valueRows}<text x="100" y="1004" class="scale">プレイ中に見えた数値: にぎわい・便利さ・住み心地　/　最後に公開: 市への信頼・公平さ・未来への備え</text></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;fill:#203c32}.title{font-size:48px;font-weight:800}.desc{font-size:24px}.section{font-size:23px;font-weight:700}.axis{font-size:15px;font-weight:650}.metriclabel{font-size:22px;font-weight:700}.metricvalue{font-size:26px;font-weight:800}</style><rect width="1600" height="1100" fill="#f5f2e6"/><rect x="40" y="40" width="1520" height="1020" rx="28" fill="#fffdf5" stroke="#d6ddcf" stroke-width="3"/><text x="96" y="108" class="section">それ、誰が決めた？　/　街の記録</text>${svgLines(heading,96,160,'title',28,2,52)}${svgLines(desc,98,257,'desc',54,2,32)}<line x1="96" y1="340" x2="1504" y2="340" stroke="#dce3d5" stroke-width="2"/><text x="100" y="391" class="section">街の結末</text><text x="525" y="391" class="section">6つの指標</text><text x="1085" y="391" class="section">街に残った6つの状態</text>${sceneMarkup}<text x="100" y="768" class="section">${esc(data.endingLabel||scene.label)}</text>${svgLines('街の判断のあとに残った風景と、6つの指標を記録しました。',100,824,'desc',32,3,36)}${chart}${valueRows}</svg>`;
  }
  function renderCard(context,canvas){
   if(!canvas?.getContext) return Promise.reject(new Error('画像を作るキャンバスを利用できません。'));
@@ -76,5 +76,29 @@
   const source=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildSvg(context))}`;
   return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{try{const ctx=canvas.getContext('2d');if(!ctx)throw Error('キャンバスを利用できません。');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);}catch(error){reject(error);}};img.onerror=()=>reject(new Error('結果カードをPNG画像に変換できませんでした。'));img.src=source;});
  }
- return {sceneSvg,buildPreview,buildSvg,renderCard,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
+ function pdfFromJpegDataUrl(dataUrl,width=1600,height=1100){
+  if(typeof dataUrl!=='string'||!/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(dataUrl))throw new Error('JPEGカード画像がありません。');
+  const decode=typeof Buffer!=='undefined'?value=>new Uint8Array(Buffer.from(value,'base64')):value=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
+  const jpeg=decode(dataUrl.slice(dataUrl.indexOf(',')+1));
+  if(jpeg.length<4||jpeg[0]!==0xff||jpeg[1]!==0xd8||jpeg.at(-2)!==0xff||jpeg.at(-1)!==0xd9)throw new Error('JPEGカード画像を読み取れません。');
+  // Preserve the 1600x1100 JPEG resolution but lay it out on one A4 landscape page (points).
+  const pageWidth=841.89,pageHeight=595.28,scale=Math.min(pageWidth/width,pageHeight/height);
+  const drawnWidth=width*scale,drawnHeight=height*scale,drawX=Math.max(0,(pageWidth-drawnWidth)/2),drawY=Math.max(0,(pageHeight-drawnHeight)/2);
+  const encoder=new TextEncoder(),chunks=[],offsets=[0];let length=0;
+  const append=bytes=>{chunks.push(bytes);length+=bytes.length;};
+  const ascii=value=>encoder.encode(value);
+  append(ascii('%PDF-1.4\n'));
+  const objects=[
+   '<< /Type /Catalog /Pages 2 0 R >>',
+   '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+   `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`,
+   `<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`,
+  ];
+  for(let i=0;i<3;i++){offsets.push(length);append(ascii(`${i+1} 0 obj\n${objects[i]}\nendobj\n`));}
+  offsets.push(length);append(ascii(`4 0 obj\n${objects[3]}`));append(jpeg);append(ascii('\nendstream\nendobj\n'));
+  const content=ascii(`q\n${drawnWidth.toFixed(4)} 0 0 ${drawnHeight.toFixed(4)} ${drawX.toFixed(4)} ${drawY.toFixed(4)} cm\n/Im0 Do\nQ`);offsets.push(length);append(ascii(`5 0 obj\n<< /Length ${content.length} >>\nstream\n`));append(content);append(ascii('\nendstream\nendobj\n'));
+  const xref=length;append(ascii(`xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(offset=>`${String(offset).padStart(10,'0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`));
+  const pdf=new Uint8Array(length);let at=0;for(const chunk of chunks){pdf.set(chunk,at);at+=chunk.length;}return pdf;
+ }
+ return {sceneSvg,buildPreview,buildSvg,renderCard,pdfFromJpegDataUrl,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
 });

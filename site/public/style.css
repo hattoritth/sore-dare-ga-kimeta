@@ -477,7 +477,7 @@
  .shell[data-stage=city][data-view=solo] .skyline{height:320px;min-height:0;max-height:320px}
  .shell[data-stage=city][data-view=solo] .city-beat{order:2;position:relative;inset:auto;width:100%;max-height:min(48dvh,520px);overflow:auto}
 }
-.ending-card-tools{margin-top:24px;padding-top:20px;border-top:1px solid #dce3d5}.ending-card-tools>p{font-size:13px;line-height:1.7;color:#536d5d;margin-top:8px}.ending-card-preview{margin-top:14px;background:#f5f2e6;border:1px solid #d6ddcf;border-radius:12px;overflow:hidden}.ending-card-preview svg{display:block;width:100%;height:auto}.ending-card-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.ending-card-actions .primary-action{margin-top:0}.ending-card-actions .text-action{min-height:48px;padding:0 14px}.ending-card-help{font-size:12px!important;color:#64786b!important}.ending-card-tools .takeaway-status{min-height:1.3em}
+.ending-card-tools{margin-top:24px;padding-top:20px;border-top:1px solid #dce3d5}.ending-card-tools>p{font-size:13px;line-height:1.7;color:#536d5d;margin-top:8px}.ending-card-preview{margin-top:14px;background:#f5f2e6;border:1px solid #d6ddcf;border-radius:12px;overflow:hidden}.ending-card-preview svg{display:block;width:100%;height:auto}.ending-card-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.ending-card-actions .primary-action{margin-top:0}.ending-card-actions .text-action{min-height:48px;padding:0 14px}.ending-card-tools .takeaway-status{min-height:1.3em}
 @media(max-width:750px){.ending-card-actions{display:grid;grid-template-columns:1fr}.ending-card-actions button{width:100%}}
 
 /* Short, readable decision confirmation; animation is suppressed for reduced motion. */
@@ -606,7 +606,7 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 /* v23 happiness meter and persistent official-site QR access */
 .happiness-hud{grid-template-columns:minmax(0,1fr)!important;max-width:420px;margin-inline:auto}
 .happiness-hud .stat{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
-.happiness-hud .stat-label{font-size:14px;font-weight:850}.happiness-hud .stat-track{grid-column:1/-1;height:9px}.happiness-hud .stat strong{grid-column:2;grid-row:1;font-size:22px}.happiness-hud .happiness-scale{grid-column:1/-1;justify-self:end;font-size:10px;color:#557165}
+.happiness-hud .stat-label{font-size:14px;font-weight:850}.happiness-hud .stat-track{grid-column:1/-1;height:9px}.happiness-hud .stat strong{grid-column:2;grid-row:1;font-size:22px}
 .site-qr-thumb{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 68px);z-index:30;width:48px;height:48px;min-width:44px;min-height:44px;border:2px solid #fff;border-radius:12px;background:#214e40;color:#fff;font-weight:900;box-shadow:0 2px 12px #102e2950}
 .site-qr-panel{position:fixed;inset:0;z-index:40;background:#102e29b8;display:grid;place-content:center;justify-items:center;gap:12px;padding:24px;}
 .site-qr-panel[hidden]{display:none!important}.site-qr-panel h2{margin:0;color:white}.site-qr-panel img{display:block;width:min(68vw,250px);height:auto;background:white;padding:10px;border-radius:10px}.site-qr-panel a{color:#fff;font-weight:800;text-decoration:underline}.site-qr-close{position:absolute;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));width:48px;height:48px;border:1px solid white;border-radius:50%;background:#214e40;color:white;font-size:28px}
