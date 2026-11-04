@@ -141,9 +141,22 @@
   }
   $('groupAccountability').hidden=rows.length===0;
  }
+ function clearEndingResultDom(){
+  for(const id of ['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList'])$(id).replaceChildren();
+  for(const id of ['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'])$(id).textContent='';
+  $('endingCityPicture').setAttribute('aria-label','判断後の街の風景');
+  $('reflectionFallback').value='';$('reflectionFallback').hidden=true;
+  for(const id of ['endingCardMore','metricComparison','decisionHistory'])$(id).open=false;
+  for(const id of ['shadowSpotlight','groupAccountability','endingIncident','pressConference','openEndingPress','takeawayReport','endingCardTools','metricComparison','replayButton','resultNote'])$(id).hidden=true;
+  pressData=null;pressIndex=-1;pressDone=true;pressOpen=false;pressRenderKey='';
+  const canvas=$('endingCardCanvas');canvas.getContext('2d')?.clearRect(0,0,canvas.width,canvas.height);
+  endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';
+  endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;
+  endingFlowStage=0;endingUiStage=-1;
+ }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(endingFlowCityStartedAt!==s.cityStartedAt){endingFlowCityStartedAt=s.cityStartedAt;endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;endingFlowStage=0;pressDone=true;pressOpen=false;$('endingCityPicture').replaceChildren();$('endingCardPreview').replaceChildren();$('endingCardMore').open=false;$('endingCardPrint').replaceChildren();$('endingRadar').replaceChildren();$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('groupAccountabilityList').replaceChildren();$('shadowSpotlightRows').replaceChildren();}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){clearEndingResultDom();endingFlowCityStartedAt=s.cityStartedAt;}
   const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
   if(!endingSceneReady){if(scene?.render)scene.render(0);endingSceneImage=endingSceneCache.get(s.cityStartedAt,$('townCanvas'));endingSceneReady=true;}
   const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
@@ -157,8 +170,8 @@
   show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
   $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
-  if(endingFlowStage>=3&&endingMetricsCity!==s.cityStartedAt){endingMetricsCity=s.cityStartedAt;for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v+' / 100');const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
-   const spotlight=$('shadowSpotlightRows');spotlight.replaceChildren();for(const metric of pressData.metrics.filter(x=>x.group==='shadow')){const row=document.createElement('article'),name=document.createElement('strong'),value=document.createElement('b'),meaning=document.createElement('span');row.className='shadow-spotlight-row';name.textContent=metric.label;value.textContent=String(clamp(metric.value));value.setAttribute('aria-label',`${metric.label} ${clamp(metric.value)} / 100`);meaning.textContent=metric.meaning;row.append(name,value,meaning);spotlight.append(row);}
+  if(endingFlowStage>=3&&endingMetricsCity!==s.cityStartedAt){endingMetricsCity=s.cityStartedAt;for(const group of ['public','shadow']){const groupMetrics=pressData.metrics.filter(x=>x.group===group),root=$(group==='public'?'publicMetrics':'shadowMetrics');root.replaceChildren();for(const metric of groupMetrics){const v=clamp(metric.value),row=document.createElement('div');row.className='reveal-stat'+(v<MachiEngine.WARN_THRESHOLD?' low':'');const title=document.createElement('span');title.textContent=metric.label;const track=document.createElement('div');track.className='stat-track';track.setAttribute('role','img');track.setAttribute('aria-label',metric.label+' '+v);const fill=document.createElement('i');fill.style.width=v+'%';track.append(fill);const value=document.createElement('strong');value.textContent=String(v);const meaning=document.createElement('small');meaning.textContent=metric.meaning;row.append(title,track,value,meaning);const notes=[];if(v<MachiEngine.WARN_THRESHOLD)notes.push(v<MachiEngine.END_THRESHOLD?'終了水準':'警告水準');if(notes.length){const note=document.createElement('b');note.className='metric-flag';note.textContent=notes.join('。');row.append(note);}root.append(row);}}
+   const spotlight=$('shadowSpotlightRows');spotlight.replaceChildren();for(const metric of pressData.metrics.filter(x=>x.group==='shadow')){const row=document.createElement('article'),name=document.createElement('strong'),value=document.createElement('b'),meaning=document.createElement('span');row.className='shadow-spotlight-row';name.textContent=metric.label;value.textContent=String(clamp(metric.value));value.setAttribute('aria-label',`${metric.label} ${clamp(metric.value)}`);meaning.textContent=metric.meaning;row.append(name,value,meaning);spotlight.append(row);}
   }
   const radar=$('endingRadar');if(endingFlowStage>=3&&endingRadarCity!==s.cityStartedAt){endingRadarCity=s.cityStartedAt;radar.innerHTML=window.EndingCard.radarSvg(window.EndingCard.metricKeys.map(key=>pressData.metrics.find(metric=>metric.key===key)?.value??0));}
   $('metricComparison').hidden=!pressDone;
@@ -169,7 +182,7 @@
    $('endingCardPreview').innerHTML=window.EndingCard.buildPreview(context);$('endingCardMore').open=false;
    $('endingCardPrint').innerHTML=window.EndingCard.buildSvg(context);
    $('downloadEndingPng').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const blob=await new Promise(resolve=>$('endingCardCanvas').toBlob(resolve,'image/png'));if(!blob)throw Error('PNG画像を作成できませんでした。');const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PNG画像を保存しました。';}catch(error){$('endingCardStatus').textContent='PNGを保存できませんでした。ブラウザの画像保存設定を確認してください。 '+error.message;}};
-   $('printEndingCard').onclick=()=>window.print();
+   $('printEndingCard').onclick=async()=>{try{await window.EndingCard.renderCard(context,$('endingCardCanvas'));const jpeg=$('endingCardCanvas').toDataURL('image/jpeg',.94),pdf=window.EndingCard.pdfFromJpegDataUrl(jpeg),url=URL.createObjectURL(new Blob([pdf],{type:'application/pdf'})),link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-result.pdf';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('endingCardStatus').textContent='PDFを保存しました。';}catch(error){$('endingCardStatus').textContent='PDFを保存できませんでした。 '+error.message;}};
   }
   const takeaway=endingFlowStage>=4?window.ReflectionReport.build(s,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]}):null;
   $('takeawayReport').hidden=!takeaway;
@@ -239,6 +252,7 @@
  $('endingShowAll').addEventListener('click',()=>{endingFlowStage=3;if(state)renderResult(state);});
  function renderDisplay(s){
   if(view!=='display')return;
+  if(s?.phase!=='reveal'){$('displayMetrics').replaceChildren();$('displayMetrics').hidden=true;}
   const count=s?.onlineCount||0;$('displayCount').replaceChildren();
   const b=document.createElement('b');b.textContent=count;$('displayCount').append(b,document.createTextNode(' 人が参加'));
   $('displayOverline').textContent=s?.phase==='active'?'今、街が動いている':s?.phase==='reveal'?'街のもうひとつの姿':s?.phase==='lobby'?'参加者受付中':'みんなでつくる、ひとつの街';
@@ -247,7 +261,7 @@
    $('displayStory').textContent=(s.alert?'【街の異変】'+s.alert.title+' · ':'')+`${s.episode.agent}からの相談 · ${progressLabel(s.round)}の決定 · あと${clock(s.endsAt-EngineNow())}`;
   }else if(s?.phase==='reveal'){
   const result=resultDescription(s);$('displayHeading').textContent=result.heading;
-  $('displayStory').textContent=(s.incident?s.incident.title+' · ':'')+result.sub;const metrics=$('displayMetrics');metrics.replaceChildren();metrics.hidden=!(s.phase==='reveal'&&s.shadow);if(!metrics.hidden){for(const group of ['public','shadow']){const section=document.createElement('section'),head=document.createElement('strong');head.textContent=group==='public'?'プレイ中に見えていた3つの成果':'最後に明らかになる3つの影響';section.append(head);for(const item of window.PressConference.build(s).metrics.filter(x=>x.group===group)){const row=document.createElement('div'),label=document.createElement('span'),bar=document.createElement('i'),value=document.createElement('b');label.textContent=item.label;bar.style.width=clamp(item.value)+'%';value.textContent=String(item.value);row.append(label,bar,value);section.append(row);}metrics.append(section);}}
+  $('displayStory').textContent=(s.incident?s.incident.title+' · ':'')+result.sub;const metrics=$('displayMetrics');metrics.replaceChildren();metrics.hidden=!(s.phase==='reveal'&&s.shadow);if(!metrics.hidden){for(const group of ['public','shadow']){const section=document.createElement('section'),head=document.createElement('strong');head.textContent=group==='public'?'街の状態':'見えていなかった3つの影響';section.append(head);for(const item of window.PressConference.build(s).metrics.filter(x=>x.group===group)){const row=document.createElement('div'),label=document.createElement('span'),bar=document.createElement('i'),value=document.createElement('b');label.textContent=item.label;bar.style.width=clamp(item.value)+'%';value.textContent=String(item.value);row.append(label,bar,value);section.append(row);}metrics.append(section);}}
   }else if(s?.phase==='lobby'){
    $('displayHeading').textContent='参加する人がそろったら、始めよう。';
    $('displayStory').textContent='QRから直接参加 · 準備OK '+s.readyCount+' / 接続中 '+s.onlineCount+' 人。全員の準備後に開始。途中参加は次の議題から。';
@@ -260,9 +274,7 @@
  function render(s){
   if(!s)return;state=s;
   if(s.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s.cityStartedAt!==endingFlowCityStartedAt){
-   $('shadowSpotlightRows').replaceChildren();$('shadowSpotlight').hidden=true;
-   $('shadowMetrics').replaceChildren();$('publicMetrics').replaceChildren();$('endingRadar').replaceChildren();
-   endingFlowCityStartedAt=null;endingUiStage=-1;
+   clearEndingResultDom();endingFlowCityStartedAt=null;
   }
   if(view==='group'){if(groupVoteCityStartedAt!==s.cityStartedAt){groupVoteCityStartedAt=s.cityStartedAt;groupPersonalVotes=new Map();}if(s.phase==='active'&&s.isParticipant&&s.hasVoted)groupPersonalVotes.set(s.round+1,s.myOptionVote||s.myVote);}
   renderHud(s);syncArt(s);
@@ -439,7 +451,7 @@
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   $('decisionOptions').onclick=e=>{const b=e.target.closest('[data-vote]');if(b&&!b.disabled)choose(b.dataset.vote);};
-  $('replayButton').onclick=()=>{if(view==='solo')startSolo();};
+  $('replayButton').onclick=()=>{if(view==='solo'){clearEndingResultDom();endingFlowCityStartedAt=null;startSolo();}};
   $('groupRevealSolo').onclick=()=>groupEntryUX.navigateToSolo(view,state,goto);
   $('startShared').onclick=startShared;$('readyShared').onclick=readyShared;
   $('switchButton').onclick=()=>goto('/');

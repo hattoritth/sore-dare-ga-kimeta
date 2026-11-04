@@ -20,7 +20,8 @@ test('the same approachable names label actual six values in conference, report 
  const svg=EndingCard.buildSvg({kind:'warning',scene:'neutral',title:'街の記録',metrics:detail.metrics});
  assert.deepEqual(EndingCard.labels,names);
  names.forEach(n=>assert.ok(svg.includes(n)));
- assert.match(svg,/目盛り 0–100/);
+ assert.doesNotMatch(svg,/0–100|\/ ?100|目盛り/);
+ assert.match(svg,/class="metricvalue">66</);
 });
 test('hidden half remains unavailable during decisions, labels are only final revealed content',()=>{
  const inProgress={...state,phase:'active',shadow:undefined,ending:null};
@@ -29,6 +30,7 @@ test('hidden half remains unavailable during decisions, labels are only final re
  const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
  assert.match(html,/class="stat-label">街の幸福度<\/span>/);
  for(const name of names)assert.ok(!html.includes('class="stat-label">'+name+'</span>'));
+ assert.doesNotMatch(html,/class="happiness-scale"|0–100/);
  const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
  assert.match(app,/allMetricNames\[s\.ending\.metric\]/);
 });

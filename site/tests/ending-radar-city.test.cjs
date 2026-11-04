@@ -53,16 +53,26 @@ test('saved preview and 1600x1100 card include the real town image, radar and al
  const preview=Card.buildPreview(data),svg=Card.buildSvg(data);
  assert.match(preview,/src="data:image\/png;base64,iVBORw0KGgo="/);assert.match(preview,/ending-preview-radar/);
  assert.match(svg,/width="1600" height="1100"/);assert.match(svg,/<image href="data:image\/png;base64,iVBORw0KGgo="/);
- assert.match(svg,/6指標/);for(const metric of metrics)assert.match(svg,new RegExp(`>${metric.value}<`));
+ assert.match(svg,/6つの指標/);assert.doesNotMatch(svg,/0–100|\/ ?100|目盛り/);for(const metric of metrics)assert.match(svg,new RegExp(`>${metric.value}<`));
  assert.match(app,/scene\.render\(0\)/);assert.match(app,/endingSceneCache\.clear\(\)/);
 });
 
 
 test('new city clears the prior hero image and all final metric DOM before recapturing',()=>{
- assert.match(app,/endingSceneCache\.clear\(\);endingSceneReady=false/);
- assert.match(app,/endingFlowStage=0;pressDone=true;pressOpen=false;\$\('endingCityPicture'\)\.replaceChildren\(\)/);
- for(const id of ['endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList'])
-  assert.ok(app.includes("$('"+id+"').replaceChildren()"), "reset "+id);
+ assert.match(app,/function clearEndingResultDom\(\)/);
+ for(const id of ['endingCityPicture','endingTitle','endingText','endingKicker','endingIncident','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'])
+  assert.ok(app.includes("'"+id+"'"), "reset "+id);
+ assert.match(app,/clearEndingResultDom\(\);endingFlowCityStartedAt=null;startSolo\(\)/,'replay clears the hidden previous result before starting another city');
+ assert.match(app,/if\(s\.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s\.cityStartedAt!==endingFlowCityStartedAt\)\{\s*clearEndingResultDom\(\)/);
+});
+
+test('PDF card export builds a nonblank single-page PDF with the JPEG card covering the page',()=>{
+ const jpeg='/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAF//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABBQJ//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPwF//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPwF//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQAGPwJ//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyF//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPxB//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPxB//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxB//9oADAMBAAIAAwAAABAf/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPxB//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPxB//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxB//9k=';
+ const pdf=Buffer.from(Card.pdfFromJpegDataUrl('data:image/jpeg;base64,'+jpeg,1600,1100)),text=pdf.toString('latin1');
+ assert.equal(text.slice(0,8),'%PDF-1.4');assert.match(text,/\/Count 1/);assert.equal((text.match(/\/Type \/Page\b/g)||[]).length,1);
+ assert.match(text,/\/MediaBox \[0 0 841\.89 595\.28\]/);assert.match(text,/\/Subtype \/Image[\s\S]*?\/Filter \/DCTDecode/);
+ assert.match(text,/q\n\d+\.\d+ 0 0 \d+\.\d+ \d+\.\d+ \d+\.\d+ cm\n\/Im0 Do\nQ/);assert.ok(text.includes(Buffer.from(jpeg,'base64').toString('latin1')),'embedded nonblank JPEG is painted across the full page');
+ assert.match(text,/startxref\n\d+\n%%EOF/);assert.doesNotMatch(text,/window\.print/);
 });
 
 test('fallback scene preserves distinct themes and reveals no ending title to screen readers',()=>{
