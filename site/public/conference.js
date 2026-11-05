@@ -96,7 +96,7 @@
 
  function sceneSvg(kind,metric,futureTheme){
   const override={safety:'resilience',living:'convenience',fairness:'fairness',autonomy:'trust',connection:'appeal'}[futureTheme];
-  const key=override||kind==='collapse'?(metric||'resilience'):kind==='warning'?'warning':kind==='undecided'?'undecided':kind==='true'?'true':'normal';
+  const key=override||(kind==='collapse'?(metric||'resilience'):kind==='warning'?'warning':kind==='undecided'?'undecided':kind==='true'?'true':'normal');
   const motif={prosperity:['公共サービス','▰','22'],convenience:['交通網','↗','45'],appeal:['住民の暮らし','⌂','16'],trust:['市役所','!','38'],fairness:['地区の分断','↔','31'],resilience:['豪雨','〰','13'],warning:['残る課題','…','39'],undecided:['判断保留','?','34'],true:['人とAIの協働','✓','57'],normal:['街は続く','⌂','57']}[key]||['街は続く','⌂','57'];
   const crisis=['prosperity','convenience','appeal','trust','fairness','resilience'].includes(key),accent=crisis?'#e8a077':key==='true'?'#e8ca83':'#a6d3b0';
   const heights=[88,129,99,153,112,78,119],buildings=heights.map((h,i)=>{const x=75+i*112,y=290-h;return `<g><rect x="${x}" y="${y}" width="76" height="${h}" rx="3" fill="${i===3&&crisis?'#596b72':'#304d53'}" stroke="#7c9490"/><path d="M${x+12} ${y+19}h13v18h-13zm27 0h13v18h-13zm-27 34h13v18h-13zm27 0h13v18h-13z" fill="#d3bd85" opacity="${i===3&&crisis?'.25':'.8'}"/></g>`;}).join('');
