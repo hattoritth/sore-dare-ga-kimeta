@@ -149,3 +149,19 @@ test('the final 5-colour lineup shows every envelope and highlights one matching
  assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
  assert.match(css,/\[data-selected=true\]/);
 });
+
+test('v31 official site visitor fixes preserve accessible offer, independent speakers and evidence',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const ui=fs.readFileSync(path.join(__dirname,'../public/prototype-ui.js'),'utf8');
+ const css=fs.readFileSync(path.join(__dirname,'../public/prototype.css'),'utf8');
+ assert.match(ui,/ptOfferDialog/);assert.match(ui,/aria-modal/);
+ assert.match(ui,/導入する/);assert.match(ui,/導入しない/);
+ assert.doesNotMatch(ui,/第二の市長エージェント/);
+ assert.match(ui,/ledger=document.createElement\('details'\)/);
+ assert.match(ui,/判断の記録を見る/);
+ assert.match(ui,/判断：/);assert.match(ui,/説明：市長代理AI/);
+ assert.match(ui,/ニュース速報/);
+ assert.match(css,/pt-offer-overlay/);assert.match(css,/pt-offer-actions/);
+ assert.match(css,/pt-choice\{font-size:15px!important/);
+ assert.match(ui,/プレイ中の内容は保存されません/);
+});

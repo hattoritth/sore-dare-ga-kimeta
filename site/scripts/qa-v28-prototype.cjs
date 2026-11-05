@@ -34,10 +34,14 @@ async function start(page){
  }
  for(const mode of ['NEVER','ON','EARLY_OFF']){
   const page=await browser.newPage(),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:\/\//.test(r.url()))requests.push(r.url())});
-  await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+  await page.setViewport({width:mode==='NEVER'?320:390,height:mode==='NEVER'?700:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await start(page);
-  await page.waitForFunction(()=>document.querySelector('#ptCard')?.textContent.includes('新機能を試してみますか'),{timeout:10000});
-  await page.click(mode==='NEVER'?'#ptCard button.pt-quiet':'#ptCard button.primary-action');
+  await page.waitForFunction(()=>document.querySelector('#ptOfferDialog')?.textContent.includes('市長代理AIを導入しますか？'),{timeout:10000});
+  const offer=await page.evaluate(()=>({dialog:document.querySelector('#ptOfferDialog')?.getBoundingClientRect().toJSON(),buttons:[...document.querySelectorAll('#ptOfferDialog button')].map(e=>({label:e.innerText,rect:e.getBoundingClientRect().toJSON()})),viewport:{w:innerWidth,h:innerHeight},ariaModal:document.querySelector('#ptOfferDialog')?.getAttribute('aria-modal'),noticeHidden:document.querySelector('#ptToast')?.hidden}));
+  assert.equal(offer.ariaModal,'true');assert.equal(offer.noticeHidden,true);
+  assert.equal(offer.buttons.length,2);for(const b of offer.buttons){assert.ok(b.rect.top>=0&&b.rect.bottom<=offer.viewport.h,'both AI choice buttons must fit in phone viewport '+JSON.stringify(b));assert.ok(b.rect.height>=44);}
+  if(mode==='NEVER')await page.screenshot({path:path.join(dir,'ai-offer-mobile.png')});console.log('PASS visible AI offer options',JSON.stringify(offer.buttons.map(b=>({label:b.label,y:b.rect.y,bottom:b.rect.bottom}))));
+  await page.click(mode==='NEVER'?'#ptOfferDialog button.pt-quiet':'#ptOfferDialog button.primary-action');
   await page.waitForFunction(()=>MachiPrototypeUI.snapshot().phase==='play');
   if(mode==='EARLY_OFF'){await page.click('#ptAIButton');await page.waitForFunction(()=>!MachiPrototypeUI.snapshot().ai_enabled);}
   await page.evaluate(()=>{const old=MachiPrototype.advance;MachiPrototype.advance=(g,dt)=>old(g,dt*2.5)});
@@ -47,12 +51,19 @@ async function start(page){
   await page.waitForFunction(()=>document.querySelector('.pt-stage')?.dataset.clip==='CONF_NEWS',{timeout:10000});
   assert.match(await page.$eval('.pt-stage',e=>e.textContent),/まちニュース速報/);
   assert.equal(await page.$eval('#ptToast',e=>e.hidden),true,'stale notification must not obscure the news or press conference');
+  assert.ok((await page.$eval('.pt-breaking h2',e=>e.textContent)).length<80,'news title should be a short headline');
   if(mode==='ON'){
    let found=false;
    for(let i=0;i<24;i++){
     const speaker=await page.$eval('.pt-stage .pt-speaker',e=>e.textContent);
     if(speaker==='AI'){
+     const ledgerRects=await page.evaluate(()=>{const a=document.querySelector('.pt-ledger'),b=document.querySelector('.pt-speaker-ai');const r=a.getBoundingClientRect(),q=b.getBoundingClientRect();return {open:a.open,intersects:r.left<q.right&&r.right>q.left&&r.top<q.bottom&&r.bottom>q.top,ledger:r.toJSON(),ai:q.toJSON()}});
+     assert.equal(ledgerRects.open,false);assert.equal(ledgerRects.intersects,false,'closed evidence summary must not obscure AI character');
+     await page.screenshot({path:path.join(dir,'ai-conference-record-closed.png')});
+     await page.click('.pt-ledger summary');assert.equal(await page.$eval('.pt-ledger',e=>e.open),true,'evidence panel opens only when requested');
+     await page.waitForFunction(()=>document.querySelector('.pt-conf-controls button')?.textContent==='再生する');
      const actual=await page.$eval('.pt-ledger',e=>e.innerText);
+     await page.click('.pt-ledger summary');await page.waitForFunction(()=>document.querySelector('.pt-conf-controls button')?.textContent==='一時停止');
      const impact=await page.evaluate(()=>{const g=MachiPrototypeUI.snapshot(),incident=g.incidents[g.conference_state.scenario_id];return g.events.find(e=>e.id===incident.event_id)?.fact;});
      assert.ok(impact&&impact.length>8,'recorded event must contain an actual resident impact');
      assert.ok(actual.includes(impact),'AI ledger must display the recorded event fact');
