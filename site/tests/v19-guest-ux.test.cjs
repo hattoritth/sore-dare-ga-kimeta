@@ -9,28 +9,27 @@ const app=fs.readFileSync(path.join(root,'public/app.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'public/style.css'),'utf8');
 const reflection=require('../public/reflection-report.js');
 
-test('hidden values stay absent until stage 4/5, which reveals all three real shadow values before save',()=>{
+test('hidden values stay absent through the mandatory conference and appear only on completed results',()=>{
  const spotlight=html.match(/<section id="shadowSpotlight"[\s\S]*?<\/section>/)?.[0];
  assert.ok(spotlight);assert.match(spotlight,/hidden/);assert.match(spotlight,/見えていなかった3つの影響/);
- assert.match(app,/if\(endingFlowStage>=3&&endingMetricsCity!==s\.cityStartedAt\)/);
+ assert.match(app,/if\(pressDone&&endingMetricsCity!==s\.cityStartedAt\)/);
  assert.match(app,/pressData\.metrics\.filter\(x=>x\.group==='shadow'\)/);
  assert.match(app,/value\.textContent=String\(clamp\(metric\.value\)\)/);
  assert.match(app,/meaning\.textContent=metric\.meaning/);
- assert.match(app,/\$\('endingText'\)\.hidden=endingFlowStage<2\|\|endingFlowStage===3/);
- assert.match(app,/show\('endingIncident',endingFlowStage>=3/);
- assert.match(app,/endingFlowStage>=3\?\(s\.incident\?/);
- assert.match(app,/shadowSpotlight'\)\.hidden=endingFlowStage!==3/);
- assert.match(app,/endingNext'\)\.textContent=\['結末を見る','理由を見る','指標を見る','保存へ進む','保存する'\]/);
+ assert.match(app,/endingFlowStage=4;pressOpen=true;pressDone=false;pressIndex=-1/);
+ assert.match(html,/id="pressConference" role="dialog" aria-modal="true"/);
+ assert.match(app,/endingFlowStage=4;if\(state\)renderResult\(state\)/);
  assert.match(html,/summary>レーダーと6指標を詳しく見る/);
  assert.match(app,/\$\('metricComparison'\)\.open=false/);
  assert.match(html,/id="endingRadar"/);assert.match(html,/id="publicMetrics"/);assert.match(html,/id="shadowMetrics"/);
  assert.doesNotMatch(spotlight,/市への信頼\s*\d|公平さ\s*\d|未来への備え\s*\d/);
 });
 
-test('show all routes to the reveal screen and requires a second action to save',()=>{
- assert.match(app,/endingShowAll'\)\.addEventListener\('click',\(\)=>\{endingFlowStage=3/);
- assert.match(app,/endingNext'\)\.addEventListener\('click',\(\)=>\{endingFlowStage=Math\.min\(4,endingFlowStage\+1\)/);
- assert.match(app,/endingCardTools'\)\.hidden=endingFlowStage<4/);
+test('conference completion and skip both navigate directly to result and save screen',()=>{
+ assert.match(app,/endingShowAll'\)\.addEventListener\('click',\(\)=>\{endingFlowStage=4/);
+ assert.match(app,/pressSkip'\)\.onclick=\(\)=>\{[\s\S]*?endingFlowStage=4/);
+ assert.match(app,/pressNext'\)\.onclick=\(\)=>\{[\s\S]*?endingFlowStage=4/);
+ assert.match(app,/endingCardTools'\)\.hidden=!pressDone\|\|endingFlowStage<4/);
 });
 
 test('solo uses direct option IDs without clinic forms or a second confirmation step',()=>{
@@ -41,8 +40,8 @@ test('solo uses direct option IDs without clinic forms or a second confirmation 
 test('new city and replay clear previously revealed shadow values from the DOM',()=>{
  assert.match(app,/s\.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s\.cityStartedAt!==endingFlowCityStartedAt/);
  assert.match(app,/function clearEndingResultDom\(\)/);
- assert.match(app,/for\(const id of \['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList'\]\)\$\(id\)\.replaceChildren\(\)/);
- assert.match(app,/for\(const id of \['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'\]\)\$\(id\)\.textContent=''/);
+ assert.match(app,/for\(const id of \['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList','pressScene'\]\)\$\(id\)\.replaceChildren\(\)/);
+ assert.match(app,/for\(const id of \['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','pressOutcome','pressIssue','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'\]\)\$\(id\)\.textContent=''/);
  assert.match(app,/\$\('reflectionFallback'\)\.value='';\$\('reflectionFallback'\)\.hidden=true/);
  assert.match(app,/for\(const id of \['endingCardMore','metricComparison','decisionHistory'\]\)\$\(id\)\.open=false/);
  assert.match(app,/clearEndingResultDom\(\);endingFlowCityStartedAt=null/);
@@ -56,9 +55,9 @@ test('replay cancels in-flight conference frames and invalidates late typing cal
  assert.match(app,/if\(generation!==pressGeneration\)return/);
 });
 
-test('skip-to-full-results is hidden once stage 4 reveal is already visible',()=>{
+test('old five-step reveal controls stay hidden while conference is shown',()=>{
  assert.match(app,/endingShowAll'\)\.hidden=endingFlowStage>=3/);
- assert.match(app,/endingShowAll'\)\.addEventListener\('click',\(\)=>\{endingFlowStage=3/);
+ assert.match(app,/endingShowAll'\)\.hidden=endingFlowStage>=3/);
 });
 
 test('replay appears once beside save actions and is solo-only at the final stage',()=>{

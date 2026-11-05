@@ -6,14 +6,14 @@ const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
 const city=fs.readFileSync(path.join(__dirname,'../public/city-art.js'),'utf8');
 const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
 
-test('ending reveal follows picture, title, reason, metrics, then save with deliberate next and all-at-once controls',()=>{
- assert.match(app,/endingFlowLabels=\['変わった街','結末','理由','6つの指標','保存'\]/);
+test('ending reveal opens the mandatory conference before card and save controls',()=>{
  assert.match(app,/endingSceneCache\.get\(s\.cityStartedAt/);
- assert.match(app,/endingFlowStage=Math\.min\(4,endingFlowStage\+1\)/);
- assert.match(app,/endingFlowStage=3;if\(state\)renderResult\(state\)/);
- assert.match(app,/metricComparison'\)\.hidden=endingFlowStage<3/);
- assert.match(app,/endingCardTools'\)\.hidden=endingFlowStage<4/);
- assert.match(app,/pressConference'\)\.hidden=endingFlowStage<4\|\|!pressOpen/);
+ assert.match(app,/endingFlowStage=4;pressOpen=true;pressDone=false;pressIndex=-1/);
+ assert.match(app,/metricComparison'\)\.hidden=!pressDone/);
+ assert.match(app,/endingCardTools'\)\.hidden=!pressDone\|\|endingFlowStage<4/);
+ assert.match(app,/pressConference'\)\.hidden=!pressOpen/);
+ assert.match(app,/pressDone=true;pressOpen=false;endingFlowStage=4/);
+ assert.match(app,/s\.incident\?\.title\|\|window\.PressConference\.outcomeNames/);
  assert.match(html,/id="endingNext"/);assert.match(html,/id="endingShowAll"/);
 });
 
@@ -36,8 +36,8 @@ test('decision highlight uses resolved site mapping, skips deferred outcomes, an
 test('reduced motion keeps a static marker and result metrics are cleared before the metrics step',()=>{
  assert.match(city,/t=this\.reduced\?1/);
  assert.match(city,/!this\.reduced&&elapsed>850/);
- assert.match(app,/if\(endingFlowStage<3\)\{if\(endingMetricsCity===s\.cityStartedAt\)/);
- assert.match(app,/if\(endingRadarCity===s\.cityStartedAt\)\{endingRadarCity=null;radar\.replaceChildren\(\);\}/);
+ assert.match(app,/if\(!pressDone\)\{endingMetricsCity=null;endingRadarCity=null/);
+ assert.match(app,/radar\.replaceChildren\(\);\}/);
 });
 
 test('decision highlight remains readable at phone scale using CSS-pixel screen-space drawing',()=>{
@@ -53,10 +53,11 @@ test('AI facility highlights name the built building, not the human alternative'
  assert.match(app,/facilityLabels\[s\.built\[id\]\]/);
  assert.doesNotMatch(app,/office:'駅前の市場'/);
 });
-test('a five-stage ending does not leak scene title via screen reader and keeps optional conference accessible',()=>{
+test('mandatory conference has an accessible dialog, separate skip action and scene illustration',()=>{
  assert.match(html,/id="endingCityPicture"[^>]*role="img"[^>]*aria-label="判断によって変化した街の風景"/);
  assert.match(app,/setAttribute\('aria-label','判断後の街の風景'\)/);
- assert.match(html,/id="openEndingPress"/);assert.match(html,/id="closeEndingPress"/);
+ assert.match(html,/id="openEndingPress"/);assert.match(html,/id="pressConference" role="dialog" aria-modal="true"/);
+ assert.match(html,/id="pressScene"/);assert.match(html,/id="pressSkip"/);
  assert.match(app,/pressOpen=true;pressDone=false/);
- assert.match(app,/if\(endingFlowStage>=4&&endingCardRenderCity!==s\.cityStartedAt\)\{/);
+ assert.match(app,/if\(pressDone&&endingFlowStage>=4&&endingCardRenderCity!==s\.cityStartedAt\)\{/);
 });
