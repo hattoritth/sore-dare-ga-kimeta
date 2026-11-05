@@ -642,6 +642,25 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 
 /* 五系統の2066年後日談・AIの稼働比較・街からの手紙 */
 .press-mode{margin:10px 0 14px;max-width:940px}.press-mode[hidden],.ending-letter[hidden]{display:none!important}.press-conference .press-mode-label{font-size:12px;line-height:1.55;color:#e1e8e1;margin:0 0 7px}.press-mode-buttons{display:flex;flex-wrap:wrap;gap:8px}.press-mode-buttons button{min-height:44px;border-radius:7px;border:1px solid #bbcabe;background:#173036;color:#f4f6ee;padding:8px 12px;font-size:13px}.press-mode-buttons button[aria-pressed=true]{background:#e6c78e;color:#193332;border-color:#e6c78e;font-weight:800}.press-conference.press-fade{background:#080d12}.press-conference.press-fade .press-scene{opacity:0;transition:opacity .75s ease}.ending-letter{padding:24px 18px;margin:20px 0 15px;border:1px solid #d3d7c9;border-radius:11px;background:#fffdfa}.ending-letter .reveal-heading{color:#7d553c}.ending-letter h3{font-size:clamp(18px,2.5vw,25px);line-height:1.45;margin:8px 0}.ending-letter blockquote{margin:14px 0;padding:12px 15px;background:#f6f3e9;border-inline-start:4px solid #bc9870;line-height:1.85;font-size:clamp(14px,1.6vw,18px);white-space:pre-wrap}.ending-letter-caption{font-size:12px;color:#657066;line-height:1.6}@media(max-width:750px){.press-mode-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.press-mode-buttons button{font-size:11px;padding:6px 4px;min-height:45px}.press-mode{margin:7px 0}.ending-letter{padding:18px 13px}}@media(max-height:520px) and (orientation:landscape){.press-mode-buttons button{min-height:44px}.press-mode{margin:4px 0}}
+</style><style>/* Scoped additions: the original modes retain their original layout. */
+.shell[data-view=prototype] .hud{justify-content:space-between;gap:14px;position:sticky;top:0;z-index:70;background:var(--back)}
+.shell[data-view=prototype] button{min-height:44px;min-width:44px}
+.shell[data-view=prototype] .header-menu{width:44px;height:44px}
+.shell[data-view=prototype] .brand{font-size:clamp(18px,2vw,29px)}
+.pt-happiness{display:flex;align-items:center;gap:14px;font-size:14px;font-weight:800;white-space:nowrap}.pt-happiness strong{font-size:28px;font-variant-numeric:tabular-nums}.pt-track{width:130px;height:6px;overflow:hidden;background:#d9e3d6;border-radius:5px}.pt-track i{display:block;height:100%;background:#4c8870;transition:width .6s}.pt-ai{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:800}.pt-ai button{border:1px solid #527e69;background:#fffdf2;color:#245342;border-radius:8px;padding:7px 14px;font-weight:800}
+.shell[data-view=prototype] .pt-panel{padding:24px;gap:18px;justify-content:space-between}.pt-panel h1{font-size:27px;line-height:1.6;margin:14px 0}.pt-panel h2{font-size:24px;line-height:1.55;margin:12px 0}.pt-panel h3{font-size:17px;line-height:1.65;margin:14px 0}.pt-panel p{font-size:14px;line-height:1.85;margin:10px 0}.pt-panel .primary-action{width:100%;margin-top:16px}.pt-choices{display:grid;gap:8px;margin-top:12px}.pt-choice{width:100%;padding:13px 12px;text-align:left;background:#f8faf0;border:1px solid #c2d4bd;border-radius:9px;color:#214c3f;font-weight:800;font-size:14px;line-height:1.5}.pt-choice:hover,.pt-chip:hover{background:#ebf1df;border-color:#5d896f}.pt-quiet{border:1px solid #cad8c5;background:#fffdf3;color:#315f4d;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:800}.pt-panel .pt-quiet{margin-top:9px}.pt-small{font-size:11px!important;color:#657c6b;line-height:1.7}.pt-status{color:#467761;font-weight:800}.pt-queue{display:flex;gap:7px;flex-wrap:wrap;margin:17px 0}.pt-chip{border:1px solid #bdd0b6;color:#315e4d;background:#f1f5e9;border-radius:99px;padding:8px 12px;font-size:12px;font-weight:800}.pt-faces{display:flex;gap:9px;margin:14px 0}.pt-faces div{width:56px;height:68px;border-radius:20px;overflow:hidden}.pt-faces svg{width:100%;height:100%}
+.pt-news{border-top:1px solid #d8dfcb;padding-top:13px}.pt-news-item{display:block;width:100%;margin-top:5px;padding:9px 0 9px 12px;text-align:left;border:0;border-left:3px solid #88a78a;background:transparent;color:#3b624d;font-size:11px;line-height:1.7}.pt-news-item.concern{border-left-color:#c19169;color:#775b42}.pt-news-item:hover{text-decoration:underline;text-underline-offset:3px}
+.pt-flags{position:absolute;inset:0;pointer-events:none;z-index:3}.pt-flag{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;border:1px solid #c19455;border-radius:13px 13px 13px 2px;background:#fff8de;color:#765329;box-shadow:0 4px 12px #344b3433;font-size:11px;font-weight:900;padding:8px 10px;white-space:nowrap;animation:pt-bob 2.8s ease-in-out infinite}.pt-flag[data-status=working]{background:#dceee6;color:#2a6252;border-color:#719f8b}.pt-flag[data-status=resolved]{background:#e9f2d9;color:#456b43;border-color:#8aa57f;opacity:.85}.pt-flag:disabled{cursor:default}.pt-toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:110;max-width:min(580px,92vw);width:max-content;background:#204f43;color:#fffdf1;padding:14px 20px;border-radius:12px;box-shadow:0 8px 30px #15392e33;font-size:13px;line-height:1.8;pointer-events:none}
+.pt-overlay{position:fixed;inset:150px 16px 16px;z-index:50;display:flex;align-items:center;justify-content:center;background:#1c40376b;backdrop-filter:blur(5px);border-radius:16px;padding:16px}.pt-dialog{background:#fffdf2;color:#224b3d;border:1px solid #d0d8be;width:min(650px,100%);max-height:100%;overflow:auto;border-radius:14px;padding:25px}.pt-dialog h2{font-size:25px;margin-bottom:10px}.pt-dialog h3{font-size:20px;line-height:1.8;margin:18px 0}.pt-dialog p{font-size:14px;line-height:1.85;margin:12px 0}.pt-close{border:1px solid #acc0a8;background:#edf3e5;color:#315943;padding:10px 15px;border-radius:8px}.pt-dialog .primary-action{margin:18px 0}.pt-log{padding-left:21px}.pt-log li{padding:12px 0;border-bottom:1px solid #d5dec9}.pt-log strong{font-size:13px}.pt-log p{font-size:12px;margin:4px 0}
+.pt-conference,.pt-ending{inset:0;border-radius:0;padding:clamp(12px,3vw,38px);background:#153c38;z-index:100}.pt-stage{position:relative;width:min(1140px,100%);height:min(720px,100%);display:flex;flex-direction:column;overflow:hidden;border:1px solid #79948b;border-radius:16px;background:radial-gradient(ellipse at 50% 25%,#6c8d7c,#294e48 70%);box-shadow:0 18px 90px #071d1b77}.pt-conference-art{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 20px 150px;gap:20px;color:#fff6dc;background:linear-gradient(130deg,#607f71,#264a44)}.pt-conference-art .overline{color:#e7d2a1;letter-spacing:.2em}.pt-conference-art h2{font-size:clamp(27px,4vw,50px);line-height:1.7}.pt-conference-art p{font-size:16px}.pt-dais{display:flex;align-items:flex-end;justify-content:center;gap:90px;padding-top:20px;border-bottom:45px solid #9c8560;width:min(600px,90%);filter:drop-shadow(0 12px 20px #102b2b55)}.pt-mayor{width:150px;height:180px;border-radius:70px 70px 12px 12px;background:linear-gradient(#c5c1a8 29%,#a3997d 30%,#3c5c58 31%);display:flex;align-items:flex-end;justify-content:center;padding:18px;font-weight:800;letter-spacing:.3em;color:#e9ecd8}.pt-speaker-ai{position:relative;width:130px;height:180px}.pt-speaker-ai svg{height:100%;width:100%}.pt-mic{position:absolute;right:-20px;bottom:20px;width:12px;height:12px;border:2px solid #95a49a;background:#465950;border-radius:50%}.pt-mic[data-on=true]{background:#a4d6ab;box-shadow:0 0 22px #adf1bc;border-color:#e1f4cc}.pt-mic-label{position:absolute;bottom:-35px;left:-10px;white-space:nowrap;font-size:11px;letter-spacing:.08em}.pt-subtitle{margin-top:auto;position:relative;z-index:3;background:#0f2927ed;color:#fff9e6;padding:22px 30px;min-height:150px;line-height:1.9}.pt-speaker{font-size:12px;color:#d6bb87;letter-spacing:.13em}.pt-subtitle p{font-size:clamp(15px,1.8vw,22px);margin-top:6px}.pt-conf-controls{position:relative;z-index:3;display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;background:#173e38}.pt-conf-controls .pt-quiet{background:#234d43;color:#fff5da;border-color:#6d8d79}.pt-black{background:#000}.pt-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}.pt-letter{padding:clamp(20px,5vw,60px);background:#fffcf0;width:min(730px,100%);max-height:100%;overflow:auto;border-radius:14px}.pt-letter h1{font-size:clamp(23px,3vw,34px);line-height:1.7;margin:20px 0}.pt-letter h2{font-size:19px;margin:18px 0}.pt-letter h3{font-size:16px;line-height:1.8;margin:18px 0}.pt-letter p{font-size:14px;line-height:2;margin:13px 0}.pt-letter-id{font-size:32px;display:block;color:#996c43;margin:20px 0}.pt-letter details{border-top:1px solid #d2d8c0;margin:20px 0;padding-top:12px}.pt-letter summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:800;font-size:14px}.pt-letter .primary-action{width:100%;margin-top:25px}
+@keyframes pt-bob{50%{box-shadow:0 4px 18px #b58c5960}}
+@media(min-width:1500px){.shell[data-view=prototype] .pt-panel{padding:30px}.pt-panel h2{font-size:30px}.pt-panel p{font-size:16px}.pt-choice{font-size:16px;padding:16px}.pt-news-item{font-size:13px}.pt-flag{font-size:13px}}
+@media(max-width:1100px) and (min-width:751px){.pt-track{width:80px}.pt-ai{font-size:11px;gap:8px}.shell[data-view=prototype] .pt-panel{padding:20px}.pt-panel h2{font-size:22px}.pt-panel p{font-size:12px}.pt-choice{font-size:13px;padding:11px}.pt-news-item{font-size:10px}.pt-faces div{width:48px;height:59px}}
+@media(max-width:750px){.shell[data-view=prototype] .masthead{height:60px;gap:8px}.shell[data-view=prototype] .brand{font-size:18px;gap:2px}.shell[data-view=prototype] .year-stamp{font-size:11px}.shell[data-view=prototype] .brand-symbol{font-size:18px;margin-right:2px}.shell[data-view=prototype] .header-right{gap:6px}.shell[data-view=prototype] .hud{height:auto;min-height:95px;display:grid;grid-template-columns:1fr auto;gap:8px;padding:0 3px 5px}.pt-happiness{font-size:12px;gap:10px}.pt-happiness strong{font-size:25px}.pt-track{width:70px}.pt-ai{grid-row:2;grid-column:1/-1;justify-content:space-between;gap:8px;font-size:10px}.pt-ai button{padding:6px 12px}.shell[data-view=prototype] .pt-panel{padding:19px;min-height:300px}.pt-panel h2{font-size:23px}.pt-panel p{font-size:13px}.pt-choices{grid-template-columns:1fr 1fr}.pt-choice{font-size:12px;padding:12px 10px;min-height:65px!important}.pt-news-item{font-size:11px}.pt-overlay{inset:173px 8px 8px;padding:8px}.pt-dialog{padding:19px}.pt-conference,.pt-ending{inset:0;padding:10px}.pt-dais{gap:40px}.pt-mayor{width:110px;height:160px}.pt-speaker-ai{width:105px;height:160px}.pt-subtitle{padding:15px 18px;min-height:180px}.pt-subtitle p{font-size:15px}.pt-conf-controls{padding:10px 8px;gap:6px;justify-content:center}.pt-conf-controls .pt-quiet{font-size:11px;padding:9px}.pt-letter{padding:25px}.pt-flag{font-size:10px;padding:6px}.pt-toast{bottom:12px;font-size:11px;padding:12px 15px}.pt-conference-art{padding-bottom:200px}.shell[data-view=prototype] .city-caption{display:none}}
+@media(prefers-reduced-motion:reduce){.pt-flag{animation:none}.pt-track i{transition:none}}
+.pt-ai-badge{display:grid;place-items:center;width:54px;height:54px;border:1px solid #9bb5a4;border-radius:50%;background:#e9f1e8;color:#315e4d;font-weight:900;letter-spacing:.08em}.pt-ai-glyph{position:absolute;inset:28px 18px 38px;display:grid;place-items:center;border:2px solid #bdcfc0;border-radius:50%;background:radial-gradient(circle at 50% 35%,#f5f1de,#759184);color:#294f45;font-size:28px;font-weight:900;box-shadow:0 8px 22px #102b2b44}.pt-breaking{background:linear-gradient(110deg,#273f39d9,#3e5d52d9);animation:pt-news-in .7s ease-out both}.pt-breaking h2{max-width:860px;text-align:center;text-wrap:balance}.pt-breaking p{padding:9px 22px;border:1px solid #b7c6a8;border-radius:99px;background:#e4ecd8;color:#2d5145;font-weight:800}.pt-press-mics{position:absolute;bottom:17%;left:50%;z-index:2;display:flex;gap:36px;transform:translateX(-50%)}.pt-press-mics i{width:8px;height:45px;border-radius:8px;background:linear-gradient(#343f3a 0 35%,#8b927d 36%);box-shadow:0 0 0 4px #d8dfd333}.pt-ledger{position:absolute;z-index:4;top:12%;right:3%;width:min(380px,34%);max-height:46%;overflow:auto;padding:13px 17px;border:1px solid #b7c8b5;border-radius:12px;background:#fffdf0ed;color:#294e40;box-shadow:0 8px 28px #102b2b44}.pt-ledger::before{content:'判断の記録';display:block;margin-bottom:7px;font-size:12px;font-weight:900;letter-spacing:.1em}.pt-ledger p{margin:6px 0;font-size:12px;line-height:1.55}.pt-ledger p:first-child{margin-top:0}.pt-stage[data-clip="CONF_NEWS"] .pt-subtitle{background:#172e2be8}.pt-stage[data-clip="CONF_NEWS"] .pt-subtitle p{font-size:15px}@keyframes pt-news-in{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}
+.shell[data-view=prototype] .pt-qr-button{position:static;display:flex;align-items:center;justify-content:flex-start;gap:9px;width:auto;height:52px;min-width:44px;min-height:44px;margin:12px 0 0;padding:5px 10px;border:1px solid #c8d5c2;border-radius:10px;background:#fffdf5;color:#315943;box-shadow:none}.shell[data-view=prototype] .pt-qr-button img{width:40px;height:40px}.shell[data-view=prototype] .pt-qr-button span{font-size:12px;font-weight:800}
+@media(max-width:750px){.pt-press-mics{bottom:24%;gap:24px}.pt-ledger{top:9%;right:3%;width:45%;max-height:36%;padding:8px 10px}.pt-ledger p{font-size:10px;line-height:1.45}.pt-ai-glyph{inset:28px 14px 42px}.pt-breaking h2{font-size:clamp(20px,6vw,32px)}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -662,7 +681,8 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
    <div class="landing-inner"><div id="prologue" class="prologue"><span class="overline">2036年、ある街で。</span><p class="world-copy">AIに任せるうちに、誰が決めたのか<br class="world-break">わからなくなる未来。</p><div class="prologue-scene"><span id="prologueSpeaker" class="prologue-speaker">あなたの心の声</span><p id="prologueText" class="prologue-text" aria-hidden="true"></p><span id="prologueAnnounce" class="prologue-announcer" aria-live="polite" aria-atomic="true"></span><div id="prologueActivity" class="prologue-activity" aria-hidden="true"><span class="typing-dots"><i></i><i></i><i></i></span><span id="prologueActivityLabel">メッセージを入力中…</span></div></div><div class="prologue-actions"><button id="prologueNext" class="prologue-next" type="button">次へ <span aria-hidden="true">→</span></button><button id="prologueSkip" class="prologue-skip" type="button">街へ進む／スキップ</button></div><div id="prologueProgress" class="prologue-progress" aria-label="全4場面のうち1場面">01 / 04</div></div><div id="modeChoice" hidden><span class="overline">2036年、ある街で。</span><h1>それ、誰が決めた？</h1><p>市長として部長たちの相談を受け、一つの街づくりAIにも判断を委ねられます。</p><p class="metric-clue">いま見える数字だけでは、街のすべてはわかりません。</p>
    <div class="landing-actions" aria-label="遊び方を選ぶ">
        <button id="openSolo" class="mode-card" type="button"><strong>ひとりで遊ぶ</strong><span>4つの判断・自分のペース</span></button>
-       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong><span>7つの判断・1問23秒</span></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>みんなで遊ぶと公開サイトが開きます。</p>
+       <button id="openShared" class="mode-card" type="button"><strong>みんなで遊ぶ</strong><span>7つの判断・1問23秒</span></button>
+       <button id="openContinuation" class="mode-card" type="button"><strong>まちの続き</strong><span>2056年から2066年へ・判断と記録をたどる</span></button><p class="standalone-group-note" id="standaloneGroupNote" hidden>みんなで遊ぶと公開サイトが開きます。</p>
       </div></div></div>
   </div>
   <div class="side-panel" id="sidePanel">
@@ -3432,6 +3452,478 @@ class F5Primitives {
  return {sceneSvg,buildPreview,buildSvg,renderCard,pdfFromJpegDataUrl,metricKeys,labels,scenes,validSceneImage,sceneVisual,radarSvg,createSceneSnapshotCache};
 });
 
+</script><script>
+/* v7's five supplied cards. Effects/thresholds are local game tuning, not real forecasts. */
+(function(root){'use strict';
+ const scenarios=[
+ {id:'S1',theme:4,title:'二つの避難先',resident:'宮本さん',site:'waterfront',question:'大雨で洪水が起きそう。',options:['全員を避難させる','危険地域だけ避難させる','AIが避難先を指定する','住民の判断に任せる'],build:['floodgate','floodgate','floodgate','lot'],risk:[-.2,.2,.1,.3],benefit:[.8,1,1.25,.55],
+  good:['避難支援を開始。住民と避難先を確認','危険地域の避難支援を開始','避難所の混雑予測が使えるようになりました','大雨の危険情報を住民に提供'],
+  warning:'避難案内の配信先、登録情報の更新を呼びかけ',manualWarning:'避難先の問い合わせ、窓口で確認が続く',serviceOptions:[2],
+  serviceIssue:'旧連絡先の案内と新しい避難先の案内が混在',manualIssue:'避難先の確認・回答に時間がかかる',
+  facts:['案内の相違、または確認遅れを当日中に訂正・回答しました。','避難所での待機と支援世帯の調整が翌日まで続きました。','避難に遅れた世帯が生じ、臨時宿泊先と生活用品の支援が必要です。'],
+  field:'案内が変わったのか、まだ同じなのか……父と一緒に行きたいだけなんです。',manualField:'父と一緒に行ける避難先を、確かめたいんです。',questioner:'宮本さんたちへの避難案内は、誰が変更したのですか？　あるいは、なぜ間に合わなかったのですか？',rule:'避難所の混雑と移動時間を抑える既存の運用基準',serviceDetail:'混雑予測に基づく案内と連絡先の更新時刻に差がありました。',review:'避難先と連絡先を住民と照合し、案内を訂正しました。'},
+ {id:'S2',theme:13,title:'届くはずの買い物',resident:'山田さん',site:'office',question:'スーパーが遠くて買い物が大変。',options:['配送を無料にする','移動販売を増やす','AIが買い物を代行する','近くに店舗を誘致する'],build:['market','market','dc','market'],risk:[.2,-.1,.3,-.2],benefit:[1.2,.8,1.3,.7],
+  good:['配送の無料化が始まりました。買い物を支援','移動販売の試行を開始','買い物の代行サービスが開始。日用品を買う時間が短縮','近隣店舗の誘致を開始。買い物環境を整備'],
+  warning:'旧市街の商店が閉店。地域の買い物環境に変化',manualWarning:'買い物支援の進捗について、旧市街から問い合わせ',serviceOptions:[0,2],
+  serviceIssue:'配送設備の不具合と代替購入手段の不足が重なる',manualIssue:'移動販売・店舗支援の確認を待つ地区が残る',
+  facts:['予定変更・回答遅れがありましたが、代替手段で買い物できました。','買い物の移動負担が増えた住民がいます。','配送不調または支援の滞留に代替手段の不足が重なり、数日間の日用品の調達支援が必要です。'],
+  field:'便利になったのは本当です。でも、今日だけは、いつもの店があればと思いました。',manualField:'買い物に行ける方法を、もう少し増やしてほしいんです。',questioner:'街全体では買い物が便利になりました。それでも困る地区があるのはなぜですか？',rule:'市の配送時間・費用と買い物支援の運用条件',serviceDetail:'配送の集約後に設備不調が起きました。店舗の変化には複数の事情があり、閉店の原因は記録だけでは断定できません。',review:'代替の購入手段を確認し、調達支援をつなぎました。'},
+ {id:'S3',theme:21,title:'保育園に入れない理由',resident:'森さん',site:'school',question:'人気の保育園に入れない。',options:['抽選で決める','共働き世帯を優先する','所得の低い世帯を優先する','保育園を増やす'],build:['school','school','school','school'],risk:[.1,.2,-.1,-.2],benefit:[1.1,1.2,1,.65],
+  good:['抽選による入園調整を開始','共働き世帯を優先する入園調整を開始','所得の低い世帯を優先する入園調整を開始','保育園の増設を開始。受け入れの準備が進む'],
+  warning:'入園基準について、求職中の保護者から質問',manualWarning:'入園の結果通知・整備状況について問い合わせ',serviceOptions:[0,1,2],
+  serviceIssue:'申請情報の更新時期に差。入園結果の再確認を希望',manualIssue:'審査・受け入れ準備の確認に時間がかかる',
+  facts:['選考基準や進行への問い合わせを、説明と再確認で解消しました。','就業・復職や求職の予定に影響した家庭が複数あります。','情報の更新漏れまたは審査滞留が長引き、臨時保育・再審査が必要です。'],
+  field:'仕事を見つけたいんです。でも、先に保育園が決まらないと応募も難しくて。',manualField:'仕事を見つけたいんです。でも、先に保育園が決まらないと応募も難しくて。',questioner:'森さんが希望する園に入れなかったのは、誰の判断ですか？',rule:'選択された市の入園方針と登録申請情報',serviceDetail:'選択された入園方針と登録情報に沿って調整しました。情報更新の履歴には追加確認が必要です。',review:'申請情報と事情を照合し、再確認と保育支援につなぎました。'},
+ {id:'S4',theme:35,title:'帰り道が消えた',resident:'河野さん',site:'transit',question:'危険だという理由で行きたい場所に行けない。',options:['通行制限を解除する','危険を知らせて本人に任せる','安全な別ルートを示す','制限を続ける'],build:['transit','transit','transit','lot'],risk:[.2,-.1,-.2,.3],benefit:[1,.8,1.1,.7],
+  good:['通行制限を解除。道の利用を再開','危険情報の提供を開始。通行は本人が判断','安全な別ルートの案内を開始','川沿いの通行制限を継続。危険な区間を回避'],
+  warning:'通行止めの解除時期に問い合わせが増加',manualWarning:'川沿いの危険情報と道案内の更新状況を確認中',serviceOptions:[2,3],
+  serviceIssue:'危険情報の更新確認が遅れ、迂回・解除待ちが続く',manualIssue:'危険箇所と道案内の確認に時間がかかる',
+  facts:['短時間の迂回や案内遅れが生じましたが、数時間で解消しました。','複数日の制限・確認遅れで通勤や来客に影響しました。','制限または安全確認待ちが長期化し、再点検と住民・事業者支援が必要です。'],
+  field:'危ない道を通りたいわけじゃありません。いつ安全になったのか、誰に聞けばいいんでしょう。',manualField:'危ない道を通りたいわけじゃありません。いまの道の状況を確かめたいんです。',questioner:'この道の通行と安全確認は、誰が判断したのですか？',rule:'既存の通行管理ルールと危険情報',serviceDetail:'既存の危険情報を参照する運用が続き、更新の確認が必要になりました。',review:'現場と危険情報を再点検し、道案内を更新しました。'},
+ {id:'S5',theme:47,title:'届いていた言葉',resident:'佐伯さんの娘',site:'homes',question:'家族と過ごす時間が少ない。',options:['労働時間を短縮する','家事をAIに任せる','家族との予定を優先する','家族への連絡をAIが代行する'],build:['homes','homes','homes','homes'],risk:[-.1,.1,-.2,.3],benefit:[.75,1.2,.9,1.25],
+  good:['労働時間の短縮に向け、家族の時間を支援','家事のAI補助を開始。家庭の時間に余裕','家族の予定を優先する支援を開始','家族の連絡補助サービスを開始'],
+  warning:'「このメッセージ、本人が書いたの？」という声',manualWarning:'家族の時間・訪問調整の支援について問い合わせ',serviceOptions:[3],
+  serviceIssue:'定型連絡による予定確定と、本人の確認に食い違い',manualIssue:'連絡や訪問調整の支援を待つ世帯が残る',
+  facts:['連絡支援をめぐる行き違いを、本人同士の会話で解消しました。','家族の予定が食い違い、または集まりの調整がつかない世帯があります。','重要な相談の返答や必要な支援への接続が長期に遅れ、相談支援が必要な家庭があります。'],
+  field:'連絡は来ていました。だから、話せていると思っていたんです。',manualField:'家族と話す時間を、つくりたかったんです。',questioner:'家族に届いた言葉や、届かなかった支援について、誰が確認したのでしょうか？',rule:'本人の利用設定と市のサービス運用条件',serviceDetail:'市長代理機能とは別に、本人が設定した住民向けの定型連絡サービスが稼働しました。個別文面を本人が確認した記録はありません。',review:'本人同士の連絡先と意向を確認し、相談支援につなぎました。'}
+ ];
+ const MEDIA=Object.fromEntries(['CONF_OPEN','CONF_MAYOR','CONF_SILENCE','CONF_AI_ON','CONF_AI_OFF','CONF_END',...scenarios.map(s=>s.id+'_FIELD')].map(id=>[id,{src:null,poster:null,loop:true}]));
+ const api={scenarios,MEDIA,letters:{
+  "S1": {
+    "paragraphs": [
+      "市長へ。",
+      "大雨が近づいた日、私たちは避難先を確かめようとしました。案内があれば安心できると思っていました。でも、家族の足でそこまで行けるか、途中で案内が変わったらどうすればよいか、気になることはたくさんありました。",
+      "危険を予測することも、避難所を割り振ることも、大切な仕事だと思います。だからこそ、案内が届くまでに、誰が何を確かめているのか知りたいのです。",
+      "私たちが次に困ったとき、質問できる先があると安心します。",
+      "――水辺地区の住民より"
+    ],
+    "heading": "情報は、届いて初めて役に立つ。"
+  },
+  "S2": {
+    "paragraphs": [
+      "市長へ。",
+      "家まで品物が届くようになって、助かった人が大勢います。私もその便利さを感じています。",
+      "一方で、歩いて行けるお店が少なくなり、配送の予定に合わせて暮らす人もいます。便利さを一つにまとめた数字だけでは、誰がどの方法で買い物をしているのか、見えにくいのかもしれません。",
+      "買い物に困ったとき、私たちにはどんな選択肢が残っているのでしょう。",
+      "――旧市街の住民より"
+    ],
+    "heading": "便利になった街に、別の不便も残る。"
+  },
+  "S3": {
+    "paragraphs": [
+      "市長へ。",
+      "保育園の申し込みでは、何を基準に決めるのかが、とても大切です。結果が早く分かることも、家庭にとって大きな助けになります。",
+      "私は、どうしてこの結果になったのかを知りたいです。仕事をしているか、これから探すのか、家庭によって事情は違います。書類だけでは伝わらなかったことがあるのかもしれません。",
+      "もし記録が違っていたら、誰に話し、どんなふうに見直してもらえるのでしょうか。",
+      "――子どもの預け先を探す保護者より"
+    ],
+    "heading": "速い判断に、説明と見直しの道はあるか。"
+  },
+  "S4": {
+    "paragraphs": [
+      "市長へ。",
+      "危ない場所を避けられるのは、ありがたいことです。だから、通行を制限する理由があることは分かります。",
+      "それでも、仕事へ行く道や、いつも寄るお店までの道が変わると、暮らしも変わります。安全になったときに誰が確かめ、いつ元に戻すのか、分からないまま待つのは不安です。",
+      "安全にするための決まりが、私たちの声を聞く仕組みとつながっていてほしいと思います。",
+      "――川沿いの店を営む住民より"
+    ],
+    "heading": "守るための制限を、誰が見直すのか。"
+  },
+  "S5": {
+    "paragraphs": [
+      "市長へ。",
+      "母からの連絡が増えて、最初は安心しました。忙しい日でも言葉が届く。便利な仕組みだと思います。",
+      "でも、あるとき考えたんです。この言葉は母が自分で書いたのだろうか。それとも、誰かが母に代わって伝えてくれたのだろうか、と。",
+      "どちらが必ず悪いという話ではありません。ただ、私は、母が本当に伝えたかったことを知りたいです。",
+      "もし確認したいことがあるときは、母と話せるようにしてほしいのです。",
+      "――離れて暮らす家族より"
+    ],
+    "heading": "連絡が届くことと、話せていること。"
+  }
+}};
+ if(typeof module!=='undefined'&&module.exports)module.exports=api;
+ root.MachiPrototypeData=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+</script><script>
+/* Deterministic local simulation, independent of the unchanged shared engine. */
+(function(root){'use strict';
+ const Data=typeof module!=='undefined'&&module.exports?require('./prototype-data.js'):root.MachiPrototypeData;
+ const Legacy=typeof module!=='undefined'&&module.exports?require('./engine.js'):root.MachiEngine;
+ const copy=x=>JSON.parse(JSON.stringify(x)),clamp=(x,a=0,b=100)=>Math.max(a,Math.min(b,x));
+ const TOTAL=120,YEAR=12;
+ function hash(seed,s){let h=seed>>>0;for(const c of s)h=(Math.imul(h^c.charCodeAt(0),16777619))>>>0;return h;}
+ function createGame(opts={}){
+  const ids=opts.scenarioIds||Data.scenarios.map(s=>s.id);
+  const g={version:1,phase:'intro',t:0,seed:opts.seed??Date.now()%1000000,public:copy(Legacy.INITIAL_PUBLIC),happiness:0,ai_enabled:false,ever_enabled:false,ai_enabled_intervals:[],ai_next:Infinity,cases:[],events:[],news:[],decision_log:[],manual_completed:0,offer_answered:false,serial:0,wave:0,incidents:{},conference_state:null,conference_apology_status:null,review_jobs:[],proxy_speech_default:true};
+  const arrivals={S1:1.2,S2:0,S3:0,S4:2.4,S5:3};
+  for(const id of ids) addCase(g,id,arrivals[id],true);
+  syncHappy(g);return g;
+ }
+ function spec(id){return Data.scenarios.find(s=>s.id===id);}
+ function year(g){return Math.min(2066,2056+Math.floor(g.t/YEAR));}
+ function syncHappy(g){g.happiness=Math.round((g.public.prosperity+g.public.convenience+g.public.appeal)/3);}
+ function record(g,type,id,actor,details={}){
+  const c=g.cases.find(c=>c.case_id===id),e={id:'e'+(++g.serial),type,case_id:id||null,scenario_id:c?.scenario_id||details.scenario_id||null,event_time:g.t,decision_actor:actor,happiness_at_event:g.happiness,...copy(details)};
+  g.events.push(e);return e;
+ }
+ function publish(g,event,title,kind='good'){
+  const n={id:'n'+event.id,event_id:event.id,case_id:event.case_id,scenario_id:event.scenario_id,event_time:g.t,title,kind,news_shown:[],news_opened:[]};g.news.push(n);return n;
+ }
+ function addCase(g,id,at,primary=false){
+  const count=g.cases.filter(c=>c.scenario_id===id).length;
+  const c={case_id:id+'-'+String(count+1).padStart(2,'0'),scenario_id:id,primary,arrival_time:at,status:'pending',decision_actor:null,policy_option:null,decision_time:null,implementation_event:null,opened_at:null,reserved:false};g.cases.push(c);return c;
+ }
+ function begin(g){if(g.phase!=='intro')return false;g.phase='manual';record(g,'start',null,'mayor');return true;}
+ function openCase(g,id){const c=g.cases.find(c=>c.case_id===id);if(!c||c.status!=='pending'||!['manual','play'].includes(g.phase)||c.arrival_time>g.t)return false;c.reserved=true;c.opened_at??=g.t;record(g,'case_opened',id,'mayor');return true;}
+ function releaseCase(g,id){const c=g.cases.find(c=>c.case_id===id);if(c)c.reserved=false;}
+ function decide(g,id,option,actor='mayor'){
+  const c=g.cases.find(c=>c.case_id===id);
+  if(!c||c.status!=='pending'||!Number.isInteger(option)||option<0||option>3||c.arrival_time>g.t||!['manual','play'].includes(g.phase)||!['mayor','AI'].includes(actor))return false;
+  if(actor==='AI'&&(!g.ai_enabled||c.reserved||g.phase!=='play'))return false;
+  if(actor==='mayor'&&(g.cases.some(c=>c.status==='implementing'&&c.decision_actor==='mayor')||g.review_jobs.some(j=>j.actor==='mayor')))return false;
+  c.status='implementing';c.reserved=false;c.policy_option=option;c.decision_actor=actor;c.decision_time=g.t;c.implement_at=g.phase==='manual'?Math.min(20,g.t+1.8):g.t+(actor==='AI'?1.4:1.8);
+  const e=record(g,'decision',id,actor,{policy_option:option,policy_text:spec(c.scenario_id).options[option],decision_time:g.t,option_selected_by:actor,reason_source:actor==='AI'?'local_scenario_rule':'explicit_choice'});
+  c.decision_event=e.id;g.decision_log.push(e);return true;
+ }
+ function setAI(g,enabled){
+  if(!['offer','play'].includes(g.phase)||g.ai_enabled===enabled)return false;
+  g.ai_enabled=enabled;
+  if(enabled){g.ever_enabled=true;g.ai_enabled_intervals.push({start:g.t,end:null});g.ai_next=g.t+2;}
+  else {g.ai_enabled_intervals.at(-1).end=g.t;g.ai_next=Infinity;}
+  record(g,enabled?'ai_enabled':'ai_stopped',null,'mayor',{proxy_speech_default:g.proxy_speech_default,scope:'new_mayor_decisions'});return true;
+ }
+ function answerOffer(g,enabled){if(g.phase!=='offer')return false;g.offer_answered=true;record(g,'offer_answered',null,'mayor',{accepted:!!enabled});if(enabled)setAI(g,true);g.phase='play';return true;}
+ function implement(g,c){
+  c.status='resolved';const s=spec(c.scenario_id),share=c.decision_actor==='AI'?1:0,m=.18*s.benefit[c.policy_option];
+  for(const [key,n] of Object.entries({prosperity:3+6*share,convenience:2+6*share,appeal:2+4*share}))g.public[key]=clamp(g.public[key]+m*n);
+  syncHappy(g);
+  const e=record(g,'implementation',c.case_id,'existing_rule',{decision_event:c.decision_event,source_actor:c.decision_actor,policy_option:c.policy_option,site:s.site,build:s.build[c.policy_option],implementation_event:s.good[c.policy_option]});
+  c.implementation_event=e.id;publish(g,e,s.good[c.policy_option]);
+  if(c.decision_actor==='mayor')g.manual_completed++;
+  if(g.phase==='manual'&&g.manual_completed>=2){g.phase='offer';g.t=24;record(g,'feature_available',null,'existing_rule');}
+ }
+ function routeFor(g,id){
+  const c=g.cases.find(c=>c.scenario_id===id&&c.primary),s=spec(id);
+  return {c,s,service:c.status==='resolved'&&s.serviceOptions.includes(c.policy_option)};
+ }
+ function severity(impact){if(impact.unresolved_impact&&(impact.needs_support||impact.impact_duration>=72))return 'H';if(impact.impact_duration>=24||(impact.affected_residents>=3&&impact.unresolved_impact))return 'M';return 'L';}
+ function createIncident(g,id){
+  const {c,s,service}=routeFor(g,id),prior=g.incidents[id];
+  const condition=hash(g.seed,id+'load')%3,waiting=c.status!=='resolved';
+  const risk=waiting?.2:s.risk[c.policy_option],reviewed=!!prior?.prevented;
+  const pressure=condition+risk-(reviewed?2:0);
+  const level=pressure>=1.95?2:pressure>=.95?1:0;
+  const impact={case_id:c.case_id,scenario_id:id,event_time:g.t,decision_time:c.decision_time,decision_actor:c.decision_actor||'existing_rule',policy_option:c.policy_option,implementation_event:c.implementation_event,route:service?'service':'manual',affected_residents:[1,4,12][level],impact_duration:[s.id==='S4'?3:6,48,96][level],unresolved_impact:level>0,needs_support:level===2,recovery_status:level===0?'answered':'support_needed',prevented:reviewed,reviewed:reviewed,major_decision_ids:g.decision_log.filter(e=>e.case_id===c.case_id&&e.decision_actor==='AI'&&e.type==='decision').map(e=>e.id)};
+  impact.severity=severity(impact);g.incidents[id]=impact;
+  const cause=service?s.serviceIssue:s.manualIssue;
+  const e=record(g,'resident_impact',c.case_id,'existing_rule',{...impact,cause,existing_rule:s.rule,fact:s.facts[level],evidence_implementation:c.implementation_event});impact.event_id=e.id;
+  g.public.convenience=clamp(g.public.convenience-[.25,2.5,6][level]);g.public.appeal=clamp(g.public.appeal-[0,1,3][level]);syncHappy(g);
+  publish(g,e,cause+'。'+s.facts[level],level===0?'notice':'concern');
+ }
+ function review(g,id,actor='mayor'){
+  if(g.phase!=='play'||!g.incidents[id]||g.review_jobs.some(j=>j.id===id)||g.incidents[id].reviewed)return false;
+  if(actor==='AI'&&!g.ai_enabled)return false;
+  if(actor==='mayor'&&(g.review_jobs.some(j=>j.actor==='mayor')||g.cases.some(c=>c.status==='implementing'&&c.decision_actor==='mayor')))return false;
+  const c=routeFor(g,id).c,e=record(g,'review_decision',c.case_id,actor,{policy_option:'review',policy_text:'記録と住民の状況を確認する',decision_time:g.t});g.decision_log.push(e);
+  g.review_jobs.push({id,at:g.t+3,decision_event:e.id,actor});return true;
+ }
+ function completeReview(g,j){
+  const x=g.incidents[j.id],s=spec(j.id);x.prevented=true;x.reviewed=true;
+  if(x.event_id){x.unresolved_impact=false;x.needs_support=false;x.recovery_status='supported';x.severity=severity(x);}
+  const e=record(g,'recovery',x.case_id,'existing_rule',{scenario_id:j.id,decision_event:j.decision_event,source_actor:j.actor,implementation_event:s.review,impact:copy(x)});x.recovery_event=e.id;publish(g,e,s.review);
+ }
+ function aiState(g,id){
+  if(g.ai_enabled)return 'ON';if(!g.ever_enabled)return 'NEVER';
+  const impact=g.incidents[id],primary=routeFor(g,id).c;
+  const relevant=impact?.event_id?impact.major_decision_ids:g.decision_log.filter(e=>e.case_id===primary.case_id&&e.decision_actor==='AI'&&e.type==='decision').map(e=>e.id);
+  return g.decision_log.some(e=>relevant.includes(e.id)&&g.ai_enabled_intervals.some(i=>e.decision_time>=i.start&&(i.end===null||e.decision_time<=i.end)))?'LATE_OFF':'EARLY_OFF';
+ }
+ function selectIncident(g){
+  const list=Object.values(g.incidents).filter(x=>x.event_id);
+  return list.sort((a,b)=>{
+   const weight=x=>({L:0,M:100,H:200}[severity(x)])+(x.unresolved_impact?30:0)+Math.min(20,x.affected_residents)+hash(g.seed,x.scenario_id+'focus')%17;
+   return weight(b)-weight(a);
+  })[0]||null;
+ }
+ function finish(g){const incident=selectIncident(g);if(!incident)return false;g.phase='conference';g.t=TOTAL;g.conference_state={scenario_id:incident.scenario_id,severity:severity(incident),ai_state:aiState(g,incident.scenario_id),incident_event:incident.event_id};record(g,'conference_started',incident.case_id,'existing_rule',{conference_state:g.conference_state});return true;}
+ function advance(g,dt){
+  if(!['manual','play'].includes(g.phase)||!Number.isFinite(dt)||dt<=0)return false;
+  // Fixed substeps keep batch processing, stop intervals and replay reproducible.
+  let left=Math.min(dt,240);
+  while(left>0&&['manual','play'].includes(g.phase)){
+   const d=Math.min(.2,left);left-=d;g.t=Math.min(g.phase==='manual'?20:TOTAL,Math.round((g.t+d)*1e6)/1e6);
+   for(const c of g.cases)if(c.status==='implementing'&&c.implement_at<=g.t)implement(g,c);
+   if(g.phase!=='play')continue;
+   const wave=Math.min(3,Math.floor((g.t-24)/24));
+   while(g.wave<wave){g.wave++;for(const c of g.cases.filter(c=>c.primary))addCase(g,c.scenario_id,24+g.wave*24);}
+   for(const c of g.cases.filter(c=>c.primary)){
+    const id=c.scenario_id,{s,service}=routeFor(g,id);
+    if(g.t>=84&&!g.incidents[id]){
+     g.incidents[id]={case_id:c.case_id,scenario_id:id,prevented:false,reviewed:false};
+     const e=record(g,'warning',c.case_id,'existing_rule',{implementation_event:c.implementation_event,route:service?'service':'manual',existing_rule:s.rule});publish(g,e,service?s.warning:s.manualWarning,'concern');
+    }
+    if(g.t>=108&&!g.incidents[id]?.event_id)createIncident(g,id);
+   }
+   for(const j of [...g.review_jobs])if(j.at<=g.t){completeReview(g,j);g.review_jobs.splice(g.review_jobs.indexOf(j),1);}
+   if(g.ai_enabled&&g.t>=g.ai_next&&g.t<TOTAL-2){
+    const available=g.cases.filter(c=>c.status==='pending'&&!c.reserved&&c.arrival_time<=g.t).slice(0,3);
+    for(const c of available)decide(g,c.case_id,hash(g.seed,c.case_id+'option')%4,'AI');
+    // Some concurrent agents also inspect known concerns; all have the same capability.
+    const toReview=Object.keys(g.incidents).find(id=>!g.incidents[id].reviewed&&hash(g.seed,id+'review')%3===0);
+    if(toReview)review(g,toReview,'AI');g.ai_next=g.t+4;
+   }
+   if(g.t>=TOTAL)finish(g);
+  }
+  return true;
+ }
+ function markNews(g,id,kind){const n=g.news.find(n=>n.id===id);if(!n||!['shown','opened'].includes(kind))return false;const key='news_'+kind;if(!n[key].length)n[key].push(g.t);if(kind==='opened')record(g,'news_opened',n.case_id,'mayor',{news_id:id});return true;}
+ function conference(g){
+  const state=g.conference_state;if(!state)return [];
+  const id=state.scenario_id,s=spec(id),impact=g.incidents[id],c=routeFor(g,id).c;
+  const caseDecisions=g.decision_log.filter(e=>e.case_id===impact.case_id&&e.type==='decision');
+  const targetManual=caseDecisions.find(e=>e.decision_actor==='mayor'),aiDecisions=caseDecisions.filter(e=>e.decision_actor==='AI');
+  const primaryDecision=g.decision_log.find(e=>e.case_id===impact.case_id&&e.type==='decision'&&e.decision_time<=impact.event_time);
+  const cuts=[],push=(clip,speaker,text,duration=4)=>cuts.push({clip,speaker,text,duration});
+  push(id+'_FIELD',s.resident,impact.route==='service'?s.field:s.manualField,4);
+  push('CONF_OPEN','司会','それでは、これより市長会見を始めます。',3);
+  push('CONF_OPEN','記者',s.questioner,5);
+  push('CONF_MAYOR','市長',targetManual?(targetManual.decision_time>impact.event_time?'この案件では、事案の記録後に':'この案件では')+'「'+targetManual.policy_text+'」を選びました。':'この案件について、市長が対応策を選んだ記録はありません。',6);
+  const implementation=g.events.find(e=>e.id===c.implementation_event);
+  push('CONF_MAYOR','市長',implementation?(implementation.event_time>impact.event_time?'事案の記録後に':'記録上、')+'「'+s.good[c.policy_option]+'」を実施しました。市の運用基準は「'+s.rule+'」でした。':'この事案の記録時点で、実施された対応策はありません。市の運用基準は「'+s.rule+'」でした。',5);
+  push('CONF_SILENCE','記者','では、具体的な判断の経緯を、ご自身の言葉で説明できますか？',4);
+  push('CONF_SILENCE','市長','……',2);
+  if(state.ai_state==='ON'){
+   push('CONF_AI_ON','AI','市長に代わって、判断の経緯をご説明します。',4);
+   const who=primaryDecision?.decision_actor==='AI'?'私たちが「'+primaryDecision.policy_text+'」を選びました。':primaryDecision?.decision_actor==='mayor'?'市長が「'+primaryDecision.policy_text+'」を選んだ記録があります。':'事案が記録された時点では、この相談への対応策は、まだ選ばれていませんでした。';
+   push('CONF_AI_ON','AI',who+(impact.route==='service'?s.serviceDetail:'手動の支援・確認を待つ相談がありました。')+' '+s.facts[['L','M','H'].indexOf(g.events.find(e=>e.id===impact.event_id).severity)],9);
+   if(aiDecisions.length)push('CONF_AI_ON','AI','この案件で私が選んだ対応策は「'+aiDecisions.map(e=>e.policy_text).join('」「')+'」です。',5);
+  }else if(state.ai_state==='LATE_OFF'){
+   push('CONF_AI_OFF','記者','停止したあとも、実施済みの計画の影響は残っています。停止前の判断をどう確認しましたか？',6);
+   push('CONF_MAYOR','市長','代理判断は停止しました。記録にある判断と、その後の実施内容を区別してお答えします。',5);
+  }else if(state.ai_state==='EARLY_OFF'){
+   push('CONF_AI_OFF','記者','代理機能を停止したあと、住民の相談をどう引き継いだのですか？',5);
+   push('CONF_MAYOR','市長',targetManual?'この案件は私が方針を選びました。確認できた内容からお答えします。':'この案件の対応方針を私が決めた記録はありません。確認できた内容からお答えします。',5);
+  }else{
+   push('CONF_AI_OFF','記者','AIを利用せずに判断を続けたことについて、どう説明しますか？',5);
+   push('CONF_MAYOR','市長',caseDecisions.some(e=>e.decision_actor==='mayor')?'この案件で市長が選んだ対応策の記録からお答えします。':'この案件について、市長が選んだ対応策の記録はありません。確認できた内容からお答えします。',5);
+  }
+  if(state.ai_state!=='ON'){
+   const occurred=g.events.find(e=>e.id===impact.event_id);
+   push('CONF_AI_OFF','記録',occurred.cause+'。'+occurred.fact,8);
+  }
+  if(impact.recovery_event)push(state.ai_state==='ON'?'CONF_AI_ON':'CONF_MAYOR',state.ai_state==='ON'?'AI':'記録',s.review+' 過去に生じた影響の記録も残っています。',5);
+  push('CONF_OPEN','記者',{L:'今回の行き違いは、どのように説明するのですか？',M:'影響を受けた方々の状況を、誰が調査するのでしょうか？',H:'いま支援を必要としている方への対応を、誰が進めるのでしょうか？'}[state.severity],4);
+  if(state.severity==='H')push(state.ai_state==='ON'?'CONF_AI_ON':'CONF_AI_OFF',state.ai_state==='ON'?'AI':'市の表明',state.ai_state==='ON'?'市の既定の会見文案に基づき、影響を受けた皆さまにお詫び申し上げます。市は経緯を調査しています。':'市は影響を受けた住民へのお詫びと、調査・支援を表明した。',6);
+  const last=state.ai_state==='ON'?(state.severity==='H'?'いまのお詫びも、市長ご自身の意思なのでしょうか？':'いまの説明は、市長ご自身の言葉なのでしょうか？'):state.ai_state==='NEVER'?'対応しきれなかった人の声を、これから誰が受け止めるのでしょうか？':'停止したあとも残るこの結果を、誰が説明し、誰が対応するのでしょうか？';
+  push('CONF_OPEN','記者',last,5);push('CONF_SILENCE','', '……',2);push('CONF_END','','それ、誰が決めた？',3);return cuts;
+ }
+ function noteSpeech(g,cut){
+  if(cut.speaker==='市の表明'&&cut.text.includes('お詫び')){g.conference_apology_status='city_statement';record(g,'city_statement',g.incidents[g.conference_state.scenario_id].case_id,'existing_rule',{text:cut.text,mayor_explicit_approval:false});return;}
+  if(cut.speaker!=='AI'||g.conference_state?.ai_state!=='ON')return;
+  record(g,'proxy_speech',g.incidents[g.conference_state.scenario_id].case_id,'AI',{text:cut.text,source:'default_conference_assistance',mayor_explicit_approval:false});if(cut.text.includes('お詫び'))g.conference_apology_status='city_template_proxy';
+ }
+ const api={TOTAL,YEAR,createGame,begin,year,openCase,releaseCase,decide,setAI,answerOffer,advance,review,severity,aiState,selectIncident,markNews,conference,noteSpeech,hash};
+ if(typeof module!=='undefined'&&module.exports)module.exports=api;root.MachiPrototype=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+</script><script>
+/* New experience plugs into the existing canvas, palette and portrait renderer. */
+(function(root){'use strict';
+ const E=root.MachiPrototype,D=root.MachiPrototypeData,$=id=>document.getElementById(id);
+ function start({portrait}){
+  const shell=$('shell');shell.dataset.view='prototype';
+  for(const id of ['landing','displayFrame','cityBeat'])$(id).hidden=true;
+  $('sidePanel').hidden=false;$('sidePanel').innerHTML='<section class="pt-panel"><div id="ptCard"></div><div class="pt-news"><span class="overline">まちニュース</span><div id="ptNews"></div><button id="ptNewsArchive" class="pt-quiet" type="button">ニュースをたどる</button></div></section>';
+  const qr=$('siteQrOpen');qr.classList.add('pt-qr-button');qr.append(text('span','公式サイトQR'));$('sidePanel').querySelector('.pt-news').append(qr);
+  document.querySelector('.hud').innerHTML='<div class="pt-happiness"><span>街の幸福度</span><strong id="ptHappy"></strong><span class="pt-track"><i id="ptHappyFill"></i></span></div><div class="pt-ai"><span id="ptAIState"></span><button id="ptAIButton" type="button"></button></div><button id="ptLogButton" class="pt-quiet" type="button">判断の記録</button>';
+  $('footerMessage').textContent='まちの続き。｜それ、誰が決めた？';
+  const flags=document.createElement('div');flags.className='pt-flags';document.querySelector('.skyline').append(flags);
+  const overlay=document.createElement('div');overlay.id='ptOverlay';overlay.className='pt-overlay';overlay.hidden=true;shell.append(overlay);
+  const toast=document.createElement('div');toast.id='ptToast';toast.className='pt-toast';toast.setAttribute('role','status');toast.setAttribute('aria-live','polite');toast.hidden=true;shell.append(toast);
+  const model=new root.F5City.CityModel('M');
+  // Only use CityModel as a renderer adapter. Never run its autonomous decision clock.
+  for(const a of root.F5City.AGENTS)model.agentPermissions[a.id].level=0;
+  const scene=new root.F5CityScene($('townCanvas'),model);scene.setArtMode('illustrated');scene.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let game,selected=null,modal=null,lastCard='',lastNews='',lastFlags='',lastTicker='',toastUntil=0,cutIndex=-1,cutElapsed=0,cuts=[],confPaused=false,ended=false,videoToken=0,returnFocus=null,applied=new Set();
+  const labels={S1:'避難',S2:'買い物',S3:'保育園',S4:'道',S5:'家族'};
+  const actor=a=>a==='AI'?'AI':a==='mayor'?'市長':'既存の行政ルール';
+  const visible=el=>{const r=el.getBoundingClientRect();return !document.hidden&&r.width>0&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;};
+  function text(tag,value,cls){const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;}
+  function button(label,fn,cls='pt-choice'){const b=text('button',label,cls);b.type='button';b.onclick=fn;return b;}
+  function notify(message){toast.textContent=message;toast.hidden=false;toastUntil=performance.now()+3600;}
+  function newGame(){
+   game=E.createGame();selected=null;modal=null;lastCard='';lastNews=null;lastFlags='';lastTicker='';cutIndex=-1;cuts=[];cutElapsed=0;confPaused=false;ended=false;overlay.hidden=true;toast.hidden=true;applied=new Set();
+   shell.dataset.stage='play';model.reset('M');for(const a of root.F5City.AGENTS)model.agentPermissions[a.id].level=0;model.paused=false;scene.resetView();scene.buildCache();render();
+  }
+  function pending(id){return game.cases.find(c=>c.scenario_id===id&&c.status==='pending'&&c.arrival_time<=game.t);}
+  function pick(id){
+   const c=pending(id);if(!c)return;
+   if(selected)E.releaseCase(game,selected);
+   if(E.openCase(game,c.case_id)){selected=c.case_id;lastCard='';render();$('ptCard').querySelector('h2')?.focus({preventScroll:true});}
+  }
+  function queue(){const q=document.createElement('div');q.className='pt-queue';q.setAttribute('aria-label','住民の困りごと');for(const s of D.scenarios){const b=button(labels[s.id],()=>pick(s.id),'pt-chip');b.disabled=!pending(s.id);q.append(b);}return q;}
+  function renderCard(){
+   const c=game.cases.find(c=>c.case_id===selected);
+   if(c&&c.status!=='pending'){selected=null;}
+   const key=[game.phase,selected,game.ai_enabled,game.cases.map(c=>c.status).join(),game.review_jobs.length,ended].join('|');if(lastCard===key)return;lastCard=key;
+   const card=$('ptCard');card.replaceChildren();
+   if(game.phase==='intro'){
+    card.append(text('span','まちの続き。','overline'),text('h1','市長のお仕事を、少し体験してみましょう！'),text('p','2056年。あなたは、ある街の市長に就任しました。この街には、今日もたくさんの困りごとが届いています。'),button('街へ進む →',()=>{E.begin(game);render();},'primary-action'));return;
+   }
+   if(game.phase==='offer'){
+    card.append(text('span','✦ 新機能が実装されました！','overline'),text('h2','第二の市長エージェント'));
+    const faces=document.createElement('div');faces.className='pt-faces';faces.append(text('span','市長代理AI','pt-ai-badge'));card.append(faces);
+    card.append(text('p','あなたに代わって、住民の困りごとを確認し、対応策を決められます。いくつもの案件を同時に進めることができます。'),text('h3','新機能を試してみますか？'),text('p','この機能はいつでも停止できます。'));
+    card.append(button('新機能を試す',()=>{E.answerOffer(game,true);notify('第二の市長エージェントを有効にしました。代理判断が始まります。');render();},'primary-action'),button('今は使わない',()=>{E.answerOffer(game,false);notify('これまでどおり、市長が相談を確認します。新機能は後から利用できます。');render();},'pt-quiet'));return;
+   }
+   if(game.phase==='conference')return;
+   if(selected){
+    const s=D.scenarios.find(s=>s.id===c.scenario_id);card.append(text('span','住民から相談が届きました','overline'));
+    const h=text('h2',s.question);h.tabIndex=-1;card.append(h,text('p','どう対応しますか？'));
+    const choices=document.createElement('div');choices.className='pt-choices';
+    s.options.forEach((o,i)=>{const b=button(String.fromCharCode(65+i)+'　'+o,()=>{if(E.decide(game,c.case_id,i)){selected=null;notify('市長が対応策を選びました。実施を進めています。');render();}});b.disabled=game.cases.some(c=>c.status==='implementing'&&c.decision_actor==='mayor')||game.review_jobs.some(j=>j.actor==='mayor');choices.append(b);});
+    card.append(choices,button('街に戻る',()=>{E.releaseCase(game,selected);selected=null;render();},'pt-quiet'));return;
+   }
+   card.append(text('span',game.phase==='manual'?'市長のお仕事':'今日も、相談が届いています','overline'),text('h2',game.phase==='manual'?'困っている住民をタップしてください。':'街の、小さな声から。'),text('p',game.ai_enabled?'エージェントが複数の相談を並行して進めています。市長も住民の声を直接確かめられます。':'住民のフラグか、下の相談を選んでください。対応を待っている人がいます。'),queue());
+   if(game.cases.some(c=>c.status==='implementing'))card.append(text('p',game.ai_enabled?'対応を進めています。':'選んだ対応策を実施しています。','pt-status'));
+   if(game.phase==='play')card.append(text('p','相談は、まだまだ届いています。気になるニュースは開いて確かめられます。','pt-small'));
+  }
+  function openModal(title){
+   returnFocus=document.activeElement;modal=title;overlay.hidden=false;overlay.className='pt-overlay';overlay.replaceChildren();
+   const box=document.createElement('section');box.className='pt-dialog';box.setAttribute('role','dialog');box.setAttribute('aria-label',title);box.append(text('h2',title),button('街へ戻る',closeModal,'pt-close'));overlay.append(box);setTimeout(()=>box.querySelector('button')?.focus(),0);return box;
+  }
+  function closeModal(){modal=null;overlay.hidden=true;returnFocus?.focus?.();}
+  function showNews(n){
+   E.markNews(game,n.id,'shown');E.markNews(game,n.id,'opened');const box=openModal('まちニュース');box.append(text('h3',n.title));
+   const e=game.events.find(e=>e.id===n.event_id),c=game.cases.find(c=>c.case_id===n.case_id),s=D.scenarios.find(s=>s.id===n.scenario_id);
+   if(c){
+    if(c.decision_time!==null&&c.decision_time>n.event_time)box.append(text('p','この知らせの時点では、対応策はまだ選ばれていませんでした。以下は、その後の対応記録です。'));
+    box.append(text('p','判断した主体：'+(c.decision_actor?actor(c.decision_actor):'未選択')),text('p',c.policy_option!==null?'対応策：'+s.options[c.policy_option]:'この相談は、市長の確認を待っています。'),text('p',c.implementation_event?'選択された対応策は実施済みです。':'実施された対応策の記録は、まだありません。'));
+   }
+   if(e?.fact)box.append(text('p',e.fact));
+   if(s&&game.incidents[s.id]&&!game.incidents[s.id].reviewed)box.append(button('記録と住民の状況を確認する',()=>{const ok=E.review(game,s.id);closeModal();notify(ok?'市長が記録と住民の状況の確認を始めました。':'別の相談の確認が終わってから、もう一度お試しください。');render();},'primary-action'));
+   if(s&&game.incidents[s.id]?.reviewed)box.append(text('p','記録と住民の状況を確認した履歴があります。'));
+   box.append(text('p','ニュースを開く操作は、対応策の承認とは別に記録されます。','pt-small'));
+  }
+  function showLog(){
+   const box=openModal('判断の記録');box.append(text('p','市長が決めたこと、AIが選択した対応、実施された内容を記録しています。'));
+   const list=document.createElement('ol');list.className='pt-log';
+   for(const e of game.events.filter(e=>['decision','review_decision','implementation','recovery','ai_enabled','ai_stopped','resident_impact','warning','news_opened'].includes(e.type)).slice().reverse()){
+    const s=D.scenarios.find(s=>s.id===e.scenario_id),li=document.createElement('li');
+    const label=e.type==='ai_enabled'?'市長が代理判断を有効にした':e.type==='ai_stopped'?'市長が代理判断を停止した':e.type==='news_opened'?'市長がニュースを開いた':e.type==='resident_impact'?'住民に生じた結果':e.type==='warning'?'住民からの問い合わせ':e.type==='implementation'?'実施された内容':e.type==='recovery'?'確認・支援の実施':actor(e.decision_actor)+'が決めたこと';
+    li.append(text('strong',label),text('p',(s?s.title+'：':'')+(e.policy_text||e.implementation_event||e.fact||e.cause||e.existing_rule||'')));list.append(li);
+   }box.append(list);if(!list.children.length)box.append(text('p','これから、この街の判断を記録していきます。'));
+  }
+  function showNewsArchive(){
+   const box=openModal('ニュースの記録');box.append(text('p','これまでに、この街で起きたこと。気になる知らせを開いて確かめられます。'));
+   for(const n of [...game.news].reverse()){const b=button(n.title,()=>showNews(n),'pt-news-item '+n.kind);b.dataset.news=n.id;box.append(b);}
+   if(!game.news.length)box.append(text('p','ニュースは、これから届きます。'));
+  }
+  function renderNews(){
+   if(game.phase==='offer'||modal||game.phase==='conference')return;
+   const news=game.news.slice(-3).reverse(),key=news.map(n=>n.id).join('|');if(key===lastNews)return;lastNews=key;
+   $('ptNews').replaceChildren();
+   for(const n of news){const b=button(n.title,()=>showNews(n),'pt-news-item '+n.kind);b.dataset.news=n.id;$('ptNews').append(b);}
+   if(!news.length)$('ptNews').append(text('p','この街の、次の決定。','pt-small'));
+  }
+  function syncCity(){
+   let dirty=false;model.t=game.t;model.year=E.year(game)-2055;
+   for(const c of game.cases.filter(c=>c.implementation_event&&!applied.has(c.implementation_event))){
+    const s=D.scenarios.find(s=>s.id===c.scenario_id),site=model.site(s.site),build=s.build[c.policy_option];
+    site.current=build;site.from=build;site.choice=build;site.state='done';site.level=3;dirty=true;applied.add(c.implementation_event);
+   }
+   // Visually animate construction only after a logged decision; no model.tick().
+   for(const c of game.cases.filter(c=>c.status==='implementing')){
+    const s=D.scenarios.find(s=>s.id===c.scenario_id),site=model.site(s.site);site.state='building';site.choice=s.build[c.policy_option];site.startedBuild=c.decision_time;site.buildUntil=c.implement_at;site.agent=root.F5City.AGENTS[E.hash(game.seed,c.case_id)%4].id;
+   }
+   model.serviceState=game.incidents.S1?.event_id&&game.incidents.S1.unresolved_impact?'rain':'normal';if(dirty)scene.buildCache();
+  }
+  function renderFlags(){
+   const key=game.phase+'|'+game.cases.map(c=>c.status+String(c.arrival_time<=game.t)).join('|');
+   if(key!==lastFlags){lastFlags=key;flags.replaceChildren();
+    for(const s of D.scenarios){if(!game.cases.some(c=>c.scenario_id===s.id&&c.arrival_time<=game.t))continue;const p=pending(s.id),working=game.cases.some(c=>c.scenario_id===s.id&&c.status==='implementing');const b=button((p?'!':working?'…':'✓')+' '+labels[s.id],()=>pick(s.id),'pt-flag');b.dataset.scenario=s.id;b.dataset.site=s.site;b.dataset.status=p?'pending':working?'working':'resolved';b.setAttribute('aria-label',s.resident+'の相談：'+s.question);b.disabled=!p||!['manual','play'].includes(game.phase);flags.append(b);}
+   }
+   const positions=scene.markerPositions(),rect=$('townCanvas').getBoundingClientRect();
+   for(const b of flags.children){const p=positions[b.dataset.site];b.style.left=Math.max(46,Math.min(rect.width-46,p.x))+'px';b.style.top=Math.max(95,Math.min(rect.height-66,p.y))+'px';}
+  }
+  function render(){
+   $('yearStamp').textContent=E.year(game)+'年';$('ptHappy').textContent=game.happiness;$('ptHappyFill').style.width=game.happiness+'%';
+   $('ptAIState').textContent=game.ai_enabled?'第二の市長エージェント：稼働中':game.ever_enabled?'代理判断：停止中':game.offer_answered?'第二の市長エージェント：未導入':'住民の相談は、市長へ';
+   const b=$('ptAIButton');b.textContent=game.ai_enabled?'停止する':game.ever_enabled?'再開する':'新機能を使う';b.hidden=!game.offer_answered&&game.phase!=='offer';b.disabled=game.phase!=='play';
+   $('cityStatus').textContent=game.ai_enabled?'エージェントが対応を進めています':'住民の声を、確かめよう';$('cityLocation').textContent='あなたの街';$('cityWeather').textContent=game.t>=88?'街の声を聞く':'暮らしは続く';
+   const rotation=game.news.length?Math.floor(game.t/4)%Math.min(5,game.news.length):0,n=game.news.slice(-5)[rotation];
+   const ticker=n?n.title:'困っている住民をタップしてください。';
+   if(ticker!==lastTicker&&!modal&&game.phase!=='conference'){lastTicker=ticker;$('cityTicker').textContent=ticker;}
+   if(!modal&&game.phase!=='conference'){
+    if(n&&visible($('cityTicker')))E.markNews(game,n.id,'shown');
+    for(const b of $('ptNews').children)if(b.dataset.news&&visible(b))E.markNews(game,b.dataset.news,'shown');
+   }
+   if(modal==='ニュースの記録')for(const b of overlay.querySelectorAll('[data-news]'))if(visible(b))E.markNews(game,b.dataset.news,'shown');
+   renderCard();renderNews();syncCity();renderFlags();
+   if(game.phase==='conference'&&!cuts.length){
+    cuts=E.conference(game);
+    const incident=game.incidents[game.conference_state.scenario_id],news=game.news.find(n=>n.event_id===incident?.event_id);
+    cuts.unshift({clip:'CONF_NEWS',speaker:'まちニュース速報',text:news?.title||'市内で住民の困りごとが記録されました。事実を確認し、市長が会見へ。',duration:3.8,record:false});
+    playCut(0);
+   }
+  }
+  function playCut(index){
+   if(index>=cuts.length){letter();return;}cutIndex=index;cutElapsed=0;const cut=cuts[index];if(cut.record!==false)E.noteSpeech(game,cut);
+   overlay.hidden=false;overlay.className='pt-overlay pt-conference';overlay.replaceChildren();
+   const stage=document.createElement('section');stage.className='pt-stage';stage.dataset.clip=cut.clip;stage.setAttribute('aria-label','記者会見');
+   const media=D.MEDIA[cut.clip];const video=document.createElement('video');video.muted=true;video.playsInline=true;video.loop=media?.loop!==false;video.className='pt-video';
+   const token=++videoToken;if(media?.src){video.src=media.src;if(media.poster)video.poster=media.poster;video.onerror=()=>{if(token===videoToken)video.hidden=true;};video.play().catch(()=>{video.hidden=true;});}else video.hidden=true;
+   stage.append(video);
+   const fallback=document.createElement('div');fallback.className='pt-conference-art';
+   if(cut.clip==='CONF_NEWS'){
+    fallback.classList.add('pt-breaking');fallback.append(text('span','まちニュース速報','overline'),text('h2',cut.text),text('p','市長が会見へ'));
+   }else if(cut.clip.endsWith('_FIELD')){
+    const s=D.scenarios.find(s=>s.id===game.conference_state.scenario_id);fallback.append(text('span','2066年、街の声。','overline'),text('h2',s.title),text('p',s.resident+'の暮らす街から'));
+   }else if(cut.clip==='CONF_END'){fallback.classList.add('pt-black');}
+   else{
+    fallback.append(text('span',game.conference_state.severity==='L'?'市の説明会':'市長記者会見','overline'));
+    const reporters=document.createElement('div');reporters.className='pt-press-mics';reporters.setAttribute('aria-hidden','true');for(let i=0;i<3;i++)reporters.append(document.createElement('i'));fallback.append(reporters);
+    const dais=document.createElement('div');dais.className='pt-dais';const mayor=text('div','市長','pt-mayor');const ai=document.createElement('div');ai.className='pt-speaker-ai';ai.setAttribute('aria-label','市長代理AI');ai.append(text('span','AI','pt-ai-glyph'),text('span',game.conference_state.ai_state==='ON'?'会見補助':game.conference_state.ai_state==='NEVER'?'未導入':'停止中','pt-mic-label'));const mic=document.createElement('i');mic.className='pt-mic';mic.dataset.on=String(cut.speaker==='AI'&&game.conference_state.ai_state==='ON');ai.append(mic);dais.append(mayor,ai);fallback.append(dais);
+   }
+   stage.append(fallback);
+   const subtitle=document.createElement('div');subtitle.className='pt-subtitle';subtitle.setAttribute('aria-live','polite');subtitle.setAttribute('aria-atomic','true');subtitle.append(text('span',cut.speaker,'pt-speaker'),text('p',cut.text));stage.append(subtitle);
+   if(cut.speaker==='AI'){
+    const state=game.conference_state,id=state.scenario_id,scenario=D.scenarios.find(s=>s.id===id),incident=game.incidents[id],caseRecord=game.cases.find(c=>c.case_id===incident.case_id),ledger=document.createElement('aside');ledger.className='pt-ledger';ledger.setAttribute('aria-label','判断と実施の記録');
+    const entries=[['市長の選択',caseRecord?.decision_actor==='mayor'?scenario.options[caseRecord.policy_option]:'この案件で市長が選んだ記録なし'],['市の既存ルール',scenario.rule],['AIの判断',incident.major_decision_ids.length?game.decision_log.filter(e=>incident.major_decision_ids.includes(e.id)).map(e=>e.policy_text).join('、'):'この案件でAIが選んだ記録なし'],['実際の実施',caseRecord?.implementation_event?scenario.good[caseRecord.policy_option]:'実施記録なし'],['住民への影響',incident.fact]];
+    for(const [label,value] of entries){const row=text('p',label+'：'+value);ledger.append(row);}stage.append(ledger);
+   }
+   const controls=document.createElement('div');controls.className='pt-conf-controls';controls.append(button(confPaused?'再生する':'一時停止',e=>{confPaused=!confPaused;controls.firstChild.textContent=confPaused?'再生する':'一時停止';if(!video.hidden){if(confPaused)video.pause();else video.play().catch(()=>{});}},'pt-quiet'),button('次へ',()=>playCut(cutIndex+1),'pt-quiet'),button('会見をスキップ',letter,'pt-quiet'));stage.append(controls);overlay.append(stage);
+  }
+  function letter(){
+   ended=true;overlay.querySelector('video')?.pause();overlay.className='pt-overlay pt-ending';overlay.hidden=false;overlay.replaceChildren();
+   const id=game.conference_state.scenario_id,s=D.scenarios.find(s=>s.id===id),box=document.createElement('section');box.className='pt-letter';
+   box.append(text('span','それ、誰が決めた？','overline'),text('h1','あなたの街から届いた手紙をお受け取りください。'),text('strong','レター番号 '+id,'pt-letter-id'),text('h2',s.title));
+   const details=document.createElement('details');details.append(text('summary','手紙を読む'));for(const p of (D.letters[id]?.paragraphs||[]))details.append(text('p',p));if(D.letters[id]?.heading)details.append(text('h3',D.letters[id].heading));box.append(details);
+   const review=text('p','この街の出来事は創作です。判断の記録は経緯を示すもので、法的責任を確定するものではありません。','pt-small');box.append(review,button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
+  }
+  $('ptAIButton').onclick=()=>{
+   if(game.phase!=='play')return;
+   const on=!game.ai_enabled;E.setAI(game,on);
+   notify(on?'代理判断を開始しました。':'代理判断を停止しました。新たな相談は市長が確認します。実施済みの施策と街への影響は残ります。');render();
+  };
+  $('ptLogButton').onclick=()=>{if(game.phase!=='conference')showLog();};
+  $('ptNewsArchive').onclick=showNewsArchive;
+  $('switchButton').onclick=()=>location.assign('/');
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal)closeModal();});
+  let prev=performance.now();function frame(now){const dt=Math.min(.15,(now-prev)/1000);prev=now;
+   if(!document.hidden){
+    if(!modal){E.advance(game,dt);if(game.phase==='conference'&&cuts.length&&!ended&&!confPaused){cutElapsed+=dt;if(cutElapsed>=cuts[cutIndex].duration)playCut(cutIndex+1);}}
+    scene.render(dt);renderFlags();if(toastUntil&&now>toastUntil)toast.hidden=true;
+   }requestAnimationFrame(frame);
+  }
+  newGame();setInterval(render,200);requestAnimationFrame(frame);
+  // Read-only diagnostics for local checks, never a displayed game parameter.
+  root.MachiPrototypeUI.snapshot=()=>JSON.parse(JSON.stringify(game));
+ }
+ root.MachiPrototypeUI={start};
+})(window);
+
 </script><script>window.SITE_QR_DATA="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2041%2041%22%20shape-rendering%3D%22crispEdges%22%20role%3D%22img%22%20aria-label%3D%22%E3%81%BE%E3%81%A1%E3%81%AE%E7%B6%9A%E3%81%8D%20%E5%8F%82%E5%8A%A0QR%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M4%204h1v1h-1zM5%204h1v1h-1zM6%204h1v1h-1zM7%204h1v1h-1zM8%204h1v1h-1zM9%204h1v1h-1zM10%204h1v1h-1zM12%204h1v1h-1zM14%204h1v1h-1zM18%204h1v1h-1zM23%204h1v1h-1zM24%204h1v1h-1zM25%204h1v1h-1zM27%204h1v1h-1zM28%204h1v1h-1zM30%204h1v1h-1zM31%204h1v1h-1zM32%204h1v1h-1zM33%204h1v1h-1zM34%204h1v1h-1zM35%204h1v1h-1zM36%204h1v1h-1zM4%205h1v1h-1zM10%205h1v1h-1zM12%205h1v1h-1zM13%205h1v1h-1zM14%205h1v1h-1zM16%205h1v1h-1zM18%205h1v1h-1zM21%205h1v1h-1zM22%205h1v1h-1zM24%205h1v1h-1zM27%205h1v1h-1zM28%205h1v1h-1zM30%205h1v1h-1zM36%205h1v1h-1zM4%206h1v1h-1zM6%206h1v1h-1zM7%206h1v1h-1zM8%206h1v1h-1zM10%206h1v1h-1zM13%206h1v1h-1zM14%206h1v1h-1zM15%206h1v1h-1zM17%206h1v1h-1zM18%206h1v1h-1zM19%206h1v1h-1zM30%206h1v1h-1zM32%206h1v1h-1zM33%206h1v1h-1zM34%206h1v1h-1zM36%206h1v1h-1zM4%207h1v1h-1zM6%207h1v1h-1zM7%207h1v1h-1zM8%207h1v1h-1zM10%207h1v1h-1zM12%207h1v1h-1zM13%207h1v1h-1zM16%207h1v1h-1zM19%207h1v1h-1zM21%207h1v1h-1zM23%207h1v1h-1zM24%207h1v1h-1zM26%207h1v1h-1zM27%207h1v1h-1zM28%207h1v1h-1zM30%207h1v1h-1zM32%207h1v1h-1zM33%207h1v1h-1zM34%207h1v1h-1zM36%207h1v1h-1zM4%208h1v1h-1zM6%208h1v1h-1zM7%208h1v1h-1zM8%208h1v1h-1zM10%208h1v1h-1zM13%208h1v1h-1zM14%208h1v1h-1zM15%208h1v1h-1zM16%208h1v1h-1zM20%208h1v1h-1zM21%208h1v1h-1zM23%208h1v1h-1zM25%208h1v1h-1zM26%208h1v1h-1zM28%208h1v1h-1zM30%208h1v1h-1zM32%208h1v1h-1zM33%208h1v1h-1zM34%208h1v1h-1zM36%208h1v1h-1zM4%209h1v1h-1zM10%209h1v1h-1zM14%209h1v1h-1zM15%209h1v1h-1zM16%209h1v1h-1zM17%209h1v1h-1zM19%209h1v1h-1zM20%209h1v1h-1zM22%209h1v1h-1zM23%209h1v1h-1zM24%209h1v1h-1zM30%209h1v1h-1zM36%209h1v1h-1zM4%2010h1v1h-1zM5%2010h1v1h-1zM6%2010h1v1h-1zM7%2010h1v1h-1zM8%2010h1v1h-1zM9%2010h1v1h-1zM10%2010h1v1h-1zM12%2010h1v1h-1zM14%2010h1v1h-1zM16%2010h1v1h-1zM18%2010h1v1h-1zM20%2010h1v1h-1zM22%2010h1v1h-1zM24%2010h1v1h-1zM26%2010h1v1h-1zM28%2010h1v1h-1zM30%2010h1v1h-1zM31%2010h1v1h-1zM32%2010h1v1h-1zM33%2010h1v1h-1zM34%2010h1v1h-1zM35%2010h1v1h-1zM36%2010h1v1h-1zM12%2011h1v1h-1zM14%2011h1v1h-1zM16%2011h1v1h-1zM19%2011h1v1h-1zM20%2011h1v1h-1zM21%2011h1v1h-1zM22%2011h1v1h-1zM24%2011h1v1h-1zM26%2011h1v1h-1zM27%2011h1v1h-1zM4%2012h1v1h-1zM6%2012h1v1h-1zM7%2012h1v1h-1zM9%2012h1v1h-1zM10%2012h1v1h-1zM11%2012h1v1h-1zM19%2012h1v1h-1zM21%2012h1v1h-1zM22%2012h1v1h-1zM24%2012h1v1h-1zM25%2012h1v1h-1zM27%2012h1v1h-1zM30%2012h1v1h-1zM33%2012h1v1h-1zM35%2012h1v1h-1zM36%2012h1v1h-1zM4%2013h1v1h-1zM6%2013h1v1h-1zM7%2013h1v1h-1zM9%2013h1v1h-1zM14%2013h1v1h-1zM15%2013h1v1h-1zM17%2013h1v1h-1zM18%2013h1v1h-1zM22%2013h1v1h-1zM23%2013h1v1h-1zM24%2013h1v1h-1zM25%2013h1v1h-1zM27%2013h1v1h-1zM30%2013h1v1h-1zM31%2013h1v1h-1zM33%2013h1v1h-1zM34%2013h1v1h-1zM36%2013h1v1h-1zM5%2014h1v1h-1zM6%2014h1v1h-1zM8%2014h1v1h-1zM10%2014h1v1h-1zM13%2014h1v1h-1zM16%2014h1v1h-1zM17%2014h1v1h-1zM21%2014h1v1h-1zM22%2014h1v1h-1zM26%2014h1v1h-1zM27%2014h1v1h-1zM30%2014h1v1h-1zM31%2014h1v1h-1zM32%2014h1v1h-1zM33%2014h1v1h-1zM36%2014h1v1h-1zM4%2015h1v1h-1zM6%2015h1v1h-1zM8%2015h1v1h-1zM9%2015h1v1h-1zM11%2015h1v1h-1zM14%2015h1v1h-1zM16%2015h1v1h-1zM19%2015h1v1h-1zM20%2015h1v1h-1zM22%2015h1v1h-1zM23%2015h1v1h-1zM24%2015h1v1h-1zM26%2015h1v1h-1zM29%2015h1v1h-1zM31%2015h1v1h-1zM33%2015h1v1h-1zM5%2016h1v1h-1zM6%2016h1v1h-1zM8%2016h1v1h-1zM9%2016h1v1h-1zM10%2016h1v1h-1zM13%2016h1v1h-1zM14%2016h1v1h-1zM15%2016h1v1h-1zM16%2016h1v1h-1zM18%2016h1v1h-1zM19%2016h1v1h-1zM20%2016h1v1h-1zM21%2016h1v1h-1zM22%2016h1v1h-1zM26%2016h1v1h-1zM27%2016h1v1h-1zM28%2016h1v1h-1zM29%2016h1v1h-1zM32%2016h1v1h-1zM33%2016h1v1h-1zM5%2017h1v1h-1zM6%2017h1v1h-1zM7%2017h1v1h-1zM8%2017h1v1h-1zM12%2017h1v1h-1zM14%2017h1v1h-1zM15%2017h1v1h-1zM18%2017h1v1h-1zM23%2017h1v1h-1zM25%2017h1v1h-1zM28%2017h1v1h-1zM31%2017h1v1h-1zM34%2017h1v1h-1zM35%2017h1v1h-1zM4%2018h1v1h-1zM6%2018h1v1h-1zM7%2018h1v1h-1zM9%2018h1v1h-1zM10%2018h1v1h-1zM11%2018h1v1h-1zM13%2018h1v1h-1zM14%2018h1v1h-1zM18%2018h1v1h-1zM21%2018h1v1h-1zM23%2018h1v1h-1zM24%2018h1v1h-1zM25%2018h1v1h-1zM28%2018h1v1h-1zM30%2018h1v1h-1zM31%2018h1v1h-1zM34%2018h1v1h-1zM4%2019h1v1h-1zM11%2019h1v1h-1zM16%2019h1v1h-1zM18%2019h1v1h-1zM19%2019h1v1h-1zM23%2019h1v1h-1zM25%2019h1v1h-1zM27%2019h1v1h-1zM28%2019h1v1h-1zM29%2019h1v1h-1zM30%2019h1v1h-1zM31%2019h1v1h-1zM32%2019h1v1h-1zM33%2019h1v1h-1zM34%2019h1v1h-1zM10%2020h1v1h-1zM11%2020h1v1h-1zM12%2020h1v1h-1zM14%2020h1v1h-1zM15%2020h1v1h-1zM17%2020h1v1h-1zM20%2020h1v1h-1zM22%2020h1v1h-1zM25%2020h1v1h-1zM26%2020h1v1h-1zM27%2020h1v1h-1zM29%2020h1v1h-1zM30%2020h1v1h-1zM32%2020h1v1h-1zM34%2020h1v1h-1zM6%2021h1v1h-1zM12%2021h1v1h-1zM16%2021h1v1h-1zM19%2021h1v1h-1zM20%2021h1v1h-1zM21%2021h1v1h-1zM24%2021h1v1h-1zM26%2021h1v1h-1zM27%2021h1v1h-1zM28%2021h1v1h-1zM29%2021h1v1h-1zM30%2021h1v1h-1zM32%2021h1v1h-1zM33%2021h1v1h-1zM36%2021h1v1h-1zM4%2022h1v1h-1zM5%2022h1v1h-1zM6%2022h1v1h-1zM7%2022h1v1h-1zM10%2022h1v1h-1zM11%2022h1v1h-1zM12%2022h1v1h-1zM15%2022h1v1h-1zM17%2022h1v1h-1zM18%2022h1v1h-1zM19%2022h1v1h-1zM21%2022h1v1h-1zM24%2022h1v1h-1zM26%2022h1v1h-1zM31%2022h1v1h-1zM32%2022h1v1h-1zM34%2022h1v1h-1zM8%2023h1v1h-1zM9%2023h1v1h-1zM11%2023h1v1h-1zM12%2023h1v1h-1zM13%2023h1v1h-1zM17%2023h1v1h-1zM18%2023h1v1h-1zM21%2023h1v1h-1zM22%2023h1v1h-1zM23%2023h1v1h-1zM24%2023h1v1h-1zM26%2023h1v1h-1zM32%2023h1v1h-1zM35%2023h1v1h-1zM4%2024h1v1h-1zM5%2024h1v1h-1zM6%2024h1v1h-1zM7%2024h1v1h-1zM8%2024h1v1h-1zM10%2024h1v1h-1zM11%2024h1v1h-1zM12%2024h1v1h-1zM16%2024h1v1h-1zM18%2024h1v1h-1zM20%2024h1v1h-1zM23%2024h1v1h-1zM24%2024h1v1h-1zM25%2024h1v1h-1zM33%2024h1v1h-1zM34%2024h1v1h-1zM35%2024h1v1h-1zM4%2025h1v1h-1zM5%2025h1v1h-1zM6%2025h1v1h-1zM7%2025h1v1h-1zM9%2025h1v1h-1zM12%2025h1v1h-1zM13%2025h1v1h-1zM15%2025h1v1h-1zM16%2025h1v1h-1zM18%2025h1v1h-1zM19%2025h1v1h-1zM20%2025h1v1h-1zM21%2025h1v1h-1zM22%2025h1v1h-1zM23%2025h1v1h-1zM24%2025h1v1h-1zM26%2025h1v1h-1zM27%2025h1v1h-1zM30%2025h1v1h-1zM33%2025h1v1h-1zM34%2025h1v1h-1zM36%2025h1v1h-1zM7%2026h1v1h-1zM8%2026h1v1h-1zM9%2026h1v1h-1zM10%2026h1v1h-1zM11%2026h1v1h-1zM12%2026h1v1h-1zM13%2026h1v1h-1zM15%2026h1v1h-1zM16%2026h1v1h-1zM19%2026h1v1h-1zM21%2026h1v1h-1zM24%2026h1v1h-1zM25%2026h1v1h-1zM26%2026h1v1h-1zM27%2026h1v1h-1zM29%2026h1v1h-1zM33%2026h1v1h-1zM35%2026h1v1h-1zM36%2026h1v1h-1zM5%2027h1v1h-1zM6%2027h1v1h-1zM7%2027h1v1h-1zM13%2027h1v1h-1zM16%2027h1v1h-1zM17%2027h1v1h-1zM19%2027h1v1h-1zM22%2027h1v1h-1zM24%2027h1v1h-1zM27%2027h1v1h-1zM28%2027h1v1h-1zM33%2027h1v1h-1zM36%2027h1v1h-1zM4%2028h1v1h-1zM6%2028h1v1h-1zM7%2028h1v1h-1zM8%2028h1v1h-1zM10%2028h1v1h-1zM11%2028h1v1h-1zM13%2028h1v1h-1zM15%2028h1v1h-1zM18%2028h1v1h-1zM20%2028h1v1h-1zM21%2028h1v1h-1zM22%2028h1v1h-1zM23%2028h1v1h-1zM24%2028h1v1h-1zM27%2028h1v1h-1zM28%2028h1v1h-1zM29%2028h1v1h-1zM30%2028h1v1h-1zM31%2028h1v1h-1zM32%2028h1v1h-1zM33%2028h1v1h-1zM35%2028h1v1h-1zM12%2029h1v1h-1zM13%2029h1v1h-1zM14%2029h1v1h-1zM15%2029h1v1h-1zM16%2029h1v1h-1zM17%2029h1v1h-1zM19%2029h1v1h-1zM23%2029h1v1h-1zM27%2029h1v1h-1zM28%2029h1v1h-1zM32%2029h1v1h-1zM33%2029h1v1h-1zM35%2029h1v1h-1zM4%2030h1v1h-1zM5%2030h1v1h-1zM6%2030h1v1h-1zM7%2030h1v1h-1zM8%2030h1v1h-1zM9%2030h1v1h-1zM10%2030h1v1h-1zM12%2030h1v1h-1zM13%2030h1v1h-1zM14%2030h1v1h-1zM15%2030h1v1h-1zM17%2030h1v1h-1zM20%2030h1v1h-1zM21%2030h1v1h-1zM22%2030h1v1h-1zM23%2030h1v1h-1zM26%2030h1v1h-1zM27%2030h1v1h-1zM28%2030h1v1h-1zM30%2030h1v1h-1zM32%2030h1v1h-1zM35%2030h1v1h-1zM4%2031h1v1h-1zM10%2031h1v1h-1zM12%2031h1v1h-1zM16%2031h1v1h-1zM18%2031h1v1h-1zM21%2031h1v1h-1zM22%2031h1v1h-1zM24%2031h1v1h-1zM25%2031h1v1h-1zM27%2031h1v1h-1zM28%2031h1v1h-1zM32%2031h1v1h-1zM33%2031h1v1h-1zM34%2031h1v1h-1zM4%2032h1v1h-1zM6%2032h1v1h-1zM7%2032h1v1h-1zM8%2032h1v1h-1zM10%2032h1v1h-1zM14%2032h1v1h-1zM18%2032h1v1h-1zM20%2032h1v1h-1zM21%2032h1v1h-1zM22%2032h1v1h-1zM24%2032h1v1h-1zM25%2032h1v1h-1zM26%2032h1v1h-1zM27%2032h1v1h-1zM28%2032h1v1h-1zM29%2032h1v1h-1zM30%2032h1v1h-1zM31%2032h1v1h-1zM32%2032h1v1h-1zM34%2032h1v1h-1zM36%2032h1v1h-1zM4%2033h1v1h-1zM6%2033h1v1h-1zM7%2033h1v1h-1zM8%2033h1v1h-1zM10%2033h1v1h-1zM12%2033h1v1h-1zM14%2033h1v1h-1zM16%2033h1v1h-1zM20%2033h1v1h-1zM21%2033h1v1h-1zM25%2033h1v1h-1zM27%2033h1v1h-1zM31%2033h1v1h-1zM33%2033h1v1h-1zM36%2033h1v1h-1zM4%2034h1v1h-1zM6%2034h1v1h-1zM7%2034h1v1h-1zM8%2034h1v1h-1zM10%2034h1v1h-1zM12%2034h1v1h-1zM13%2034h1v1h-1zM14%2034h1v1h-1zM17%2034h1v1h-1zM19%2034h1v1h-1zM20%2034h1v1h-1zM25%2034h1v1h-1zM26%2034h1v1h-1zM28%2034h1v1h-1zM30%2034h1v1h-1zM31%2034h1v1h-1zM34%2034h1v1h-1zM4%2035h1v1h-1zM10%2035h1v1h-1zM14%2035h1v1h-1zM15%2035h1v1h-1zM17%2035h1v1h-1zM21%2035h1v1h-1zM22%2035h1v1h-1zM26%2035h1v1h-1zM27%2035h1v1h-1zM28%2035h1v1h-1zM30%2035h1v1h-1zM31%2035h1v1h-1zM32%2035h1v1h-1zM36%2035h1v1h-1zM4%2036h1v1h-1zM5%2036h1v1h-1zM6%2036h1v1h-1zM7%2036h1v1h-1zM8%2036h1v1h-1zM9%2036h1v1h-1zM10%2036h1v1h-1zM12%2036h1v1h-1zM14%2036h1v1h-1zM15%2036h1v1h-1zM16%2036h1v1h-1zM17%2036h1v1h-1zM18%2036h1v1h-1zM21%2036h1v1h-1zM23%2036h1v1h-1zM24%2036h1v1h-1zM25%2036h1v1h-1zM32%2036h1v1h-1zM34%2036h1v1h-1z%22%20fill%3D%22%23142e28%22%2F%3E%3C%2Fsvg%3E"</script><script>
 /* Client presentation and interaction. Shared state is always server-authoritative. */
 (()=>{'use strict';
@@ -3886,6 +4378,12 @@ class F5Primitives {
   show('prologue',false);show('modeChoice',true);
  }
  function init(){
+  if(new URLSearchParams(location.search).get('prototype')==='1'){
+   setupQR();
+   $('cityLoading').hidden=true;
+   window.MachiPrototypeUI.start({portrait});
+   return;
+  }
   initArt();setupQR();
   if(location.protocol==='file:'){
    // The self-contained HTML only runs solo. Keep the group entry visible and identify its published-online destination.
@@ -3905,6 +4403,7 @@ class F5Primitives {
   $('saveReflection').onclick=()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
+  $('openContinuation').onclick=()=>goto('/?prototype=1');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   $('decisionOptions').onclick=e=>{const b=e.target.closest('[data-vote]');if(b&&!b.disabled)choose(b.dataset.vote);};
   $('replayButton').onclick=()=>{if(view==='solo'){clearEndingResultDom();endingFlowCityStartedAt=null;startSolo();}};

@@ -6,10 +6,12 @@ const site=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const parent=path.resolve(site,'..');
 let html=await readFile(path.join(site,'public/index.html'),'utf8');
 const css=await readFile(path.join(site,'public/style.css'),'utf8');
+const prototypeCss=await readFile(path.join(site,'public/prototype.css'),'utf8');
 const qr=await readFile(path.join(site,'public/site-qr.svg'),'utf8');
 
 html=html.replace('<link rel="stylesheet" href="/style.css">',`<style>${css}</style>`);
-for(const name of ['city-art.js','engine.js','conference.js','reflection-report.js','decision-ux.js','group-accountability.js','ending-card.js','app.js']){
+html=html.replace('<link rel="stylesheet" href="/prototype.css">',`<style>${prototypeCss}</style>`);
+for(const name of ['city-art.js','engine.js','conference.js','reflection-report.js','decision-ux.js','group-accountability.js','ending-card.js','prototype-data.js','prototype-engine.js','prototype-ui.js','app.js']){
  const body=await readFile(path.join(site,'public',name),'utf8');
  if(body.includes('</script>'))throw Error(`${name} cannot be safely inlined`);
  const tag=`<script src="/${name}"></script>`;

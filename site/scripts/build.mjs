@@ -4,7 +4,7 @@ import path from 'node:path';
 const root = process.cwd();
 const read = (p) => readFile(path.join(root, p), 'utf8');
 await copyFile(path.join(root, 'engine.js'), path.join(root, 'public/engine.js'));
-const files = ['index.html', 'style.css', 'site-qr.svg', 'app.js', 'city-art.js', 'engine.js', 'conference.js', 'reflection-report.js', 'decision-ux.js', 'group-accountability.js', 'ending-card.js'];
+const files = ['index.html', 'style.css', 'prototype.css', 'site-qr.svg', 'app.js', 'city-art.js', 'engine.js', 'conference.js', 'reflection-report.js', 'decision-ux.js', 'group-accountability.js', 'ending-card.js', 'prototype-data.js', 'prototype-engine.js', 'prototype-ui.js'];
 const assets = Object.fromEntries(await Promise.all(files.map(async (name) => [name, await read(`public/${name}`)])));
 const modules = {};
 for (const name of (await readdir(path.join(root, 'vendor/QRCode'))).filter((x) => x.endsWith('.js'))) modules[`./${name.slice(0, -3)}`] = await read(`vendor/QRCode/${name}`);
