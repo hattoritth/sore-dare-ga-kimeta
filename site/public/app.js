@@ -180,9 +180,9 @@
   if(pressData.future)$('pressIssue').textContent=pressData.future.disclaimer+' 【'+({light:'軽度',medium:'中度',heavy:'重度'})[pressData.future.severity]+'の未来】'+pressData.future.impact;
   if(!$('pressScene').childElementCount)$('pressScene').innerHTML=window.PressConference.sceneSvg(s.ending?.kind,s.ending?.metric,pressData.future?.theme);
   if(endingFlowStage<3)pressData=null;
-  const result=resultDescription(s);if(pressData.future){result.heading='2066年の後日談｜'+pressData.future.title;result.sub=pressData.future.disclaimer+' '+pressData.future.impact;}
+  const result=resultDescription(s);if(pressData?.future){result.heading='2066年の後日談｜'+pressData.future.title;result.sub=pressData.future.disclaimer+' '+pressData.future.impact;}
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
-  if(['stable','true','collapse'].includes(s.ending?.kind)&&!pressData.future)$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
+  if(['stable','true','collapse'].includes(s.ending?.kind)&&!pressData?.future)$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
   show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
   $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
@@ -191,7 +191,7 @@
   }
   const radar=$('endingRadar');if(pressDone&&endingRadarCity!==s.cityStartedAt){endingRadarCity=s.cityStartedAt;radar.innerHTML=window.EndingCard.radarSvg(window.EndingCard.metricKeys.map(key=>pressData.metrics.find(metric=>metric.key===key)?.value??0));}
   $('metricComparison').hidden=!pressDone;
-  if($('endingLetter')){$('endingLetter').hidden=!pressDone||!pressData.future;$('endingLetterText').textContent=pressDone&&pressData.future?pressData.future.letter+'　―― '+pressData.future.signature:'';}
+  if($('endingLetter')){$('endingLetter').hidden=!pressDone||!pressData?.future;$('endingLetterText').textContent=pressDone&&pressData?.future?pressData.future.letter+'　―― '+pressData.future.signature:'';}
   const card=$('endingCardTools');card.hidden=!pressDone;
   if(pressDone&&endingFlowStage>=4&&endingCardRenderCity!==s.cityStartedAt){endingCardRenderCity=s.cityStartedAt;
    const scene=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
