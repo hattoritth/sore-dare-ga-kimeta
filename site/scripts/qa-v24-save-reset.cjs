@@ -39,10 +39,21 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.click('#printEndingCard');
   await page.waitForFunction(()=>document.querySelector('#endingCardStatus').textContent.includes('PDFを保存しました。'),{timeout:15000});
   const pdfPath=path.join(out,'sore-dare-ga-kimeta-result.pdf');
-  for(let i=0;i<40&&!fs.existsSync(pdfPath);i++)await sleep(200);
-  assert.ok(fs.existsSync(pdfPath),'PDF file must download without opening a new tab');
-  const pdf=fs.readFileSync(pdfPath),text=pdf.toString('latin1');
-  assert.equal(text.slice(0,8),'%PDF-1.4');assert.ok(pdf.length>20000,'PDF should contain actual card raster');
+  // Chrome can create the destination before it finishes writing the PDF.
+  // Wait for a complete file rather than treating mere existence as success.
+  let pdf;
+  for(let i=0;i<60;i++){
+   if(fs.existsSync(pdfPath)){
+    const candidate=fs.readFileSync(pdfPath);
+    if(candidate.length>20000&&candidate.subarray(0,8).toString('latin1')==='%PDF-1.4'&&candidate.toString('latin1').includes('%%EOF')){
+     pdf=candidate;
+     break;
+    }
+   }
+   await sleep(200);
+  }
+  assert.ok(pdf,'PDF download must finish without opening a new tab');
+  const text=pdf.toString('latin1');
   assert.match(text,/\/Count 1/);assert.match(text,/\/MediaBox \[0 0 841\.89 595\.28\]/);assert.match(text,/\/Subtype \/Image/);
   const pageCount=(text.match(/\/Type \/Page\b/g)||[]).length;assert.equal(pageCount,1);
   console.log('PASS PDF actual downloaded; A4 landscape, single page, bytes='+pdf.length+'; '+pdfPath);
