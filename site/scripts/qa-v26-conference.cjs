@@ -47,7 +47,7 @@ async function play(page,route){
   assert.equal(await page.$eval('#siteQrPanel',e=>e.hidden),false,'QR should open over conference');
   await page.click('#siteQrClose');
   console.log('PASS full viewport press first, distinct illustration, no early metrics, persistent QR',JSON.stringify(initial));
-  const subtitles=[];for(let n=0;n<7;n++){
+  const subtitles=[];for(let n=0;n<30;n++){
    if(await page.$eval('#pressConference',e=>e.hidden))break;
    await page.click('#pressNext');
    subtitles.push(await page.$eval('#pressAnswer',e=>e.textContent));
@@ -57,6 +57,8 @@ async function play(page,route){
   await page.waitForFunction(()=>document.querySelector('#shadowMetrics').children.length===3&&document.querySelector('#endingCardPreview').children.length>0);
   await page.screenshot({path:path.join(out,'card-bad-mobile.png')});
   assert.ok((await page.$eval('#endingTitle',e=>e.textContent)).length>8);
+  assert.equal(await page.$eval('#endingLetter',e=>e.hidden),false,'future letter must appear after the conference');
+  assert.ok((await page.$eval('#endingLetterText',e=>e.textContent)).length>20,'future resident letter must be readable');
   console.log('PASS sequential captions -> card with 6 metrics and concrete title');
   await page.click('#downloadEndingPng');
   const pngPath=path.join(out,'sore-dare-ga-kimeta-result.png');
@@ -82,19 +84,19 @@ async function play(page,route){
   await sleep(1400);
   const leftover=await page.evaluate(()=>{
    const ids=['endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','shadowSpotlightRows','pressScene','historyList'];
-   return {children:ids.filter(id=>document.getElementById(id).childNodes.length),pressAnswer:document.querySelector('#pressAnswer').textContent,pressOutcome:document.querySelector('#pressOutcome').textContent,pressIssue:document.querySelector('#pressIssue').textContent};
+   return {children:ids.filter(id=>document.getElementById(id).childNodes.length),pressAnswer:document.querySelector('#pressAnswer').textContent,pressOutcome:document.querySelector('#pressOutcome').textContent,pressIssue:document.querySelector('#pressIssue').textContent,letter:document.querySelector('#endingLetterText').textContent};
   });
-  assert.deepEqual(leftover,{children:[],pressAnswer:'',pressOutcome:'',pressIssue:''});
+  assert.deepEqual(leftover,{children:[],pressAnswer:'',pressOutcome:'',pressIssue:'',letter:''});
   console.log('PASS replay after active typewriter/skip: zero hidden prior DOM',JSON.stringify(leftover));
   await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
   await play(page,['listen','listen','listen','ai']);
   const trueTitle=await page.$eval('#pressOutcome',e=>e.textContent);
-  assert.match(trueTitle,/AI|役割|託す/);
+  assert.match(trueTitle,/2066年｜/);
   await page.screenshot({path:path.join(out,'press-true-mobile.png')});
   await page.click('#pressSkip');
   await page.waitForFunction(()=>document.querySelector('#shadowMetrics').children.length===3);
   const finalTitle=await page.$eval('#endingTitle',e=>e.textContent);
-  assert.match(finalTitle,/AI|役割/);
+  assert.match(finalTitle,/2066年の後日談｜/);assert.match(await page.$eval('#endingKicker',e=>e.textContent),/TRUE/);
   assert.equal(errors.length,0,errors.join(' | '));
   console.log('PASS true route has different ending visual and result, no page errors; screenshots:',out);
   await page.close();

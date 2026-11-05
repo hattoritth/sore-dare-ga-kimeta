@@ -9,7 +9,7 @@
  window.GroupEntryUX=groupEntryUX;
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressGeneration=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressAiMode='active',pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressGeneration=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
  const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
  const staffSpeeches={
   clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
@@ -154,12 +154,12 @@
   pressTyped=true;
   $('pressAnswer').hidden=true;$('pressQuestion').hidden=true;
   for(const id of ['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList','pressScene'])$(id).replaceChildren();
-  for(const id of ['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','pressOutcome','pressIssue','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'])$(id).textContent='';
+  for(const id of ['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','pressOutcome','pressIssue','endingLetterText','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'])$(id).textContent='';
   $('endingCityPicture').setAttribute('aria-label','判断後の街の風景');
   $('reflectionFallback').value='';$('reflectionFallback').hidden=true;
   for(const id of ['endingCardMore','metricComparison','decisionHistory'])$(id).open=false;
-  for(const id of ['shadowSpotlight','groupAccountability','endingIncident','pressConference','openEndingPress','takeawayReport','endingCardTools','metricComparison','replayButton','resultNote'])$(id).hidden=true;
-  pressData=null;pressIndex=-1;pressDone=false;pressOpen=false;pressRenderKey='';
+  for(const id of ['shadowSpotlight','groupAccountability','endingIncident','endingLetter','pressConference','openEndingPress','takeawayReport','endingCardTools','metricComparison','replayButton','resultNote'])$(id).hidden=true;
+  pressData=null;pressAiMode='active';pressIndex=-1;pressDone=false;pressOpen=false;pressRenderKey='';
   const canvas=$('endingCardCanvas');canvas.getContext('2d')?.clearRect(0,0,canvas.width,canvas.height);
   endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';
   endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;
@@ -173,15 +173,16 @@
   const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
   if(!$('endingCityPicture').childElementCount){$('endingCityPicture').innerHTML=window.EndingCard.sceneVisual({kind:s.ending?.kind,scene:sceneKey,endingLabel,sceneImage:endingSceneImage},'ending-scene-visual ending-stage-scene');$('endingCityPicture').setAttribute('aria-label','判断後の街の風景');}
   if(view==='group'&&endingFlowStage>=3)renderGroupAccountability(s);else{$('groupAccountabilityList').replaceChildren();$('groupAccountability').hidden=true;}
-  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,null,[]);pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
+  if(!pressData||pressData.cityStartedAt!==s.cityStartedAt){pressData=window.PressConference.build(s,null,[]);pressData.future=window.PressConference.futureScenario(s,pressAiMode);if(pressData.future){pressData.answers=pressData.future.answers;pressData.question=pressData.future.question;pressData.close=pressData.future.close;}pressData.cityStartedAt=s.cityStartedAt;pressIndex=-1;pressRenderKey='';$('reflectionStatus').textContent='';$('reflectionFallback').hidden=true;}
   const outcomeTitle=s.ending?.kind==='collapse'?s.incident?.title||window.PressConference.outcomeNames[s.ending.metric]||'街で重大なトラブルが起きた':s.ending?.kind==='warning'?'課題を残して街は続く':s.ending?.kind==='undecided'?'この議題は決まらなかった':s.ending?.kind==='true'?'人とAIの役割を確かめた街':'大きな事故なく街は続く';
-  $('pressOutcome').textContent=outcomeTitle;
+  $('pressOutcome').textContent=pressData.future?'2066年｜'+pressData.future.title:outcomeTitle;
   $('pressIssue').textContent=s.incident?.title?(s.incident.title+'。'+(s.incident.description||'')):s.ending?.kind==='warning'?(s.ending.risks||[]).map(x=>x.title+'。'+x.detail).join(' '):s.ending?.kind==='undecided'?'この結果に新しい事故はありません。保留された議題と残る確認事項を扱います。':s.ending?.kind==='stable'?'大きな事故は起きていません。達成したことと、まだ解けていない判断のトレードオフを振り返ります。':s.ending?.kind==='true'?'大きな事故は起きていません。人とAIが担う役割、結果を確かめる責任を振り返ります。':'';
-  if(!$('pressScene').childElementCount)$('pressScene').innerHTML=window.PressConference.sceneSvg(s.ending?.kind,s.ending?.metric);
+  if(pressData.future)$('pressIssue').textContent=pressData.future.disclaimer+' 【'+({light:'軽度',medium:'中度',heavy:'重度'})[pressData.future.severity]+'の未来】'+pressData.future.impact;
+  if(!$('pressScene').childElementCount)$('pressScene').innerHTML=window.PressConference.sceneSvg(s.ending?.kind,s.ending?.metric,pressData.future?.theme);
   if(endingFlowStage<3)pressData=null;
-  const result=resultDescription(s);
+  const result=resultDescription(s);if(pressData?.future){result.heading='2066年の後日談｜'+pressData.future.title;result.sub=pressData.future.disclaimer+' '+pressData.future.impact;}
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
-  if(['stable','true','collapse'].includes(s.ending?.kind))$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
+  if(['stable','true','collapse'].includes(s.ending?.kind)&&!pressData?.future)$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
   show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
   $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
@@ -190,6 +191,7 @@
   }
   const radar=$('endingRadar');if(pressDone&&endingRadarCity!==s.cityStartedAt){endingRadarCity=s.cityStartedAt;radar.innerHTML=window.EndingCard.radarSvg(window.EndingCard.metricKeys.map(key=>pressData.metrics.find(metric=>metric.key===key)?.value??0));}
   $('metricComparison').hidden=!pressDone;
+  if($('endingLetter')){$('endingLetter').hidden=!pressDone||!pressData?.future;$('endingLetterText').textContent=pressDone&&pressData?.future?pressData.future.letter+'　―― '+pressData.future.signature:'';}
   const card=$('endingCardTools');card.hidden=!pressDone;
   if(pressDone&&endingFlowStage>=4&&endingCardRenderCity!==s.cityStartedAt){endingCardRenderCity=s.cityStartedAt;
    const scene=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
@@ -216,11 +218,14 @@
   $('groupAccountability').hidden=endingFlowStage<3||!$('groupAccountabilityList').childElementCount;
   $('decisionAccountability').parentElement.hidden=endingFlowStage<4;$('decisionHistory').hidden=endingFlowStage<4;$('replayButton').hidden=endingFlowStage<4||view!=='solo';$('resultNote').hidden=endingFlowStage<4;
   $('pressConference').hidden=!pressOpen;
+  $('pressModePanel').hidden=!pressData?.future;
+  for(const b of document.querySelectorAll('[data-ai-mode]'))b.setAttribute('aria-pressed',String(b.dataset.aiMode===pressAiMode));
   for(const id of ['endingFlow','endingKicker','endingTitle','endingText','endingIncident','openEndingPress','groupAccountability','metricComparison','endingCardTools','takeawayReport','resultNote','decisionHistory'])$(id).inert=pressOpen;
   $('openEndingPress').hidden=endingFlowStage<4||pressOpen;
   if(pressData){
    const pressQuestion=$('pressQuestion'),pressAnswer=$('pressAnswer'),pressNext=$('pressNext'),pressSkip=$('pressSkip'),pressReplay=$('pressReplay');
    const pressStep=pressIndex<0?'start':pressIndex<pressData.answers.length?'answer-'+pressIndex:pressIndex===pressData.answers.length?'close':'done';
+   $('pressConference').classList.toggle('press-fade',!!(pressData.future?.theme==='connection'&&pressData.future.severity==='heavy'&&pressStep==='close'));
    const pressLine=pressStep==='answer-'+pressIndex?pressData.answers[pressIndex]:'';
    const pressKey=`${s.cityStartedAt}:${pressOpen?'open':'closed'}:${pressStep}`;
    if(pressRenderKey!==pressKey){
@@ -457,6 +462,7 @@
   }else if(view==='solo'){startSolo();}
   else {fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
+  $('pressModePanel').addEventListener('click',e=>{const button=e.target.closest('[data-ai-mode]');if(!button||state?.phase!=='reveal'||!['active','early','late'].includes(button.dataset.aiMode))return;if(pressAiMode===button.dataset.aiMode)return;pressAiMode=button.dataset.aiMode;pressGeneration++;if(pressFrame){cancelAnimationFrame(pressFrame);pressFrame=0;}pressData=null;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;renderResult(state);});
  $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;$('pressAnswer').textContent=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;pressTyped=true;return;}if(pressIndex<pressData.answers.length)pressIndex++;else{pressIndex=pressData.answers.length+1;pressDone=true;pressOpen=false;endingFlowStage=4;}if(state)renderResult(state);};
  $('pressSkip').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressDone=true;pressOpen=false;pressTyped=true;endingFlowStage=4;if(state)renderResult(state);};
   $('pressReplay').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('endingRadar').replaceChildren();if(state)renderResult(state);$('pressNext').focus();};

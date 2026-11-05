@@ -41,7 +41,7 @@ test('new city and replay clear previously revealed shadow values from the DOM',
  assert.match(app,/s\.phase!=='reveal'&&endingFlowCityStartedAt!==null&&s\.cityStartedAt!==endingFlowCityStartedAt/);
  assert.match(app,/function clearEndingResultDom\(\)/);
  assert.match(app,/for\(const id of \['endingCityPicture','endingCardPreview','endingCardPrint','endingRadar','publicMetrics','shadowMetrics','groupAccountabilityList','shadowSpotlightRows','historyList','pressScene'\]\)\$\(id\)\.replaceChildren\(\)/);
- assert.match(app,/for\(const id of \['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','pressOutcome','pressIssue','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'\]\)\$\(id\)\.textContent=''/);
+ assert.match(app,/for\(const id of \['endingProgress','endingTitle','endingText','endingKicker','endingIncident','pressQuestion','pressAnswer','pressOutcome','pressIssue','endingLetterText','endingCardStatus','reflectionStatus','decisionAccountability','resultNote'\]\)\$\(id\)\.textContent=''/);
  assert.match(app,/\$\('reflectionFallback'\)\.value='';\$\('reflectionFallback'\)\.hidden=true/);
  assert.match(app,/for\(const id of \['endingCardMore','metricComparison','decisionHistory'\]\)\$\(id\)\.open=false/);
  assert.match(app,/clearEndingResultDom\(\);endingFlowCityStartedAt=null/);
