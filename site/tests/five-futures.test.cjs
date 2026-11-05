@@ -50,7 +50,7 @@ test('pre-reveal and undecided never invent a 2066 incident or hidden metric-bas
  assert.equal(Press.futureScenario({phase:'reveal',ending:{kind:'undecided'},public:{},shadow:{}}),null);
 });
 test('all five scenario illustrations map to appropriate existing local SVG motifs',()=>{
- const map={safety:'豪雨',living:'交通網',fairness:'地区の分断',autonomy:'市役所',connection:'住民の暮らし'};
+ const map={safety:'避難所と異なる案内',living:'自動配送と商店',fairness:'保育園の入園審査',autonomy:'解除されない通行規制',connection:'家族に届いた言葉'};
  const list=Object.entries(map).map(([theme,expected])=>{
   const svg=Press.sceneSvg('stable',null,theme);
   assert.match(svg,new RegExp(expected));assert.match(svg,/<svg/);assert.match(svg,/市長会見/);return svg;
