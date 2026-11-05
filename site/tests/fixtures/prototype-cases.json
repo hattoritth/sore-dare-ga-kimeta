@@ -1,0 +1,362 @@
+{
+  "S1/H/NEVER": {
+    "seed": 1,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S5/L/NEVER": {
+    "seed": 1,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/L/NEVER": {
+    "seed": 2,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/M/NEVER": {
+    "seed": 3,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S2/L/NEVER": {
+    "seed": 3,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S3/L/NEVER": {
+    "seed": 8,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S4/L/NEVER": {
+    "seed": 9,
+    "mode": "NEVER",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S2/M/NEVER": {
+    "seed": 1,
+    "mode": "NEVER",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S2/H/NEVER": {
+    "seed": 2,
+    "mode": "NEVER",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S3/M/NEVER": {
+    "seed": 1,
+    "mode": "NEVER",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S3/H/NEVER": {
+    "seed": 4,
+    "mode": "NEVER",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S4/H/NEVER": {
+    "seed": 2,
+    "mode": "NEVER",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S4/M/NEVER": {
+    "seed": 3,
+    "mode": "NEVER",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S5/H/NEVER": {
+    "seed": 1,
+    "mode": "NEVER",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S5/M/NEVER": {
+    "seed": 5,
+    "mode": "NEVER",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S1/H/EARLY_OFF": {
+    "seed": 1,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S5/L/EARLY_OFF": {
+    "seed": 1,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/L/EARLY_OFF": {
+    "seed": 2,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/M/EARLY_OFF": {
+    "seed": 3,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S2/L/EARLY_OFF": {
+    "seed": 3,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S3/L/EARLY_OFF": {
+    "seed": 8,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S4/L/EARLY_OFF": {
+    "seed": 9,
+    "mode": "EARLY_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S2/M/EARLY_OFF": {
+    "seed": 1,
+    "mode": "EARLY_OFF",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S2/H/EARLY_OFF": {
+    "seed": 2,
+    "mode": "EARLY_OFF",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S3/M/EARLY_OFF": {
+    "seed": 1,
+    "mode": "EARLY_OFF",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S3/H/EARLY_OFF": {
+    "seed": 4,
+    "mode": "EARLY_OFF",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S4/H/EARLY_OFF": {
+    "seed": 2,
+    "mode": "EARLY_OFF",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S4/M/EARLY_OFF": {
+    "seed": 3,
+    "mode": "EARLY_OFF",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S5/H/EARLY_OFF": {
+    "seed": 1,
+    "mode": "EARLY_OFF",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S5/M/EARLY_OFF": {
+    "seed": 5,
+    "mode": "EARLY_OFF",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S1/H/LATE_OFF": {
+    "seed": 1,
+    "mode": "LATE_OFF",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S5/L/LATE_OFF": {
+    "seed": 1,
+    "mode": "LATE_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/L/LATE_OFF": {
+    "seed": 2,
+    "mode": "LATE_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S4/L/LATE_OFF": {
+    "seed": 9,
+    "mode": "LATE_OFF",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/M/LATE_OFF": {
+    "seed": 10,
+    "mode": "LATE_OFF",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S2/H/LATE_OFF": {
+    "seed": 2,
+    "mode": "LATE_OFF",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S2/L/LATE_OFF": {
+    "seed": 3,
+    "mode": "LATE_OFF",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S2/M/LATE_OFF": {
+    "seed": 7,
+    "mode": "LATE_OFF",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S3/M/LATE_OFF": {
+    "seed": 1,
+    "mode": "LATE_OFF",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S3/H/LATE_OFF": {
+    "seed": 5,
+    "mode": "LATE_OFF",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S3/L/LATE_OFF": {
+    "seed": 8,
+    "mode": "LATE_OFF",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S4/M/LATE_OFF": {
+    "seed": 2,
+    "mode": "LATE_OFF",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S4/H/LATE_OFF": {
+    "seed": 20,
+    "mode": "LATE_OFF",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S5/M/LATE_OFF": {
+    "seed": 1,
+    "mode": "LATE_OFF",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S5/H/LATE_OFF": {
+    "seed": 4,
+    "mode": "LATE_OFF",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S1/H/ON": {
+    "seed": 1,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S5/L/ON": {
+    "seed": 1,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/L/ON": {
+    "seed": 2,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S2/L/ON": {
+    "seed": 3,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S3/L/ON": {
+    "seed": 8,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S4/L/ON": {
+    "seed": 9,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "all"
+  },
+  "S1/M/ON": {
+    "seed": 10,
+    "mode": "ON",
+    "focus": "S1",
+    "care": "others"
+  },
+  "S2/H/ON": {
+    "seed": 2,
+    "mode": "ON",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S2/M/ON": {
+    "seed": 9,
+    "mode": "ON",
+    "focus": "S2",
+    "care": "others"
+  },
+  "S3/M/ON": {
+    "seed": 1,
+    "mode": "ON",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S3/H/ON": {
+    "seed": 5,
+    "mode": "ON",
+    "focus": "S3",
+    "care": "others"
+  },
+  "S4/M/ON": {
+    "seed": 5,
+    "mode": "ON",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S4/H/ON": {
+    "seed": 20,
+    "mode": "ON",
+    "focus": "S4",
+    "care": "others"
+  },
+  "S5/M/ON": {
+    "seed": 1,
+    "mode": "ON",
+    "focus": "S5",
+    "care": "others"
+  },
+  "S5/H/ON": {
+    "seed": 6,
+    "mode": "ON",
+    "focus": "S5",
+    "care": "others"
+  }
+}

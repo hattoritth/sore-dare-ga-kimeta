@@ -451,6 +451,12 @@
   show('prologue',false);show('modeChoice',true);
  }
  function init(){
+  if(new URLSearchParams(location.search).get('prototype')==='1'){
+   setupQR();
+   $('cityLoading').hidden=true;
+   window.MachiPrototypeUI.start({portrait});
+   return;
+  }
   initArt();setupQR();
   if(location.protocol==='file:'){
    // The self-contained HTML only runs solo. Keep the group entry visible and identify its published-online destination.
@@ -470,6 +476,7 @@
   $('saveReflection').onclick=()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');
+  $('openContinuation').onclick=()=>goto('/?prototype=1');
   $('trySolo').onclick=()=>goto('/?mode=solo');$('joinForm').onsubmit=joinGroup;
   $('decisionOptions').onclick=e=>{const b=e.target.closest('[data-vote]');if(b&&!b.disabled)choose(b.dataset.vote);};
   $('replayButton').onclick=()=>{if(view==='solo'){clearEndingResultDom();endingFlowCityStartedAt=null;startSolo();}};
