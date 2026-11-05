@@ -661,6 +661,18 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 .pt-ai-badge{display:grid;place-items:center;width:54px;height:54px;border:1px solid #9bb5a4;border-radius:50%;background:#e9f1e8;color:#315e4d;font-weight:900;letter-spacing:.08em}.pt-ai-glyph{position:absolute;inset:28px 18px 38px;display:grid;place-items:center;border:2px solid #bdcfc0;border-radius:50%;background:radial-gradient(circle at 50% 35%,#f5f1de,#759184);color:#294f45;font-size:28px;font-weight:900;box-shadow:0 8px 22px #102b2b44}.pt-breaking{background:linear-gradient(110deg,#273f39d9,#3e5d52d9);animation:pt-news-in .7s ease-out both}.pt-breaking h2{max-width:860px;text-align:center;text-wrap:balance}.pt-breaking p{padding:9px 22px;border:1px solid #b7c6a8;border-radius:99px;background:#e4ecd8;color:#2d5145;font-weight:800}.pt-press-mics{position:absolute;bottom:17%;left:50%;z-index:2;display:flex;gap:36px;transform:translateX(-50%)}.pt-press-mics i{width:8px;height:45px;border-radius:8px;background:linear-gradient(#343f3a 0 35%,#8b927d 36%);box-shadow:0 0 0 4px #d8dfd333}.pt-ledger{position:absolute;z-index:4;top:12%;right:3%;width:min(380px,34%);max-height:46%;overflow:auto;padding:13px 17px;border:1px solid #b7c8b5;border-radius:12px;background:#fffdf0ed;color:#294e40;box-shadow:0 8px 28px #102b2b44}.pt-ledger::before{content:'判断の記録';display:block;margin-bottom:7px;font-size:12px;font-weight:900;letter-spacing:.1em}.pt-ledger p{margin:6px 0;font-size:12px;line-height:1.55}.pt-ledger p:first-child{margin-top:0}.pt-stage[data-clip="CONF_NEWS"] .pt-subtitle{background:#172e2be8}.pt-stage[data-clip="CONF_NEWS"] .pt-subtitle p{font-size:15px}@keyframes pt-news-in{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}
 .shell[data-view=prototype] .pt-qr-button{position:static;display:flex;align-items:center;justify-content:flex-start;gap:9px;width:auto;height:52px;min-width:44px;min-height:44px;margin:12px 0 0;padding:5px 10px;border:1px solid #c8d5c2;border-radius:10px;background:#fffdf5;color:#315943;box-shadow:none}.shell[data-view=prototype] .pt-qr-button img{width:40px;height:40px}.shell[data-view=prototype] .pt-qr-button span{font-size:12px;font-weight:800}
 @media(max-width:750px){.pt-press-mics{bottom:24%;gap:24px}.pt-ledger{top:9%;right:3%;width:45%;max-height:36%;padding:8px 10px}.pt-ledger p{font-size:10px;line-height:1.45}.pt-ai-glyph{inset:28px 14px 42px}.pt-breaking h2{font-size:clamp(20px,6vw,32px)}}
+/* End-of-exhibit physical takeaway: intentionally shown only on the final letter screen. */
+.pt-letter-takeaway{margin:24px 0 12px;padding:18px clamp(14px,3vw,24px);border:2px solid #af8958;border-radius:12px;background:#fff3d8;color:#3e392c;text-align:center}
+.pt-letter-takeaway-label{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:#74532f}
+.pt-letter .pt-letter-takeaway-title{margin:8px 0;font-size:clamp(19px,2.8vw,25px);font-weight:800;line-height:1.5;text-wrap:balance}
+.pt-letter .pt-letter-takeaway-help{margin:8px 0 0;font-size:clamp(13px,1.5vw,16px);line-height:1.65}
+@media(max-width:750px){.pt-letter-takeaway{margin:18px 0 8px;padding:14px 12px}.pt-letter .pt-letter-takeaway-title{font-size:19px}}
+/* A single coloured SVG envelope, selected from S1-S5 by the actual final scenario. */
+.pt-envelope-visual{margin:10px auto 0;display:grid;justify-items:center;gap:4px;max-width:265px}
+.pt-envelope-svg{display:block;width:min(245px,62vw);height:auto;max-height:166px;filter:drop-shadow(0 9px 10px #3e392c2c)}
+.pt-envelope-color{font-size:clamp(18px,2vw,23px);font-weight:900;line-height:1.4}
+.pt-letter .pt-envelope-theme{margin:3px 0 4px;font-size:clamp(12px,1.5vw,15px);font-weight:800;color:#634d34}
+@media(max-width:750px){.pt-envelope-svg{width:min(210px,55vw)}.pt-envelope-visual{margin-top:6px}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -3488,7 +3500,14 @@ class F5Primitives {
   field:'連絡は来ていました。だから、話せていると思っていたんです。',manualField:'家族と話す時間を、つくりたかったんです。',questioner:'家族に届いた言葉や、届かなかった支援について、誰が確認したのでしょうか？',rule:'本人の利用設定と市のサービス運用条件',serviceDetail:'市長代理機能とは別に、本人が設定した住民向けの定型連絡サービスが稼働しました。個別文面を本人が確認した記録はありません。',review:'本人同士の連絡先と意向を確認し、相談支援につなぎました。'}
  ];
  const MEDIA=Object.fromEntries(['CONF_OPEN','CONF_MAYOR','CONF_SILENCE','CONF_AI_ON','CONF_AI_OFF','CONF_END',...scenarios.map(s=>s.id+'_FIELD')].map(id=>[id,{src:null,poster:null,loop:true}]));
- const api={scenarios,MEDIA,letters:{
+ const envelopes=Object.freeze({
+  S1:Object.freeze({color:'青',theme:'安全・安心',base:'#428BC4',light:'#82BDE5',dark:'#23689D'}),
+  S2:Object.freeze({color:'濃い緑',theme:'生活の豊かさ',base:'#297A59',light:'#67B28B',dark:'#175B43'}),
+  S3:Object.freeze({color:'紫',theme:'公平性',base:'#9169B5',light:'#C6A1DF',dark:'#6C4690'}),
+  S4:Object.freeze({color:'薄い緑',theme:'自由・自己決定',base:'#B7DDA4',light:'#DEF2D1',dark:'#80AE79'}),
+  S5:Object.freeze({color:'黄色',theme:'つながり・生きがい',base:'#EBC454',light:'#FFE591',dark:'#C9A13B'})
+ });
+ const api={scenarios,MEDIA,envelopes,letters:{
   "S1": {
     "paragraphs": [
       "市長へ。",
@@ -3751,6 +3770,22 @@ class F5Primitives {
   const visible=el=>{const r=el.getBoundingClientRect();return !document.hidden&&r.width>0&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;};
   function text(tag,value,cls){const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;}
   function button(label,fn,cls='pt-choice'){const b=text('button',label,cls);b.type='button';b.onclick=fn;return b;}
+  // Local SVG illustration: exact exhibition envelope colours, offline and accessible.
+  function envelopeIllustration(id,style){
+   const ns='http://www.w3.org/2000/svg';
+   const node=(tag,attrs)=>{const e=document.createElementNS(ns,tag);for(const [key,value] of Object.entries(attrs))e.setAttribute(key,String(value));return e;};
+   const svg=node('svg',{viewBox:'0 0 270 181',role:'img','aria-label':style.color+'の封筒、'+style.theme+'、レター番号 '+id,class:'pt-envelope-svg'});
+   const title=node('title',{});title.textContent=style.color+'の封筒（'+style.theme+'）';svg.append(title);
+   svg.append(node('ellipse',{cx:135,cy:165,rx:115,ry:9,fill:'#242d28',opacity:'.16'}));
+   svg.append(node('rect',{x:26,y:23,width:218,height:133,rx:10,fill:style.base,stroke:style.dark,'stroke-width':2}));
+   svg.append(node('path',{d:'M27 148 L101 90 Q135 70 169 90 L243 148',fill:style.dark,opacity:'.33'}));
+   svg.append(node('path',{d:'M27 149 L115 86 L135 100 L155 86 L243 149 Q242 156 234 156 L36 156 Q27 156 27 149 Z',fill:style.base,stroke:style.dark,'stroke-width':1.2}));
+   svg.append(node('path',{d:'M27 31 Q27 23 36 23 L234 23 Q243 23 243 31 L135 110 Z',fill:style.light,stroke:style.dark,'stroke-width':1.8,'stroke-linejoin':'round'}));
+   svg.append(node('circle',{cx:135,cy:114,r:20,fill:'#fffdf0',stroke:style.dark,'stroke-width':2}));
+   const stamp=node('text',{x:135,y:120,'text-anchor':'middle','font-size':16,'font-weight':800,fill:'#263e38','font-family':'system-ui,sans-serif'});stamp.textContent=id;svg.append(stamp);
+   return svg;
+  }
+
   function notify(message){toast.textContent=message;toast.hidden=false;toastUntil=performance.now()+3600;}
   function newGame(){
    game=E.createGame();selected=null;modal=null;lastCard='';lastNews=null;lastFlags='';lastTicker='';cutIndex=-1;cuts=[];cutElapsed=0;confPaused=false;ended=false;overlay.hidden=true;toast.hidden=true;applied=new Set();
@@ -3896,11 +3931,22 @@ class F5Primitives {
    const controls=document.createElement('div');controls.className='pt-conf-controls';controls.append(button(confPaused?'再生する':'一時停止',e=>{confPaused=!confPaused;controls.firstChild.textContent=confPaused?'再生する':'一時停止';if(!video.hidden){if(confPaused)video.pause();else video.play().catch(()=>{});}},'pt-quiet'),button('次へ',()=>playCut(cutIndex+1),'pt-quiet'),button('会見をスキップ',letter,'pt-quiet'));stage.append(controls);overlay.append(stage);
   }
   function letter(){
-   ended=true;overlay.querySelector('video')?.pause();overlay.className='pt-overlay pt-ending';overlay.hidden=false;overlay.replaceChildren();
+   ended=true;toast.hidden=true;toastUntil=0;overlay.querySelector('video')?.pause();overlay.className='pt-overlay pt-ending';overlay.hidden=false;overlay.replaceChildren();
    const id=game.conference_state.scenario_id,s=D.scenarios.find(s=>s.id===id),box=document.createElement('section');box.className='pt-letter';
    box.append(text('span','それ、誰が決めた？','overline'),text('h1','あなたの街から届いた手紙をお受け取りください。'),text('strong','レター番号 '+id,'pt-letter-id'),text('h2',s.title));
+   // The pickup cue is placed before the optional digital letter so guests see the envelope colour immediately.
    const details=document.createElement('details');details.append(text('summary','手紙を読む'));for(const p of (D.letters[id]?.paragraphs||[]))details.append(text('p',p));if(D.letters[id]?.heading)details.append(text('h3',D.letters[id].heading));box.append(details);
-   const review=text('p','この街の出来事は創作です。判断の記録は経緯を示すもので、法的責任を確定するものではありません。','pt-small');box.append(review,button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
+   const review=text('p','この街の出来事は創作です。判断の記録は経緯を示すもので、法的責任を確定するものではありません。','pt-small');box.append(review);
+   const takeaway=document.createElement('aside');takeaway.className='pt-letter-takeaway';takeaway.setAttribute('aria-label','会場の封筒のご案内');
+   const envelope=D.envelopes[id];
+   takeaway.append(text('span','最後に','pt-letter-takeaway-label'),text('p','会場にある封筒を1通お取りください。','pt-letter-takeaway-title'));
+   if(envelope){
+    const visual=document.createElement('figure');visual.className='pt-envelope-visual';visual.dataset.scenario=id;visual.dataset.envelopeColor=envelope.color;
+    visual.append(envelopeIllustration(id,envelope),text('figcaption',envelope.color+'の封筒','pt-envelope-color'));
+    takeaway.append(visual,text('p',envelope.theme+'｜レター番号 '+id,'pt-envelope-theme'));
+   }
+   takeaway.append(text('p','中には、あなたの街から届いた手紙が入っています。','pt-letter-takeaway-help'));
+   box.insertBefore(takeaway,details);box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
   }
   $('ptAIButton').onclick=()=>{
    if(game.phase!=='play')return;

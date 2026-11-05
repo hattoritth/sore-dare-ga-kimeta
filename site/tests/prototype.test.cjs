@@ -105,3 +105,36 @@ test('policy changes can reduce an actual impact under the same conditions and s
  assert.ok(games[0].incidents.S2.impact_duration>games[1].incidents.S2.impact_duration);
  assert.ok(games.every(g=>g.ai_enabled_intervals.length===0));
 });
+
+test('final letter invites visitors to take a physical envelope only after the conference',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const ui=fs.readFileSync(path.join(__dirname,'../public/prototype-ui.js'),'utf8');
+ const css=fs.readFileSync(path.join(__dirname,'../public/prototype.css'),'utf8');
+ assert.match(ui,/function letter\(\)[\s\S]*会場にある封筒を1通お取りください。/);
+ assert.match(ui,/あなたの街から届いた手紙が入っています。/);
+ assert.match(css,/\.pt-letter-takeaway\{/);
+ assert.ok(ui.indexOf('pt-letter-takeaway')>ui.indexOf('function letter()'));
+});
+
+test('all five physical letter envelopes use the team-approved colours and distinct SVG fills',()=>{
+ const expected={
+  S1:['青','安全・安心','#428BC4'],
+  S2:['濃い緑','生活の豊かさ','#297A59'],
+  S3:['紫','公平性','#9169B5'],
+  S4:['薄い緑','自由・自己決定','#B7DDA4'],
+  S5:['黄色','つながり・生きがい','#EBC454']
+ };
+ assert.deepEqual(Object.keys(D.envelopes).sort(),Object.keys(expected).sort());
+ for(const [id,[color,theme,base]] of Object.entries(expected)){
+  const envelope=D.envelopes[id];assert.equal(envelope.color,color,id+' color');assert.equal(envelope.theme,theme,id+' theme');assert.equal(envelope.base,base,id+' SVG colour');
+  assert.ok(/^#[0-9A-Fa-f]{6}$/.test(envelope.light)&&/^#[0-9A-Fa-f]{6}$/.test(envelope.dark));
+ }
+ assert.equal(new Set(Object.values(D.envelopes).map(x=>x.base)).size,5);
+ const fs=require('node:fs'),path=require('node:path');
+ const ui=fs.readFileSync(path.join(__dirname,'../public/prototype-ui.js'),'utf8');
+ assert.match(ui,/function envelopeIllustration\(id,style\)/);
+ assert.match(ui,/document\.createElementNS\(ns,tag\)/);
+ assert.match(ui,/const envelope=D\.envelopes\[id\]/);
+ assert.match(ui,/visual\.append\(envelopeIllustration\(id,envelope\)/);
+ assert.match(ui,/insertBefore\(takeaway,details\)/,'colour appears before the digital letter');
+});

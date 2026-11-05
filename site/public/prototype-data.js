@@ -33,7 +33,14 @@
   field:'連絡は来ていました。だから、話せていると思っていたんです。',manualField:'家族と話す時間を、つくりたかったんです。',questioner:'家族に届いた言葉や、届かなかった支援について、誰が確認したのでしょうか？',rule:'本人の利用設定と市のサービス運用条件',serviceDetail:'市長代理機能とは別に、本人が設定した住民向けの定型連絡サービスが稼働しました。個別文面を本人が確認した記録はありません。',review:'本人同士の連絡先と意向を確認し、相談支援につなぎました。'}
  ];
  const MEDIA=Object.fromEntries(['CONF_OPEN','CONF_MAYOR','CONF_SILENCE','CONF_AI_ON','CONF_AI_OFF','CONF_END',...scenarios.map(s=>s.id+'_FIELD')].map(id=>[id,{src:null,poster:null,loop:true}]));
- const api={scenarios,MEDIA,letters:{
+ const envelopes=Object.freeze({
+  S1:Object.freeze({color:'青',theme:'安全・安心',base:'#428BC4',light:'#82BDE5',dark:'#23689D'}),
+  S2:Object.freeze({color:'濃い緑',theme:'生活の豊かさ',base:'#297A59',light:'#67B28B',dark:'#175B43'}),
+  S3:Object.freeze({color:'紫',theme:'公平性',base:'#9169B5',light:'#C6A1DF',dark:'#6C4690'}),
+  S4:Object.freeze({color:'薄い緑',theme:'自由・自己決定',base:'#B7DDA4',light:'#DEF2D1',dark:'#80AE79'}),
+  S5:Object.freeze({color:'黄色',theme:'つながり・生きがい',base:'#EBC454',light:'#FFE591',dark:'#C9A13B'})
+ });
+ const api={scenarios,MEDIA,envelopes,letters:{
   "S1": {
     "paragraphs": [
       "市長へ。",
