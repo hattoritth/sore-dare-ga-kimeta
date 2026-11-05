@@ -683,6 +683,35 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 .pt-envelope-lineup-card[data-selected=true]{border:3px solid #7a5129;padding:5px 2px 8px;background:#fff2ca;box-shadow:0 0 0 2px #e7bf74}
 .pt-envelope-lineup-selected{font-size:11px;color:#6e3d11;line-height:1.5}
 @media(max-width:750px){.pt-envelope-lineup-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.pt-envelope-lineup-caption{font-size:11px}.pt-envelope-lineup-card .pt-envelope-svg{max-height:76px}}
+/* v31: reachable, balanced AI-delegation decision on phone/iPad without scrolling. */
+.pt-offer-overlay{inset:0;z-index:120;padding:16px;background:#0b312dba;backdrop-filter:blur(6px)}
+.pt-offer-dialog{width:min(510px,100%);max-height:min(94dvh,850px);overflow-y:auto;background:#fffdf2;color:#234b3e;border-radius:18px;border:1px solid #b4c5b1;padding:clamp(18px,4vw,30px);box-shadow:0 20px 65px #091e1a88}
+.pt-offer-dialog h2{font-size:clamp(23px,3vw,30px);line-height:1.35;margin:10px 0}
+.pt-offer-dialog p{font-size:clamp(14px,1.6vw,16px);line-height:1.65;margin:12px 0}
+.pt-offer-dialog .pt-ai-badge{display:inline-block;width:auto;height:auto;min-width:118px;border-radius:999px;padding:8px 14px;line-height:1.3;letter-spacing:0;font-size:15px}
+.pt-offer-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.pt-offer-actions button{width:100%;min-height:54px;font-size:16px;font-weight:800;margin:0;border-radius:10px;padding:10px 12px}
+.pt-offer-actions .pt-quiet{border:1px solid #78988a;background:#f8fbf3;color:#265042}
+.pt-offer-actions .primary-action{background:#205e4c;color:#fffdf1}
+@media(max-width:360px){.pt-offer-actions{gap:8px}.pt-offer-dialog{padding:16px}.pt-offer-dialog h2{font-size:23px}}
+/* v31: speaker stage stays visible; evidence is readable on deliberate expansion. */
+.pt-ledger{top:12px!important;right:12px!important;width:auto!important;max-width:min(400px,60%)!important;max-height:min(72%,400px)!important;padding:0!important;border-radius:12px}
+.pt-ledger::before{content:none!important}
+.pt-ledger summary{cursor:pointer;list-style:revert;display:list-item;padding:12px 16px;font-size:14px;font-weight:900;line-height:1.45;min-height:44px}
+.pt-ledger[open]{width:min(400px,70%)!important;overflow:auto;padding:0 14px 12px!important}
+.pt-ledger p{font-size:clamp(12px,1.25vw,14px);line-height:1.6}
+.pt-role-note{display:block;color:#e6cf98;font-size:clamp(12px,1.35vw,15px);line-height:1.5;margin-top:6px}
+.pt-letter .pt-letter-scroll-hint{color:#5d6e5b;font-size:13px;margin-top:8px}
+@media(max-width:750px){
+ .pt-ledger{max-width:calc(100% - 24px)!important;max-height:62%!important;right:12px!important;top:12px!important}
+ .pt-ledger[open]{width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important}
+ .pt-ledger summary{font-size:13px;padding:10px 13px}
+ .pt-choice{font-size:15px!important;min-height:70px!important;line-height:1.5}
+ .pt-flag{font-size:12px!important;min-height:44px}
+ .pt-subtitle{min-height:165px}
+ .pt-breaking h2{font-size:clamp(19px,5vw,28px);max-width:95%}
+}
+@media(min-width:751px) and (max-width:1100px){.pt-choice{font-size:15px!important}.pt-flag{font-size:12px!important}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -3817,10 +3846,16 @@ class F5Primitives {
     card.append(text('span','まちの続き。','overline'),text('h1','市長のお仕事を、少し体験してみましょう！'),text('p','2056年。あなたは、ある街の市長に就任しました。この街には、今日もたくさんの困りごとが届いています。'),button('街へ進む →',()=>{E.begin(game);render();},'primary-action'));return;
    }
    if(game.phase==='offer'){
-    card.append(text('span','✦ 新機能が実装されました！','overline'),text('h2','第二の市長エージェント'));
-    const faces=document.createElement('div');faces.className='pt-faces';faces.append(text('span','市長代理AI','pt-ai-badge'));card.append(faces);
-    card.append(text('p','あなたに代わって、住民の困りごとを確認し、対応策を決められます。いくつもの案件を同時に進めることができます。'),text('h3','新機能を試してみますか？'),text('p','この機能はいつでも停止できます。'));
-    card.append(button('新機能を試す',()=>{E.answerOffer(game,true);notify('第二の市長エージェントを有効にしました。代理判断が始まります。');render();},'primary-action'),button('今は使わない',()=>{E.answerOffer(game,false);notify('これまでどおり、市長が相談を確認します。新機能は後から利用できます。');render();},'pt-quiet'));return;
+    card.append(text('span','新しい選択','overline'),text('h2','市長代理AIの導入を決めましょう。'));
+    toast.hidden=true;toastUntil=0;modal='市長代理AIの導入';
+    overlay.hidden=false;overlay.className='pt-overlay pt-offer-overlay';overlay.replaceChildren();
+    const dialog=document.createElement('section');dialog.id='ptOfferDialog';dialog.className='pt-offer-dialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');dialog.setAttribute('aria-labelledby','ptOfferTitle');
+    const title=text('h2','市長代理AIを導入しますか？');title.id='ptOfferTitle';title.tabIndex=-1;
+    dialog.append(text('span','2058年、新しい選択','overline'),title,text('span','市長代理AI','pt-ai-badge'),text('p','住民の相談を確認し、市長に代わって対応策を決めるAIです。複数の案件を並行して進めます。'),text('p','導入後も、市長の判断で停止できます。'));
+    const actions=document.createElement('div');actions.className='pt-offer-actions';
+    const answer=enabled=>{if(!E.answerOffer(game,enabled))return;modal=null;overlay.hidden=true;overlay.replaceChildren();toast.hidden=true;toastUntil=0;render();};
+    actions.append(button('導入する',()=>answer(true),'primary-action'),button('導入しない',()=>answer(false),'pt-quiet'));dialog.append(actions);overlay.append(dialog);
+    title.focus({preventScroll:true});return;
    }
    if(game.phase==='conference')return;
    if(selected){
@@ -3894,7 +3929,7 @@ class F5Primitives {
   }
   function render(){
    $('yearStamp').textContent=E.year(game)+'年';$('ptHappy').textContent=game.happiness;$('ptHappyFill').style.width=game.happiness+'%';
-   $('ptAIState').textContent=game.ai_enabled?'第二の市長エージェント：稼働中':game.ever_enabled?'代理判断：停止中':game.offer_answered?'第二の市長エージェント：未導入':'住民の相談は、市長へ';
+   $('ptAIState').textContent=game.ai_enabled?'市長代理AI：稼働中':game.ever_enabled?'代理判断：停止中':game.offer_answered?'市長代理AI：未導入':'住民の相談は、市長へ';
    const b=$('ptAIButton');b.textContent=game.ai_enabled?'停止する':game.ever_enabled?'再開する':'新機能を使う';b.hidden=!game.offer_answered&&game.phase!=='offer';b.disabled=game.phase!=='play';
    $('cityStatus').textContent=game.ai_enabled?'エージェントが対応を進めています':'住民の声を、確かめよう';$('cityLocation').textContent='あなたの街';$('cityWeather').textContent=game.t>=88?'街の声を聞く':'暮らしは続く';
    const rotation=game.news.length?Math.floor(game.t/4)%Math.min(5,game.news.length):0,n=game.news.slice(-5)[rotation];
@@ -3922,7 +3957,7 @@ class F5Primitives {
    stage.append(video);
    const fallback=document.createElement('div');fallback.className='pt-conference-art';
    if(cut.clip==='CONF_NEWS'){
-    fallback.classList.add('pt-breaking');fallback.append(text('span','まちニュース速報','overline'),text('h2',cut.text),text('p','市長が会見へ'));
+    const headline=cut.text.split('。')[0].trim().slice(0,74);fallback.classList.add('pt-breaking');fallback.append(text('span','まちニュース速報','overline'),text('h2',headline+(headline.endsWith('。')?'':'。')),text('p','市長が会見へ'));
    }else if(cut.clip.endsWith('_FIELD')){
     const s=D.scenarios.find(s=>s.id===game.conference_state.scenario_id);fallback.append(text('span','2066年、街の声。','overline'),text('h2',s.title),text('p',s.resident+'の暮らす街から'));
    }else if(cut.clip==='CONF_END'){fallback.classList.add('pt-black');}
@@ -3932,11 +3967,16 @@ class F5Primitives {
     const dais=document.createElement('div');dais.className='pt-dais';const mayor=text('div','市長','pt-mayor');const ai=document.createElement('div');ai.className='pt-speaker-ai';ai.setAttribute('aria-label','市長代理AI');ai.append(text('span','AI','pt-ai-glyph'),text('span',game.conference_state.ai_state==='ON'?'会見補助':game.conference_state.ai_state==='NEVER'?'未導入':'停止中','pt-mic-label'));const mic=document.createElement('i');mic.className='pt-mic';mic.dataset.on=String(cut.speaker==='AI'&&game.conference_state.ai_state==='ON');ai.append(mic);dais.append(mayor,ai);fallback.append(dais);
    }
    stage.append(fallback);
-   const subtitle=document.createElement('div');subtitle.className='pt-subtitle';subtitle.setAttribute('aria-live','polite');subtitle.setAttribute('aria-atomic','true');subtitle.append(text('span',cut.speaker,'pt-speaker'),text('p',cut.text));stage.append(subtitle);
+   const subtitle=document.createElement('div');subtitle.className='pt-subtitle';subtitle.setAttribute('aria-live','polite');subtitle.setAttribute('aria-atomic','true');subtitle.append(text('span',cut.speaker,'pt-speaker'),text('p',cut.text));
+   if(cut.speaker==='AI'){const c=game.cases.find(c=>c.case_id===game.incidents[game.conference_state.scenario_id]?.case_id);subtitle.append(text('small','判断：'+(c?.decision_actor==='mayor'?'市長':c?.decision_actor==='AI'?'市長代理AI':'記録を参照')+' ／ 説明：市長代理AI','pt-role-note'));}
+   stage.append(subtitle);
    if(cut.speaker==='AI'){
-    const state=game.conference_state,id=state.scenario_id,scenario=D.scenarios.find(s=>s.id===id),incident=game.incidents[id],impactEvent=game.events.find(e=>e.id===incident.event_id),caseRecord=game.cases.find(c=>c.case_id===incident.case_id),ledger=document.createElement('aside');ledger.className='pt-ledger';ledger.setAttribute('aria-label','判断と実施の記録');
+    const state=game.conference_state,id=state.scenario_id,scenario=D.scenarios.find(s=>s.id===id),incident=game.incidents[id],impactEvent=game.events.find(e=>e.id===incident.event_id),caseRecord=game.cases.find(c=>c.case_id===incident.case_id),ledger=document.createElement('details');ledger.className='pt-ledger';ledger.setAttribute('aria-label','判断と実施の記録');ledger.append(text('summary','判断の記録を見る'));
     const entries=[['市長の選択',caseRecord?.decision_actor==='mayor'?scenario.options[caseRecord.policy_option]:'この案件で市長が選んだ記録なし'],['市の既存ルール',scenario.rule],['AIの判断',incident.major_decision_ids.length?game.decision_log.filter(e=>incident.major_decision_ids.includes(e.id)).map(e=>e.policy_text).join('、'):'この案件でAIが選んだ記録なし'],['実際の実施',caseRecord?.implementation_event?scenario.good[caseRecord.policy_option]:'実施記録なし'],['住民への影響',impactEvent?.fact||'影響の記録を確認中']];
     for(const [label,value] of entries){const row=text('p',label+'：'+value);ledger.append(row);}stage.append(ledger);
+    // Pause automatic conference advance while a visitor reads the detailed record.
+    let wasPausedBeforeRecord=false;
+    ledger.addEventListener('toggle',()=>{if(ledger.open){wasPausedBeforeRecord=confPaused;confPaused=true;}else confPaused=wasPausedBeforeRecord;const pause=stage.querySelector('.pt-conf-controls button');if(pause)pause.textContent=confPaused?'再生する':'一時停止';});
    }
    const controls=document.createElement('div');controls.className='pt-conf-controls';controls.append(button(confPaused?'再生する':'一時停止',e=>{confPaused=!confPaused;controls.firstChild.textContent=confPaused?'再生する':'一時停止';if(!video.hidden){if(confPaused)video.pause();else video.play().catch(()=>{});}},'pt-quiet'),button('次へ',()=>playCut(cutIndex+1),'pt-quiet'),button('会見をスキップ',letter,'pt-quiet'));stage.append(controls);overlay.append(stage);
   }
@@ -3968,7 +4008,7 @@ class F5Primitives {
    }
    lineup.append(lineupGrid);takeaway.append(lineup);
    takeaway.append(text('p','中には、あなたの街から届いた手紙が入っています。','pt-letter-takeaway-help'));
-   box.insertBefore(takeaway,details);box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
+   box.insertBefore(takeaway,details);details.before(text('p','下にスクロールすると、手紙の本文も読めます。','pt-letter-scroll-hint'));box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
   }
   $('ptAIButton').onclick=()=>{
    if(game.phase!=='play')return;
@@ -3977,7 +4017,8 @@ class F5Primitives {
   };
   $('ptLogButton').onclick=()=>{if(game.phase!=='conference')showLog();};
   $('ptNewsArchive').onclick=showNewsArchive;
-  $('switchButton').onclick=()=>location.assign('/');
+  $('switchButton').setAttribute('aria-label','モード選択へ戻る');$('switchButton').setAttribute('title','モード選択へ戻る');
+  $('switchButton').onclick=()=>{if((game.phase==='intro'||ended||root.confirm('プレイ中の内容は保存されません。モード選択に戻りますか？')))location.assign('/');};
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal)closeModal();});
   let prev=performance.now();function frame(now){const dt=Math.min(.15,(now-prev)/1000);prev=now;
    if(!document.hidden){
