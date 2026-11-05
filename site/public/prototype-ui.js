@@ -155,7 +155,7 @@
    }
   }
   function playCut(index){
-   if(index>=cuts.length){letter();return;}cutIndex=index;cutElapsed=0;const cut=cuts[index];if(cut.record!==false)E.noteSpeech(game,cut);
+   if(index>=cuts.length){letter();return;}toast.hidden=true;toastUntil=0;cutIndex=index;cutElapsed=0;const cut=cuts[index];if(cut.record!==false)E.noteSpeech(game,cut);
    overlay.hidden=false;overlay.className='pt-overlay pt-conference';overlay.replaceChildren();
    const stage=document.createElement('section');stage.className='pt-stage';stage.dataset.clip=cut.clip;stage.setAttribute('aria-label','記者会見');
    const media=D.MEDIA[cut.clip];const video=document.createElement('video');video.muted=true;video.playsInline=true;video.loop=media?.loop!==false;video.className='pt-video';
@@ -175,8 +175,8 @@
    stage.append(fallback);
    const subtitle=document.createElement('div');subtitle.className='pt-subtitle';subtitle.setAttribute('aria-live','polite');subtitle.setAttribute('aria-atomic','true');subtitle.append(text('span',cut.speaker,'pt-speaker'),text('p',cut.text));stage.append(subtitle);
    if(cut.speaker==='AI'){
-    const state=game.conference_state,id=state.scenario_id,scenario=D.scenarios.find(s=>s.id===id),incident=game.incidents[id],caseRecord=game.cases.find(c=>c.case_id===incident.case_id),ledger=document.createElement('aside');ledger.className='pt-ledger';ledger.setAttribute('aria-label','判断と実施の記録');
-    const entries=[['市長の選択',caseRecord?.decision_actor==='mayor'?scenario.options[caseRecord.policy_option]:'この案件で市長が選んだ記録なし'],['市の既存ルール',scenario.rule],['AIの判断',incident.major_decision_ids.length?game.decision_log.filter(e=>incident.major_decision_ids.includes(e.id)).map(e=>e.policy_text).join('、'):'この案件でAIが選んだ記録なし'],['実際の実施',caseRecord?.implementation_event?scenario.good[caseRecord.policy_option]:'実施記録なし'],['住民への影響',incident.fact]];
+    const state=game.conference_state,id=state.scenario_id,scenario=D.scenarios.find(s=>s.id===id),incident=game.incidents[id],impactEvent=game.events.find(e=>e.id===incident.event_id),caseRecord=game.cases.find(c=>c.case_id===incident.case_id),ledger=document.createElement('aside');ledger.className='pt-ledger';ledger.setAttribute('aria-label','判断と実施の記録');
+    const entries=[['市長の選択',caseRecord?.decision_actor==='mayor'?scenario.options[caseRecord.policy_option]:'この案件で市長が選んだ記録なし'],['市の既存ルール',scenario.rule],['AIの判断',incident.major_decision_ids.length?game.decision_log.filter(e=>incident.major_decision_ids.includes(e.id)).map(e=>e.policy_text).join('、'):'この案件でAIが選んだ記録なし'],['実際の実施',caseRecord?.implementation_event?scenario.good[caseRecord.policy_option]:'実施記録なし'],['住民への影響',impactEvent?.fact||'影響の記録を確認中']];
     for(const [label,value] of entries){const row=text('p',label+'：'+value);ledger.append(row);}stage.append(ledger);
    }
    const controls=document.createElement('div');controls.className='pt-conf-controls';controls.append(button(confPaused?'再生する':'一時停止',e=>{confPaused=!confPaused;controls.firstChild.textContent=confPaused?'再生する':'一時停止';if(!video.hidden){if(confPaused)video.pause();else video.play().catch(()=>{});}},'pt-quiet'),button('次へ',()=>playCut(cutIndex+1),'pt-quiet'),button('会見をスキップ',letter,'pt-quiet'));stage.append(controls);overlay.append(stage);

@@ -46,6 +46,25 @@ async function start(page){
   assert.equal(info.s.ai_state,mode);const ai=info.clips.filter(c=>c.speaker==='AI');assert.equal(ai.length>0,mode==='ON');
   await page.waitForFunction(()=>document.querySelector('.pt-stage')?.dataset.clip==='CONF_NEWS',{timeout:10000});
   assert.match(await page.$eval('.pt-stage',e=>e.textContent),/まちニュース速報/);
+  assert.equal(await page.$eval('#ptToast',e=>e.hidden),true,'stale notification must not obscure the news or press conference');
+  if(mode==='ON'){
+   let found=false;
+   for(let i=0;i<24;i++){
+    const speaker=await page.$eval('.pt-stage .pt-speaker',e=>e.textContent);
+    if(speaker==='AI'){
+     const actual=await page.$eval('.pt-ledger',e=>e.innerText);
+     const impact=await page.evaluate(()=>{const g=MachiPrototypeUI.snapshot(),incident=g.incidents[g.conference_state.scenario_id];return g.events.find(e=>e.id===incident.event_id)?.fact;});
+     assert.ok(impact&&impact.length>8,'recorded event must contain an actual resident impact');
+     assert.ok(actual.includes(impact),'AI ledger must display the recorded event fact');
+     assert.doesNotMatch(actual,/undefined|null/,'do not show missing values to guests');
+     assert.equal(await page.$eval('#ptToast',e=>e.hidden),true,'toast must remain hidden during AI explanation');
+     found=true;break;
+    }
+    await page.click('.pt-conf-controls button:nth-child(2)');
+   }
+   assert.equal(found,true,'AI active conference must reach an actual AI statement');
+   console.log('PASS AI ledger uses actual recorded resident impact; no undefined and no stale toast');
+  }
   await page.click('.pt-conf-controls button:last-child');
   await page.waitForSelector('.pt-letter-id',{visible:true,timeout:10000});
   assert.equal(await page.$eval('#ptToast',e=>e.hidden),true,'stale game notifications must not cover the letter pickup screen');
