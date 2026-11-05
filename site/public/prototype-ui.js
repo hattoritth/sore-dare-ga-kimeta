@@ -21,6 +21,22 @@
   const visible=el=>{const r=el.getBoundingClientRect();return !document.hidden&&r.width>0&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;};
   function text(tag,value,cls){const n=document.createElement(tag);n.textContent=value;if(cls)n.className=cls;return n;}
   function button(label,fn,cls='pt-choice'){const b=text('button',label,cls);b.type='button';b.onclick=fn;return b;}
+  // Local SVG illustration: exact exhibition envelope colours, offline and accessible.
+  function envelopeIllustration(id,style){
+   const ns='http://www.w3.org/2000/svg';
+   const node=(tag,attrs)=>{const e=document.createElementNS(ns,tag);for(const [key,value] of Object.entries(attrs))e.setAttribute(key,String(value));return e;};
+   const svg=node('svg',{viewBox:'0 0 270 181',role:'img','aria-label':style.color+'の封筒、'+style.theme+'、レター番号 '+id,class:'pt-envelope-svg'});
+   const title=node('title',{});title.textContent=style.color+'の封筒（'+style.theme+'）';svg.append(title);
+   svg.append(node('ellipse',{cx:135,cy:165,rx:115,ry:9,fill:'#242d28',opacity:'.16'}));
+   svg.append(node('rect',{x:26,y:23,width:218,height:133,rx:10,fill:style.base,stroke:style.dark,'stroke-width':2}));
+   svg.append(node('path',{d:'M27 148 L101 90 Q135 70 169 90 L243 148',fill:style.dark,opacity:'.33'}));
+   svg.append(node('path',{d:'M27 149 L115 86 L135 100 L155 86 L243 149 Q242 156 234 156 L36 156 Q27 156 27 149 Z',fill:style.base,stroke:style.dark,'stroke-width':1.2}));
+   svg.append(node('path',{d:'M27 31 Q27 23 36 23 L234 23 Q243 23 243 31 L135 110 Z',fill:style.light,stroke:style.dark,'stroke-width':1.8,'stroke-linejoin':'round'}));
+   svg.append(node('circle',{cx:135,cy:114,r:20,fill:'#fffdf0',stroke:style.dark,'stroke-width':2}));
+   const stamp=node('text',{x:135,y:120,'text-anchor':'middle','font-size':16,'font-weight':800,fill:'#263e38','font-family':'system-ui,sans-serif'});stamp.textContent=id;svg.append(stamp);
+   return svg;
+  }
+
   function notify(message){toast.textContent=message;toast.hidden=false;toastUntil=performance.now()+3600;}
   function newGame(){
    game=E.createGame();selected=null;modal=null;lastCard='';lastNews=null;lastFlags='';lastTicker='';cutIndex=-1;cuts=[];cutElapsed=0;confPaused=false;ended=false;overlay.hidden=true;toast.hidden=true;applied=new Set();
@@ -166,11 +182,34 @@
    const controls=document.createElement('div');controls.className='pt-conf-controls';controls.append(button(confPaused?'再生する':'一時停止',e=>{confPaused=!confPaused;controls.firstChild.textContent=confPaused?'再生する':'一時停止';if(!video.hidden){if(confPaused)video.pause();else video.play().catch(()=>{});}},'pt-quiet'),button('次へ',()=>playCut(cutIndex+1),'pt-quiet'),button('会見をスキップ',letter,'pt-quiet'));stage.append(controls);overlay.append(stage);
   }
   function letter(){
-   ended=true;overlay.querySelector('video')?.pause();overlay.className='pt-overlay pt-ending';overlay.hidden=false;overlay.replaceChildren();
+   ended=true;toast.hidden=true;toastUntil=0;overlay.querySelector('video')?.pause();overlay.className='pt-overlay pt-ending';overlay.hidden=false;overlay.replaceChildren();
    const id=game.conference_state.scenario_id,s=D.scenarios.find(s=>s.id===id),box=document.createElement('section');box.className='pt-letter';
    box.append(text('span','それ、誰が決めた？','overline'),text('h1','あなたの街から届いた手紙をお受け取りください。'),text('strong','レター番号 '+id,'pt-letter-id'),text('h2',s.title));
+   // The pickup cue is placed before the optional digital letter so guests see the envelope colour immediately.
    const details=document.createElement('details');details.append(text('summary','手紙を読む'));for(const p of (D.letters[id]?.paragraphs||[]))details.append(text('p',p));if(D.letters[id]?.heading)details.append(text('h3',D.letters[id].heading));box.append(details);
-   const review=text('p','この街の出来事は創作です。判断の記録は経緯を示すもので、法的責任を確定するものではありません。','pt-small');box.append(review,button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
+   const review=text('p','この街の出来事は創作です。判断の記録は経緯を示すもので、法的責任を確定するものではありません。','pt-small');box.append(review);
+   const takeaway=document.createElement('aside');takeaway.className='pt-letter-takeaway';takeaway.setAttribute('aria-label','会場の封筒のご案内');
+   const envelope=D.envelopes[id];
+   takeaway.append(text('span','最後に','pt-letter-takeaway-label'),text('p','会場にある封筒を1通お取りください。','pt-letter-takeaway-title'));
+   if(envelope){
+    const visual=document.createElement('figure');visual.className='pt-envelope-visual';visual.dataset.scenario=id;visual.dataset.envelopeColor=envelope.color;
+    visual.append(envelopeIllustration(id,envelope),text('figcaption',envelope.color+'の封筒','pt-envelope-color'));
+    takeaway.append(visual,text('p',envelope.theme+'｜レター番号 '+id,'pt-envelope-theme'));
+   }
+   // A five-envelope lineup mirrors the display in the venue; only this result is highlighted.
+   const lineup=document.createElement('section');lineup.className='pt-envelope-lineup';lineup.setAttribute('aria-label','会場の5色の封筒一覧');
+   lineup.append(text('h3','会場の5色の封筒','pt-envelope-lineup-heading'));
+   const lineupGrid=document.createElement('div');lineupGrid.className='pt-envelope-lineup-grid';lineupGrid.setAttribute('role','list');
+   for(const code of ['S1','S2','S4','S5','S3']){
+    const sample=D.envelopes[code],card=document.createElement('figure');
+    card.className='pt-envelope-lineup-card';card.dataset.scenario=code;card.dataset.selected=String(code===id);card.setAttribute('role','listitem');
+    card.append(envelopeIllustration(code,sample),text('figcaption',sample.color+'｜'+sample.theme,'pt-envelope-lineup-caption'));
+    if(code===id)card.append(text('strong','あなたはこちら','pt-envelope-lineup-selected'));
+    lineupGrid.append(card);
+   }
+   lineup.append(lineupGrid);takeaway.append(lineup);
+   takeaway.append(text('p','中には、あなたの街から届いた手紙が入っています。','pt-letter-takeaway-help'));
+   box.insertBefore(takeaway,details);box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
   }
   $('ptAIButton').onclick=()=>{
    if(game.phase!=='play')return;
