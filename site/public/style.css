@@ -618,3 +618,23 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 @media(max-width:750px){.shell[data-view=solo] .site-qr-thumb,.shell[data-view=group] .site-qr-thumb{left:8px;right:auto;top:calc(env(safe-area-inset-top) + 220px);bottom:auto}}
 
 .site-qr-thumb{padding:3px;background:#fff}.site-qr-thumb img{display:block;width:100%;height:100%;object-fit:contain}
+
+/* Result reveal opens a single immersive, locally illustrated press scene. */
+.press-conference{position:fixed;inset:0;z-index:120;margin:0;padding:0;border:0;border-radius:0;background:#172b31;color:#fff;display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+.press-conference[hidden]{display:none!important}.press-scene{position:absolute;inset:0 0 20% 0;z-index:-1;background:#273f4b}.press-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#101d2540 0%,#101d2520 44%,#101d25cc 100%)}.press-scene-art{width:100%;height:100%;display:block;object-fit:cover}
+.press-caption{position:relative;margin:auto 0 0;padding:clamp(18px,4vh,42px) clamp(18px,7vw,96px) max(18px,env(safe-area-inset-bottom));background:linear-gradient(0deg,#13252af5,#152a30eF 76%,#152a3000);max-height:75dvh;overflow:auto;overscroll-behavior:contain}.press-caption .reveal-heading{color:#e4c58b;letter-spacing:.14em}.press-caption h2{font-size:clamp(25px,4vw,48px);line-height:1.2;margin:10px 0;color:#fff9eb}.press-issue,.press-caption #pressQuestion,.press-caption #pressAnswer{font-size:clamp(15px,1.8vw,20px);line-height:1.65;color:#f1f2e9;max-width:980px;margin:8px 0}.press-caption #pressQuestion{font-weight:800}.press-caption #pressAnswer{font-weight:500;color:#f5e8cf}.press-actions{margin-top:18px;gap:12px}.press-actions .primary-action{min-width:min(240px,100%);background:#e5c284;color:#203a37;min-height:50px}.press-actions .text-action{color:#fff;background:#203a3770;border:1px solid #d4ddd2;min-height:48px}.press-conference :focus-visible{outline:3px solid #ffe095;outline-offset:3px}
+.site-qr-thumb{width:60px;height:60px;z-index:141}.site-qr-panel{z-index:142}.site-qr-panel img{width:min(82vw,330px);max-height:66dvh;object-fit:contain}
+.agent-portrait[data-agent="ソラ"] .portrait-head,.agent-portrait[data-agent="ナギ"] .portrait-head{height:23px;border-radius:10px 10px 5px 5px}
+@media(max-width:750px){.press-scene{inset:0 0 34%}.press-caption{max-height:68dvh;padding:16px 16px max(16px,env(safe-area-inset-bottom))}.press-caption h2{font-size:clamp(23px,6vw,34px)}.press-issue,.press-caption #pressQuestion,.press-caption #pressAnswer{font-size:15px;line-height:1.55}.press-actions{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}.press-actions button{width:100%;min-height:46px}.site-qr-thumb{width:60px;height:60px}.site-qr-panel{padding:64px 16px 20px}.site-qr-panel img{width:min(82vw,330px);max-height:60dvh}}
+@media(max-height:520px) and (orientation:landscape){.press-scene{inset:0 35% 0 0}.press-caption{margin-left:auto;width:45%;max-height:100dvh;padding:14px 18px}.press-caption h2{font-size:24px}.press-issue,.press-caption #pressQuestion,.press-caption #pressAnswer{font-size:14px;line-height:1.4}.press-actions{margin-top:8px}}
+
+/* Human and delegated AI choices carry equal visual weight. */
+.question-panel .decision[data-vote="human"],.question-panel .decision[data-vote="ai"]{min-height:78px;padding:12px 15px;gap:6px;align-items:flex-start;text-align:left}
+.question-panel .decision[data-vote="human"] strong,.question-panel .decision[data-vote="ai"] strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3}
+@media(max-width:750px){.question-panel .decision[data-vote="human"],.question-panel .decision[data-vote="ai"]{min-height:83px}.question-panel .decision[data-vote="human"] strong,.question-panel .decision[data-vote="ai"] strong{font-size:16px}}
+/* All four currently generated decision options are equal-level controls. */
+#decisionOptions .decision{min-height:78px;padding:12px 15px;gap:6px;align-items:flex-start;text-align:left}
+#decisionOptions .decision strong{font-size:clamp(17px,1.45vw,20px);line-height:1.3}
+@media(max-width:750px){#decisionOptions .decision{min-height:83px}#decisionOptions .decision strong{font-size:16px}}
+/* The legacy conference paragraph rule must not dim cinematic captions. */
+.press-conference .press-issue{color:#dfebe5}

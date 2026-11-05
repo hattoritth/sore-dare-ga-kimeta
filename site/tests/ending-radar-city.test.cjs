@@ -35,10 +35,10 @@ test('six crisis visuals, TRUE, NORMAL, WARNING and undecided remain distinct an
  assert.match(Card.sceneVisual({kind:'undecided',scene:'neutral',sceneImage:'data:image/png;base64,iVBORw0KGgo='}),/data-theme="neutral"/);
 });
 
-test('stage four exposes radar with six metric values; earlier stages keep all hidden metrics out of markup and aria',()=>{
- assert.match(html,/id="endingRadar"/);assert.match(app,/if\(endingFlowStage>=3&&endingRadarCity!==s\.cityStartedAt\)\{endingRadarCity=s\.cityStartedAt;radar\.innerHTML=window\.EndingCard\.radarSvg/);
- assert.match(app,/if\(endingFlowStage<3\)\{if\(endingMetricsCity===s\.cityStartedAt\)/);
- assert.match(app,/if\(endingRadarCity===s\.cityStartedAt\)\{endingRadarCity=null;radar\.replaceChildren\(\);\}/);
+test('conference completion exposes radar with six metric values; the mandatory conference keeps metrics out of DOM and aria',()=>{
+ assert.match(html,/id="endingRadar"/);assert.match(app,/if\(pressDone&&endingRadarCity!==s\.cityStartedAt\)\{endingRadarCity=s\.cityStartedAt;radar\.innerHTML=window\.EndingCard\.radarSvg/);
+ assert.match(app,/if\(!pressDone\)\{endingMetricsCity=null;endingRadarCity=null/);
+ assert.match(app,/if\(!pressDone\)\{endingMetricsCity=null;endingRadarCity=null;\$\('publicMetrics'\)\.replaceChildren\(\);\$\('shadowMetrics'\)\.replaceChildren\(\);radar\.replaceChildren\(\);\}/);
  assert.match(app,/endingMetricsCity!==s\.cityStartedAt/);assert.match(app,/endingRadarCity!==s\.cityStartedAt/);
  assert.match(app,/endingFlowStage<1\)\{\$\('endingKicker'\)\.textContent='';\$\('endingTitle'\)\.textContent='';/);
  assert.match(Card.sceneVisual({kind:'true',scene:'true'}),/aria-hidden="true"/);
@@ -116,8 +116,8 @@ test('saved SVG fallback also keeps four visually distinct ending themes',()=>{
 test('ending radar label anchors stay inside a wide viewBox and labels wrap',()=>{
  const svg=Card.radarSvg([74,86,76,73,59,85]);assert.match(svg,/viewBox=\"0 0 400 296\"/);assert.equal((svg.match(/<tspan/g)||[]).length,12);assert.match(svg,/未来への備え/);
 });
-test('stage four is expanded by stage transition and ending controls use single accessible details ids',()=>{
- assert.match(app,/endingUiStage!==endingFlowStage/);assert.match(app,/endingFlowStage===3/);assert.match(html,/<details class=\"metric-comparison\" id=\"metricComparison\"/);assert.match(html,/<details id=\"endingCardMore\"/);assert.match(html,/id=\"downloadEndingPng\"/);assert.match(html,/id=\"printEndingCard\"/);
+test('conference ends directly at card controls with single accessible details ids',()=>{
+ assert.match(app,/endingUiStage!==endingFlowStage/);assert.match(app,/endingFlowStage===4/);assert.match(html,/<details class=\"metric-comparison\" id=\"metricComparison\"/);assert.match(html,/<details id=\"endingCardMore\"/);assert.match(html,/id=\"downloadEndingPng\"/);assert.match(html,/id=\"printEndingCard\"/);
 });
 
 test('exported ending card embeds radar labels within the transformed card group',()=>{

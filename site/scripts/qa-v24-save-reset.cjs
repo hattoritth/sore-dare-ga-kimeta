@@ -26,9 +26,9 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    console.log('PASS round',round+1,'option',id);
   }
   await page.waitForFunction(()=>!document.querySelector('#resultPanel').hidden);
-  await page.click('#endingShowAll');
+  await page.waitForFunction(()=>!document.querySelector('#pressConference').hidden);
+  await page.click('#pressSkip');
   await page.waitForFunction(()=>document.querySelector('#shadowMetrics').children.length===3);
-  await page.click('#endingNext');
   await page.waitForFunction(()=>!document.querySelector('#endingCardTools').hidden&&document.querySelector('#endingCardPreview').children.length>0);
   const prior=await page.evaluate(()=>({
    shadow:document.querySelector('#shadowMetrics').textContent.trim(),
@@ -53,6 +53,7 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.click('#pressNext');
   await page.waitForFunction(()=>document.querySelector('#pressAnswer').textContent.length>0,{timeout:10000});
   assert.equal(await page.$eval('#pressAnswer',e=>e.hidden),false,'conference typing must be active before replay');
+  await page.click('#pressSkip');
   await page.click('#replayButton');
   await page.waitForFunction(()=>!document.querySelector('#questionPanel').hidden&&document.querySelector('#resultPanel').hidden);
   await sleep(1400);
