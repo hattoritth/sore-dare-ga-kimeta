@@ -47,7 +47,7 @@ async function play(page,route){
   assert.equal(await page.$eval('#siteQrPanel',e=>e.hidden),false,'QR should open over conference');
   await page.click('#siteQrClose');
   console.log('PASS full viewport press first, distinct illustration, no early metrics, persistent QR',JSON.stringify(initial));
-  const subtitles=[];for(let n=0;n<7;n++){
+  const subtitles=[];for(let n=0;n<30;n++){
    if(await page.$eval('#pressConference',e=>e.hidden))break;
    await page.click('#pressNext');
    subtitles.push(await page.$eval('#pressAnswer',e=>e.textContent));
