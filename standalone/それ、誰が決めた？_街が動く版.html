@@ -673,6 +673,16 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 .pt-envelope-color{font-size:clamp(18px,2vw,23px);font-weight:900;line-height:1.4}
 .pt-letter .pt-envelope-theme{margin:3px 0 4px;font-size:clamp(12px,1.5vw,15px);font-weight:800;color:#634d34}
 @media(max-width:750px){.pt-envelope-svg{width:min(210px,55vw)}.pt-envelope-visual{margin-top:6px}}
+/* Exhibition five-envelope reference lineup matching the display poster: blue, dark-green, pale-green, yellow, purple. */
+.pt-envelope-lineup{margin:20px auto 8px;padding-top:13px;border-top:1px solid #c9ac80}
+.pt-letter .pt-envelope-lineup-heading{font-size:clamp(14px,1.8vw,18px);margin:2px 0 12px;color:#53442f}
+.pt-envelope-lineup-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;align-items:start}
+.pt-envelope-lineup-card{position:relative;margin:0;border:1px solid #c9bea5;border-radius:9px;background:#fffaf0;padding:7px 4px 10px;min-width:0;display:grid;justify-items:center;gap:3px}
+.pt-envelope-lineup-card .pt-envelope-svg{width:100%;height:auto;max-height:85px;filter:none}
+.pt-envelope-lineup-caption{font-size:clamp(9px,1vw,12px);font-weight:800;color:#3f4b3a;line-height:1.45;overflow-wrap:anywhere}
+.pt-envelope-lineup-card[data-selected=true]{border:3px solid #7a5129;padding:5px 2px 8px;background:#fff2ca;box-shadow:0 0 0 2px #e7bf74}
+.pt-envelope-lineup-selected{font-size:11px;color:#6e3d11;line-height:1.5}
+@media(max-width:750px){.pt-envelope-lineup-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.pt-envelope-lineup-caption{font-size:11px}.pt-envelope-lineup-card .pt-envelope-svg{max-height:76px}}
 </style></head>
 <body>
 <div class="shell" id="shell">
@@ -3945,6 +3955,18 @@ class F5Primitives {
     visual.append(envelopeIllustration(id,envelope),text('figcaption',envelope.color+'の封筒','pt-envelope-color'));
     takeaway.append(visual,text('p',envelope.theme+'｜レター番号 '+id,'pt-envelope-theme'));
    }
+   // A five-envelope lineup mirrors the display in the venue; only this result is highlighted.
+   const lineup=document.createElement('section');lineup.className='pt-envelope-lineup';lineup.setAttribute('aria-label','会場の5色の封筒一覧');
+   lineup.append(text('h3','会場の5色の封筒','pt-envelope-lineup-heading'));
+   const lineupGrid=document.createElement('div');lineupGrid.className='pt-envelope-lineup-grid';lineupGrid.setAttribute('role','list');
+   for(const code of ['S1','S2','S4','S5','S3']){
+    const sample=D.envelopes[code],card=document.createElement('figure');
+    card.className='pt-envelope-lineup-card';card.dataset.scenario=code;card.dataset.selected=String(code===id);card.setAttribute('role','listitem');
+    card.append(envelopeIllustration(code,sample),text('figcaption',sample.color+'｜'+sample.theme,'pt-envelope-lineup-caption'));
+    if(code===id)card.append(text('strong','あなたはこちら','pt-envelope-lineup-selected'));
+    lineupGrid.append(card);
+   }
+   lineup.append(lineupGrid);takeaway.append(lineup);
    takeaway.append(text('p','中には、あなたの街から届いた手紙が入っています。','pt-letter-takeaway-help'));
    box.insertBefore(takeaway,details);box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
   }

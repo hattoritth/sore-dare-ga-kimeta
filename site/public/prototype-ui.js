@@ -196,6 +196,18 @@
     visual.append(envelopeIllustration(id,envelope),text('figcaption',envelope.color+'の封筒','pt-envelope-color'));
     takeaway.append(visual,text('p',envelope.theme+'｜レター番号 '+id,'pt-envelope-theme'));
    }
+   // A five-envelope lineup mirrors the display in the venue; only this result is highlighted.
+   const lineup=document.createElement('section');lineup.className='pt-envelope-lineup';lineup.setAttribute('aria-label','会場の5色の封筒一覧');
+   lineup.append(text('h3','会場の5色の封筒','pt-envelope-lineup-heading'));
+   const lineupGrid=document.createElement('div');lineupGrid.className='pt-envelope-lineup-grid';lineupGrid.setAttribute('role','list');
+   for(const code of ['S1','S2','S4','S5','S3']){
+    const sample=D.envelopes[code],card=document.createElement('figure');
+    card.className='pt-envelope-lineup-card';card.dataset.scenario=code;card.dataset.selected=String(code===id);card.setAttribute('role','listitem');
+    card.append(envelopeIllustration(code,sample),text('figcaption',sample.color+'｜'+sample.theme,'pt-envelope-lineup-caption'));
+    if(code===id)card.append(text('strong','あなたはこちら','pt-envelope-lineup-selected'));
+    lineupGrid.append(card);
+   }
+   lineup.append(lineupGrid);takeaway.append(lineup);
    takeaway.append(text('p','中には、あなたの街から届いた手紙が入っています。','pt-letter-takeaway-help'));
    box.insertBefore(takeaway,details);box.append(button('もう一度、遊ぶ →',newGame,'primary-action'));overlay.append(box);
   }

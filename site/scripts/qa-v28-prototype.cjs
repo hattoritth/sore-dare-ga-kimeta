@@ -61,6 +61,12 @@ async function start(page){
   assert.equal(actualEnvelope.scenario,info.s.scenario_id);assert.equal(actualEnvelope.count,1,'only the corresponding envelope should be shown');
   assert.match(actualEnvelope.aria,new RegExp('レター番号 '+info.s.scenario_id));
   assert.equal(actualEnvelope.caption,actualEnvelope.color+'の封筒');
+  const lineup=await page.$$eval('.pt-envelope-lineup-card',items=>items.map(el=>({id:el.dataset.scenario,chosen:el.dataset.selected,visible:el.getBoundingClientRect().width>0,figcaption:el.querySelector('figcaption')?.textContent})));
+  assert.deepEqual(lineup.map(x=>x.id),['S1','S2','S4','S5','S3']);
+  assert.deepEqual(lineup.filter(x=>x.chosen==='true').map(x=>x.id),[info.s.scenario_id]);
+  assert.ok(lineup.every(x=>x.visible&&x.figcaption.includes('｜')),'all five venue envelopes must be visibly labelled');
+  assert.ok(await page.$eval('.pt-envelope-lineup',el=>el.getBoundingClientRect().width<=innerWidth),'five-colour reference must fit the viewport');
+  console.log('PASS five-envelope reference with one selected',JSON.stringify(lineup));
   console.log('PASS matched physical envelope',JSON.stringify(actualEnvelope));
   await page.screenshot({path:path.join(dir,'letter-'+mode+'.png')});
   await page.click('.pt-letter .primary-action');await page.waitForFunction(()=>MachiPrototypeUI.snapshot().phase==='intro',{timeout:10000});

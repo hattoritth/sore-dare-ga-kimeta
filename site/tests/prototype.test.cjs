@@ -138,3 +138,14 @@ test('all five physical letter envelopes use the team-approved colours and disti
  assert.match(ui,/visual\.append\(envelopeIllustration\(id,envelope\)/);
  assert.match(ui,/insertBefore\(takeaway,details\)/,'colour appears before the digital letter');
 });
+
+test('the final 5-colour lineup shows every envelope and highlights one matching the result',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const ui=fs.readFileSync(path.join(__dirname,'../public/prototype-ui.js'),'utf8');
+ const css=fs.readFileSync(path.join(__dirname,'../public/prototype.css'),'utf8');
+ assert.match(ui,/\['S1','S2','S4','S5','S3'\]/);
+ assert.match(ui,/card\.dataset\.selected=String\(code===id\)/);
+ assert.match(ui,/あなたはこちら/);
+ assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+ assert.match(css,/\[data-selected=true\]/);
+});

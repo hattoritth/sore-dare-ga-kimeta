@@ -29,3 +29,13 @@
 .pt-envelope-color{font-size:clamp(18px,2vw,23px);font-weight:900;line-height:1.4}
 .pt-letter .pt-envelope-theme{margin:3px 0 4px;font-size:clamp(12px,1.5vw,15px);font-weight:800;color:#634d34}
 @media(max-width:750px){.pt-envelope-svg{width:min(210px,55vw)}.pt-envelope-visual{margin-top:6px}}
+/* Exhibition five-envelope reference lineup matching the display poster: blue, dark-green, pale-green, yellow, purple. */
+.pt-envelope-lineup{margin:20px auto 8px;padding-top:13px;border-top:1px solid #c9ac80}
+.pt-letter .pt-envelope-lineup-heading{font-size:clamp(14px,1.8vw,18px);margin:2px 0 12px;color:#53442f}
+.pt-envelope-lineup-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;align-items:start}
+.pt-envelope-lineup-card{position:relative;margin:0;border:1px solid #c9bea5;border-radius:9px;background:#fffaf0;padding:7px 4px 10px;min-width:0;display:grid;justify-items:center;gap:3px}
+.pt-envelope-lineup-card .pt-envelope-svg{width:100%;height:auto;max-height:85px;filter:none}
+.pt-envelope-lineup-caption{font-size:clamp(9px,1vw,12px);font-weight:800;color:#3f4b3a;line-height:1.45;overflow-wrap:anywhere}
+.pt-envelope-lineup-card[data-selected=true]{border:3px solid #7a5129;padding:5px 2px 8px;background:#fff2ca;box-shadow:0 0 0 2px #e7bf74}
+.pt-envelope-lineup-selected{font-size:11px;color:#6e3d11;line-height:1.5}
+@media(max-width:750px){.pt-envelope-lineup-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.pt-envelope-lineup-caption{font-size:11px}.pt-envelope-lineup-card .pt-envelope-svg{max-height:76px}}
