@@ -158,7 +158,9 @@
   $('endingCityPicture').setAttribute('aria-label','判断後の街の風景');
   $('reflectionFallback').value='';$('reflectionFallback').hidden=true;
   for(const id of ['endingCardMore','metricComparison','decisionHistory'])$(id).open=false;
+  $('pressModePanel').open=false;
   for(const id of ['shadowSpotlight','groupAccountability','endingIncident','endingLetter','pressConference','openEndingPress','takeawayReport','endingCardTools','metricComparison','replayButton','resultNote'])$(id).hidden=true;
+  $('pressStepLabel').textContent='';
   pressData=null;pressAiMode='active';pressIndex=-1;pressDone=false;pressOpen=false;pressRenderKey='';
   const canvas=$('endingCardCanvas');canvas.getContext('2d')?.clearRect(0,0,canvas.width,canvas.height);
   endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';
@@ -177,7 +179,9 @@
   const outcomeTitle=s.ending?.kind==='collapse'?s.incident?.title||window.PressConference.outcomeNames[s.ending.metric]||'街で重大なトラブルが起きた':s.ending?.kind==='warning'?'課題を残して街は続く':s.ending?.kind==='undecided'?'この議題は決まらなかった':s.ending?.kind==='true'?'人とAIの役割を確かめた街':'大きな事故なく街は続く';
   $('pressOutcome').textContent=pressData.future?'2066年｜'+pressData.future.title:outcomeTitle;
   $('pressIssue').textContent=s.incident?.title?(s.incident.title+'。'+(s.incident.description||'')):s.ending?.kind==='warning'?(s.ending.risks||[]).map(x=>x.title+'。'+x.detail).join(' '):s.ending?.kind==='undecided'?'この結果に新しい事故はありません。保留された議題と残る確認事項を扱います。':s.ending?.kind==='stable'?'大きな事故は起きていません。達成したことと、まだ解けていない判断のトレードオフを振り返ります。':s.ending?.kind==='true'?'大きな事故は起きていません。人とAIが担う役割、結果を確かめる責任を振り返ります。':'';
-  if(pressData.future)$('pressIssue').textContent=pressData.future.disclaimer+' 【'+({light:'軽度',medium:'中度',heavy:'重度'})[pressData.future.severity]+'の未来】'+pressData.future.impact;
+  if(pressData.future)$('pressIssue').textContent='【'+({light:'小さな影響',medium:'中程度の影響',heavy:'大きな影響'})[pressData.future.severity]+'の想定】'+pressData.future.impact;
+  $('pressHeading').textContent=pressData.future?'2066年・もしもの記者会見':'街の結果を説明する記者会見';
+  $('pressGuide').textContent=pressData.future?'これは2066年の仮想の場面です。記者と市長の発言を読み、最後に結果と手紙を確認してください。':'記者と市長の発言を読み進め、最後に街の結果を確認してください。';
   if(!$('pressScene').childElementCount)$('pressScene').innerHTML=window.PressConference.sceneSvg(s.ending?.kind,s.ending?.metric,pressData.future?.theme);
   if(endingFlowStage<3)pressData=null;
   const result=resultDescription(s);if(pressData?.future){result.heading='2066年の後日談｜'+pressData.future.title;result.sub=pressData.future.disclaimer+' '+pressData.future.impact;}
@@ -225,6 +229,8 @@
   if(pressData){
    const pressQuestion=$('pressQuestion'),pressAnswer=$('pressAnswer'),pressNext=$('pressNext'),pressSkip=$('pressSkip'),pressReplay=$('pressReplay');
    const pressStep=pressIndex<0?'start':pressIndex<pressData.answers.length?'answer-'+pressIndex:pressIndex===pressData.answers.length?'close':'done';
+   const totalSteps=pressData.answers.length+2,stepNumber=Math.min(totalSteps,Math.max(1,pressIndex+2));
+   $('pressStepLabel').textContent='会見 '+stepNumber+' / '+totalSteps;
    $('pressConference').classList.toggle('press-fade',!!(pressData.future?.theme==='connection'&&pressData.future.severity==='heavy'&&pressStep==='close'));
    const pressLine=pressStep==='answer-'+pressIndex?pressData.answers[pressIndex]:'';
    const pressKey=`${s.cityStartedAt}:${pressOpen?'open':'closed'}:${pressStep}`;
@@ -234,9 +240,9 @@
     pressQuestion.textContent=pressStep==='close'?pressData.close:pressData.question;pressQuestion.hidden=pressStep==='done';
     pressNext.hidden=pressStep==='done';pressSkip.hidden=pressStep==='done';
     pressReplay.hidden=pressStep!=='done';
-    if(pressStep==='start')pressNext.textContent='会見を始める';
-    else if(pressStep==='close')pressNext.textContent='結果を見る';
-    else pressNext.textContent='次へ';
+    if(pressStep==='start')pressNext.textContent='最初の発言へ →';
+    else if(pressStep==='close')pressNext.textContent='街の結果と手紙へ →';
+    else pressNext.textContent='次の発言へ →';
     if(pressLine){pressAnswer.hidden=false;pressTyped=false;typePressLine(pressLine);}
    }
   }
