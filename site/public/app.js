@@ -9,8 +9,8 @@
  window.GroupEntryUX=groupEntryUX;
  let view=params.get('view')==='display'?'display':params.get('mode')==='solo'?'solo':params.get('mode')==='group'?'group':'home';
  if(location.protocol==='file:'&&['group','display'].includes(view))view='home';
- let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,prologueStartedAt=0,prologueFullyTyped=false,storyBeatUntil=0,pressData=null,pressAiMode='active',pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressGeneration=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
- const prologueLines=[['あなたの心の声','「AIが言ってたので」。その言葉が増えていた。'],['案内人','市長と街づくりAIが、街を変えてきました。'],['案内人','便利になった一方、数字に映らない声もあります。'],['案内人','この街を、誰が決めるのでしょう。']];
+ let artCity=null,scene,artModel,soloGame=null,state=null,groupVoteCityStartedAt=null,groupPersonalVotes=new Map(),offset=0,everJoined=false,failedRequests=0,polling=false,lastDisplaySecond=-1,prologueIndex=0,prologueFrame=0,decisionOptionsKey=null,storyBeatUntil=0,pressData=null,pressAiMode='active',pressIndex=-1,pressDone=false,pressOpen=false,pressFrame=0,pressGeneration=0,pressTyped=true,pressRenderKey='',soloHumanPlans=[],endingFlowCityStartedAt=null,endingFlowStage=0,endingUiStage=-1,endingSceneCache=window.EndingCard.createSceneSnapshotCache(),endingSceneReady=false,endingSceneImage='',endingCardRenderCity=null,endingMetricsCity=null,endingRadarCity=null,highlightEventKey='',observedDecisionKey=null,observedCityState=false;
+ const prologueLines=[['市役所からの連絡','市長、診療所をどこに増やすか、相談が届いています。'],['街づくりAI','私に任せてもらえれば、すぐに案を出せます。'],['市役所からの連絡','便利になる場所もあれば、数字に表れない困りごとが残る場所もあります。'],['あなたの心の声','どこまで任せよう。この街の次を決めるのは、私だ。']];
  const staffSpeeches={
   clinic:'市長、住民から診療所の相談です。駅前と郊外、どちらにしましょう？',
   office:'市長、企業から駅前への出店提案が来ています。どう進めましょう？',
@@ -22,6 +22,7 @@
  };
  const staff={ヒカリ:['早川ひかり','保健福祉部長'],ソラ:['三浦蒼太','都市整備部長'],ナギ:['高瀬 凪','建設部長'],ミドリ:['森田みどり','環境政策部長']};
  shell.dataset.view=view;
+ if(view!=='home')shell.dataset.stage='play';
   const faceColors={ヒカリ:['#bc7d8c','#df9aa2'],ソラ:['#4c799a','#8bb4cf'],ナギ:['#a47a46','#e3b97c'],ミドリ:['#387a63','#87b89b']};
  const portraits={
  ヒカリ:{hair:'#704d52',back:'#c98c96',suit:'#dcb19d',shirt:'#fff1dc',cut:'M46 86 Q40 18 90 17 Q142 19 134 91 L125 164 L54 164Z',bang:'M54 67 Q55 22 88 23 Q129 23 128 67 Q112 58 103 43 Q86 65 54 67Z',detail:'<circle cx="130" cy="65" r="5" fill="#f4d18d"/>'},
@@ -43,9 +44,12 @@
   const choice=event.chosen==='ai'?'ai':event.chosen==='mixed'?'mixed':'human';
   const reaction=residentReactions[Math.min(event.round-1,residentReactions.length-1)];
   $('cityBeatHeading').textContent=event.result;
-  $('cityBeatVoice').textContent=reaction[choice]+(event.intervened?' 街の異変への対策も始まりました。':'');
+  $('cityBeatActor').textContent=choice==='ai'?'街づくりAIが決めたこと':'あなたが選んだこと';
+  $('cityBeatNext').textContent=game.phase==='reveal'?'結末を見る':'次の相談へ';
+  const response=choice==='human'&&!event.winningOption?.endsWith('-listen')?event.winningLabel:reaction[choice];
+  $('cityBeatVoice').textContent=[response,event.intervened?'街の異変への対策も始まりました。':''].filter(Boolean).join(' ');
   renderCityBeatDeltas(game);
-  storyBeatUntil=Date.now()+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?2500:5200);
+  storyBeatUntil=Date.now()+5200;
   shell.dataset.stage='city';
   show('cityBeat',true);
   scene.resetView();scene.layout();
@@ -105,7 +109,18 @@
  }
  function EngineNow(){return Date.now()+offset;}
  function show(id,on){$(id).hidden=!on;}
- function renderHud(s){if(!s)return;const el=document.querySelector('[data-stat="happiness"]');if(!el)return;const v=s.public?.happiness??71,value=el.querySelector('strong'),n=String(Math.round(v));el.querySelector('i').style.width=clamp(v)+'%';if(value.textContent!==n)value.textContent=n;}
+ function renderHud(s){
+  const el=document.querySelector('[data-stat="happiness"]');
+  if(!s||!el)return;
+  let score=s.public?.happiness;
+  if(s.phase==='reveal'&&s.shadow){
+   const values=Object.keys(allMetricNames).map(key=>s.public[key]??s.shadow[key]);
+   score=values.reduce((sum,value)=>sum+value,0)/values.length;
+  }
+  const value=el.querySelector('strong'),text=String(Math.round(score??71));
+  el.querySelector('i').style.width=clamp(text)+'%';
+  if(value.textContent!==text)value.textContent=text;
+ }
  function progressLabel(i){return ['第一','第二','第三','第四','第五','第六','第七'][i]||'次';}
  function clock(ms){const secs=Math.max(0,Math.ceil(ms/1000));return `${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;}
  const impactNames={prosperity:'にぎわい',convenience:'便利さ',appeal:'住み心地'};
@@ -115,14 +130,46 @@
   const comparison=$('groupPreviousResult');if(view==='group'&&previous){comparison.hidden=false;comparison.textContent=`前回：自分が押した票「${previous.personal}」／街で実施された案「${previous.outcome}」（${previous.tally}）`;}else{comparison.hidden=true;comparison.textContent='';}
   if($('agentPortrait').dataset.agent!==e.agent){$('agentPortrait').dataset.agent=e.agent;$('agentPortrait').innerHTML=portrait(e.agent);}
   $('agentPortrait').dataset.mood=s.hasVoted?'warm':'neutral';$('agentLine').textContent=e.heading||'市長、ご相談です。';
-  show('decisionOptions',true);$('progressLabel').textContent=progressLabel(s.round)+'の決定';$('countdown').textContent=view==='solo'?'あなたのペース':clock((s.endsAt||0)-EngineNow());
+  show('decisionOptions',true);$('progressLabel').textContent='相談 '+(s.round+1)+' / '+s.roundTotal;$('countdown').textContent=view==='solo'?'時間制限なし':clock((s.endsAt||0)-EngineNow());
   const [staffName,staffRole]=staff[e.agent]||staff.ソラ;$('agentName').textContent=staffName;$('agentRole').textContent=staffRole;
   const c=faceColors[e.agent]||faceColors.ソラ;$('agentPortrait').style.setProperty('--agent-dark',c[0]);$('agentPortrait').style.setProperty('--agent-light',c[1]);
   $('questionHint').textContent=e.hint||'';show('questionHint',!!e.hint);show('riskNotice',!!s.alert);
   if(s.alert){$('riskTitle').textContent=s.alert.title;$('riskDetail').textContent=s.alert.detail;$('riskAction').textContent=s.alert.action;}
-  const root=$('decisionOptions');root.replaceChildren();
-  for(const option of e.options||[]){const button=document.createElement('button');button.type='button';button.className='decision';button.dataset.vote=option.id;button.disabled=view==='solo'&&s.hasVoted;button.setAttribute('aria-pressed',String(s.myOptionVote===option.id));const title=document.createElement('strong');const isAi=option.id.endsWith('-ai');title.textContent=isAi?'AIに任せる':option.label;button.append(title);if(isAi){const note=document.createElement('span');note.className='decision-tradeoff';note.textContent=option.label;button.append(note);}root.append(button);}
-  const feedback=$('voteFeedback');if(s.hasVoted){feedback.textContent=view==='group'?'投票済み。締め切りまでは選び直せます。':'決裁済み。街の変化を見届けましょう。';feedback.classList.add('is-confirmed');}else{feedback.textContent=view==='solo'?'ひとつ選ぶと、街の状態が変わります。':'あなたなら、どうする？';feedback.classList.remove('is-confirmed');}
+  const root=$('decisionOptions');
+  const optionsKey=JSON.stringify(e.options||[]);
+  if(decisionOptionsKey!==optionsKey){
+   decisionOptionsKey=optionsKey;
+   const human=$('humanDecisionButtons'),delegated=$('delegatedDecisions');
+   human.replaceChildren();
+   delegated.replaceChildren();
+   for(const option of e.options||[]){
+    const isAi=option.id.endsWith('-ai');
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='decision';
+    button.dataset.vote=option.id;
+    const title=document.createElement('strong');
+    title.textContent=isAi?'AIに任せる':option.label;
+    button.append(title);
+    if(isAi){
+     const note=document.createElement('span');
+     note.className='decision-tradeoff';
+     note.textContent=option.label;
+     button.append(note);
+    }
+    (isAi?delegated:human).append(button);
+   }
+   $('humanDecisions').hidden=!human.childElementCount;
+   delegated.hidden=!delegated.childElementCount;
+  }
+  for(const button of root.querySelectorAll('[data-vote]')){
+   button.disabled=view==='solo'&&s.hasVoted;
+   button.setAttribute('aria-pressed',String(s.myOptionVote===button.dataset.vote));
+  }
+  const feedback=$('voteFeedback');
+  const message=s.hasVoted?(view==='group'?'投票済み。締め切りまでは選び直せます。':'決裁済み。街の変化を見届けましょう。'):'';
+  if(feedback.textContent!==message)feedback.textContent=message;
+  feedback.classList.toggle('is-confirmed',!!message);
   $('peopleCount').textContent=(s.onlineCount||0)+'人が参加中';$('votedCount').textContent=s.voteCount+'人が判断済み';show('communityStatus',view==='group');
  }
 
@@ -159,6 +206,7 @@
   $('reflectionFallback').value='';$('reflectionFallback').hidden=true;
   for(const id of ['endingCardMore','metricComparison','decisionHistory'])$(id).open=false;
   for(const id of ['shadowSpotlight','groupAccountability','endingIncident','endingLetter','pressConference','openEndingPress','takeawayReport','endingCardTools','metricComparison','replayButton','resultNote'])$(id).hidden=true;
+  document.querySelector('.masthead').inert=false;
   pressData=null;pressAiMode='active';pressIndex=-1;pressDone=false;pressOpen=false;pressRenderKey='';
   const canvas=$('endingCardCanvas');canvas.getContext('2d')?.clearRect(0,0,canvas.width,canvas.height);
   endingSceneCache.clear();endingSceneReady=false;endingSceneImage='';
@@ -167,7 +215,7 @@
  }
  function renderResult(s){
   if(!s?.shadow)return;
-  if(endingFlowCityStartedAt!==s.cityStartedAt){clearEndingResultDom();endingFlowCityStartedAt=s.cityStartedAt;endingFlowStage=4;pressOpen=true;pressDone=false;pressIndex=-1;}
+  if(endingFlowCityStartedAt!==s.cityStartedAt){clearEndingResultDom();endingFlowCityStartedAt=s.cityStartedAt;endingFlowStage=4;pressOpen=false;pressDone=true;pressIndex=-1;}
   const sceneKey=s.ending?.kind==='collapse'?s.ending.metric:['stable','true'].includes(s.ending?.kind)?s.ending.kind:'neutral';
   if(!endingSceneReady){if(scene?.render)scene.render(0);endingSceneImage=endingSceneCache.get(s.cityStartedAt,$('townCanvas'));endingSceneReady=true;}
   const endingLabel=({collapse:(allMetricNames[s.ending?.metric]||s.ending?.metricLabel)+'の危機',warning:'警告の残る街',undecided:'判断が保留された街',stable:'健やかに続く街',true:'役割と備えを確かめた街'})[s.ending?.kind]||'街の記録';
@@ -180,9 +228,9 @@
   if(pressData.future)$('pressIssue').textContent=pressData.future.disclaimer+' 【'+({light:'軽度',medium:'中度',heavy:'重度'})[pressData.future.severity]+'の未来】'+pressData.future.impact;
   if(!$('pressScene').childElementCount)$('pressScene').innerHTML=window.PressConference.sceneSvg(s.ending?.kind,s.ending?.metric,pressData.future?.theme);
   if(endingFlowStage<3)pressData=null;
-  const result=resultDescription(s);if(pressData?.future){result.heading='2066年の後日談｜'+pressData.future.title;result.sub=pressData.future.disclaimer+' '+pressData.future.impact;}
+  const result=resultDescription(s);
   $('endingTitle').textContent=result.heading;$('endingText').textContent=result.sub;
-  if(['stable','true','collapse'].includes(s.ending?.kind)&&!pressData?.future)$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
+  if(['stable','true','collapse'].includes(s.ending?.kind))$('endingText').textContent=window.ReflectionReport.normalReflection(s,null,[]);
   show('endingIncident',endingFlowStage>=3&&!!(s.incident||s.ending?.risks.length));
   $('endingIncident').textContent=endingFlowStage>=3?(s.incident?'最も低かった指標：「'+(allMetricNames[s.ending.metric]||s.ending.metricLabel)+'」（'+s.ending.value+'）。街のニュース｜'+s.incident.title+'。'+s.incident.description:(s.ending?.risks||[]).map(x=>'街のニュース｜'+x.title+'。'+x.detail).join(' ')):'';
   $('endingKicker').textContent=({collapse:'BAD END · 街の危機',warning:'WARNING · 課題の残る街',undecided:'未決 · 判断が保留された街',stable:'NORMAL · 街は続く',true:'TRUE END · 街を託す先を考え抜いた'})[s.ending?.kind]||'THE CITY';
@@ -205,10 +253,10 @@
   $('takeawayReport').hidden=!takeaway;
   const endingFlowLabels=['変わった街','結末','理由','6つの指標','保存'];
   $('groupRevealNotice').hidden=!groupEntryUX.shouldShowRevealNotice(view,s);
-  $('endingProgress').textContent=`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
+  $('endingProgress').textContent=endingFlowStage===4?'2036年の街づくり｜結果':`${endingFlowStage+1} / 5　${endingFlowLabels[endingFlowStage]}`;
   $('endingCityPicture').hidden=endingFlowStage!==0;
   $('endingKicker').hidden=$('endingTitle').hidden=endingFlowStage<1;$('endingText').hidden=endingFlowStage<2||endingFlowStage===3;
-  $('shadowSpotlight').hidden=endingFlowStage!==3;
+  $('shadowSpotlight').hidden=!pressDone||endingFlowStage<3;
   $('endingIncident').hidden=endingFlowStage<3||(!s.incident&&!s.ending?.risks.length);
   if(endingFlowStage<1){$('endingKicker').textContent='';$('endingTitle').textContent='';}
   if(endingFlowStage<2){$('endingText').textContent='';$('endingIncident').textContent='';}
@@ -220,7 +268,8 @@
   $('pressConference').hidden=!pressOpen;
   $('pressModePanel').hidden=!pressData?.future;
   for(const b of document.querySelectorAll('[data-ai-mode]'))b.setAttribute('aria-pressed',String(b.dataset.aiMode===pressAiMode));
-  for(const id of ['endingFlow','endingKicker','endingTitle','endingText','endingIncident','openEndingPress','groupAccountability','metricComparison','endingCardTools','takeawayReport','resultNote','decisionHistory'])$(id).inert=pressOpen;
+  for(const panel of $('resultPanel').children){if(panel.id!=='pressConference')panel.inert=pressOpen;}
+  document.querySelector('.masthead').inert=pressOpen;
   $('openEndingPress').hidden=endingFlowStage<4||pressOpen;
   if(pressData){
    const pressQuestion=$('pressQuestion'),pressAnswer=$('pressAnswer'),pressNext=$('pressNext'),pressSkip=$('pressSkip'),pressReplay=$('pressReplay');
@@ -398,57 +447,49 @@
     }
   }
  }
- const introReduce=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const prologueTimes=[1300,1500,1700,1300];
- function showPrologueLine(){
-  $('prologueText').textContent=prologueLines[prologueIndex][1];
-  $('prologueText').dataset.typing='false';
-  $('prologueActivityLabel').textContent=prologueIndex===prologueLines.length-1?'街への案内を準備中…':'次のメッセージを入力中…';
-  prologueFullyTyped=true;
- }
- function runPrologue(ts){
-  if(view!=='home'||$('prologue').hidden)return;
-  // Avoid skipping multiple scenes when the exhibition tab was left in the background.
-  if(document.hidden){prologueStartedAt=ts;prologueFrame=requestAnimationFrame(runPrologue);return;}
-  const raw=prologueLines[prologueIndex][1],characters=Array.from(raw);
-  const elapsed=ts-prologueStartedAt;
-  if(!introReduce()&&!prologueFullyTyped){
-   const n=Math.min(characters.length,Math.floor(elapsed/24));
-   $('prologueText').textContent=characters.slice(0,n).join('');
-   if(n===characters.length)showPrologueLine();
-  }
-  const minimumTime=Math.max(prologueTimes[prologueIndex],characters.length*24+500);
-  if(elapsed>=minimumTime){
-   if(prologueIndex===prologueLines.length-1){finishPrologue();return;}
-   prologueIndex++;renderPrologue();return;
-  }
-  prologueFrame=requestAnimationFrame(runPrologue);
- }
  function renderPrologue(){
   cancelAnimationFrame(prologueFrame);
-  const line=prologueLines[prologueIndex];
-  $('prologueSpeaker').textContent=line[0];
-  $('prologueAnnounce').textContent=line[0]+'：'+line[1];
-  $('prologueText').textContent='';
-  $('prologueText').dataset.typing='true';
-  $('prologueActivityLabel').textContent=prologueIndex===0?'物語を入力中…':'案内人が入力中…';
+  const [speaker,text]=prologueLines[prologueIndex];
+  $('prologueSpeaker').textContent=speaker;
+  $('prologueAnnounce').textContent=speaker+'：'+text;
   $('prologueProgress').textContent=String(prologueIndex+1).padStart(2,'0')+' / 04';
   $('prologueProgress').setAttribute('aria-label','全4場面のうち'+(prologueIndex+1)+'場面');
-  $('prologueNext').innerHTML=prologueIndex===3?'街へ進む <span aria-hidden="true">→</span>':'次へ <span aria-hidden="true">→</span>';
-  prologueFullyTyped=false;
-  prologueStartedAt=performance.now();
-  if(introReduce())showPrologueLine();
-  prologueFrame=requestAnimationFrame(runPrologue);
+  const lastScene=prologueIndex===prologueLines.length-1;
+  $('prologueNext').textContent=lastScene?'遊び方を選ぶ':'次のメッセージ';
+  $('prologueSkip').hidden=lastScene;
+  const target=$('prologueText'),activity=$('prologueActivity');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+   target.textContent=text;
+   target.dataset.typing='false';
+   activity.hidden=true;
+   return;
+  }
+  target.textContent='';
+  target.dataset.typing='true';
+  activity.hidden=false;
+  $('prologueActivityLabel').textContent=speaker+'が入力中…';
+  const characters=Array.from(text),startedAt=performance.now();
+  function typeLine(now){
+   const count=Math.min(characters.length,Math.floor((now-startedAt)/24));
+   target.textContent=characters.slice(0,count).join('');
+   if(count<characters.length)prologueFrame=requestAnimationFrame(typeLine);
+   else{
+    target.dataset.typing='false';
+    activity.hidden=true;
+   }
+  }
+  prologueFrame=requestAnimationFrame(typeLine);
  }
  function advancePrologue(){
-  if(!prologueFullyTyped){showPrologueLine();return;}
-  if(prologueIndex<prologueLines.length-1){prologueIndex++;renderPrologue();}
-  else finishPrologue();
+  if(prologueIndex<prologueLines.length-1){
+   prologueIndex++;
+   renderPrologue();
+  }else finishPrologue();
  }
  function finishPrologue(){
   cancelAnimationFrame(prologueFrame);
-  $('prologueText').dataset.typing='false';
   show('prologue',false);show('modeChoice',true);
+  $('modeTitle').focus({preventScroll:true});
  }
  function init(){
   if(new URLSearchParams(location.search).get('prototype')==='1'){
@@ -468,11 +509,20 @@
   }else if(view==='solo'){startSolo();}
   else {fetchState();setInterval(fetchState,1250);document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchState();});}
   $('prologueNext').onclick=advancePrologue;$('prologueSkip').onclick=finishPrologue;
+  $('cityBeatNext').onclick=()=>{if(!soloGame||!storyBeatUntil)return;clearCityBeat();render(MachiEngine.publicState(soloGame,'solo'));const heading=$(!$('resultPanel').hidden?'endingTitle':'agentLine');heading.tabIndex=-1;heading.focus({preventScroll:true});};
   $('pressModePanel').addEventListener('click',e=>{const button=e.target.closest('[data-ai-mode]');if(!button||state?.phase!=='reveal'||!['active','early','late'].includes(button.dataset.aiMode))return;if(pressAiMode===button.dataset.aiMode)return;pressAiMode=button.dataset.aiMode;pressGeneration++;if(pressFrame){cancelAnimationFrame(pressFrame);pressFrame=0;}pressData=null;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';endingCardRenderCity=null;endingMetricsCity=null;endingRadarCity=null;renderResult(state);});
- $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;$('pressAnswer').textContent=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;pressTyped=true;return;}if(pressIndex<pressData.answers.length)pressIndex++;else{pressIndex=pressData.answers.length+1;pressDone=true;pressOpen=false;endingFlowStage=4;}if(state)renderResult(state);};
- $('pressSkip').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressDone=true;pressOpen=false;pressTyped=true;endingFlowStage=4;if(state)renderResult(state);};
+ $('pressNext').onclick=()=>{if(!pressData)return;if(!pressTyped){if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;$('pressAnswer').textContent=pressIndex<pressData.answers.length?pressData.answers[Math.max(pressIndex,0)]:pressData.close;pressTyped=true;return;}if(pressIndex<pressData.answers.length)pressIndex++;else{pressIndex=pressData.answers.length+1;pressDone=true;pressOpen=false;endingFlowStage=4;}if(state)renderResult(state);if(!pressOpen)$('openEndingPress').focus({preventScroll:true});};
+ $('pressSkip').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=pressData?.answers.length+1;pressDone=true;pressOpen=false;pressTyped=true;endingFlowStage=4;if(state)renderResult(state);$('openEndingPress').focus({preventScroll:true});};
+  $('pressConference').addEventListener('keydown',event=>{
+   if(event.key==='Escape'){event.preventDefault();$('pressSkip').click();return;}
+   if(event.key!=='Tab')return;
+   const buttons=[...$('pressConference').querySelectorAll('button')].filter(button=>button.getClientRects().length&&!button.disabled);
+   const first=buttons[0],last=buttons.at(-1);
+   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+  });
   $('pressReplay').onclick=()=>{if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressIndex=-1;pressDone=false;pressOpen=true;pressTyped=true;pressRenderKey='';$('publicMetrics').replaceChildren();$('shadowMetrics').replaceChildren();$('endingRadar').replaceChildren();if(state)renderResult(state);$('pressNext').focus();};
-  $('openEndingPress').onclick=()=>{if(!state||endingFlowStage<4)return;if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressOpen=true;pressDone=false;pressIndex=-1;pressTyped=true;pressRenderKey='';renderResult(state);};
+  $('openEndingPress').onclick=()=>{if(!state||endingFlowStage<4)return;if(pressFrame)cancelAnimationFrame(pressFrame);pressFrame=0;pressOpen=true;pressDone=false;pressIndex=-1;pressTyped=true;pressRenderKey='';renderResult(state);$('pressNext').focus();};
   $('saveReflection').onclick=()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='sore-dare-ga-kimeta-reflection.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('reflectionStatus').textContent='保存用のテキストファイルを生成しました。';};
   $('copyReflection').onclick=async()=>{if(!state||endingFlowStage<4)return;const content=window.ReflectionReport.build(state,{mode:view==='group'?'group':'solo',clinicRecord:null,humanPlans:[]});if(!content)return;try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(content);$('reflectionStatus').textContent='判断の記録をコピーしました。';}catch{$('reflectionFallback').value=content;$('reflectionFallback').hidden=false;$('reflectionFallback').focus();$('reflectionFallback').select();$('reflectionStatus').textContent='自動コピーできません。表示した記録を選択してコピーしてください。';}};
   $('openShared').onclick=()=>location.protocol==='file:'?window.location.assign('https://machi-no-tsuzuki-20261031.tthkpba.chatgpt.site/?mode=group'):goto('/?mode=group');$('openSolo').onclick=()=>goto('/?mode=solo');

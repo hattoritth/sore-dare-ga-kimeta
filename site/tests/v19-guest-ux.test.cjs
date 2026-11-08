@@ -9,14 +9,15 @@ const app=fs.readFileSync(path.join(root,'public/app.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'public/style.css'),'utf8');
 const reflection=require('../public/reflection-report.js');
 
-test('hidden values stay absent through the mandatory conference and appear only on completed results',()=>{
+test('hidden values are rendered only with the completed game result',()=>{
  const spotlight=html.match(/<section id="shadowSpotlight"[\s\S]*?<\/section>/)?.[0];
  assert.ok(spotlight);assert.match(spotlight,/hidden/);assert.match(spotlight,/見えていなかった3つの影響/);
  assert.match(app,/if\(pressDone&&endingMetricsCity!==s\.cityStartedAt\)/);
+ assert.match(app,/shadowSpotlight'\)\.hidden=!pressDone\|\|endingFlowStage<3/);
  assert.match(app,/pressData\.metrics\.filter\(x=>x\.group==='shadow'\)/);
  assert.match(app,/value\.textContent=String\(clamp\(metric\.value\)\)/);
  assert.match(app,/meaning\.textContent=metric\.meaning/);
- assert.match(app,/endingFlowStage=4;pressOpen=true;pressDone=false;pressIndex=-1/);
+ assert.match(app,/endingFlowStage=4;pressOpen=false;pressDone=true;pressIndex=-1/);
  assert.match(html,/id="pressConference" role="dialog" aria-modal="true"/);
  assert.match(app,/endingFlowStage=4;if\(state\)renderResult\(state\)/);
  assert.match(html,/summary>レーダーと6指標を詳しく見る/);
@@ -68,8 +69,8 @@ test('replay appears once beside save actions and is solo-only at the final stag
 });
 
 test('mode cards disclose decision counts and pace, with full-width mobile tap targets',()=>{
- assert.match(html,/ひとりで遊ぶ<\/strong><span>4つの判断・自分のペース/);
- assert.match(html,/みんなで遊ぶ<\/strong><span>7つの判断・1問23秒/);
+ assert.match(html,/ひとりで遊ぶ<\/strong><span>4つの相談を自分のペースで/);
+ assert.match(html,/みんなで遊ぶ<\/strong><span>7回の投票・1問23秒/);
  assert.match(css,/\.landing-actions \.mode-card\{width:100%;min-width:0;min-height:88px/);
 });
 
