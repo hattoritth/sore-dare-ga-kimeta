@@ -1,0 +1,27 @@
+# F5 v38｜Hallmark版の任意記者会見を改善する統合PR（2026-11-08）
+
+## Source of Truthと経緯
+- 既存Siteはv31公開中。現在、Sites本番の再公開は行わない。
+- 会社GitHub: hattoritth/sore-dare-ga-kimeta。
+- Workが作成したHallmark改修のDraft PR #37、固定HEAD `bdf8f6151268aae3ebf8988666728063025bdce2` を基点とした差分だけの統合。
+- 以前の会見改善Draft PR #36（`a28793fbada0d122d2177aa8f8de8ab5d39a944c`）はv31起点なので丸ごとマージしていない。必要な会見UIのみ手動で移植し、PR #37の「結末を先に見せ、会見は任意」を維持。
+
+## v38変更
+1. 任意で開いた2066年会見を、左右分離（PC・iPad横）/上下分離（スマホ）し、右／下の明るいエリアで読み進める。
+2. 「2066年・もしもの記者会見」と明示。実際のゲームでは記録されていない未来の仮想の場面という説明を最初に提示。結果・手紙への道筋を説明。
+3. 「会見 1/N」の進行表示。「最初の発言へ」「次の発言へ」「街の結果と手紙へ」と具体的なCTA。
+4. AI稼働比較3ボタンを `details` に格納。任意機能であり、実際の判断・得点には影響しないと明示する。
+5. 会見が開いている間だけ、ヘッダーのQRを非表示にし、上部の進行表示・イラストを遮らない。会見を閉じると通常ヘッダーQRを復元。
+6. 再プレイ時に比較を閉じ、進行表示をクリア。
+
+## 品質と非目標
+- 既存のHallmark改修内容（初回導入を手動化、判断主体の区別、結末とPDF/PNG保存先を先に表示、共有投票と5人隔離DBの動作）は変更しない。
+- engine／API／Worker backend／D1 binding／migration／hosting／server state／採点ロジックを変更しない。UI、単体HTML、専用ブラウザQAのみの差分。
+- npm test: 261/261成功、Worker artifactはvalid ESM（Mac実測）。`qa-v38-optional-conference.cjs` でソロ4判断→結末・6指標・保存先を先に確認→任意会見→AI比較→発言→閉じる→6指標不変をChrome 320×700、390×844、1024×768、1920×1080で実測成功。QR非表示中と復帰後を新規条件に追加して再検証。
+- 本番Sites、D1実データ、main mergeは未変更。今回のDraft PR作成にSites公開承認は含まれない。
+- Chrome iPhone相当DPR2の全4問AI委任で崩壊シーンを再現。ResizeObserverの732×494→732×410リサイズによる一時透明化を検証し、`site/public/city-art.js`を実リサイズ直後に`render(0)`するよう修正。修正前5空白フレーム→修正後0。JavaScript例外なし。`site/tests/qa-v38-collapse-canvas.mjs`で回帰確認済み。物理Safariは未検証。Hallmark v2.0.0のローカル画面レンダリングは0 FAIL・0 REFLEX・0 WARN、既存CSSの静的指摘は別管理。
+
+## 承認境界・次工程
+- 現行公開v31を維持し、必要ならv38を次の公開候補としてWork公式SitesでR0 UI_ONLYゲート（Mac運用正本のSITES_RELEASE_PLAYBOOK）を実行する。
+- **ユーザーは2026-11-08「任せた」で既存Siteへのv38公開を委任。** プロダクションD1全件読取・バックアップ・復元検証・前後照合、同一Site、SHA・匿名実プレイを確認し、条件に満たなければ停止。
+- PR #36、#37は無断merge/closeせず維持。統合後の作業は原則新PRを起点とする。WorldOSの「前の決断が次の相談へ繋がる」は別のゲームロジック改修として実施する。
