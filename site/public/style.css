@@ -641,3 +641,132 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
 
 /* 五系統の2066年後日談・AIの稼働比較・街からの手紙 */
 .press-mode{margin:10px 0 14px;max-width:940px}.press-mode[hidden],.ending-letter[hidden]{display:none!important}.press-conference .press-mode-label{font-size:12px;line-height:1.55;color:#e1e8e1;margin:0 0 7px}.press-mode-buttons{display:flex;flex-wrap:wrap;gap:8px}.press-mode-buttons button{min-height:44px;border-radius:7px;border:1px solid #bbcabe;background:#173036;color:#f4f6ee;padding:8px 12px;font-size:13px}.press-mode-buttons button[aria-pressed=true]{background:#e6c78e;color:#193332;border-color:#e6c78e;font-weight:800}.press-conference.press-fade{background:#080d12}.press-conference.press-fade .press-scene{opacity:0;transition:opacity .75s ease}.ending-letter{padding:24px 18px;margin:20px 0 15px;border:1px solid #d3d7c9;border-radius:11px;background:#fffdfa}.ending-letter .reveal-heading{color:#7d553c}.ending-letter h3{font-size:clamp(18px,2.5vw,25px);line-height:1.45;margin:8px 0}.ending-letter blockquote{margin:14px 0;padding:12px 15px;background:#f6f3e9;border-inline-start:4px solid #bc9870;line-height:1.85;font-size:clamp(14px,1.6vw,18px);white-space:pre-wrap}.ending-letter-caption{font-size:12px;color:#657066;line-height:1.6}@media(max-width:750px){.press-mode-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.press-mode-buttons button{font-size:11px;padding:6px 4px;min-height:45px}.press-mode{margin:7px 0}.ending-letter{padding:18px 13px}}@media(max-height:520px) and (orientation:landscape){.press-mode-buttons button{min-height:44px}.press-mode{margin:4px 0}}
+
+:root{
+ --exhibit-night:#142f2c;
+ --exhibit-divider:#cfb589;
+ --exhibit-warm:#f3dcb6;
+ --exhibit-secondary:#3b584d;
+ --delegated-paper:#e8eff4;
+ --delegated-line:#8aa5b3;
+ --delegated-ink:#153c50;
+ --delegated-pressed:#d2e2ed;
+}
+
+/* City hall exhibit. Keep the map in view while the decision panel reads like an agenda. */
+.masthead .header-right{gap:8px}
+.masthead .site-qr-thumb{
+ position:static;inset:auto;flex:none;width:44px;height:44px;padding:4px;
+ border:1px solid var(--line);border-radius:6px;box-shadow:none;
+}
+.masthead .header-menu{min-width:48px;font-size:13px}
+.shell :is(button,a,input,summary):focus-visible{
+ outline:3px solid var(--dark);outline-offset:3px;box-shadow:0 0 0 3px var(--paper);
+}
+.join-landing :is(button,a):focus-visible,.press-conference :is(button,a):focus-visible{
+ outline-color:var(--paper);box-shadow:0 0 0 3px var(--dark);
+}
+.shell[data-view=home] .happiness-hud{display:none}
+.shell[data-view=home]:not([data-stage=play]) .join-landing{
+ background:none;
+}
+.shell[data-view=home] .play-surface{grid-template-rows:minmax(0,1fr)}
+.shell[data-view=home] .skyline{grid-row:1}
+.shell[data-view=home] .join-landing{inset:14px 0 9px}
+.shell[data-view=home] .landing-inner{width:100%;padding-inline:clamp(18px,5vw,72px)}
+.landing-inner :is(.prologue,#modeChoice){
+ width:min(100%,670px);padding:clamp(18px,4vw,46px);border-radius:8px;background:var(--exhibit-night);
+}
+.landing-inner .prologue{height:auto;min-height:365px}
+.landing-inner .intro-title{
+ font-size:clamp(30px,4vw,60px);line-height:1.23;letter-spacing:-.03em;text-wrap:balance;margin:12px 0 0;
+}
+.landing-inner .prologue-scene{margin-top:24px;min-height:155px;width:min(100%,36rem)}
+.landing-inner .prologue-speaker{
+ padding:0 0 8px;border-radius:0;border-bottom:1px solid var(--exhibit-divider);background:none;color:var(--exhibit-warm);font-size:14px;
+}
+.landing-inner .prologue-text{
+ font-size:clamp(18px,2vw,29px)!important;line-height:1.55!important;
+ font-weight:650;letter-spacing:0;text-shadow:none;margin:10px 0 0;
+}
+.prologue-actions{gap:12px;margin:0}
+.prologue-next{width:auto;min-width:0;white-space:nowrap}
+.prologue-skip{padding-inline:8px;white-space:nowrap}
+.prologue-activity{margin-top:6px}
+.landing-inner #modeTitle{font-size:clamp(30px,4.4vw,54px);text-wrap:balance}
+#modeTitle:focus,.ending-summary h2:focus,#agentLine:focus{outline:none}
+.mode-intro{max-width:29em;line-height:1.55}
+.landing-actions{max-width:620px;gap:10px;margin-top:24px}
+.landing-actions .mode-card{
+ min-height:96px;padding:12px 16px;border-radius:7px;box-shadow:none;align-items:flex-start;text-align:left;
+}
+.landing-actions .mode-card strong{white-space:normal}
+.landing-actions .mode-card span{font-size:13px;color:var(--ink)}
+.continuation-link{
+ grid-column:1/-1;justify-self:start;min-height:44px;padding:8px 0;
+ color:var(--paper);background:none;border:0;text-align:left;text-decoration:underline;text-underline-offset:4px;
+}
+.shell[data-view=solo] .question-panel,.shell[data-view=group] .question-panel{
+ background:var(--paper);box-shadow:none;backdrop-filter:none;
+}
+.question-panel #progressLabel{font-size:14px;letter-spacing:0;color:var(--ink)}
+.question-panel #countdown{font-size:14px}
+.question-panel .conversation{align-items:flex-start;gap:10px;margin-block:12px}
+.question-panel .conversation .agent-bio{padding:0;background:none;color:var(--ink);border-radius:0}
+.question-panel .conversation .agent-bio span,.question-panel .speech-bubble .question-detail{color:var(--exhibit-secondary);font-size:14px}
+.question-panel .conversation .speech-bubble{padding:3px 0 0;border:0;background:none}
+.question-panel .agent-portrait{width:58px;height:68px;border-radius:10px}
+.question-panel #decisionOptions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin:0;padding:0}
+.decision-route h3{margin:0 0 5px;font-size:14px;color:var(--ink)}
+#humanDecisionButtons{display:grid;gap:4px}
+#decisionOptions .decision{
+ width:100%;min-height:44px;justify-content:center;padding:8px 10px;gap:4px;
+ border-radius:6px;background:var(--paper);box-shadow:none;
+}
+#decisionOptions .decision strong{font-size:15px;line-height:1.4}
+#decisionOptions .decision-tradeoff{color:var(--ink);font-size:14px;line-height:1.4}
+#delegatedDecisions .decision{
+ min-height:58px;background:var(--delegated-paper);border-color:var(--delegated-line);color:var(--delegated-ink);
+}
+#decisionOptions .decision[aria-pressed=true]{background:var(--light);border:2px solid var(--green)}
+#delegatedDecisions .decision[aria-pressed=true]{background:var(--delegated-pressed);border-color:var(--delegated-ink)}
+.question-panel .vote-feedback:empty{min-height:0;margin:0;padding:0}
+#cityBeatNext{min-height:44px;margin-top:16px}
+.ending-flow .ending-summary{grid-column:1/-1}
+.ending-summary #endingKicker{display:inline-block;font-size:14px;font-weight:800;color:var(--ink)}
+.ending-summary #endingTitle{margin:7px 0 10px}
+.ending-summary p,.ending-card-tools p{color:var(--exhibit-secondary);font-size:14px;line-height:1.6}
+.ending-flow #endingCardTools{padding-top:12px;border-top:1px solid var(--line)}
+.ending-flow #endingCardTools h3{margin:0 0 5px;font-size:18px}
+#endingCardMore summary{color:var(--ink)}
+#endingCardMore .ending-card-preview{margin-top:0}
+#openEndingPress{margin-top:12px;text-align:left;text-decoration:underline;text-underline-offset:3px}
+#bottomline:has(#footerMessage:empty){min-height:12px}
+@media (max-width:750px){
+ .masthead{gap:6px}
+ .masthead .header-right{gap:4px}
+ .masthead .header-menu{width:44px;min-width:44px;padding-inline:3px}
+ .masthead .site-qr-thumb{padding:3px}
+ .shell[data-view=home]:not([data-stage=play]) .join-landing{
+  height:auto;inset:8px 0 5px;align-items:end;
+ }
+ .shell[data-view=home] .skyline{height:calc(100dvh - 90px);min-height:calc(100dvh - 90px)}
+ .shell[data-view=home] .landing-inner{padding:10px}
+ .landing-inner .prologue{min-height:305px}
+ .landing-inner :is(.prologue,#modeChoice){padding:16px}
+ .landing-inner .prologue-scene{min-height:120px;margin-top:14px}
+ .landing-inner .prologue-text{font-size:20px!important}
+ .landing-actions{margin-top:16px}
+ .landing-actions .mode-card{min-height:82px;padding:9px}
+ .landing-actions .mode-card strong{font-size:16px}
+ .shell[data-stage=play][data-view=solo] .skyline,.shell[data-view=group] .skyline{
+  height:clamp(145px,25dvh,215px);min-height:0;
+ }
+ .shell[data-view=solo] .side-panel .question-panel,.shell[data-view=group] .side-panel .question-panel{
+  padding:12px;max-height:none;overflow:visible;
+ }
+}
+@media (max-width:370px){
+ .prologue-actions{gap:6px}
+ .landing-inner .prologue-next,.landing-inner .prologue-skip{font-size:13px}
+}

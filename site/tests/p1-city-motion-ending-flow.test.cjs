@@ -6,9 +6,9 @@ const app=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
 const city=fs.readFileSync(path.join(__dirname,'../public/city-art.js'),'utf8');
 const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
 
-test('ending reveal opens the mandatory conference before card and save controls',()=>{
+test('ending reveals the card and save controls with conference available on demand',()=>{
  assert.match(app,/endingSceneCache\.get\(s\.cityStartedAt/);
- assert.match(app,/endingFlowStage=4;pressOpen=true;pressDone=false;pressIndex=-1/);
+ assert.match(app,/endingFlowStage=4;pressOpen=false;pressDone=true;pressIndex=-1/);
  assert.match(app,/metricComparison'\)\.hidden=!pressDone/);
  assert.match(app,/endingCardTools'\)\.hidden=!pressDone\|\|endingFlowStage<4/);
  assert.match(app,/pressConference'\)\.hidden=!pressOpen/);
@@ -53,7 +53,7 @@ test('AI facility highlights name the built building, not the human alternative'
  assert.match(app,/facilityLabels\[s\.built\[id\]\]/);
  assert.doesNotMatch(app,/office:'駅前の市場'/);
 });
-test('mandatory conference has an accessible dialog, separate skip action and scene illustration',()=>{
+test('optional conference has an accessible dialog, separate skip action and scene illustration',()=>{
  assert.match(html,/id="endingCityPicture"[^>]*role="img"[^>]*aria-label="判断によって変化した街の風景"/);
  assert.match(app,/setAttribute\('aria-label','判断後の街の風景'\)/);
  assert.match(html,/id="openEndingPress"/);assert.match(html,/id="pressConference" role="dialog" aria-modal="true"/);
