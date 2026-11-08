@@ -26,8 +26,7 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    console.log('PASS round',round+1,'option',id);
   }
   await page.waitForFunction(()=>!document.querySelector('#resultPanel').hidden);
-  await page.waitForFunction(()=>!document.querySelector('#pressConference').hidden);
-  await page.click('#pressSkip');
+  assert.equal(await page.$eval('#pressConference',el=>el.hidden),true,'the optional press conference must not block the ending');
   await page.waitForFunction(()=>document.querySelector('#shadowMetrics').children.length===3);
   await page.waitForFunction(()=>!document.querySelector('#endingCardTools').hidden&&document.querySelector('#endingCardPreview').children.length>0);
   const prior=await page.evaluate(()=>({
@@ -39,10 +38,17 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.click('#printEndingCard');
   await page.waitForFunction(()=>document.querySelector('#endingCardStatus').textContent.includes('PDFを保存しました。'),{timeout:15000});
   const pdfPath=path.join(out,'sore-dare-ga-kimeta-result.pdf');
-  for(let i=0;i<40&&!fs.existsSync(pdfPath);i++)await sleep(200);
-  assert.ok(fs.existsSync(pdfPath),'PDF file must download without opening a new tab');
-  const pdf=fs.readFileSync(pdfPath),text=pdf.toString('latin1');
-  assert.equal(text.slice(0,8),'%PDF-1.4');assert.ok(pdf.length>20000,'PDF should contain actual card raster');
+  // Chrome may create the file before writing its final PDF trailer.
+  let pdf;
+  for(let i=0;i<60;i++){
+   if(fs.existsSync(pdfPath)){
+    const candidate=fs.readFileSync(pdfPath);
+    if(candidate.length>20000&&candidate.subarray(0,8).toString('latin1')==='%PDF-1.4'&&candidate.toString('latin1').includes('%%EOF')){pdf=candidate;break;}
+   }
+   await sleep(200);
+  }
+  assert.ok(pdf,'PDF download must complete without opening a new tab');
+  const text=pdf.toString('latin1');
   assert.match(text,/\/Count 1/);assert.match(text,/\/MediaBox \[0 0 841\.89 595\.28\]/);assert.match(text,/\/Subtype \/Image/);
   const pageCount=(text.match(/\/Type \/Page\b/g)||[]).length;assert.equal(pageCount,1);
   console.log('PASS PDF actual downloaded; A4 landscape, single page, bytes='+pdf.length+'; '+pdfPath);

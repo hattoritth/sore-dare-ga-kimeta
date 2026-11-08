@@ -14,12 +14,15 @@ async function check(browser,size,baseUrl){
  try{
   await page.goto(baseUrl+'/?mode=group',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('#cityTicker')?.textContent!=='この街の、次の決定。');
+  await page.waitForFunction(()=>!document.querySelector('#resultPanel').hidden);
+  assert(await page.$eval('#pressConference',el=>el.hidden),'conference must remain optional on initial results');
+  assert(await page.$eval('#endingCardTools',el=>!el.hidden),'PDF and PNG save actions must appear first');
+  assert(await page.$eval('#openEndingPress',el=>!el.hidden),'the optional conference entry must be available');
+  await page.click('#openEndingPress');
   await page.waitForFunction(()=>!document.querySelector('#pressConference').hidden);
   const modal=await page.$eval('#pressConference',el=>({width:Math.round(el.getBoundingClientRect().width),height:Math.round(el.getBoundingClientRect().height)}));
   assert(modal.width===size[0]&&modal.height===size[1],`${size.join('x')} conference should fill the viewport: ${JSON.stringify(modal)}`);
-  const align=await page.evaluate(()=>[...document.querySelectorAll('#decisionOptions button')].map(button=>({align:getComputedStyle(button).alignItems,text:getComputedStyle(button).textAlign,nested:[...button.querySelectorAll('strong,.decision-tradeoff,.impact-note')].map(el=>getComputedStyle(el).textAlign)})));
-  assert(align.every(x=>x.align==='flex-start'&&x.text==='left'&&x.nested.every(value=>value==='left')),`${size[0]}px choice alignment ${JSON.stringify(align)}`);
-  assert(await page.$eval('#pressConference',el=>!el.hidden),'mandatory conference did not open first');
+  assert(await page.$eval('#pressModePanel',el=>!el.open),'AI comparison must be collapsed by default');
   const prompt=await page.$eval('#pressQuestion',el=>el.textContent);assert(prompt.length>10,'opening question missing');
   await page.click('#pressNext');
   await page.waitForFunction(()=>document.querySelector('#pressAnswer').textContent.length>0);
@@ -38,7 +41,7 @@ async function check(browser,size,baseUrl){
   await page.click('#pressSkip');assert(await page.$eval('#pressConference',el=>el.hidden),'skip did not return to results');
   const hidden=await page.$eval('#pressAnswer',el=>({hidden:el.hidden,text:el.textContent}));assert(hidden.hidden,'closed answer remains exposed');
   assert(errors.length===0,`${size[0]}px browser errors: ${errors.join(' | ')}`);
-  console.log('PASS',size.join('x'),JSON.stringify({alignment:align,question:prompt,skipReplayClose:true,errors}));
+  console.log('PASS',size.join('x'),JSON.stringify({optionalConference:true,question:prompt,skipReplayClose:true,errors}));
  }finally{await page.close();}
 }
 (async()=>{

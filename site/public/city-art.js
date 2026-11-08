@@ -756,8 +756,13 @@ class F5Primitives {
   pt(p){const a=this.iso(...p);return [a.x,a.y];}
   resize(){
    const r=this.canvas.getBoundingClientRect();if(r.width<1||r.height<1)return;
-   this.dpr=Math.min(2,root.devicePixelRatio||1);this.canvas.width=Math.round(r.width*this.dpr);this.canvas.height=Math.round(r.height*this.dpr);
+   const dpr=Math.min(2,root.devicePixelRatio||1),width=Math.round(r.width*dpr),height=Math.round(r.height*dpr);
+   if(this.canvas.width===width&&this.canvas.height===height&&this.dpr===dpr){this.layout();return;}
+   this.dpr=dpr;this.canvas.width=width;this.canvas.height=height;
    this.ctx.imageSmoothingEnabled=true;this.layout();
+   // Resizing clears the bitmap. Paint before the next scheduled animation frame
+   // so the city does not flash blank when the ending panel changes its height.
+   if(this.walkPaths)this.render(0);
   }
   layout(){
    const r=this.canvas.getBoundingClientRect(),out=this.model.phase==='outcome',mobile=r.width<650;
