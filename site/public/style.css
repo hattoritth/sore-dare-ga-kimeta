@@ -770,3 +770,59 @@ button:not(:disabled){transition:transform 90ms ease-out}button:not(:disabled):a
  .prologue-actions{gap:6px}
  .landing-inner .prologue-next,.landing-inner .prologue-skip{font-size:13px}
 }
+
+/* v32 — The press hearing is a guided reading experience, not another decision. */
+.press-conference{display:grid;grid-template-columns:minmax(0,1fr) minmax(450px,min(48vw,720px));grid-template-rows:minmax(0,1fr);background:#1b343b}
+.press-conference .press-scene{position:relative;inset:auto;grid-column:1;grid-row:1;z-index:0;min-width:0;min-height:0}
+.press-conference .press-scene::after{background:linear-gradient(90deg,#182e3533 0%,#182e3555 90%)}
+.press-conference .press-caption{grid-column:2;grid-row:1;z-index:1;min-height:0;max-height:100dvh;width:100%;margin:0;background:#fbf9f0;color:#223e38;box-shadow:-14px 0 50px #081a2144;padding:clamp(20px,3vw,42px) clamp(20px,3.5vw,48px) max(22px,env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow-y:auto}
+.press-heading-row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.press-conference .press-caption .reveal-heading{color:#88633e;font-size:clamp(12px,1.1vw,15px);letter-spacing:.07em}
+.press-step{font-size:13px;font-weight:800;color:#31554b;background:#e8efe4;padding:6px 11px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.press-conference .press-caption h2{color:#163c32;font-size:clamp(27px,3vw,41px);line-height:1.25;margin:12px 0}
+.press-conference .press-caption .press-guide{max-width:60ch;margin:4px 0 10px;color:#315a4e;font-size:clamp(14px,1.2vw,16px);line-height:1.6;font-weight:750}
+.press-conference .press-caption .press-issue{margin:0 0 12px;padding:10px 12px;border-left:4px solid #b5915a;background:#f2eddf;border-radius:0 8px 8px 0;color:#4d5144;font-size:clamp(13px,1.1vw,15px);line-height:1.55}
+.press-conference .press-mode{max-width:none;margin:3px 0 15px;border:1px solid #bdcfc4;background:#f5f8f1;border-radius:10px;padding:0}
+.press-mode summary{cursor:pointer;color:#2a5044;font-weight:800;font-size:clamp(13px,1.1vw,15px);line-height:1.5;min-height:44px;padding:12px 14px}
+.press-mode[open]{padding-bottom:12px}
+.press-conference .press-mode-label{padding:0 14px;margin:0 0 10px;color:#45685c}
+.press-mode-buttons{padding:0 14px}
+.press-mode-buttons button{background:#fffdf4;color:#315447;border-color:#829e90}
+.press-mode-buttons button[aria-pressed=true]{background:#345b4b;color:#fff;border-color:#345b4b}
+.press-dialogue{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:16px 0}
+.press-conference .press-caption #pressQuestion{color:#1d3e36;font-size:clamp(16px,1.45vw,20px);font-weight:850;line-height:1.65;margin:0}
+.press-conference .press-caption #pressAnswer{color:#28453e;background:#eaf0e5;border:1px solid #cfdecd;border-radius:10px;font-size:clamp(15px,1.3vw,18px);line-height:1.7;margin:0;padding:16px 18px}
+.press-conference .press-actions{position:sticky;bottom:0;z-index:2;display:flex;align-items:stretch;gap:10px;margin-top:auto;padding:16px 0 0;background:#fbf9f0}
+.press-conference .press-actions .primary-action{flex:1;min-width:0;border-radius:10px;background:#205d4d;color:#fff9e9;border-color:#205d4d;font-size:clamp(15px,1.15vw,18px);font-weight:850;min-height:54px;padding:12px 16px}
+.press-conference .press-actions .text-action{flex:0 1 auto;min-width:0;color:#3d6457;background:transparent;border:1px solid #a3baae;font-size:clamp(12px,1vw,14px);line-height:1.4;min-height:54px}
+
+@media(max-width:750px){
+ .press-conference{grid-template-columns:1fr;grid-template-rows:minmax(140px,27dvh) minmax(0,1fr)}
+ .press-conference .press-scene{grid-column:1;grid-row:1}
+ .press-conference .press-caption{grid-column:1;grid-row:2;max-height:none;height:100%;padding:18px 18px max(18px,env(safe-area-inset-bottom));border-radius:16px 16px 0 0;box-shadow:0 -10px 32px #081a2144}
+ .press-heading-row{gap:8px}
+ .press-conference .press-caption h2{font-size:clamp(23px,6vw,30px);line-height:1.2;margin:8px 0}
+ .press-conference .press-caption .press-guide{font-size:13px;line-height:1.5;margin-bottom:8px}
+ .press-conference .press-caption .press-issue{font-size:13px;padding:8px 10px;margin-bottom:7px}
+ .press-conference .press-mode{margin:2px 0 5px}
+ .press-conference .press-mode summary{padding:9px 11px}
+ .press-mode-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:0 10px}
+ .press-mode-buttons button{font-size:11px;min-width:0;padding:6px 4px;min-height:44px}
+ .press-dialogue{padding:12px 0;gap:8px}
+ .press-conference .press-caption #pressQuestion{font-size:15px;line-height:1.55}
+ .press-conference .press-caption #pressAnswer{font-size:14px;line-height:1.55;padding:11px 12px}
+ .press-conference .press-actions{display:grid;grid-template-columns:1fr;gap:6px;padding:8px 0 0}
+ .press-conference .press-actions .primary-action{min-height:50px;margin:0}
+ .press-conference .press-actions .text-action{min-height:44px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .press-conference{grid-template-columns:minmax(0,1fr) minmax(380px,52vw);grid-template-rows:minmax(0,1fr)}
+ .press-conference .press-scene{grid-column:1;grid-row:1;inset:auto}
+ .press-conference .press-caption{grid-column:2;grid-row:1;width:100%;height:100%;max-height:100dvh;margin:0;border-radius:0;padding:12px 18px}
+ .press-conference .press-caption h2{font-size:22px}
+ .press-conference .press-caption .press-guide{font-size:12px}
+ .press-conference .press-actions{display:flex;padding:8px 0 0}
+ .press-conference .press-actions button{min-height:44px}
+}
+/* The fixed/header QR must not cover the optional press-step badge or scene. */
+body:has(#pressConference:not([hidden])) .masthead .site-qr-thumb{visibility:hidden;pointer-events:none}
