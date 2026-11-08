@@ -19,7 +19,7 @@
 - engine／API／Worker backend／D1 binding／migration／hosting／server state／採点ロジックを変更しない。UI、単体HTML、専用ブラウザQAのみの差分。
 - npm test: 261/261成功、Worker artifactはvalid ESM（Mac実測）。`qa-v38-optional-conference.cjs` でソロ4判断→結末・6指標・保存先を先に確認→任意会見→AI比較→発言→閉じる→6指標不変をChrome 320×700、390×844、1024×768、1920×1080で実測成功。QR非表示中と復帰後を新規条件に追加して再検証。
 - 本番Sites、D1実データ、main mergeは未変更。今回のDraft PR作成にSites公開承認は含まれない。
-- Chrome iPhone相当DPR2の全4問AI委任で崩壊シーンを再現。ResizeObserverの732×494→732×410リサイズによる一時透明化を検証し、`site/public/city-art.js`を実リサイズ直後に`render(0)`するよう修正。修正前5空白フレーム→修正後0。JavaScript例外なし。`site/scripts/qa-v38-collapse-canvas.mjs`で回帰確認済み。物理Safariは未検証。Hallmark v2.0.0のローカル画面レンダリングは0 FAIL・0 REFLEX・0 WARN、既存CSSの静的指摘は別管理。
+- Chrome iPhone相当DPR2の全4問AI委任で崩壊シーンを再現。ResizeObserverの732×494→732×410リサイズによる一時透明化を検証し、`site/public/city-art.js`を実リサイズ直後に`render(0)`するよう修正。修正前5空白フレーム→修正後0。JavaScript例外なし。`site/tests/qa-v38-collapse-canvas.mjs`で回帰確認済み。物理Safariは未検証。Hallmark v2.0.0のローカル画面レンダリングは0 FAIL・0 REFLEX・0 WARN、既存CSSの静的指摘は別管理。
 
 ## 承認境界・次工程
 - 現行公開v31を維持し、必要ならv38を次の公開候補としてWork公式SitesでR0 UI_ONLYゲート（Mac運用正本のSITES_RELEASE_PLAYBOOK）を実行する。
